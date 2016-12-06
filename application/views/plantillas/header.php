@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 <html ng-app="BolsaTrabajo">
 <head>
-	<script src="/Bolsa_Trabajo/Bolsa_Trabajo/js/jquery-3.1.1.min.js"></script>
-	<script src="/Bolsa_Trabajo/Bolsa_Trabajo/js/angular.min.js"></script>
-	<script src="/Bolsa_Trabajo/Bolsa_Trabajo/js/BolsaTrabajo.js"></script>
-	<link rel="stylesheet" href="/Bolsa_Trabajo/Bolsa_Trabajo/css/style.css"/>
+	<script src="/js/jquery-3.1.1.min.js"></script>
+	<script src="/js/angular.min.js"></script>
+	<script src="/js/BolsaTrabajo.js"></script>
+	<script src="/js/BolsaTrabajo.ui.js"></script>
+	<link rel="stylesheet" href="/css/style.css"/>
 	<title><?php echo (isset($title)?$title:"Bolsa de Trabajo"); ?></title>
 </head>
 <body>
