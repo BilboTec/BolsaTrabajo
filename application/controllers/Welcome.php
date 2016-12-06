@@ -20,6 +20,17 @@ class Welcome extends CI_Controller {
 	 */
 	public function index()
 	{
-		$this->load->view('welcome_message');
+		$this->load->model("BT_Modelo_Profesor","profesores");
+		$profesor = new Profesor();
+		$profesor->nombre = "Yanire";
+		$profesor->apellido = "Lopez";
+		$profesor->apellido2 ="Ruiz";
+		$profesor->email = "yanire_loru@gmail.com";
+		$profesor->establecer_clave("yanire");
+		$profesor->id_departamento = 1;
+		$profesor->id_rol = 7;
+		$profesor = $this->profesores->alta($profesor);
+		$data["profesor"] = $profesor;
+		$this->load->view('welcome_message',$data);
 	}
 }

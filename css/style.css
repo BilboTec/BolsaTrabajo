@@ -1,0 +1,43 @@
+*{
+	padding: 0;
+	margin: 0;
+}
+
+body, .contenido{
+	display: flex;
+	flex-direction: column;
+	align-items: stretch;
+}
+
+.contenido{
+	align-items: center;
+}
+
+.contenido ul{
+	list-style: none;
+	display: flex;
+	justify-contents: center;
+}
+
+.contenido form{
+	
+}
+.btn-tipo{
+	padding: 0.2em 1em;
+	background-color: green;
+	
+}
+.btn-tipo:not(:first-child):not(:last-child){
+	margin: 0 1em;
+	
+}
+.btn-tipo.activo{
+	background-color: brown;
+}
+.form-login{
+	display:flex;
+	box-shadow: 0px 0px 2px black;
+	flex-direction: column;
+}
+
+
