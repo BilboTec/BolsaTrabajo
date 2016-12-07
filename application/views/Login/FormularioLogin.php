@@ -9,11 +9,8 @@
 		<ul>
 			<?php echo validation_errors(); ?>
 		</ul>
-		<div bt-input-label ng-requred="true" name="email" type="email" bt-label="'Email'" bt-model="email"></div>
-		<div bt-input-label type="password" bt-label="'Clave'" bt-model="clave"></div>
-		<div>
-			<p ng-show="formLogin.email.$touched && formLogin.email.$invalid">Por favor, introduzca una dirección de correo</p>
-		</div>
+		<div bt-input-label bt-id="email" ng-requred="true" name="email" type="email" bt-label="'Email'" bt-model="email"></div>
+		<div bt-input-label bt-id="clave" type="password" bt-label="'Clave'" bt-model="clave"></div>
 		<input type="submit" value="Entrar">
 		<a href="#">Recordar contraseña</a>
 		<a ng-show="tipo!==2" href="#">Registrarse</a>

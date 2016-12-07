@@ -13,10 +13,11 @@ class Login extends BT_Controller{
 		));
 		
 		$this->form_validation->set_error_delimiters("<li class='error'>", "</li>");
+		
+		$email = $this->input->post->email;
+		$clave = $this->input->post->clave;
+		$tipo = $this->input->post->tipo;
 		if($this->form_validation->run()){
-			$email = $this->input->post->email;
-			$clave = $this->input->post->clave;
-			$tipo = $this->input->post->tipo;
 			switch ($tipo) {
 				case 0:
 					$usuario = $this->alumnos->get_by_email($email);

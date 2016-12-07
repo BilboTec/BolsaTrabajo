@@ -5,7 +5,7 @@ class Profesor {
 	public function establecer_clave($clave){
 		$this->clave = password_hash($clave,PASSWORD_DEFAULT);
 	}
-	public function verifica_clave($clave){
+	public function verificar_clave($clave){
 		return password_verify($clave,$this->clave);
 	}
 }

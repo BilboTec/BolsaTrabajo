@@ -55,7 +55,7 @@ body, .contenido{
 	transition: all .2s;
 }
 [bt-input-label] input:focus + label,
-[bt-input-label] label.top{
+[bt-input-label] input.ng-not-empty + label{
 	transform: translate(0,-100%);
 	color: black;
 }
