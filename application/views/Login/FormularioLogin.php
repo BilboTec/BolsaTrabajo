@@ -6,6 +6,9 @@
 			<li class= "btn btn-tipo" ng-class="tipo==1?'activo':''" ng-click="tipo=1">Empresa</li>
 			<li class= "btn btn-tipo" ng-class="tipo==2?'activo':''" ng-click="tipo=2">Profesor</li>
 		</ul>
+		<ul>
+			<?php echo validation_errors(); ?>
+		</ul>
 		<div bt-input-label ng-requred="true" name="email" type="email" bt-label="'Email'" bt-model="email"></div>
 		<div bt-input-label type="password" bt-label="'Clave'" bt-model="clave"></div>
 		<div>

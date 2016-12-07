@@ -1,6 +1,6 @@
 <?php
 
-class BT_Controlador extends CI_Controller{
+class BT_Controller extends CI_Controller{
 	public function __construct(){
 		parent::__construct();
 		$this->load->model("BT_Modelo_Profesor", "profesores");
