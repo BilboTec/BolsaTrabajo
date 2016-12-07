@@ -18,7 +18,7 @@ angular.module("BolsaTrabajo.ui")
         },
         link:function(scope,elem,attr){
             scope.comprobarValor = function(){
-                scope.vacio = (typeof scope.valor === "undefined" || scope.valor.length === 0)
+                scope.vacio = scope.valor
             }
         }
     };
