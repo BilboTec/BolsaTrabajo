@@ -22,10 +22,10 @@ class BT_Controlador extends CI_Controller{
 		if($id!==null){
 			switch($tipo){
 				case 0:
-					//Coger de alumno
+					$usuario = $this->alumnos->get($id);
 					break;
 				case 1:
-					//Coger de empresa
+					$usuario = $this->empresas->get($id);
 					break;
 				case 2:
 					$usuario = $this->profesores->get($id);
