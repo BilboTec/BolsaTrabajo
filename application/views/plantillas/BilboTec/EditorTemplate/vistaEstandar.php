@@ -1,0 +1,1 @@
+<span>{{ fila[columna] }}</span>

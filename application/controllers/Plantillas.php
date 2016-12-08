@@ -5,4 +5,8 @@ class Plantillas extends CI_Controller
         $this->load
             ->view("/Plantillas/BilboTec/$vista",$_GET);
     }
+    public function Editor($vista){
+        $this->load
+            ->view("/Plantillas/BilboTec/EditorTemplate/$vista",$_GET);
+    }
 }
