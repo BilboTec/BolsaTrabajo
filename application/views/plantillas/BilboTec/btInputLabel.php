@@ -1,2 +1,2 @@
-<input type="<?php echo $type; ?>" <?php echo (isset($id)?"id='$id'":""); ?> ng-model="valor" ng-required="required"/>
+<input type="<?php echo $type; ?>" <?php echo (isset($id)?"id='$id'":""); echo (isset($name)?" name='$name'":""); ?> ng-model="valor" ng-required="required"/>
 <label <?php echo (isset($id)?"for='$id'":""); ?>>{{ label }}</label>

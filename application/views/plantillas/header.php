@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html ng-app="BolsaTrabajo">
+<html ng-app="BilboTec">
 <head>
 	<script src="/js/jquery-3.1.1.min.js"></script>
 	<script src="/js/angular.min.js"></script>
