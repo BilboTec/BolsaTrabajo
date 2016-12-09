@@ -40,6 +40,19 @@ body, .contenido{
 	flex-direction: column;
 }
 
+.idioma{
+	list-style: none;
+}
+
+.idioma ul{
+	list-style: none;
+}
+header{
+	justify-content: flex-end;
+	flex-direction: row;
+	display: flex;
+}
+
 /*************************************
 ********BT-INPUT-LABEL****************
 **************************************/
@@ -59,3 +72,4 @@ body, .contenido{
 	transform: translate(0,-100%);
 	color: black;
 }
+

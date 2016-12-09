@@ -8,8 +8,8 @@ class Login extends BT_Controller{
 	
 	public function index(){
 		$this->form_validation->set_rules(array(
-		array('field'=>'email', 'label'=>'Email', 'rules'=>'required'),
-		array('field'=>'clave', 'label'=>'Contraseña', 'rules'=>'required')
+		array('field'=>'email', 'label'=>$this->lang->line('email'), 'rules'=>'required|valid_email'),
+		array('field'=>'clave', 'label'=>$this->lang->line('clave'), 'rules'=>'required')
 		));
 		
 		$this->form_validation->set_error_delimiters("<li class='error'>", "</li>");
@@ -46,8 +46,11 @@ class Login extends BT_Controller{
 			var_dump($usuario);
 			
 		}
-		$this->load->view("/plantillas/header");
-		$this->load->view("/Login/FormularioLogin");
-		$this->load->view("/plantillas/footer");
+		$data['idioma'] = function($clave){
+			return $this->lang->line($clave);
+		};
+		$this->load->view("/plantillas/header", $data);
+		$this->load->view("/Login/FormularioLogin", $data);
+		$this->load->view("/plantillas/footer", $data);
 	}
 }

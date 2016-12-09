@@ -10,17 +10,17 @@
 </head>
 <body>
 <header>
-	<ul>
-		<li>Idioma
+	<ul class="idioma" ng-controller="idiomaController">
+		<li><?php echo $idioma("idioma"); ?>
 			<ul>
-				<li>Castellano</li>
-				<li>Euskera</li>
+				<li ng-click="cambiarIdioma('spanish')"><?php echo $idioma("castellano"); ?></li>
+				<li ng-click="cambiarIdioma('basque')">Euskera</li>
 			</ul>
 		</li>
 	</ul>
 	<?php if(isset($user)){
 		
 	}else{
-		
+		echo "<span>".$idioma("usuario")."</span>";
 	} ?>
 </header>

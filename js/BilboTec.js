@@ -6,4 +6,13 @@ angular.module("BilboTec",["BilboTec.ui"])
 		
 		debugger;
 	};
+}])
+.controller("idiomaController", ["$scope","$http",function($scope,$http){
+	$scope.cambiarIdioma = function(idioma){
+	$http.get("/Idioma/cambiar/" + idioma).then(function(respuesta){
+		window.location = window.location;
+	}, function(error){
+		
+	});
+	};
 }]);

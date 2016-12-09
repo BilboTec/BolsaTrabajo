@@ -1,6 +1,9 @@
 <?php
 
 class BT_Controller extends CI_Controller{
+	
+	protected $idioma;
+	
 	public function __construct(){
 		parent::__construct();
 		$this->load->model("BT_Modelo_Profesor", "profesores");
@@ -8,7 +11,10 @@ class BT_Controller extends CI_Controller{
 		$this->load->model("BT_Modelo_Empresa", "empresas");
 		$this->load->helper("url");
 		$this->load->library("session");
-		
+		$this->load->helper("cookie");
+		$this->idioma = get_cookie("idioma") ?? "spanish";
+		$this->lang->load('general', $this->idioma);
+		$this->config->set_item('language', $this->idioma);
 	}
 	public function requerir_login(){
 		if($this->get_usuario_actual()===null){
