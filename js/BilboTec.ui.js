@@ -37,20 +37,27 @@ angular.module("BilboTec.ui")
         },
         templateUrl:"Plantillas/Get/btTabla",
         link:function(scope,elem,attr){
-            scope.nuevos = [];
-            scope.actualizados = [];
-            scope.eliminados = [];
             scope.editandoFila = -1;
-            //scope.configuracion.orden= scope.configuracion.orden || Object.keys(scope.configuracion.columnas)[0];
-            //scope.configuracion.direccion = (typeof scope.configuracion.direccion === "undefined"?true:scope.configuracion.direccion);
             scope.editar = function(fila){
                 scope.editandoFila = fila;
                 scope.edit = angular.copy(scope.filas[fila]);
             };
             scope.aplicar = function(){
-                scope.actualizados.push(angular.copy(scope.edit));
-                scope.filas[scope.editandoFila] = scope.edit;
-                scope.editandoFila = -1;
+                if(scope.configuracion.actualizar.url){
+                    $http({
+                        url:scope.configuracion.actualizar.url,
+                        type:scope.configuracion.type||"POST",
+                        success:function(respuesta){
+                            scope.filas[scope.editandoFila] = respuesta.data;
+                            scope.editandoFila = -1;
+                            scope.edit = {};
+                        }
+                    });
+                }else{
+                    scope.filas[scope.editandoFila] = scope.edit;
+                    scope.editandoFila = -1;
+                    scope.edit = {};
+                }
             };
             scope.insertar = function(){
                 scope.editandoFila = -1;
@@ -61,9 +68,16 @@ angular.module("BilboTec.ui")
                 scope.mostrarInsertar = false;
             };
             scope.aplicarInsertar = function(){
-              scope.filas.push(angular.copy(scope.edit));
-                scope.mostrarInsertar = false;
-                scope.nuevos.push(angular.copy(scope.edit));
+                if(scope.configuracion.insertar.url){
+                    $http({
+                        url:scope.configuracion.url,
+                        type:scope.configuracion.type||"POST",
+                        
+                    });
+                }else{
+                    scope.filas.push(angular.copy(scope.edit));
+                    scope.mostrarInsertar = false;
+                }
             };
             scope.eliminar = function(fila){
                 scope.filas.splice(fila,1);

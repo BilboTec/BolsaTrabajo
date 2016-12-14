@@ -14,9 +14,7 @@
         columnas: {
             id:{
                 vistaTemplate:"Plantillas/Editor/vistaEstandar",
-                    editorTemplate
-            :
-                "Plantillas/Editor/editorEstandar"
+                    editorTemplate:"Plantillas/Editor/editorEstandar"
             }
             ,
             nombre:{

@@ -4,7 +4,8 @@
 class Test extends CI_Controller
 {
     public function index(){
-        $this->load->view("plantillas/header");
+    	$data["idioma"] = function(){};
+        $this->load->view("plantillas/header",$data);
         $this->load->view("test/testTabla");
         $this->load->view("plantillas/footer");
     }
