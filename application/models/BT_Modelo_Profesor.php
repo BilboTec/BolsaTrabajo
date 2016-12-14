@@ -35,7 +35,7 @@ class BT_Modelo_Profesor extends CI_Model{
 		}
 		return null;
 	}
-	public function alta(Profesor $profesor){
+	public function alta(_Profesor $profesor){
 		$email = $profesor->email;
 		if($this->db->query("SELECT COUNT(*) count FROM email WHERE email='$email'")->row()->count == 0){
 			$this->db->trans_start();

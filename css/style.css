@@ -44,20 +44,21 @@ body, .contenido{
 	flex-direction: column;
 }
 
-.form-login div{
-	text-align: center;
-}
-
 fieldset{
 	margin-top: 2em;
 	background-color: white;
+	display: flex;
+    flex-direction: column;
+    padding-top: 1.5em;
 }
 
 legend{
 	text-align: center;
+	width:50%;
+	margin: 0 25% 0;
 	color: var(--v-oscuro);
 	font-family: 'exo-semibold';
-	padding: 0px 10px 0px 10px;
+	
 }
 
 .form-login input[type="submit"] {
@@ -76,7 +77,10 @@ legend{
 	text-decoration: none;
 }
 
-
+.errores{
+	flex-direction: column;
+	color: red;
+}
 
 
 .idioma, span{
@@ -135,13 +139,14 @@ header{
 [bt-input-label]{
 	position:relative;
 	padding: 1em 0;
+	align-self:center;
 }
 
 [bt-input-label] label{
 	position: absolute;
 	color: gray;
 	pointer-events: none;
-	left: 5em;
+	left: .5em;
 	transition: all .2s;
 }
 [bt-input-label] input:focus + label,

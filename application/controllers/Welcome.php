@@ -21,7 +21,7 @@ class Welcome extends CI_Controller {
 	public function index()
 	{
 		$this->load->model("BT_Modelo_Profesor","profesores");
-		$profesor = new Profesor();
+		$profesor = new _Profesor();
 		$profesor->nombre = "Yanire";
 		$profesor->apellido = "Lopez";
 		$profesor->apellido2 ="Ruiz";
