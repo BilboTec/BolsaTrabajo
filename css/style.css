@@ -1,16 +1,19 @@
 *{
 	padding: 0;
 	margin: 0;
+	font-family: 'exo-regular';
 }
 
 body, .contenido{
 	display: flex;
 	flex-direction: column;
 	align-items: stretch;
+	background-color: var(--g-claro);
 }
 
 .contenido{
 	align-items: center;
+	margin-top: 4em;
 }
 
 .contenido ul{
@@ -24,7 +27,8 @@ body, .contenido{
 }
 .btn-tipo{
 	padding: 0.2em 1em;
-	background-color: green;
+	background-color: var(--v-oscuro);
+	color: white;
 	
 }
 .btn-tipo:not(:first-child):not(:last-child){
@@ -32,25 +36,97 @@ body, .contenido{
 	
 }
 .btn-tipo.activo{
-	background-color: brown;
+	background-color: var(--v-claro);
+	color: black;
 }
 .form-login{
 	display:flex;
-	box-shadow: 0px 0px 2px black;
 	flex-direction: column;
 }
 
-.idioma{
-	list-style: none;
+.form-login div{
+	text-align: center;
 }
 
-.idioma ul{
-	list-style: none;
+fieldset{
+	margin-top: 2em;
+	background-color: white;
 }
+
+legend{
+	text-align: center;
+	color: var(--v-oscuro);
+	font-family: 'exo-semibold';
+	padding: 0px 10px 0px 10px;
+}
+
+.form-login input[type="submit"] {
+	display: flex;
+    width: 156px;
+    height: 20px;
+    background-color: var(--v-oscuro);
+    text-align: center;
+    border-style: none;
+    color: white;
+    margin: auto;
+}
+
+.form-login a{
+	text-align: center;
+	text-decoration: none;
+}
+
+
+
+
+.idioma, span{
+	list-style: none;
+	background-color: var(--v-oscuro);
+	color: white;
+	position: relative;
+	display: inline-table;
+	padding: 10px 15px;
+	width: 8%;
+}
+
+.idioma li{
+	display: block;
+    float:left;
+}
+
+.idioma ul {
+	display: none;
+	background-color: var(--v-oscuro);
+	position: absolute;
+
+}
+ 
+.idioma li:hover > ul {
+	display: block;
+}
+
+.idioma li ul {
+    padding: 10px 15px;
+}
+
+.idioma li:hover {
+	background-color: var(--v-claro);
+}
+
+.idioma ul li:hover {
+	background-color: var(--v-claro);
+	padding: 10px 0px;
+}
+
+.idioma li ul li{
+    padding: 10px 0px;
+}
+
 header{
 	justify-content: flex-end;
 	flex-direction: row;
 	display: flex;
+	background-color: var(--v-oscuro);
 }
 
 /*************************************
@@ -60,11 +136,12 @@ header{
 	position:relative;
 	padding: 1em 0;
 }
+
 [bt-input-label] label{
 	position: absolute;
 	color: gray;
 	pointer-events: none;
-	left: .4em;
+	left: 5em;
 	transition: all .2s;
 }
 [bt-input-label] input:focus + label,
@@ -72,4 +149,33 @@ header{
 	transform: translate(0,-100%);
 	color: black;
 }
+
+/*************************************
+********COLORES****************
+**************************************/
+:root {
+  --g-oscuro: #727176;
+  --g-claro: #edeef0;
+  --v-oscuro: #1d9143;
+  --v-claro: #c1ce40;
+}
+
+/*************************************
+********FUENTES****************
+**************************************/
+@font-face {
+    font-family: "exo-semibold";
+    src: url("/fuentes/Exo2-SemiBold.otf");
+}
+
+@font-face {
+    font-family: "exo-medium";
+    src: url("/fuentes/Exo2-Medium.otf");
+}
+
+@font-face {
+    font-family: "exo-regular";
+    src: url("/fuentes/Exo2-Regular.otf");
+}
+
 
