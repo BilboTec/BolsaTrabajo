@@ -6,31 +6,54 @@
 </div>
 <script>
     angular.module("BilboTec").controller("testController",function($scope){
-       $scope.filas = [
-           {id:1,nombre:"Josu",apellido:"Astigarraga"},
-           {id:2,nombre:"Yanire",apellido:"Lopez"}
-       ];
+        $scope.resultadosPorPagina = [
+            {
+                texto:"5",
+                valor:5
+            },
+            {
+                texto:"10",
+                valor:10
+            },
+            {
+                texto:"20",
+                valor:20
+            },
+            {
+                texto:"50",
+                valor:50
+            },
+            {
+                texto: "100",
+                valor: 100
+            }];
+       $scope.filas = [];
         $scope.configuracion = {
         columnas: {
             id:{
                 vistaTemplate:"Plantillas/Editor/vistaEstandar",
-                    editorTemplate:"Plantillas/Editor/editorEstandar"
+                    editorTemplate:"Plantillas/Editor/vistaEstandar"
             }
             ,
             nombre:{
                 vistaTemplate:"Plantillas/Editor/vistaEstandar",
-                    editorTemplate
-            :
-                "Plantillas/Editor/editorEstandar"
+                    editorTemplate:"Plantillas/Editor/editorEstandar"
             }
-        ,
-            apellido:{
-                vistaTemplate:"Plantillas/Editor/vistaEstandar",
-                    editorTemplate
-            :
-                "Plantillas/Editor/editorEstandar"
+        },
+            leer:{
+                url:"/api/Conocimientos/Get"
+            },
+            insertar:{
+                url:"/api/Conocimientos/Insert"
+            },
+            paginacion:{
+                pageSizes:{
+                    valores:$scope.resultadosPorPagina,
+                    seleccionado:$scope.resultadosPorPagina[0]
+                },
+                nBotones: 5,
+                pagina:1
             }
-        }
     };
     });
 </script>

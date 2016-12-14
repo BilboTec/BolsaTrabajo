@@ -26,8 +26,21 @@
                 <button ng-click="editar($index)" ng-show="editandoFila!=$index">Editar</button>
                 <button ng-show="editandoFila!=$index" ng-click="eliminar($index)">Eliminar</button>
                 <button ng-show="editandoFila==$index" ng-click="aplicar()">Actualizar</button>
-                <button ng-show="editandoFila==$index" ng-click="editandoFila=-1">Cancelar</button>
+                <button ng-show="editandoFila==$index" ng-click="cancelar()">Cancelar</button>
             </td>
         </tr>
     </tbody>
+    <tfoot>
+        <tr>
+            <td colspan="{{configuracion.columnas.length}}">
+                <div class="paginacion">
+                    <div ng-repeat="pagina in crearControlesPaginacion()" ng-click="irPagina(pagina.numero)">{{ pagina.numero }}</div>
+                    <select ng-init="configuracion.paginacion.pageSizes.seleccionado=configuracion.pageSizes.seleccionado||configuracion.paginacion.pageSizes.valores[0]"
+                            ng-model="configuracion.paginacion.pageSizes.seleccionado"
+                            ng-change="leer()"
+                            ng-options="rPp.texto for rPp in configuracion.paginacion.pageSizes.valores track by rPp.valor"></select>
+                </div>
+            </td>
+        </tr>
+    </tfoot>
 </table>

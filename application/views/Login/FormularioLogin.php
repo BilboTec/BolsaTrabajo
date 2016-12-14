@@ -8,16 +8,19 @@
 		</ul>
 		<fieldset>
 			<legend><?php echo strtoupper($idioma('iniciar_sesion')); ?></legend>
-		<ul>
-			<?php echo validation_errors(); ?>
-		</ul>
-		<input type="hidden" name="tipo" value="{{tipo}}" />
-		<div bt-input-label bt-id="email" ng-requred="true" name="email" type="email" bt-label="'<?php echo ucfirst($idioma('email')); ?>'" bt-model="email"></div>
-		<div bt-input-label bt-id="clave" type="password" bt-label="'<?php echo ucfirst($idioma('clave')); ?>'" name="clave" bt-model="clave"></div>
-		<input type="submit" value="<?php echo ucfirst($idioma('entrar')); ?>">
-		<a href="#"><?php echo ucfirst($idioma('recordar_clave')); ?></a>
+			<div class="login-contenedor">
+				<ul>
+					<?php echo validation_errors(); ?>
+				</ul>
+				<input type="hidden" name="tipo" value="{{tipo}}" />
+				<div bt-input-label bt-id="email" ng-requred="true" name="email" type="email" bt-label="'<?php echo ucfirst($idioma('email')); ?>'" bt-model="email"></div>
+				<div bt-input-label bt-id="clave" type="password" bt-label="'<?php echo ucfirst($idioma('clave')); ?>'" name="clave" bt-model="clave"></div>
+				<input type="submit" value="<?php echo ucfirst($idioma('entrar')); ?>">
+				<a href="#"><?php echo ucfirst($idioma('recordar_clave')); ?></a>
+			</div>
 		</fieldset>
 		<a ng-show="tipo!==2" href="#"><?php echo ucfirst($idioma('registrarse')); ?></a>
+
 	</form>
 	
 </div>

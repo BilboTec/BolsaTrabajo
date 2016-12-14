@@ -4,11 +4,20 @@
 	font-family: 'exo-regular';
 }
 
+/*************************************
+********COLORES****************
+**************************************/
+@set {
+	--g-oscuro: #727176;
+	--g-claro: #edeef0;
+	--v-oscuro: #1d9143;
+	--v-claro: #c1ce40;
+}
 body, .contenido{
 	display: flex;
 	flex-direction: column;
 	align-items: stretch;
-	background-color: var(--g-claro);
+	background-color: $(--g-claro);
 }
 
 .contenido{
@@ -16,7 +25,7 @@ body, .contenido{
 	margin-top: 4em;
 }
 
-.contenido ul{
+.form-login > ul{
 	list-style: none;
 	display: flex;
 	justify-contents: center;
@@ -27,7 +36,7 @@ body, .contenido{
 }
 .btn-tipo{
 	padding: 0.2em 1em;
-	background-color: var(--v-oscuro);
+	background-color: $(--v-oscuro);
 	color: white;
 	
 }
@@ -35,8 +44,11 @@ body, .contenido{
 	margin: 0 1em;
 	
 }
+.btn:hover{
+	cursor: pointer;
+}
 .btn-tipo.activo{
-	background-color: var(--v-claro);
+	background-color: $(--v-claro);
 	color: black;
 }
 .form-login{
@@ -56,20 +68,22 @@ legend{
 	text-align: center;
 	width:50%;
 	margin: 0 25% 0;
-	color: var(--v-oscuro);
+	color: $(--v-oscuro);
 	font-family: 'exo-semibold';
 	
 }
 
 .form-login input[type="submit"] {
 	display: flex;
-    width: 156px;
-    height: 20px;
-    background-color: var(--v-oscuro);
+	padding:.5em 4.4em;
+    background-color: $(--v-oscuro);
     text-align: center;
     border-style: none;
     color: white;
-    margin: auto;
+	margin-top:1em;
+}
+input[type="submit"]:hover{
+	cursor:pointer;
 }
 
 .form-login a{
@@ -83,54 +97,54 @@ legend{
 }
 
 
-.idioma, span{
+.idioma, .usuario{
+	display: flex;
 	list-style: none;
-	background-color: var(--v-oscuro);
+	background-color: $(--v-oscuro);
 	color: white;
 	position: relative;
-	display: inline-table;
-	padding: 10px 15px;
-	width: 8%;
+	min-height: 2em;
 }
 
-.idioma li{
-	display: block;
-    float:left;
-}
 
 .idioma ul {
 	display: none;
-	background-color: var(--v-oscuro);
+	list-style: none;
+	background-color: $(--v-oscuro);
 	position: absolute;
+	z-index: 100;
+	top:100%;
 
 }
- 
+.idioma:hover{
+	cursor: pointer;
+}
 .idioma li:hover > ul {
 	display: block;
 }
-
-.idioma li ul {
-    padding: 10px 15px;
+.idioma li{
+	padding: .4em 1.5em;
+	display: flex;
+	align-items: center;
 }
 
 .idioma li:hover {
-	background-color: var(--v-claro);
+	background-color: $(--v-claro);
 }
 
 .idioma ul li:hover {
-	background-color: var(--v-claro);
-	padding: 10px 0px;
+	background-color: $(--v-claro);
 }
-
-.idioma li ul li{
-    padding: 10px 0px;
+.login-contenedor{
+	display: flex;
+	flex-direction: column;
+	align-items: center;
 }
-
 header{
 	justify-content: flex-end;
 	flex-direction: row;
 	display: flex;
-	background-color: var(--v-oscuro);
+	background-color: $(--v-oscuro);
 }
 
 /*************************************
@@ -138,7 +152,7 @@ header{
 **************************************/
 [bt-input-label]{
 	position:relative;
-	padding: 1em 0;
+	padding: 1em 0 0 0;
 	align-self:center;
 }
 
@@ -148,6 +162,7 @@ header{
 	pointer-events: none;
 	left: .5em;
 	transition: all .2s;
+	bottom:0;
 }
 [bt-input-label] input:focus + label,
 [bt-input-label] input.ng-not-empty + label{
@@ -155,15 +170,6 @@ header{
 	color: black;
 }
 
-/*************************************
-********COLORES****************
-**************************************/
-:root {
-  --g-oscuro: #727176;
-  --g-claro: #edeef0;
-  --v-oscuro: #1d9143;
-  --v-claro: #c1ce40;
-}
 
 /*************************************
 ********FUENTES****************

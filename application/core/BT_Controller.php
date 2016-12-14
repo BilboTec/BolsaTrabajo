@@ -12,7 +12,10 @@ class BT_Controller extends CI_Controller{
 		$this->load->helper("url");
 		$this->load->library("session");
 		$this->load->helper("cookie");
-		$this->idioma = get_cookie("idioma") ?? "spanish";
+		$this->idioma = get_cookie("idioma");
+		if($this->idioma==null){
+			$this->idioma = "spanish";
+		}
 		$this->lang->load('general', $this->idioma);
 		$this->config->set_item('language', $this->idioma);
 	
@@ -22,7 +25,12 @@ class BT_Controller extends CI_Controller{
 			redirect("/Login");
 		}
 	 }
-	 
+	 public function requerir_login_json(){
+		 if($this->get_usuario_actual()===null){
+			 set_status_header(302);
+			 die(ucfirst($this->lang->line("api_acceso_denegado")));
+		 }
+	 }
 	public function get_usuario_actual(){
 		$id = $this->session->id;
 		$tipo = $this->session->tipo;

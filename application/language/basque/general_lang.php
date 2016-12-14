@@ -25,3 +25,4 @@ $lang["oferta_formativa"] ="formazio eskaintza";
 $lang["paises"] ="herrialdeak";
 $lang["provincias"] ="probintziak";
 $lang["localidades"] ="herriak";
+$lang["api_acceso_denegado"] = "Ezin duzu api hau erabili, saioa hasi behar duzu, saioa iraungi egin zaizu edo ez daukazu baimenik";

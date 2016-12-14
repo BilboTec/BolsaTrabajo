@@ -6,22 +6,24 @@
 	<script src="/js/angular-locale_<?php echo (isset($idioma)&&$idioma=="basque"?"eu":"es") ?>-es.js"></script>
 	<script src="/js/BilboTec.js"></script>
 	<script src="/js/BilboTec.ui.js"></script>
-	<link rel="stylesheet" href="/css/style.css"/>
+	<?php echo csscrush_tag("/css/style.css"); ?>
+	<!--<link rel="stylesheet" href="/css/style.css"/>-->
 	<title><?php echo (isset($title)?$title:"Bolsa de Trabajo"); ?></title>
 </head>
 <body>
 <header>
-	<ul class="idioma" ng-controller="idiomaController">
-		<li><?php echo ucfirst($idioma("idioma")); ?>
+	<ul class="idioma" >
+		<li ng-controller="idiomaController"><?php echo ucfirst($idioma("idioma")); ?>
 			<ul>
 				<li ng-click="cambiarIdioma('spanish')"><?php echo ucfirst($idioma("castellano")); ?></li>
 				<li ng-click="cambiarIdioma('basque')">Euskera</li>
 			</ul>
 		</li>
-	</ul>
+
 	<?php if(isset($user)){
 		
 	}else{
-		echo "<span>".ucfirst($idioma("usuario"))."</span>";
+		echo "<li class='usuario'>".ucfirst($idioma("usuario"))."</li>";
 	} ?>
+	</ul>
 </header>
