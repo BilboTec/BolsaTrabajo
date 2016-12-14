@@ -7,7 +7,7 @@
         </tr>
         <tr>
             <th ng-repeat="(columna, config) in configuracion.columnas"
-                ng-click="ordenar(columna)">{{ columna }}</th>
+                ng-click="ordenar(columna)" ng-class='configuracion.orden==columna?"orden":"";configuracion.orden.direccion?"asc":"desc"'>{{ columna }}</th>
             <th></th>
         </tr>
     </thead>

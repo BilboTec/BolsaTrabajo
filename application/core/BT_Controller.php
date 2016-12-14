@@ -15,8 +15,6 @@ class BT_Controller extends CI_Controller{
 		$this->idioma = get_cookie("idioma") ?? "spanish";
 		$this->lang->load('general', $this->idioma);
 		$this->config->set_item('language', $this->idioma);
-	}
-	public function requerir_login(){
 		if($this->get_usuario_actual()===null){
 			redirect("/Login");
 		}

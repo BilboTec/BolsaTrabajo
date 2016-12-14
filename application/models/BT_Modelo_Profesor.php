@@ -25,7 +25,7 @@ class BT_Modelo_Profesor extends CI_Model{
 		return $profesor;
 	}
 	public function get_by_email($email){
-		$email = $id_email =$this->db->get_where("email",["email"=>$email])->row();
+		$email  =$this->db->get_where("email",["email"=>$email])->row();
 		if($email !== null){
 		$profesor = $this->db->get_where("profesor",["id_email"=>$email->id_email])->custom_row_object(0,'_Profesor');
 		if($profesor!=null){

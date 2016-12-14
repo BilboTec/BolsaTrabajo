@@ -13,6 +13,6 @@ if ( ! function_exists('sql_translate'))
 }
 if(!function_exists('sql_string_busqueda')){
     function sql_string_busqueda($string){
-        return sql_translate("REPLACE(REPLACE(REPLACE(REPLACE(LOWER($string),'ll','l'),'ch','tx'),'qu','k'),'gu','g')","vmñyjgcáäâàêèéëîìïíôòöóûùüúh","bnnkiiizaaaaeeeeiiiioooouuuu");
+        return sql_translate("REPLACE(REPLACE(REPLACE(REPLACE(LOWER($string),'ll','l'),'ch','tx'),'qu','k'),'gu','g')","vmñyjgcáäâàêèéëîìïíôòöóûùüúh","bnniiikzaaaaeeeeiiiioooouuuu");
     }
 }
