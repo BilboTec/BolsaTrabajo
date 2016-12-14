@@ -6,6 +6,4 @@
 	<li><?php echo ucfirst($idioma('localidades')); ?></li>
 	<li><?php echo ucfirst($idioma('provincias')); ?></li>
 	<li><?php echo ucfirst($idioma('paises')); ?></li>
-	
-	
 </ul>
