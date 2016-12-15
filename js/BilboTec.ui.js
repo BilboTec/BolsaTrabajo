@@ -55,16 +55,24 @@ angular.module("BilboTec.ui")
                 return botones;
             };
             scope.aplicar = function(){
+                var data = scope.configuracion.actualizar.data?
+                        scope.configuracion.actualizar.data():{};
+                        data.viejo = scope.filas[scope.editandoFila];
+                        data.nuevo = scope.edit;
                 if(scope.configuracion.actualizar.url){
                     $http({
                         url:scope.configuracion.actualizar.url,
-                        type:scope.configuracion.type||"POST",
-                        success:function(respuesta){
-                            scope.filas[scope.editandoFila] = respuesta.data;
+                        method:scope.configuracion.type||"POST",
+                       	headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+                        data:$.param(data)
+                    }).then(function(respuesta){
+                            scope.filas[scope.editandoFila] = respuesta.data[0];
                             scope.editandoFila = -1;
                             scope.edit = {};
-                        }
-                    });
+                       },
+                        function(error){
+                        	alert(error.data?error.data:JSON.stringify(error));
+                        });
                 }else{
                     scope.filas[scope.editandoFila] = scope.edit;
                     scope.editandoFila = -1;
@@ -125,7 +133,7 @@ angular.module("BilboTec.ui")
                         $http({
                             url:scope.configuracion.eliminar.url,
                             method:scope.configuracion.eliminar.type||"POST",
-                            data:$.param(scope.filas[fila]),
+                            data:$.param({elem:scope.filas[fila]}),
                             headers: {'Content-Type': 'application/x-www-form-urlencoded'}
                         }).then(function(respuesta){
                             scope.filas.splice(fila,1);

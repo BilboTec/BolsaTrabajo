@@ -1,6 +1,6 @@
 <?php
 class _Conocimiento{
-    public $id_conocimiento, $id_departamento, $nombre;
+    public $id_conocimiento, $nombre;
 }
 class BT_Modelo_Conocimiento extends CI_Model
 {
@@ -25,6 +25,12 @@ class BT_Modelo_Conocimiento extends CI_Model
         return $this->db->get_where("conocimiento",["id_conocimiento"=>$id_conocimiento])->result("_Conocimiento");
     }
     public function delete($id_conocimiento){
-        $this->db->delete_where("conocimiento",["id_conocimiento"=>$id_conocimiento]);
+        $this->db->delete("conocimiento",["id_conocimiento"=>$id_conocimiento]);
+		return true;
     }
+	public function update($viejo,$nuevo){
+		
+		$this->db->update("conocimiento",["nombre"=>$nuevo["nombre"]],["id_conocimiento"=>$viejo["id_conocimiento"]]);
+		return $this->db->get_where("conocimiento",["id_conocimiento"=>$viejo["id_conocimiento"]])->result("_Conocimiento");
+	}
 }

@@ -30,14 +30,9 @@
        $scope.filas = [];
         $scope.configuracion = {
         columnas: {
-            id:{
-                vistaTemplate:"Plantillas/Editor/vistaEstandar",
-                    editorTemplate:"Plantillas/Editor/vistaEstandar"
-            }
-            ,
             nombre:{
                 vistaTemplate:"Plantillas/Editor/vistaEstandar",
-                    editorTemplate:"Plantillas/Editor/editorEstandar"
+                editorTemplate:"Plantillas/Editor/editorEstandar"
             }
         },
             leer:{
@@ -45,6 +40,12 @@
             },
             insertar:{
                 url:"/api/Conocimientos/Insert"
+            },
+            actualizar:{
+                url:"/api/Conocimientos/Update"
+            },
+            eliminar:{
+                url:"/api/Conocimientos/Delete"
             },
             paginacion:{
                 pageSizes:{

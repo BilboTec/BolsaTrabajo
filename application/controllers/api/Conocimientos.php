@@ -22,7 +22,19 @@ class Conocimientos extends BT_Controller
     }
     public function delete(){
         //$this->requerir_login_json();
-        
+        $elem = $this->input->post("elem");
+		if($this->conocimientos->delete($elem["id_conocimiento"])){
+			echo "Ok";
+		}else{
+			set_status_header(405);
+		}
     }
+	public function update(){
+		//$this->requerir_login_json();
+		$viejo = $this->input->post("viejo");
+		$nuevo = $this->input->post("nuevo");
+		$conocimiento = $this->conocimientos->update($viejo,$nuevo);
+		echo json_encode($conocimiento);
+	}
 
 }
