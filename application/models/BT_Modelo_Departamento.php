@@ -14,7 +14,7 @@ class BT_Modelo_Departamento extends CI_Model
         if($resultadosPorPagina){
             $this->db->limit($resultadosPorPagina);
         }
-        return $this->db->get("departamento")->result("_Conocimiento");
+        return $this->db->get("departamento")->result("_Departamento");
     }
     public function insert($conocimiento){
         $this->db->insert("departamento",$conocimiento);

@@ -9,4 +9,12 @@ class Plantillas extends CI_Controller
         $this->load
             ->view("/Plantillas/BilboTec/EditorTemplate/$vista",$_GET);
     }
+	public function select($controlador){
+		
+		$this->load->model("BT_Modelo_TipoTitulacion","tipoTitulacion");
+		$this->load->model("BT_Modelo_Departamento","departamentos");
+	 	$data["elementos"] = $this->$controlador->get();
+		$data["clave"] = $this->input->get("clave");
+		$data["texto"] =$this->input->get("texto");
+	}
 }

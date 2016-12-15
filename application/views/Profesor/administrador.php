@@ -1,15 +1,15 @@
 <div ng-controller="administradorController">
 
 <ul>
-	<li ng-click= "configuracion = configuraciones.conocimientos"><?php echo ucfirst($idioma('conocimientos')); ?></li>
-	<li ng-click= "configuracion = configuraciones.departamentos"><?php echo ucfirst($idioma('departamentos')); ?></li>
-	<li ng-click= "configuracion = configuraciones.tipo_titulacion"><?php echo ucfirst($idioma('tipo_titulacion')); ?></li>
-	<li ng-click= "configuracion = configuraciones.conocimientos"><?php echo ucfirst($idioma('oferta_formativa')); ?></li>
-	<li ng-click= "configuracion = configuraciones.conocimientos"><?php echo ucfirst($idioma('localidades')); ?></li>
-	<li ng-click= "configuracion = configuraciones.conocimientos"><?php echo ucfirst($idioma('provincias')); ?></li>
-	<li ng-click= "configuracion = configuraciones.conocimientos"><?php echo ucfirst($idioma('paises')); ?></li>
+	<li ng-click= "establecerConfiguracion(configuraciones.conocimientos)"><?php echo ucfirst($idioma('conocimientos')); ?></li>
+	<li ng-click= "establecerConfiguracion(configuraciones.departamentos)"><?php echo ucfirst($idioma('departamentos')); ?></li>
+	<li ng-click= "establecerConfiguracion(configuraciones.tipo_titulacion)"><?php echo ucfirst($idioma('tipo_titulacion')); ?></li>
+	<li ng-click= "establecerConfiguracion(configuraciones.oferta_formativa)"><?php echo ucfirst($idioma('oferta_formativa')); ?></li>
+	<li ng-click= "establecerConfiguracion(configuraciones.conocimientos)"><?php echo ucfirst($idioma('localidades')); ?></li>
+	<li ng-click= "establecerConfiguracion(configuraciones.conocimientos)"><?php echo ucfirst($idioma('provincias')); ?></li>
+	<li ng-click= "establecerConfiguracion(configuraciones.conocimientos)"><?php echo ucfirst($idioma('paises')); ?></li>
 </ul>
 
 
-	<div bt-tabla ng-model="filas" bt-config="configuracion"></div>
+	<div bt-tabla ng-model="filas" bt-config="configuracion" bt-set-config="establecerConfiguracion"></div>
 </div>

@@ -122,10 +122,47 @@ angular.module("BilboTec",["BilboTec.ui"])
 				},
 				pagina: 1
 			}
+		},
+		oferta_formativa:{
+			columnas: {
+				nombre: {
+					vistaTemplate: "/Plantillas/Editor/vistaEstandar",
+					editorTemplate: "/Plantillas/Editor/editorEstandar"
+				},
+				id_departamento:{
+					vistaTemplate: "/Plantillas/Editor/vistaEstandar",
+					editorTemplate: "/Plantillas/Select/departamentos"
+				},
+				id_tipo_titulacion:{
+					vistaTemplate: "/Plantillas/Editor/vistaEstandar",
+					editorTemplate: "/Plantillas/Select/tipo_titulacion"
+				}
+			},
+			leer: {
+				url: "/api/TipoTitulacion/Get"
+			},
+			insertar: {
+				url: "/api/TipoTitulacion/Insert"
+			},
+			actualizar: {
+				url: "/api/TipoTitulacion/Update"
+			},
+			eliminar: {
+				url: "/api/TipoTitulacion/Delete"
+			},
+			paginacion: {
+				pageSizes: {
+					valores: $scope.resultadosXpagina,
+					seleccionado: $scope.resultadosXpagina[0]
+				},
+				pagina: 1
+			}
 		}
 	};
-	
-	$scope.configuracion = $scope.configuraciones[0];
+	$scope.establecerConfiguracion = function(configuracion){
+		$scope.configuracion = $scope.configuraciones[configuracion];
+		$scope.leer();
+	};
 	
 })
 ;

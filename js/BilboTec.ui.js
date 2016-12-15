@@ -5,7 +5,8 @@ angular.module("BilboTec.ui")
         scope:{
             valor:"=btModel",
             label:"=btLabel",
-            required:"=ngRequired"
+            required:"=ngRequired",
+            leer:"=leer"
         },
         templateUrl:function(elem,attrs){
             var url = "/Plantillas/Get/btInputLabel?type="
@@ -33,7 +34,8 @@ angular.module("BilboTec.ui")
         require:"ngModel",
         scope:{
             filas:"=ngModel",
-            configuracion:"=btConfig"
+            configuracion:"=btConfig",
+            btSetConfig:"="
         },
         templateUrl:"/Plantillas/Get/btTabla",
         link:function(scope,elem,attr){
@@ -80,6 +82,7 @@ angular.module("BilboTec.ui")
                 }
             };
             scope.leer = function(){
+                scope.filas= [];
                 if(scope.configuracion.leer.url){
                     var datos = scope.configuracion.leer.data?scope.configuracion.leer.data():{};
                     datos.resultadosPorPagina = scope.configuracion.paginacion.pageSizes.seleccionado.valor;
@@ -149,6 +152,10 @@ angular.module("BilboTec.ui")
                 scope.configuracion.direccion=scope.configuracion.orden===columna?!scope.configuracion.direccion:false;
                 scope.configuracion.orden = columna;
 
+            };
+            scope.btSetConfig = function(configuracion){
+            	scope.configuracion = configuracion;
+            	scope.leer();
             };
             if(scope.configuracion.leer){
                 scope.leer();

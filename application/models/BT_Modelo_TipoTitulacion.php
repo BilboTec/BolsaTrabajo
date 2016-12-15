@@ -18,7 +18,7 @@ class BT_Modelo_TipoTitulacion extends CI_Model
     }
     public function insert($conocimiento){
         $this->db->insert("tipo_titulacion",$conocimiento);
-        $id_conocimiento = $this->db->insert_id();
+        $id_tipo_titulacion = $this->db->insert_id();
         return $this->db->get_where("tipo_titulacion",["id_tipo_titulacion"=>$id_tipo_titulacion])->result("_TipoTitulacion");
     }
     public function delete($id_tipo_titulacion){
