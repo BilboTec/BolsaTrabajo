@@ -4,6 +4,16 @@ class BT_Controller extends CI_Controller{
 	
 	protected $idioma;
 	
+	public function get_rol(){
+		$usuario = $this->get_usuario_actual();
+		$rol = ["ver", "editar", "admin"];
+		if($usuario != null && isset($usuario->id_rol)){
+			return $rol[($usuario->id_rol > 2?2:$usuario->id_rol)];
+		}
+		return null;
+	}
+	
+	
 	public function __construct(){
 		parent::__construct();
 		$this->load->model("BT_Modelo_Profesor", "profesores");

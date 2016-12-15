@@ -35,7 +35,7 @@ angular.module("BilboTec.ui")
             filas:"=ngModel",
             configuracion:"=btConfig"
         },
-        templateUrl:"Plantillas/Get/btTabla",
+        templateUrl:"/Plantillas/Get/btTabla",
         link:function(scope,elem,attr){
             scope.editandoFila = -1;
             scope.editar = function(fila){
@@ -120,7 +120,7 @@ angular.module("BilboTec.ui")
                         scope.mostrarInsertar = false;
                     },function(error){
                         alert(error.data?error.data:JSON.stringify(error));
-                    })
+                    });
                 }else{
                     scope.filas.push(angular.copy(scope.edit));
                     scope.mostrarInsertar = false;
@@ -155,5 +155,5 @@ angular.module("BilboTec.ui")
             }
         }
 
-    }
+    };
 }]);
