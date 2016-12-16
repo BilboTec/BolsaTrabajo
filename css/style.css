@@ -40,6 +40,26 @@ body, .contenido{
 	color: white;
 	
 }
+.error-validacion{
+	position:absolute;
+	width: 200px;
+	z-index: 100000;
+	background: $(--v-claro);
+	left:106%;
+	bottom:0;
+}
+.error-validacion::before{
+	content: " ";
+	border: 10px solid transparent;
+	border-right: 10px solid $(--v-claro);
+	position: absolute;
+	left: -10%;
+    bottom: 0;
+
+}
+.grupo-form{
+	position:relative;
+}
 .btn-tipo:not(:first-child):not(:last-child){
 	margin: 0 1em;
 	
