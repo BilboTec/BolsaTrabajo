@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html ng-app="BilboTec">
 <head>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<script src="/js/jquery-3.1.1.min.js"></script>
 	<script src="/js/angular.min.js"></script>
 	<script src="/js/angular-locale_<?php echo (isset($idioma)&&$idioma=="basque"?"eu":"es") ?>-es.js"></script>
@@ -13,17 +14,19 @@
 <body>
 <header>
 	<ul class="idioma" >
-		<li ng-controller="idiomaController"><?php echo ucfirst($idioma("idioma")); ?>
+		<?php if(isset($user)){
+		
+	}else{
+		echo "<li class='usuario'>".strtoupper($idioma("usuario"))."</li>";
+	} ?>
+		
+		<li ng-controller="idiomaController"><?php echo strtoupper($idioma("idioma")); ?>
 			<ul>
 				<li ng-click="cambiarIdioma('spanish')"><?php echo ucfirst($idioma("castellano")); ?></li>
 				<li ng-click="cambiarIdioma('basque')">Euskera</li>
 			</ul>
 		</li>
 
-	<?php if(isset($user)){
-		
-	}else{
-		echo "<li class='usuario'>".ucfirst($idioma("usuario"))."</li>";
-	} ?>
+	
 	</ul>
 </header>

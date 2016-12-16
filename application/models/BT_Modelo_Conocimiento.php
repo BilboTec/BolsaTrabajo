@@ -1,36 +1,19 @@
 <?php
+
+require_once 'BT_ModeloEstandar.php';
+
 class _Conocimiento{
     public $id_conocimiento, $nombre;
 }
-class BT_Modelo_Conocimiento extends CI_Model
+class BT_Modelo_Conocimiento extends BT_ModeloEstandar
 {
     public function __construct()
     {
-        parent::__construct();
-        $this->load->database();
-        $this->load->helper("BT_mysql_helper");
+        parent::__construct("conocimiento", "_Conocimiento", "id_conocimiento");
+
     }
     public function get_like($nombre){
         return $this->db->where(sql_string_busqueda('nombre')." LIKE " . sql_string_busqueda("'%$nombre%'") )->get("conocimiento")->result("_Conocimiento");
     }
-    public function get($resultadosPorPagina){
-        if($resultadosPorPagina){
-            $this->db->limit($resultadosPorPagina);
-        }
-        return $this->db->get("conocimiento")->result("_Conocimiento");
-    }
-    public function insert($conocimiento){
-        $this->db->insert("conocimiento",$conocimiento);
-        $id_conocimiento = $this->db->insert_id();
-        return $this->db->get_where("conocimiento",["id_conocimiento"=>$id_conocimiento])->result("_Conocimiento");
-    }
-    public function delete($id_conocimiento){
-        $this->db->delete("conocimiento",["id_conocimiento"=>$id_conocimiento]);
-		return true;
-    }
-	public function update($viejo,$nuevo){
-		
-		$this->db->update("conocimiento",["nombre"=>$nuevo["nombre"]],["id_conocimiento"=>$viejo["id_conocimiento"]]);
-		return $this->db->get_where("conocimiento",["id_conocimiento"=>$viejo["id_conocimiento"]])->result("_Conocimiento");
-	}
+    
 }

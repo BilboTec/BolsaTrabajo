@@ -117,7 +117,7 @@ angular.module("BilboTec.ui")
                         data:$.param(scope.edit),
                         headers: {'Content-Type': 'application/x-www-form-urlencoded'}
                     }).then(function(respuesta){
-                        scope.filas.push(respuesta.data[0]);
+                        scope.filas.unshift(respuesta.data[0]);
                         scope.edit = {};
                         scope.editandoFila = -1;
                         scope.mostrarInsertar = false;
@@ -125,7 +125,7 @@ angular.module("BilboTec.ui")
                         alert(error.data?error.data:JSON.stringify(error));
                     });
                 }else{
-                    scope.filas.push(angular.copy(scope.edit));
+                    scope.filas.unshift(angular.copy(scope.edit));
                     scope.mostrarInsertar = false;
                 }
             };

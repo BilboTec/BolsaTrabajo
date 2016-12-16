@@ -1,16 +1,19 @@
 angular.module("BilboTec.ui",[]);
 angular.module("BilboTec",["BilboTec.ui"])
 .controller("formularioLoginController",["$scope","$http",function($scope,$http){
-	$scope.alta = function(){
-		s = $scope;
+	$scope.validarLogin = function($event){
+		$scope.formLogin.$setSubmitted(true);
+		if($scope.formLogin.$invalid){
+			$event.preventDefault();
+		}
 	};
 }])
 .controller("idiomaController", ["$scope","$http",function($scope,$http){
 	$scope.cambiarIdioma = function(idioma){
 	$http.get("/Idioma/cambiar/" + idioma).then(function(respuesta){
-		window.location = window.location;
+		window.location.reload();
 	}, function(error){
-		
+		alert(error.data?error.data:error);
 	});
 	};
 }])
@@ -149,6 +152,62 @@ angular.module("BilboTec",["BilboTec.ui"])
 			},
 			eliminar: {
 				url: "/api/TipoTitulacion/Delete"
+			},
+			paginacion: {
+				pageSizes: {
+					valores: $scope.resultadosXpagina,
+					seleccionado: $scope.resultadosXpagina[0]
+				},
+				pagina: 1
+			}
+			},
+		
+			pais:{
+			columnas: {
+				nombre: {
+					vistaTemplate: "/Plantillas/Editor/vistaEstandar",
+					editorTemplate: "/Plantillas/Editor/editorEstandar"
+				}
+			},
+			leer: {
+				url: "/api/Paises/Get"
+			},
+			insertar: {
+				url: "/api/Paises/Insert"
+			},
+			actualizar: {
+				url: "/api/Paises/Update"
+			},
+			eliminar: {
+				url: "/api/Paises/Delete"
+			},
+			paginacion: {
+				pageSizes: {
+					valores: $scope.resultadosXpagina,
+					seleccionado: $scope.resultadosXpagina[0]
+				},
+				pagina: 1
+			}
+		},
+		
+			provincias:{
+			columnas: {
+				nombre: {
+					vistaTemplate: "/Plantillas/Editor/vistaEstandar",
+					editorTemplate: "/Plantillas/Editor/editorEstandar"
+				}
+			},
+			leer: {
+				url: "/api/Provincias/Get"
+			},
+			insertar: {
+				url: "/api/Provincias/Insert"
+			},
+			actualizar: {
+				url: "/api/Provincias/Update"
+			},
+			eliminar: {
+				url: "/api/Provincias/Delete"
 			},
 			paginacion: {
 				pageSizes: {

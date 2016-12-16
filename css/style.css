@@ -4,6 +4,9 @@
 	font-family: 'exo-regular';
 }
 
+body, html{
+	height: 100%;
+}
 /*************************************
 ********COLORES****************
 **************************************/
@@ -23,43 +26,20 @@ body, .contenido{
 .contenido{
 	align-items: center;
 	margin-top: 4em;
+	flex: 7;
 }
 
-.form-login > ul{
-	list-style: none;
-	display: flex;
-	justify-contents: center;
-}
+/* FORMULARIO */
 
-.contenido form{
-	
-}
 .btn-tipo{
-	padding: 0.2em 1em;
+	padding: 0.4em 2em;
 	background-color: $(--v-oscuro);
 	color: white;
+	min-height:1.3em;
+	@extend .idioma > li;
 	
 }
-.error-validacion{
-	position:absolute;
-	width: 200px;
-	z-index: 100000;
-	background: $(--v-claro);
-	left:106%;
-	bottom:0;
-}
-.error-validacion::before{
-	content: " ";
-	border: 10px solid transparent;
-	border-right: 10px solid $(--v-claro);
-	position: absolute;
-	left: -10%;
-    bottom: 0;
 
-}
-.grupo-form{
-	position:relative;
-}
 .btn-tipo:not(:first-child):not(:last-child){
 	margin: 0 1em;
 	
@@ -71,9 +51,37 @@ body, .contenido{
 	background-color: $(--v-claro);
 	color: black;
 }
+
 .form-login{
 	display:flex;
 	flex-direction: column;
+}
+
+.form-login .grupo-form{
+	width: 60%;
+	margin:0.7em 0;
+}
+
+.form-login :any(#email, #clave){
+	width: 100%;
+}
+
+.form-login > ul{
+	list-style: none;
+	display: flex;
+	justify-content: center;
+}
+
+.form-login a{
+	margin: .8em 0;
+	color: $(--v-oscuro);
+	font-family: "exo-light";
+	text-align: center;
+}
+
+.registrarse{
+	font-family: "exo-semibold" !important;
+	text-decoration: none;
 }
 
 fieldset{
@@ -85,6 +93,7 @@ fieldset{
 }
 
 legend{
+	font-size: 1.2em;
 	text-align: center;
 	width:50%;
 	margin: 0 25% 0;
@@ -106,16 +115,36 @@ input[type="submit"]:hover{
 	cursor:pointer;
 }
 
-.form-login a{
-	text-align: center;
-	text-decoration: none;
-}
 
 .errores{
 	flex-direction: column;
 	color: red;
 }
 
+.error-validacion{
+	position:absolute;
+	width: 200px;
+	z-index: 100000;
+	background: $(--v-claro);
+	left:109%;
+	bottom:0;
+	padding: .5em;
+	font-size: 12px;
+}
+.error-validacion::before{
+	content: " ";
+	border: 10px solid transparent;
+	border-right: 10px solid $(--v-claro);
+	position: absolute;
+	left: -20px;
+    bottom: 0;
+
+}
+.grupo-form{
+	position:relative;
+}
+
+/*MENU PRINCIPAL*/
 
 .idioma, .usuario{
 	display: flex;
@@ -124,8 +153,41 @@ input[type="submit"]:hover{
 	color: white;
 	position: relative;
 	min-height: 2em;
+	font-size: 14px;
 }
 
+.idioma > li {
+	position: relative;
+	user-select: none;
+}
+
+.idioma >li:last-child::before{
+	content: ' ';
+	width:2em;
+	height: this(width);
+	background: url("/imagenes/idioma.png") no-repeat;
+	background-size: cover;
+	display: inline-block;
+	margin-right: .5em;
+	min-width: 20px;
+	min-height: 20px;
+
+}
+
+.usuario::before{
+	@extend .idioma >li:last-child::before;
+	background: url("/imagenes/usuario.png") no-repeat;
+	background-size: cover;
+}
+
+:any(.idioma >li:last-child, .usuario )::after{
+	content: ' ';
+	border-left: 1px solid white;
+	height: 80%;
+	top:10%;
+	position: absolute;
+	left: 0;
+}
 
 .idioma ul {
 	display: none;
@@ -134,6 +196,8 @@ input[type="submit"]:hover{
 	position: absolute;
 	z-index: 100;
 	top:100%;
+	left: 0;
+	width: 100%;
 
 }
 .idioma:hover{
@@ -167,6 +231,14 @@ header{
 	background-color: $(--v-oscuro);
 }
 
+footer{
+	background-color: $(--g-oscuro);
+	padding: 0.4em 0;
+	font-size: 12px;
+	color: white;
+	display: flex;
+	justify-content: center;
+}
 /*************************************
 ********BT-INPUT-LABEL****************
 **************************************/
@@ -183,12 +255,73 @@ header{
 	left: .5em;
 	transition: all .2s;
 	bottom:0;
+	padding: .3em;
+}
+
+[bt-input-label] input{
+	padding: .3em;
 }
 [bt-input-label] input:focus + label,
 [bt-input-label] input.ng-not-empty + label{
 	transform: translate(0,-100%);
 	color: black;
 }
+
+input:focus{
+	border: 2px solid $(--v-oscuro);
+	outline: $(--v-oscuro);
+}
+
+
+/*tablas*/
+
+tbody tr:nth-child(2n){
+	background-color: white;
+}
+
+thead th:not(:last-child){
+	background-color: $(--v-oscuro);
+}
+/*************************************
+********PROFESOR****************
+**************************************/
+
+nav ul, .contenedor-admin{
+	display: flex;
+	
+}
+
+
+
+/*************************************
+********RESPONSIVE****************
+**************************************/
+ @media all and (max-width: 768px){
+ 	
+ 	header > ul > li, .usuario{
+ 		font-size: 0px;
+ 		color: transparent;
+ 	}
+ 	
+ 	header ul ul{
+ 		font-size: 16px;
+ 	}
+ 	
+ 	
+ 	/*.idioma>li:last-child:before, .usuario:before{
+ 		content: ' ';
+ 		min-height: 40px;
+ 		min-width: 40px;
+ 	}*/
+ 	
+ 	
+ 	/*FOOTER*/
+ 	footer{
+ 		display: none;
+ 	}
+ 	
+ }
+
 
 
 /*************************************
@@ -207,6 +340,10 @@ header{
 @font-face {
     font-family: "exo-regular";
     src: url("/fuentes/Exo2-Regular.otf");
+}
+@font-face {
+    font-family: "exo-light";
+    src: url("/fuentes/Exo2-Light.otf");
 }
 
 

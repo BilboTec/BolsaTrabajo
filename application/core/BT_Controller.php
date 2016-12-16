@@ -26,6 +26,7 @@ class BT_Controller extends CI_Controller{
 		if($this->idioma==null){
 			$this->idioma = "spanish";
 		}
+		$this->lang->load('form_validation', $this->idioma);
 		$this->lang->load('general', $this->idioma);
 		$this->config->set_item('language', $this->idioma);
 	
