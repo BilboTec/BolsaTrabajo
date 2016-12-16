@@ -274,9 +274,29 @@ input:focus{
 
 
 /*tablas*/
-
+.paginacion {
+	display: flex;
+	justify-content: space-between;
+}
+tfoot .btn{
+	padding:5px;
+}
+.marcador-pagina {
+	width: 2em;
+}
 tbody tr:nth-child(2n){
 	background-color: white;
+}
+table .cargando {
+	display: none;
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	z-index: 999999999999999999999;
+	background: rgba(255,255,255,0.4);
+}
+.cargando.activo{
+	display: block;
 }
 
 thead th:not(:last-child){

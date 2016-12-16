@@ -57,43 +57,62 @@ angular.module("BilboTec.ui")
                 return botones;
             };
             scope.aplicar = function(){
-                var data = scope.configuracion.actualizar.data?
-                        scope.configuracion.actualizar.data():{};
-                        data.viejo = scope.filas[scope.editandoFila];
-                        data.nuevo = scope.edit;
-                if(scope.configuracion.actualizar.url){
-                    $http({
-                        url:scope.configuracion.actualizar.url,
-                        method:scope.configuracion.type||"POST",
-                       	headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-                        data:$.param(data)
-                    }).then(function(respuesta){
-                            scope.filas[scope.editandoFila] = respuesta.data[0];
-                            scope.editandoFila = -1;
-                            scope.edit = {};
-                       },
-                        function(error){
-                        	alert(error.data?error.data:JSON.stringify(error));
-                        });
-                }else{
-                    scope.filas[scope.editandoFila] = scope.edit;
-                    scope.editandoFila = -1;
-                    scope.edit = {};
+                if(scope.validar()) {
+                    scope.cargando = true;
+                    var data = scope.configuracion.actualizar.data ?
+                        scope.configuracion.actualizar.data() : {};
+                    data.viejo = scope.filas[scope.editandoFila];
+                    data.nuevo = scope.edit;
+                    if (scope.configuracion.actualizar.url) {
+                        $http({
+                            url: scope.configuracion.actualizar.url,
+                            method: scope.configuracion.type || "POST",
+                            headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+                            data: $.param(data)
+                        }).then(function (respuesta) {
+                                scope.filas[scope.editandoFila] = respuesta.data[0];
+                                scope.editandoFila = -1;
+                                scope.edit = {};
+                            scope.cargando = false;
+                            },
+                            function (error) {
+                                alert(error.data ? error.data : JSON.stringify(error));
+                                scope.cargando = false;
+                            });
+                    } else {
+                        scope.filas[scope.editandoFila] = scope.edit;
+                        scope.editandoFila = -1;
+                        scope.edit = {};
+                        scope.cargando = false;
+                    }
                 }
+            };
+            scope.cambiarPagina = function(pag){
+                scope.configuracion.paginacion.pagina+=pag;
+                scope.leer();
+            };
+            scope.irPagina = function(pag){
+                scope.configuracion.paginacion.pagina = pag;
+                scope.leer();
             };
             scope.leer = function(){
                 scope.filas= [];
                 if(scope.configuracion.leer.url){
+                    scope.cargando = true;
                     var datos = scope.configuracion.leer.data?scope.configuracion.leer.data():{};
                     datos.resultadosPorPagina = scope.configuracion.paginacion.pageSizes.seleccionado.valor;
+                    datos.pagina = scope.configuracion.paginacion.pagina;
                     $http({
                         url:scope.configuracion.leer.url,
                         method :scope.configuracion.leer.method ||"GET",
                         params:datos
                     }).then(function(respuesta){
-                        scope.filas = respuesta.data;
+                        scope.filas = respuesta.data.data;
+                        scope.configuracion.paginacion.total =  Math.ceil(respuesta.data.total / scope.configuracion.paginacion.pageSizes.seleccionado.valor);
+                        scope.cargando = false;
                     },function(error){
-                        alert(response.data?response.data:JSON.stringify(response));
+                        alert(error.data?error.data:JSON.stringify(error));
+                        scope.cargando = false;
                     });
                 }
             };
@@ -109,24 +128,64 @@ angular.module("BilboTec.ui")
             scope.cancelarInsertar = function(){
                 scope.mostrarInsertar = false;
             };
+            scope.validar = function(){
+                var cols = scope.configuracion.columnas;
+              for(var col in cols){
+                  if(cols[col].validar){
+                      var validez = cols[col].validar(scope.edit[col]);
+                      if(!validez.valido){
+                          alert(validez.mensaje);
+                          return false;
+                      }
+                  }
+              }
+                return true;
+            };
+            scope.leerColeccion = function(col) {
+                scope.configuracion.columnas[col].coleccion = {};
+                $http({
+                    url: scope.configuracion.columnas[col].leer.url
+                }).then(function (respuesta) {
+                    for (var i in respuesta.data.data) {
+                        var elemento = scope.configuracion.columnas[col].leer.crearElemento(respuesta.data.data[i]);
+                        scope.configuracion.columnas[col].coleccion[elemento.clave] = elemento.valor;
+                    }
+                }, function (error) {
+                    alert(error.data ? error.data : JSON.stringify(error));
+                });
+            };
+            scope.leerColecciones = function(){
+              for(var columna in scope.configuracion.columnas){
+                  if(scope.configuracion.columnas[columna].leer){
+                      scope.leerColeccion(columna)
+                  }
+              }
+            };
             scope.aplicarInsertar = function(){
-                if(scope.configuracion.insertar.url){
-                    $http({
-                        url:scope.configuracion.insertar.url,
-                        method:scope.configuracion.insertar.type||"POST",
-                        data:$.param(scope.edit),
-                        headers: {'Content-Type': 'application/x-www-form-urlencoded'}
-                    }).then(function(respuesta){
-                        scope.filas.unshift(respuesta.data[0]);
-                        scope.edit = {};
-                        scope.editandoFila = -1;
+                if(scope.validar()) {
+                    scope.cargando = true;
+                    if (scope.configuracion.insertar.url) {
+                        $http({
+                            url: scope.configuracion.insertar.url,
+                            method: scope.configuracion.insertar.type || "POST",
+                            data: $.param(scope.edit),
+                            headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+                        }).then(function (respuesta) {
+                            scope.filas.unshift(respuesta.data[0]);
+                            scope.edit = {};
+                            scope.editandoFila = -1;
+                            scope.mostrarInsertar = false;
+                            scope.cargando = false;
+                            scope.cargando = false;
+                        }, function (error) {
+                            alert(error.data ? error.data : JSON.stringify(error));
+                            scope.cargando = false;
+                        });
+                    } else {
+                        scope.filas.unshift(angular.copy(scope.edit));
                         scope.mostrarInsertar = false;
-                    },function(error){
-                        alert(error.data?error.data:JSON.stringify(error));
-                    });
-                }else{
-                    scope.filas.unshift(angular.copy(scope.edit));
-                    scope.mostrarInsertar = false;
+                        scope.cargando = false;
+                    }
                 }
             };
             scope.eliminar = function(fila){
@@ -154,9 +213,11 @@ angular.module("BilboTec.ui")
 
             };
             scope.btSetConfig = function(configuracion){
+                scope.leerColecciones();
             	scope.configuracion = configuracion;
             	scope.leer();
             };
+            scope.leerColecciones();
             if(scope.configuracion.leer){
                 scope.leer();
             }
