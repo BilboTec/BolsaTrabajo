@@ -15,7 +15,12 @@ class BT_Controlador_api_estandar extends BT_Controller
     public function Get(){
         $resultadosPorPagina = $this->input->get("resultadosPorPagina");
         $pagina = $this->input->get("pagina");
-        echo data_result($this->modelo->get($resultadosPorPagina,$pagina),$this->modelo->count());
+        $orden = $this->input->get("orden");
+        $direccion = $this->input->get("direccion");
+        if($direccion===null){
+            $direccion = "asc";
+        }
+        echo data_result($this->modelo->get($resultadosPorPagina,$pagina,$orden,$direccion),$this->modelo->count());
     }
     public function Insert(){
         //$this->requerir_login_json();

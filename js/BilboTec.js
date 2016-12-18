@@ -223,5 +223,4 @@ angular.module("BilboTec",["BilboTec.ui"])
 		$scope.leer();
 	};
 	
-})
-;
+});

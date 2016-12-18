@@ -102,6 +102,8 @@ angular.module("BilboTec.ui")
                     var datos = scope.configuracion.leer.data?scope.configuracion.leer.data():{};
                     datos.resultadosPorPagina = scope.configuracion.paginacion.pageSizes.seleccionado.valor;
                     datos.pagina = scope.configuracion.paginacion.pagina;
+                    datos.orden = scope.configuracion.orden;
+                    datos.direccion = scope.configuracion.direccion?"asc":"desc";
                     $http({
                         url:scope.configuracion.leer.url,
                         method :scope.configuracion.leer.method ||"GET",
@@ -210,7 +212,7 @@ angular.module("BilboTec.ui")
             scope.ordenar = function(columna){
                 scope.configuracion.direccion=scope.configuracion.orden===columna?!scope.configuracion.direccion:false;
                 scope.configuracion.orden = columna;
-
+                scope.leer();
             };
             scope.btSetConfig = function(configuracion){
                 scope.leerColecciones();
@@ -224,4 +226,80 @@ angular.module("BilboTec.ui")
         }
 
     };
-}]);
+}])
+    .directive("btListaDesplegable",["$http",function($http){
+        return {
+            restrict:"A",
+            require:"ngModel",
+            scope:{
+                valor:"=ngModel",
+                conf:"=btConfig",
+                btListaDesplegable:"="
+            },
+            templateUrl:"/Plantillas/Get/btListaDesplegable",
+            link:function(scope,element,attr,contr){
+                scope.elementos = scope.conf.elementos||[];
+                scope.cargando = false;
+                scope.conf = scope.conf||{};
+                scope.leer = function(){
+                  if(scope.conf.leer){
+                      scope.cargando=true;
+                      var l = scope.conf.leer;
+                      var parametros = l.data?l.data():{};
+                      scope.elementos = [];
+                      $http({
+                          url:l.url,
+                          method:l.method||"GET",
+                          params:parametros
+                      })
+                          .then(function(respuesta){
+                              scope.elementos = l.set?l.set(respuesta):respuesta.data;
+                              scope.cargando = false;
+                          },
+                          function(error){
+                              alert(error.data||error);
+                              scope.cargando = false;
+                          });
+                  }
+                };
+                scope.leer();
+                scope.desplegado = false;
+                scope.conf.clave = scope.conf.clave || function(element){ return element["clave"];};
+                scope.conf.texto= scope.conf.texto||function(element){return element["texto"];};
+                scope.seleccionar = function(indice){
+                    scope.valor = scope.elementos[indice];
+                    scope.desplegado = false;
+                    contr.$setDirty(true);
+                };
+                scope.desplegar = function(){
+                    scope.desplegado =  !scope.desplegado;
+                    contr.$setTouched(true);
+                };
+                scope.btListaDesplegable = {
+                    leer:scope.leer,
+                    seleccionar:scope.seleccionar,
+                    desplegar:scope.desplegar
+                };
+                angular.element(document).on("click",function(evt){
+                    if(scope.desplegado && element.has(evt.target).length === 0){
+                        scope.$apply(function(){scope.desplegado = false;});
+                    }
+                });
+            }
+        }
+    }])
+    .directive("btDatePicker",["$locale",function($locale){
+        return {
+            restrict:"A",
+            require:"ngModel",
+            scope:{
+                valor:"=ngModel",
+                conf:"=btConfig",
+                btDatePicker:"="
+            },
+            templateUrl:"/Plantillas/Get/btDatePicker",
+            link:function(scope,e,a,ctr){
+
+            }
+        };
+    }]);

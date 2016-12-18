@@ -271,8 +271,53 @@ input:focus{
 	border: 2px solid $(--v-oscuro);
 	outline: $(--v-oscuro);
 }
-
-
+/*************************************
+********BT-DESPLEGABLE****************
+**************************************/
+[bt-lista-desplegable]{
+	position:relative;
+	display: inline-flex;
+	flex-direction: column;
+}
+[bt-lista-desplegable]
+.bt-lista-desplegable.valor{
+	min-height: 1.5em;
+	min-width: 6em;
+	display: inline-flex;
+	justify-content: space-between;
+	background: white;
+	border: $(--g-claro);
+}
+.bt-lista-desplegable.desplegable{
+	border: 2px solid $(--v-oscuro);
+	background: $(--g-claro);
+	list-style: none;
+	position: absolute;
+	top:100%;
+	width: 100%;
+	box-sizing: border-box;
+}
+.bt-lista-desplegable.desplegable>li:hover{
+	background: $(--v-claro);
+	cursor: pointer;
+	user-select: none;
+}
+.bt-lista-desplegable.valor>.btn{
+	background: $(--v-oscuro);
+	padding: .25em .5em;
+}
+.bt-lista-desplegable-contenedor{
+	padding: .2em .2em;
+}
+@media all and (max-width: 768px){
+	.bt-lista-desplegable.desplegable{
+		position: fixed;
+		top: 10%;
+		left: 10%;
+		max-width: 80%;
+		max-height: 60%;
+	}
+}
 /*tablas*/
 .paginacion {
 	display: flex;

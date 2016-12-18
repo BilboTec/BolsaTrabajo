@@ -6,7 +6,6 @@
 </div>
 <script>
     angular.module("BilboTec").controller("testController",function($scope){
-
         $scope.resultadosPorPagina = [
             {
                 texto:"5",
@@ -30,8 +29,13 @@
             }];
        $scope.filas = [];
         $scope.configuracion = {
+        lang:angular.element("html").attr("bt-lang")||"spanish",
         columnas: {
             nombre:{
+                nombre:{
+                    spanish:"nombre",
+                    basque:"izena"
+                },
                 vistaTemplate:"/Plantillas/Editor/vistaEstandar",
                 editorTemplate:"/Plantillas/Editor/editorEstandar",
                 validar:function(nombre){
@@ -44,7 +48,10 @@
             id_departamento:{
                 vistaTemplate:"/Plantillas/Editor/vistaColeccion",
                 editorTemplate:"/Plantillas/Select/departamentos?clave=id_departamento&texto=nombre",
-                nombre:"Departamento",
+                nombre:{
+                    spanish:"Departamento",
+                    basque:"Departamentua"
+                },
                 coleccion:[],
                 leer:{
                     url:"/api/Departamentos/Get",
@@ -62,7 +69,10 @@
             id_tipo_titulacion:{
                 vistaTemplate:"/Plantillas/Editor/vistaColeccion",
                 editorTemplate:"/Plantillas/Select/tipo_titulacion?clave=id_tipo_titulacion&texto=nombre",
-                nombre:"Tipo de Titulación",
+                nombre:{
+                    spanish:"Tipo de Titulación",
+                    basque:"Titulazio mota"
+                },
                 coleccion:[],
                 leer:{
                     url:"/api/TipoTitulacion/Get",

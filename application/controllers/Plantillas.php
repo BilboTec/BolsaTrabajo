@@ -1,7 +1,25 @@
 <?php
 class Plantillas extends CI_Controller
 {
-    public function Get($vista){
+	public $idioma;
+	public function __construct()
+	{
+		parent::__construct();
+		$this->load->helper("cookie");
+		$idioma = get_cookie("idioma");
+		if($idioma==null){
+			$idioma = "spanish";
+		}
+		$this->lang->load('form_validation', $idioma);
+		$this->lang->load('general', $idioma);
+		$this->idioma = $idioma;
+	}
+
+	public function Get($vista){
+		$_GET["idioma"] = function($texto){
+			return $this->lang->line($texto);
+		};
+		$_GET["lang"] = $this->idioma;
         $this->load
             ->view("/Plantillas/BilboTec/$vista",$_GET);
     }
