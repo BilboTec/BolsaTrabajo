@@ -8,6 +8,7 @@
 	<li ng-click= "establecerConfiguracion(configuraciones.conocimientos)"><?php echo ucfirst($idioma('localidades')); ?></li>
 	<li ng-click= "establecerConfiguracion(configuraciones.provincias)"><?php echo ucfirst($idioma('provincias')); ?></li>
 	<li ng-click= "establecerConfiguracion(configuraciones.pais)"><?php echo ucfirst($idioma('paises')); ?></li>
+	
 </ul>
 
 	<div class="contenedor-tabla">

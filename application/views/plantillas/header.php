@@ -13,14 +13,14 @@
 </head>
 <body>
 <header>
-	<ul class="idioma" >
+	<ul class="cabecera" >
 		<?php if(isset($user)){
 		
 	}else{
 		echo "<li class='usuario'>".strtoupper($idioma("usuario"))."</li>";
 	} ?>
 		
-		<li ng-controller="idiomaController"><?php echo strtoupper($idioma("idioma")); ?>
+		<li class="idioma" ng-controller="idiomaController"><?php echo strtoupper($idioma("idioma")); ?>
 			<ul>
 				<li ng-click="cambiarIdioma('spanish')"><?php echo ucfirst($idioma("castellano")); ?></li>
 				<li ng-click="cambiarIdioma('basque')">Euskera</li>

@@ -146,7 +146,7 @@ input[type="submit"]:hover{
 
 /*MENU PRINCIPAL*/
 
-.idioma, .usuario{
+.cabecera, .usuario{
 	display: flex;
 	list-style: none;
 	background-color: $(--v-oscuro);
@@ -156,12 +156,12 @@ input[type="submit"]:hover{
 	font-size: 14px;
 }
 
-.idioma > li {
+.cabecera > li {
 	position: relative;
 	user-select: none;
 }
 
-.idioma >li:last-child::before{
+.cabecera >li:last-child::before{
 	content: ' ';
 	width:2em;
 	height: this(width);
@@ -175,12 +175,12 @@ input[type="submit"]:hover{
 }
 
 .usuario::before{
-	@extend .idioma >li:last-child::before;
+	@extend .cabecera >li:last-child::before;
 	background: url("/imagenes/usuario.png") no-repeat;
 	background-size: cover;
 }
 
-:any(.idioma >li:last-child, .usuario )::after{
+:any(.cabecera >li:last-child, .usuario )::after{
 	content: ' ';
 	border-left: 1px solid white;
 	height: 80%;
@@ -189,7 +189,7 @@ input[type="submit"]:hover{
 	left: 0;
 }
 
-.idioma ul {
+.cabecera ul {
 	display: none;
 	list-style: none;
 	background-color: $(--v-oscuro);
@@ -200,23 +200,23 @@ input[type="submit"]:hover{
 	width: 100%;
 
 }
-.idioma:hover{
+.cabecera:hover{
 	cursor: pointer;
 }
-.idioma li:hover > ul {
+.cabecera li:hover > ul {
 	display: block;
 }
-.idioma li{
+.cabecera li{
 	padding: .4em 1.5em;
 	display: flex;
 	align-items: center;
 }
 
-.idioma li:hover {
+.cabecera li:hover {
 	background-color: $(--v-claro);
 }
 
-.idioma ul li:hover {
+.cabecera ul li:hover {
 	background-color: $(--v-claro);
 }
 .login-contenedor{
@@ -296,9 +296,9 @@ nav ul, .contenedor-admin{
 /*************************************
 ********RESPONSIVE****************
 **************************************/
- @media all and (max-width: 768px){
+@media all and (max-width: 768px){
  	
- 	header > ul > li, .usuario{
+ 	.cabecera, .usuario{
  		font-size: 0px;
  		color: transparent;
  	}
@@ -308,7 +308,7 @@ nav ul, .contenedor-admin{
  	}
  	
  	
- 	/*.idioma>li:last-child:before, .usuario:before{
+ 	/*.cabecera>li:last-child:before, .usuario:before{
  		content: ' ';
  		min-height: 40px;
  		min-width: 40px;
