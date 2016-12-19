@@ -1,4 +1,4 @@
-<nav>
+<nav class="cabecera_usuario">
 	<ul>
 			<li><a href="/Profesor/Ofertas" <?php echo ($activo === "ofertas"? 'class="activo" >': "> ").ucfirst($idioma('ofertas')); ?></a></li>
 			<li><a href="/Profesor/Alumnos"<?php echo ($activo === "alumnos"? 'class="activo" >': "> ").ucfirst($idioma('alumnos')); ?></a></li>

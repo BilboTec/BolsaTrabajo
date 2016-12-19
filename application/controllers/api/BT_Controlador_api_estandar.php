@@ -7,13 +7,20 @@ class BT_Controlador_api_estandar extends BT_Controller
     	$this->id = $id;
         parent::__construct();
         $this->load->model($modelo,"modelo");
+        $this->load->helper("BT_ui_helper");
     }
     public function GetLike($nombre){
         echo json_encode($this->modelo->get_like($nombre));
     }
     public function Get(){
         $resultadosPorPagina = $this->input->get("resultadosPorPagina");
-        echo json_encode($this->modelo->get($resultadosPorPagina));
+        $pagina = $this->input->get("pagina");
+        $orden = $this->input->get("orden");
+        $direccion = $this->input->get("direccion");
+        if($direccion===null){
+            $direccion = "asc";
+        }
+        echo data_result($this->modelo->get($resultadosPorPagina,$pagina,$orden,$direccion),$this->modelo->count());
     }
     public function Insert(){
         //$this->requerir_login_json();

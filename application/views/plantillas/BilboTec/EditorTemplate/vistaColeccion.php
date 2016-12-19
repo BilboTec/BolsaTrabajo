@@ -1,0 +1,1 @@
+<span>{{ configuracion.columnas[columna].coleccion[fila[columna]] }}</span>

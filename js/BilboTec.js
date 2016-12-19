@@ -142,16 +142,16 @@ angular.module("BilboTec",["BilboTec.ui"])
 				}
 			},
 			leer: {
-				url: "/api/TipoTitulacion/Get"
+				url: "/api/OfertaFormativa/Get"
 			},
 			insertar: {
-				url: "/api/TipoTitulacion/Insert"
+				url: "/api/OfertaFormativa/Insert"
 			},
 			actualizar: {
-				url: "/api/TipoTitulacion/Update"
+				url: "/api/OfertaFormativa/Update"
 			},
 			eliminar: {
-				url: "/api/TipoTitulacion/Delete"
+				url: "/api/OfertaFormativa/Delete"
 			},
 			paginacion: {
 				pageSizes: {
@@ -216,6 +216,62 @@ angular.module("BilboTec",["BilboTec.ui"])
 				},
 				pagina: 1
 			}
+		},
+		
+			localidades:{
+			columnas: {
+				nombre: {
+					vistaTemplate: "/Plantillas/Editor/vistaEstandar",
+					editorTemplate: "/Plantillas/Editor/editorEstandar"
+				}
+			},
+			leer: {
+				url: "/api/Localidades/Get"
+			},
+			insertar: {
+				url: "/api/Localidades/Insert"
+			},
+			actualizar: {
+				url: "/api/Localidades/Update"
+			},
+			eliminar: {
+				url: "/api/Localidades/Delete"
+			},
+			paginacion: {
+				pageSizes: {
+					valores: $scope.resultadosXpagina,
+					seleccionado: $scope.resultadosXpagina[0]
+				},
+				pagina: 1
+			}
+		},
+		
+			idiomas:{
+			columnas: {
+				nombre: {
+					vistaTemplate: "/Plantillas/Editor/vistaEstandar",
+					editorTemplate: "/Plantillas/Editor/editorEstandar"
+				}
+			},
+			leer: {
+				url: "/api/Idioma/Get"
+			},
+			insertar: {
+				url: "/api/Idioma/Insert"
+			},
+			actualizar: {
+				url: "/api/Idioma/Update"
+			},
+			eliminar: {
+				url: "/api/Idioma/Delete"
+			},
+			paginacion: {
+				pageSizes: {
+					valores: $scope.resultadosXpagina,
+					seleccionado: $scope.resultadosXpagina[0]
+				},
+				pagina: 1
+			}
 		}
 	};
 	$scope.establecerConfiguracion = function(configuracion){
@@ -223,5 +279,4 @@ angular.module("BilboTec",["BilboTec.ui"])
 		$scope.leer();
 	};
 	
-})
-;
+});

@@ -7,15 +7,7 @@
 body, html{
 	height: 100%;
 }
-/*************************************
-********COLORES****************
-**************************************/
-@set {
-	--g-oscuro: #727176;
-	--g-claro: #edeef0;
-	--v-oscuro: #1d9143;
-	--v-claro: #c1ce40;
-}
+
 body, .contenido{
 	display: flex;
 	flex-direction: column;
@@ -29,7 +21,7 @@ body, .contenido{
 	flex: 7;
 }
 
-/* FORMULARIO */
+/* FORMULARIO LOGIN*/
 
 .btn-tipo{
 	padding: 0.4em 2em;
@@ -231,6 +223,24 @@ header{
 	background-color: $(--v-oscuro);
 }
 
+
+/* MENU USUARIO*/
+
+.cabecera_usuario ul li{
+	list-style: none;
+	padding: 0 10px;
+}
+
+/* ADMIN */
+.contenedor-admin{
+	margin-top: 30px;
+}
+.lista_cambios{
+	padding-right: 20px;
+}
+
+
+/*FOOTER*/
 footer{
 	background-color: $(--g-oscuro);
 	padding: 0.4em 0;
@@ -271,12 +281,77 @@ input:focus{
 	border: 2px solid $(--v-oscuro);
 	outline: $(--v-oscuro);
 }
-
-
+/*************************************
+********BT-DESPLEGABLE****************
+**************************************/
+[bt-lista-desplegable]{
+	position:relative;
+	display: inline-flex;
+	flex-direction: column;
+}
+[bt-lista-desplegable]
+.bt-lista-desplegable.valor{
+	min-height: 1.5em;
+	min-width: 6em;
+	display: inline-flex;
+	justify-content: space-between;
+	background: white;
+	border: $(--g-claro);
+}
+.bt-lista-desplegable.desplegable{
+	border: 2px solid $(--v-oscuro);
+	background: $(--g-claro);
+	list-style: none;
+	position: absolute;
+	top:100%;
+	width: 100%;
+	box-sizing: border-box;
+}
+.bt-lista-desplegable.desplegable>li:hover{
+	background: $(--v-claro);
+	cursor: pointer;
+	user-select: none;
+}
+.bt-lista-desplegable.valor>.btn{
+	background: $(--v-oscuro);
+	padding: .25em .5em;
+}
+.bt-lista-desplegable-contenedor{
+	padding: .2em .2em;
+}
+@media all and (max-width: 768px){
+	.bt-lista-desplegable.desplegable{
+		position: fixed;
+		top: 10%;
+		left: 10%;
+		max-width: 80%;
+		max-height: 60%;
+	}
+}
 /*tablas*/
-
+.paginacion {
+	display: flex;
+	justify-content: space-between;
+}
+tfoot .btn{
+	padding:5px;
+}
+.marcador-pagina {
+	width: 2em;
+}
 tbody tr:nth-child(2n){
 	background-color: white;
+}
+table .cargando {
+	display: none;
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	z-index: 999999999999999999999;
+	background: rgba(255,255,255,0.4);
+}
+.cargando.activo{
+	display: block;
 }
 
 thead th:not(:last-child){
@@ -346,4 +421,14 @@ nav ul, .contenedor-admin{
     src: url("/fuentes/Exo2-Light.otf");
 }
 
+
+/*************************************
+********COLORES****************
+**************************************/
+@set {
+	--g-oscuro: #727176;
+	--g-claro: #edeef0;
+	--v-oscuro: #1d9143;
+	--v-claro: #c1ce40;
+}
 

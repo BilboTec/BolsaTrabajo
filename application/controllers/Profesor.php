@@ -15,7 +15,7 @@
 		$data['idioma'] = function($clave){
 			return $this->lang->line($clave);
 		};
-		
+
 		$data['activo'] = "ofertas";
 		
 		$this->load->view("/plantillas/header", $data);
@@ -32,9 +32,9 @@
 		$data['idioma'] = function($clave){
 			return $this->lang->line($clave);
 		};
-		
+
 		$data['activo'] = "administrador";
-		
+
 		$this->load->view("/plantillas/header", $data);
 		$this->load->view("/Profesor/menu", $data);
 		$this->load->view("/Profesor/administrador", $data);

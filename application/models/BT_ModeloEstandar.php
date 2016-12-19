@@ -13,10 +13,18 @@ abstract class BT_ModeloEstandar extends CI_Model
         $this->load->database();
         $this->load->helper("BT_mysql_helper");
     }
-    
-    public function get($resultadosPorPagina){
+    public function count(){
+        return $this->db->select("COUNT(*) cuantos")->get($this->tabla)->row()->cuantos;
+    }
+    public function get($resultadosPorPagina=false,$pagina=false,$orden=false,$direccion="asc"){
         if($resultadosPorPagina){
+            if($pagina){
+               $this->db->offset(($pagina-1)*$resultadosPorPagina);
+            }
             $this->db->limit($resultadosPorPagina);
+        }
+        if($orden){
+            $this->db->order_by($orden,$direccion);
         }
         return $this->db->get($this->tabla)->result($this->clase);
     }

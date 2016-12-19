@@ -26,4 +26,10 @@ $lang["paises"] ="paises";
 $lang["provincias"] ="provincias";
 $lang["localidades"] ="localidades";
 $lang["api_acceso_denegado"] = "no puede utilizar ésta api, no ha iniciado sesión, su sesión ha caducado o carece de permisos";
-
+$lang["resulados_por_pagina"] = "resultados por página: %s";
+$lang["actualizar"] = "guardar";
+$lang["cancelar"] = "cancelar";
+$lang["nuevo"] = "nuevo";
+$lang["refresh"] = "actualizar";
+$lang["editar"] = "editar";
+$lang["eliminar"] = "eliminar";

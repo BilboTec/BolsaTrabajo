@@ -1,5 +1,6 @@
 <?php
-public function data_result($data,$total){
+
+function data_result($data,$total){
 	$respuesta = new stdClass();
 	$respuesta->total = $total;
 	$respuesta->data = $data;
