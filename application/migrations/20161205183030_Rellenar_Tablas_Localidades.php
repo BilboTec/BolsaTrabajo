@@ -8181,7 +8181,6 @@ class Migration_Rellenar_Tablas_Localidades extends CI_Migration{
         $this->load->database();
         $db = $this->db;
         $db->query("USE bolsa_trabajo");
-        $db->query("DELETE FROM paises");
         $db->query("DELETE FROM localidad");
         $db->query("DELETE FROM provincia");
     }

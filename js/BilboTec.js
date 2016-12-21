@@ -1,5 +1,12 @@
 angular.module("BilboTec.ui",[]);
-angular.module("BilboTec",["BilboTec.ui"])
+angular.module("BilboTec",["BilboTec.ui", "ngRoute"])
+.config(function($routeProvider){
+	$routeProvider.when("/", {
+		templateUrl : function(a, b, c){return "/Profesor/BuscarOferta";}
+	}).when("/:id_oferta", {
+		templateUrl : "/Profesor/DetalleOferta"
+	});
+})
 .controller("formularioLoginController",["$scope","$http",function($scope,$http){
 	$scope.validarLogin = function($event){
 		$scope.formLogin.$setSubmitted(true);
@@ -75,7 +82,11 @@ angular.module("BilboTec",["BilboTec.ui"])
 			columnas: {
 				nombre: {
 					vistaTemplate: "/Plantillas/Editor/vistaEstandar",
-					editorTemplate: "/Plantillas/Editor/editorEstandar"
+					editorTemplate: "/Plantillas/Editor/editorEstandar",
+					nombre:{
+	                    spanish:"Nombre",
+	                    basque:"Izena"
+                	}
 				}
 			},
 			leer: {
@@ -133,14 +144,50 @@ angular.module("BilboTec",["BilboTec.ui"])
 					editorTemplate: "/Plantillas/Editor/editorEstandar"
 				},
 				id_departamento:{
-					vistaTemplate: "/Plantillas/Editor/vistaEstandar",
-					editorTemplate: "/Plantillas/Select/departamentos"
-				},
+	                vistaTemplate:"/Plantillas/Editor/vistaColeccion",
+	                editorTemplate:"/Plantillas/Select/departamentos?clave=id_departamento&texto=nombre",
+	                nombre:{
+	                    spanish:"Departamento",
+	                    basque:"Departamentua"
+	                },
+                	coleccion:[],
+                	leer:{
+	                    url:"/api/Departamentos/Get",
+	                    crearElemento:function(depart) {
+	                        return {clave: depart.id_departamento, valor: depart.nombre};
+                    	}
+                	},
+	                validar:function(id_departamento){
+	                    return{
+	                        valido:typeof id_departamento !== "undefined" && id_departamento > 0,
+	                        mensaje:"Por favor, seleccione un departamento"
+	                    };
+                	}
+            	},
+            	
 				id_tipo_titulacion:{
-					vistaTemplate: "/Plantillas/Editor/vistaEstandar",
-					editorTemplate: "/Plantillas/Select/tipo_titulacion"
-				}
-			},
+	                vistaTemplate:"/Plantillas/Editor/vistaColeccion",
+	                editorTemplate:"/Plantillas/Select/tipo_titulacion?clave=id_tipo_titulacion&texto=nombre",
+	                nombre:{
+	                    spanish:"Tipo de Titulación",
+	                    basque:"Titulazio mota"
+	                },
+	                coleccion:[],
+	                leer:{
+	                    url:"/api/TipoTitulacion/Get",
+	                    crearElemento:function(tipo){
+	                        return {clave:tipo.id_tipo_titulacion,valor:tipo.nombre};
+	                    }
+	                },
+	                validar:function(id_tipo){
+	                    return {
+	                        valido:typeof id_tipo !== "undefined" && id_tipo > 0,
+	                        mensaje:"Por favor, seleccione un tipo de titulación"
+	                    };
+	                }
+	            }
+				},
+				
 			leer: {
 				url: "/api/OfertaFormativa/Get"
 			},
@@ -223,7 +270,27 @@ angular.module("BilboTec",["BilboTec.ui"])
 				nombre: {
 					vistaTemplate: "/Plantillas/Editor/vistaEstandar",
 					editorTemplate: "/Plantillas/Editor/editorEstandar"
+				},
+				
+				id_provincia: {
+					vistaTemplate: "/Plantillas/Editor/vistaColeccion",
+					editorTemplate: "/Plantillas/Select/provincias?clave=id_provincia&texto=nombre",
+					coleccion: [],
+					leer: {
+						url: "/api/Provincias/Get",
+						crearElemento: function(provincia){
+							return { clave:provincia.id_provincia, valor:provincia.nombre};
+						}
+					},
+					
+					nombre: {
+						spanish: "Provincia",
+						basque: "Probintzia"
+					}
+					
+
 				}
+				
 			},
 			leer: {
 				url: "/api/Localidades/Get"
@@ -246,24 +313,55 @@ angular.module("BilboTec",["BilboTec.ui"])
 			}
 		},
 		
-			idiomas:{
+		profesores:{
 			columnas: {
 				nombre: {
 					vistaTemplate: "/Plantillas/Editor/vistaEstandar",
 					editorTemplate: "/Plantillas/Editor/editorEstandar"
+				},
+				apellido: {
+					vistaTemplate: "/Plantillas/Editor/vistaEstandar",
+					editorTemplate: "/Plantillas/Editor/editorEstandar"
+				},
+				apellido2: {
+					vistaTemplate: "/Plantillas/Editor/vistaEstandar",
+					editorTemplate: "/Plantillas/Editor/editorEstandar"
+				},
+				id_departamento: {
+					vistaTemplate: "/Plantillas/Editor/vistaColeccion",
+					editorTemplate: "/Plantillas/Select/departamentos?clave=id_departamento&texto=nombre",
+					coleccion: [],
+					leer: {
+						url: "/api/Departamentos/Get",
+						crearElemento: function(departamento){
+							return { clave:departamento.id_departamento, valor:departamento.nombre};
+						}
+					},
+					
+					nombre: {
+						spanish: "Departamento",
+						basque: "Departamentua"
+					}
+					
+
+				},
+				id_rol: {
+					vistaTemplate: "/Plantillas/Editor/vistaEstandar",
+					editorTemplate: "/Plantillas/Editor/editorEstandar"
 				}
+				
 			},
 			leer: {
-				url: "/api/Idioma/Get"
+				url: "/api/Profesores/Get"
 			},
 			insertar: {
-				url: "/api/Idioma/Insert"
+				url: "/api/Profesores/Insert"
 			},
 			actualizar: {
-				url: "/api/Idioma/Update"
+				url: "/api/Profesores/Update"
 			},
 			eliminar: {
-				url: "/api/Idioma/Delete"
+				url: "/api/Profesores/Delete"
 			},
 			paginacion: {
 				pageSizes: {
@@ -273,10 +371,10 @@ angular.module("BilboTec",["BilboTec.ui"])
 				pagina: 1
 			}
 		}
-	};
-	$scope.establecerConfiguracion = function(configuracion){
-		$scope.configuracion = $scope.configuraciones[configuracion];
-		$scope.leer();
+		
+		
+		
+			
 	};
 	
 });

@@ -1,5 +1,5 @@
 <?php
-
+$lang['nombre'] = 'izena';
 $lang['clave'] = 'pasahitz';
 $lang['email'] = 'email';
 $lang['idioma'] = 'hizkuntza';
@@ -8,6 +8,7 @@ $lang['euskera'] = 'euskera';
 $lang['alumno'] = 'ikaslea';
 $lang['empresa'] = 'enpresa';
 $lang['profesor'] = 'irakaslea';
+$lang['profesores'] = 'irakasleak';
 $lang['entrar'] = 'sartu';
 $lang['recordar_clave'] = 'pasahitza gogorarazi';
 $lang['registrarse'] = 'erregistratu';
@@ -20,6 +21,7 @@ $lang["administrador"] = "administratzailea";
 $lang["perfil"] = "profila";
 $lang["conocimientos"] ="ezagutzak";
 $lang["departamentos"] ="departamentuak";
+$lang["departamento"] ="departamentua";
 $lang["tipo_titulacion"] ="titulazio motak";
 $lang["oferta_formativa"] ="formazio eskaintza";
 $lang["paises"] ="herrialdeak";
@@ -33,3 +35,6 @@ $lang["nuevo"] = "berria";
 $lang["refresh"] = "freskatu";
 $lang["editar"] = "editatu";
 $lang["eliminar"] = "ezabatu";
+$lang["filtro"] = "iragazkiak";
+$lang["filtrar"] = "iragazi";
+$lang["fecha"] = "data";

@@ -31,6 +31,7 @@ class Plantillas extends CI_Controller
 		
 		$this->load->model("BT_Modelo_TipoTitulacion","tipo_titulacion");
 		$this->load->model("BT_Modelo_Departamento","departamentos");
+		$this->load->model("BT_Modelo_Provincia", "provincias");
 	 	$data["elementos"] = $this->$controlador->get();
 		$data["clave"] = $this->input->get("clave");
 		$data["texto"] =$this->input->get("texto");

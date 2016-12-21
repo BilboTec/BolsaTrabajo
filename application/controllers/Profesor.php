@@ -28,12 +28,21 @@
 		$this->index();
 	}
 	
+	public function buscarOferta(){
+		$this->load->view("/Profesor/buscarOferta");
+	}
+	
+	public function detalleOferta(){
+		$this->load->view("/Profesor/detalleOferta");
+	}
+	
 	public function administrador(){
 		$data['idioma'] = function($clave){
 			return $this->lang->line($clave);
 		};
 
 		$data['activo'] = "administrador";
+		$data['es_administrador'] = true;
 
 		$this->load->view("/plantillas/header", $data);
 		$this->load->view("/Profesor/menu", $data);

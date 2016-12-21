@@ -87,7 +87,7 @@
                     }
                 }
             }
-        }/*,
+        },
             leer:{
                 url:"/api/OfertaFormativa/Get"
             },
@@ -107,7 +107,7 @@
                 },
                 nBotones: 5,
                 pagina:1
-            }*/
+            }
     };
     });
 </script>

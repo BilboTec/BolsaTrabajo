@@ -1,4 +1,6 @@
 <?php
+require_once 'BT_ModeloEstandar.php';
+
 class _Profesor {
 	public $id_profesor, $nombre, $apellido, $apellido2, $clave,
 	$id_departamento,$id_email, $id_rol;
@@ -12,12 +14,15 @@ class _Profesor {
 		return $this->id_profesor;
 	}
 }
-class BT_Modelo_Profesor extends CI_Model{
+class BT_Modelo_Profesor extends BT_ModeloEstandar{
 	public function __construct(){
-		parent::__construct();
+		parent::__construct("profesor", "_Profesor", "id_profesor");
 		$this->load->database();
 	}
-	public function get($id_profesor){
+	public function get($id_profesor=null, $resultadosPorPagina=false,$pagina=false,$orden=false,$direccion="asc"){
+		if($id_profesor == null){
+			return parent::get($resultadosPorPagina,$pagina,$orden,$direccion);
+		}
 		$profesor = $this->db->get_where("profesor",["id_profesor"=>$id_profesor])->custom_row_object(0,'_Profesor');
 		if($profesor!=null){
 			$profesor->email = $this->db->get_where("email",["id_email"=>$profesor->id_email]);

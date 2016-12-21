@@ -217,8 +217,8 @@ angular.module("BilboTec.ui")
                 scope.leer();
             };
             scope.btSetConfig = function(configuracion){
-                scope.leerColecciones();
             	scope.configuracion = configuracion;
+            	scope.leerColecciones();
             	scope.leer();
             };
             scope.leerColecciones();
