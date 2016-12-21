@@ -23,10 +23,15 @@ class BT_Controlador_api_estandar extends BT_Controller
         echo data_result($this->modelo->get($resultadosPorPagina,$pagina,$orden,$direccion),$this->modelo->count());
     }
     public function Insert(){
-        //$this->requerir_login_json();
-        $tupla = $this->input->post();
-        $tupla = $this->modelo->insert($tupla);
-        echo json_encode($tupla);
+        try {
+            //$this->requerir_login_json();
+            $tupla = $this->input->post();
+            $tupla = $this->modelo->insert($tupla);
+            echo json_encode($tupla);
+        }catch(Exception $ex){
+            http_response_code(500);
+            echo $ex;
+        }
 
     }
     public function delete(){

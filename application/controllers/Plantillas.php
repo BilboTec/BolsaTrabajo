@@ -28,11 +28,32 @@ class Plantillas extends CI_Controller
             ->view("/Plantillas/BilboTec/EditorTemplate/$vista",$_GET);
     }
 	public function select($controlador){
-		
-		$this->load->model("BT_Modelo_TipoTitulacion","tipo_titulacion");
-		$this->load->model("BT_Modelo_Departamento","departamentos");
-		$this->load->model("BT_Modelo_Provincia", "provincias");
-	 	$data["elementos"] = $this->$controlador->get();
+		$modelos = [
+			"tipo_titulacion"=>"BT_Modelo_TipoTitulacion",
+			"departamentos"=>"BT_Modelo_Departamento",
+			"provincias"=>"BT_Modelo_Provincia",
+			"roles"=>[
+				["id_rol"=>0,"nombre"=>"User"],
+				["id_rol"=>1,"nombre"=>"Manager"],
+				["id_rol"=>2,"nombre"=>"Admin"]
+			]
+		];
+		$modelo = $modelos[$controlador];
+		if(!is_array($modelo)){
+			$this->load->model($modelo,$controlador);
+			$modelo = $this->$controlador->get();
+		}else{
+			$resultado = [];
+			foreach ($modelo as $elemento){
+				$item = new stdClass();
+				foreach ($elemento as $key => $value){
+					$item->$key = $value;
+				}
+				array_push($resultado, $item);
+			}
+			$modelo = $resultado;
+		}
+	 	$data["elementos"] = $modelo;
 		$data["clave"] = $this->input->get("clave");
 		$data["texto"] =$this->input->get("texto");
 		$this->load

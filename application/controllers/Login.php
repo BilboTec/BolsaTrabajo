@@ -42,9 +42,7 @@ class Login extends BT_Controller{
 				$this->session->set_userdata("id", $usuario->get_id());
 				$this->session->set_userdata("tipo", $tipo);
 				redirect($url);
-			}
-			var_dump($usuario);
-			
+			}	
 		}
 		$data['idioma'] = function($clave){
 			return $this->lang->line($clave);

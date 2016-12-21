@@ -423,14 +423,15 @@ input:focus{
 	display: flex;
 	justify-content: space-between;
 }
-tfoot .btn{
-	padding:5px;
-}
 .marcador-pagina {
-	width: 2em;
+	width: 4em;
 }
 tbody tr:nth-child(2n){
 	background-color: white;
+}
+
+.btn-tabla {
+	padding: .6em 1em;
 }
 table .cargando {
 	display: none;

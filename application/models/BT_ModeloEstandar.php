@@ -16,6 +16,21 @@ abstract class BT_ModeloEstandar extends CI_Model
     public function count(){
         return $this->db->select("COUNT(*) cuantos")->get($this->tabla)->row()->cuantos;
     }
+    public function query(array $condiciones,$resultadosPorPagina=false,$pagina=false,$orden=false,$direccion="asc"){
+        if($resultadosPorPagina){
+            if($pagina){
+                $this->db->offset(($pagina-1)*$resultadosPorPagina);
+            }
+            $this->db->limit($resultadosPorPagina);
+        }
+        if($orden){
+            $this->db->order_by($orden,$direccion);
+        }
+        return $this->db->get_where($this->tabla,$condiciones)->result($this->clase);
+    }
+    public function count_where($condiciones){
+        return $this->db->select("COUNT(*) cuantos")->get_where($this->tabla,$condiciones)->row()->cuantos;
+    }
     public function get($resultadosPorPagina=false,$pagina=false,$orden=false,$direccion="asc"){
         if($resultadosPorPagina){
             if($pagina){

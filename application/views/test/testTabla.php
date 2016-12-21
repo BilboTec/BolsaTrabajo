@@ -45,6 +45,42 @@
                     }
                 }
             },
+            apellido:{
+                nombre:{
+                    spanish:"Primer Apellido",
+                    basque:"Lehen Abizena"
+                },
+                vistaTemplate:"/Plantillas/Editor/vistaEstandar",
+                editorTemplate:"/Plantillas/Editor/editorEstandar",
+                validar:function(nombre){
+                    return {
+                        valido:typeof nombre !== "undefined" && nombre.trim && nombre.trim() !== "",
+                        mensaje:"El campo nombre es obligatorio"
+                    }
+                }
+            },
+            apellido2:{
+                nombre:{
+                    spanish:"bigarren abizena",
+                    basque:"segundo apellido"
+                },
+                vistaTemplate:"/Plantillas/Editor/vistaEstandar",
+                editorTemplate:"/Plantillas/Editor/editorEstandar"
+            },
+            email:{
+                nombre:{
+                    spanish:"email",
+                    basque:"emaila"
+                },
+                vistaTemplate:"/Plantillas/Editor/vistaEstandar",
+                editorTemplate:"/Plantillas/Editor/editorEstandar",
+                validar:function(nombre){
+                    return {
+                        valido:typeof nombre !== "undefined" && nombre.trim && nombre.trim() !== "",
+                        mensaje:"El campo nombre es obligatorio"
+                    }
+                }
+            },
             id_departamento:{
                 vistaTemplate:"/Plantillas/Editor/vistaColeccion",
                 editorTemplate:"/Plantillas/Select/departamentos?clave=id_departamento&texto=nombre",
@@ -66,39 +102,33 @@
                     }
                 }
             },
-            id_tipo_titulacion:{
+            id_rol:{
                 vistaTemplate:"/Plantillas/Editor/vistaColeccion",
-                editorTemplate:"/Plantillas/Select/tipo_titulacion?clave=id_tipo_titulacion&texto=nombre",
+                editorTemplate:"/Plantillas/Select/roles?clave=id_rol&texto=nombre",
                 nombre:{
-                    spanish:"Tipo de Titulación",
-                    basque:"Titulazio mota"
+                    spanish:"Rol",
+                    basque:"Rola"
                 },
-                coleccion:[],
-                leer:{
-                    url:"/api/TipoTitulacion/Get",
-                    crearElemento:function(tipo){
-                        return {clave:tipo.id_tipo_titulacion,valor:tipo.nombre};
-                    }
-                },
-                validar:function(id_tipo){
-                    return {
-                        valido:typeof id_tipo !== "undefined" && id_tipo > 0,
-                        mensaje:"Por favor, seleccione un tipo de titulación"
+                coleccion:["User","Manager","Admin"],
+                validar:function(id_rol){
+                    return{
+                        valido:typeof id_rol !== "undefined" && id_rol > 0,
+                        mensaje:"Por favor, seleccione un rol"
                     }
                 }
             }
         },
             leer:{
-                url:"/api/OfertaFormativa/Get"
+                url:"/api/Profesores/Get"
             },
             insertar:{
-                url:"/api/OfertaFormativa/Insert"
+                url:"/api/Profesores/Insert"
             },
             actualizar:{
-                url:"/api/OfertaFormativa/Update"
+                url:"/api/Profesores/Update"
             },
             eliminar:{
-                url:"/api/OfertaFormativa/Delete"
+                url:"/api/Profesores/Delete"
             },
             paginacion:{
                 pageSizes:{

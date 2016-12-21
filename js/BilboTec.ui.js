@@ -41,6 +41,7 @@ angular.module("BilboTec.ui")
         link:function(scope,elem,attr){
             scope.editandoFila = -1;
             scope.editar = function(fila){
+                scope.mostrarInsertar = false;
                 scope.editandoFila = fila;
                 scope.edit = angular.copy(scope.filas[fila]);
             };
@@ -70,7 +71,7 @@ angular.module("BilboTec.ui")
                             headers: {'Content-Type': 'application/x-www-form-urlencoded'},
                             data: $.param(data)
                         }).then(function (respuesta) {
-                                scope.filas[scope.editandoFila] = respuesta.data[0];
+                                scope.filas[scope.editandoFila] = respuesta.data.length?respuesta.data[0]:respuesta.data;
                                 scope.editandoFila = -1;
                                 scope.edit = {};
                             scope.cargando = false;
@@ -187,12 +188,17 @@ angular.module("BilboTec.ui")
                         });
                     } else {
                         scope.filas.unshift(angular.copy(scope.edit));
+                        scope.editandoFila = -1;
+                        scope.edit = {};
                         scope.mostrarInsertar = false;
                         scope.cargando = false;
                     }
                 }
             };
             scope.eliminar = function(fila){
+                scope.mostrarInsertar = false;
+                scope.editandoFila = -1;
+                scope.edit = {};
                 var confirmar = confirm("¿Seguro que desea eliminar la fila?");
                 if(confirmar){
                     if(scope.configuracion.eliminar.url){
@@ -212,11 +218,16 @@ angular.module("BilboTec.ui")
                 }
             };
             scope.ordenar = function(columna){
+                $scope.mostrarInsertar = false;
+                scope.editandoFila = -1;
+                scope.edit = {};
                 scope.configuracion.direccion=scope.configuracion.orden===columna?!scope.configuracion.direccion:false;
                 scope.configuracion.orden = columna;
                 scope.leer();
             };
             scope.btSetConfig = function(configuracion){
+                scope.editandoFila = -1;
+                scope.edit = {};
             	scope.configuracion = configuracion;
             	scope.leerColecciones();
             	scope.leer();
