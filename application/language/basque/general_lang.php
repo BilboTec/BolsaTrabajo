@@ -38,3 +38,4 @@ $lang["eliminar"] = "ezabatu";
 $lang["filtro"] = "iragazkiak";
 $lang["filtrar"] = "iragazi";
 $lang["fecha"] = "data";
+$lang["nombre_o_clave_incorrectos"] = "pasahitza edo emaila ez da zuzena";

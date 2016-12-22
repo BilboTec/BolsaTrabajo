@@ -1,12 +1,51 @@
 angular.module("BilboTec.ui",[]);
 angular.module("BilboTec",["BilboTec.ui", "ngRoute"])
 .config(function($routeProvider){
+	var diccionarioDirecciones = {
+		"/Profesor/Ofertas":{
+			"/":{templateUrl:"/Profesor/BuscarOferta"},
+			"/id_oferta":{templateUrl:"/Profesor/DetalleOferta"}
+		},
+		"/Profesor":{
+			"/":{templateUrl:"/Profesor/BuscarOferta"},
+			"/id_oferta":{templateUrl:"/Profesor/DetalleOferta"}
+		}
+	};
+	var pathname = location.pathname;
+	direcciones = diccionarioDirecciones[pathname];
+	for(var ruta in direcciones){
+		$routeProvider.when(ruta,direcciones[ruta])
+	}
 	$routeProvider.when("/", {
-		templateUrl : function(a, b, c){return "/Profesor/BuscarOferta";}
+		templateUrl : function(){
+			return "/Profesor/BuscarOferta";
+		}
 	}).when("/:id_oferta", {
 		templateUrl : "/Profesor/DetalleOferta"
 	});
 })
+.controller("altaEmpresaController",["$http","$scope",function($http,$scope){
+	$scope.onPaisCambiado = function(){
+		$scope.hayProvincias = $scope.empresa.id_pais===$scope.id_es;
+	};
+	$scope.onProvinciaCambiada =function(){
+		$http({
+			url:"/api/Localidades/GetDeProvincia/"+$scope.empresa.id_provincia
+		}).then(function(respuesta){
+			$scope.localidades = respuesta.data;
+			$scope.hayLocalidades =true;
+		},function(error){
+			alert(error.data?error.data:error);
+		});
+	};
+	$scope.onSubmit = function($event){
+		var empresa = $scope.empresa;
+		if(!$scope.formAltaEmpresa.$valid || empresa.clave !== empresa.clave2){
+			$scope.formAltaEmpresa.$setSubmitted(true);
+			$event.preventDefault();
+		}
+	};
+}])
 .controller("formularioLoginController",["$scope","$http",function($scope,$http){
 	$scope.validarLogin = function($event){
 		$scope.formLogin.$setSubmitted(true);
@@ -54,7 +93,11 @@ angular.module("BilboTec",["BilboTec.ui", "ngRoute"])
 			columnas: {
 				nombre: {
 					vistaTemplate: "/Plantillas/Editor/vistaEstandar",
-					editorTemplate: "/Plantillas/Editor/editorEstandar"
+					editorTemplate: "/Plantillas/Editor/editorEstandar",
+					nombre: {
+						spanish:"nombre",
+						basque:"izena"
+					}
 				}
 			},
 			leer: {
@@ -114,7 +157,11 @@ angular.module("BilboTec",["BilboTec.ui", "ngRoute"])
 			columnas: {
 				nombre: {
 					vistaTemplate: "/Plantillas/Editor/vistaEstandar",
-					editorTemplate: "/Plantillas/Editor/editorEstandar"
+					editorTemplate: "/Plantillas/Editor/editorEstandar",
+					nombre: {
+						spanish:"nombre",
+						basque:"izena"
+					}
 				}
 			},
 			leer: {
@@ -141,7 +188,11 @@ angular.module("BilboTec",["BilboTec.ui", "ngRoute"])
 			columnas: {
 				nombre: {
 					vistaTemplate: "/Plantillas/Editor/vistaEstandar",
-					editorTemplate: "/Plantillas/Editor/editorEstandar"
+					editorTemplate: "/Plantillas/Editor/editorEstandar",
+					nombre: {
+						spanish:"nombre",
+						basque:"izena"
+					}
 				},
 				id_departamento:{
 	                vistaTemplate:"/Plantillas/Editor/vistaColeccion",
@@ -213,7 +264,11 @@ angular.module("BilboTec",["BilboTec.ui", "ngRoute"])
 			columnas: {
 				nombre: {
 					vistaTemplate: "/Plantillas/Editor/vistaEstandar",
-					editorTemplate: "/Plantillas/Editor/editorEstandar"
+					editorTemplate: "/Plantillas/Editor/editorEstandar",
+					nombre: {
+						spanish:"nombre",
+						basque:"izena"
+					}
 				}
 			},
 			leer: {
@@ -241,7 +296,11 @@ angular.module("BilboTec",["BilboTec.ui", "ngRoute"])
 			columnas: {
 				nombre: {
 					vistaTemplate: "/Plantillas/Editor/vistaEstandar",
-					editorTemplate: "/Plantillas/Editor/editorEstandar"
+					editorTemplate: "/Plantillas/Editor/editorEstandar",
+					nombre: {
+						spanish:"nombre",
+						basque:"izena"
+					}
 				}
 			},
 			leer: {
@@ -269,7 +328,11 @@ angular.module("BilboTec",["BilboTec.ui", "ngRoute"])
 			columnas: {
 				nombre: {
 					vistaTemplate: "/Plantillas/Editor/vistaEstandar",
-					editorTemplate: "/Plantillas/Editor/editorEstandar"
+					editorTemplate: "/Plantillas/Editor/editorEstandar",
+					nombre: {
+						spanish:"nombre",
+						basque:"izena"
+					}
 				},
 				
 				id_provincia: {
@@ -317,15 +380,27 @@ angular.module("BilboTec",["BilboTec.ui", "ngRoute"])
 			columnas: {
 				nombre: {
 					vistaTemplate: "/Plantillas/Editor/vistaEstandar",
-					editorTemplate: "/Plantillas/Editor/editorEstandar"
+					editorTemplate: "/Plantillas/Editor/editorEstandar",
+					nombre: {
+						spanish:"nombre",
+						basque:"izena"
+					}
 				},
 				apellido: {
 					vistaTemplate: "/Plantillas/Editor/vistaEstandar",
-					editorTemplate: "/Plantillas/Editor/editorEstandar"
+					editorTemplate: "/Plantillas/Editor/editorEstandar",
+					nombre: {
+						spanish:"primer apellido",
+						basque:"lehen abizena"
+					}
 				},
 				apellido2: {
 					vistaTemplate: "/Plantillas/Editor/vistaEstandar",
-					editorTemplate: "/Plantillas/Editor/editorEstandar"
+					editorTemplate: "/Plantillas/Editor/editorEstandar",
+					nombre: {
+						spanish:"segundo apellido",
+						basque:"bigarren abizena"
+					}
 				},
 				id_departamento: {
 					vistaTemplate: "/Plantillas/Editor/vistaColeccion",
@@ -376,5 +451,5 @@ angular.module("BilboTec",["BilboTec.ui", "ngRoute"])
 		
 			
 	};
-	
+
 });

@@ -1,6 +1,6 @@
 <?php
-
-class _Empresa{
+require_once "Entidad.php";
+class _Empresa extends Entidad{
     public $id_empresa, $id_email, $cif, $sector,
         $nombre, $clave, $id_localidad, $id_pais;
 	public function get_id(){

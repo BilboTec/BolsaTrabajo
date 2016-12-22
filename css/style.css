@@ -118,7 +118,8 @@ input[type="submit"]:hover{
 	width: 200px;
 	z-index: 100000;
 	background: $(--v-claro);
-	left:109%;
+	left: 100%;
+    margin-left: 1em;
 	bottom:0;
 	padding: .5em;
 	font-size: 12px;
@@ -276,7 +277,7 @@ header{
 }
 
 /* ADMIN */
-.contenedor-admin{
+.contenedor-admin, .contenedor-ofertas,.contenedor{
 	padding: 30px 5px 5px 10px;
 	background-color: white;
 	border: 1px solid $(--g-oscuro);
@@ -315,20 +316,31 @@ header{
 
 .contenedor-ofertas{
 	display: flex;
-	
+	align-items: stretch;
+	flex-wrap: nowrap;	
 }
 
 .contenedor-ofertas aside{
 	flex: 1;
-	height: 100%;
 	padding-bottom: 2em;
 }
 
 .contenedor-ofertas section{
 	flex: 3;
 }
-
-
+/*ALTA EMPRESA*/
+.contenedor-alta-empresa{
+	flex-direction: row !important;
+	flex-wrap: wrap;
+}
+.grupo-form-flex{
+	display: flex;
+	position: relative;
+	flex-direction: column
+}
+.grupo-form-flex>.grupo-form-flex{
+	
+}
 /*FOOTER*/
 footer{
 	background-color: $(--g-oscuro);

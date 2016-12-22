@@ -37,12 +37,13 @@ class Login extends BT_Controller{
 					break;
 
 			}
-			
 			if($usuario !==null && $usuario->verificar_clave($clave)){
 				$this->session->set_userdata("id", $usuario->get_id());
 				$this->session->set_userdata("tipo", $tipo);
 				redirect($url);
-			}	
+			}else{
+				$data["email_o_clave_incorrectos"] = true;
+			}
 		}
 		$data['idioma'] = function($clave){
 			return $this->lang->line($clave);

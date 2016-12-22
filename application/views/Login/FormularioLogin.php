@@ -12,6 +12,7 @@
 		<fieldset>
 			<legend><?php echo strtoupper($idioma('iniciar_sesion')); ?></legend>
 			<div class="login-contenedor">
+				<?=(isset($email_o_clave_incorrectos)?$idioma("nombre_o_clave_incorrectos"):"")?>
 				<div class="grupo-form">
 				<input type="hidden" name="tipo" value="{{tipo}}" />
 					<div bt-input-label bt-id="email" ng-required="true" name="email" type="email" bt-label="'<?php echo ucfirst($idioma('email')); ?>'" bt-model="email"></div>

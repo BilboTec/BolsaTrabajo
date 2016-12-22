@@ -26,7 +26,7 @@ abstract class BT_ModeloEstandar extends CI_Model
         if($orden){
             $this->db->order_by($orden,$direccion);
         }
-        return $this->db->get_where($this->tabla,$condiciones)->result($this->clase);
+        return $this->db->get_where($this->tabla,$condiciones)->custom_result_object($this->clase);
     }
     public function count_where($condiciones){
         return $this->db->select("COUNT(*) cuantos")->get_where($this->tabla,$condiciones)->row()->cuantos;
@@ -41,12 +41,12 @@ abstract class BT_ModeloEstandar extends CI_Model
         if($orden){
             $this->db->order_by($orden,$direccion);
         }
-        return $this->db->get($this->tabla)->result($this->clase);
+        return $this->db->get($this->tabla)->custom_result_object($this->clase);
     }
     public function insert($tupla){
         $this->db->insert($this->tabla,$tupla);
         $id = $this->db->insert_id();
-        return $this->db->get_where($this->tabla,[$this->clave=>$id])->result($this->clase);
+        return $this->db->get_where($this->tabla,[$this->clave=>$id])->custom_result_object($this->clase);
     }
     public function delete($id){
         $this->db->delete($this->tabla,[$this->clave=>$id]);
@@ -54,6 +54,6 @@ abstract class BT_ModeloEstandar extends CI_Model
     }
 	public function update($viejo,$nuevo){
 		$this->db->update($this->tabla,$nuevo,[$this->clave=>$viejo[$this->clave]]);
-		return $this->db->get_where($this->tabla,[$this->clave=>$viejo[$this->clave]])->result($this->clase);
+		return $this->db->get_where($this->tabla,[$this->clave=>$viejo[$this->clave]])->custom_result_object($this->clase);
 	}
 }

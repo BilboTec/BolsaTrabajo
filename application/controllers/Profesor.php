@@ -29,11 +29,17 @@
 	}
 	
 	public function buscarOferta(){
-		$this->load->view("/Profesor/buscarOferta");
+		$data['idioma'] = function($clave){
+			return $this->lang->line($clave);
+		};
+		$this->load->view("/Profesor/buscarOferta",$data);
 	}
 	
 	public function detalleOferta(){
-		$this->load->view("/Profesor/detalleOferta");
+		$data['idioma'] = function($clave){
+			return $this->lang->line($clave);
+		};
+		$this->load->view("/Profesor/detalleOferta",$data);
 	}
 	
 	public function administrador(){

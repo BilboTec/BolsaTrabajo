@@ -38,3 +38,4 @@ $lang["eliminar"] = "eliminar";
 $lang["filtro"] = "filtro";
 $lang["filtrar"] = "filtrar";
 $lang["fecha"] = "fecha";
+$lang["email_o_clave_incorrectos"] = "email o contraseña incorrectos";
