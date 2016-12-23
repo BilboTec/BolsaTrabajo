@@ -11,5 +11,6 @@
 					}
 				}
 		}
-
-?>
+		interface iEntidadConId {
+			public function get_id();
+		}

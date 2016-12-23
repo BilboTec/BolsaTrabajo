@@ -1,7 +1,7 @@
 <?php
 require_once "Entidad.php";
 require_once "BT_ModeloVista.php";
-class _Empresa extends Entidad{
+class _Empresa extends Entidad implements iEntidadConId {
     public $id_empresa, $id_email, $cif, $sector,
         $nombre, $clave, $id_localidad, $id_pais;
 	public function get_id(){

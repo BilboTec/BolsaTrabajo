@@ -39,3 +39,4 @@ $lang["filtro"] = "filtro";
 $lang["filtrar"] = "filtrar";
 $lang["fecha"] = "fecha";
 $lang["email_o_clave_incorrectos"] = "email o contraseña incorrectos";
+$lang["identificador_alta_incorrecto"] = "identificador de alta caducado o incorrecto, por favor rellene el siguiente formulario y utlice el vínculo enviado a su correo para volver a intentarlo";

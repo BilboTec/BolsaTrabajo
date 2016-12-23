@@ -1,9 +1,10 @@
 
 <form action="/SignUp/AltaEmpresa" method="post" ng-controller="altaEmpresaController" ng-init="empresa={<?php 
 	echo "email:'".$email."',id_pais:'".$es->id_pais."'};id_es='".$es->id_pais;
-?>'" novalidate ng-submit="onSubmit($evt)" name="formAltaEmpresa">
+?>'" novalidate ng-submit="onSubmit($event)" name="formAltaEmpresa">
 	<fieldset class="contenedor contenedor-alta-empresa" >
 		<legend>ALTA EMPRESA</legend>
+		<input type="hidden" name="identificador" value="{{identificador}}">
 		<div class="grupo-form-flex">
 			<div class="grupo-form-flex">
 				<label for="cif">CIF</label>
