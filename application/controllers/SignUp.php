@@ -9,9 +9,9 @@ class SignUp extends BT_Controller{
 		$data['idioma'] = function($clave){
 			return $this->lang->line($clave);
 		};
-
-			$empresa = $this->input->post("empresa");
-			var_dump($this->input->post);
+			$empresa = new _Empresa();
+			$empresa->fromPost($this);
+			var_dump($empresa);
 			die(json_encode($this->input->post()));
 		$this->form_validation->set_rules([
 				["field"=>"empresa.email","label"=>ucfirst($this->lang->line("email")),"rules"=>"required|valid_email"],
@@ -80,7 +80,8 @@ class SignUp extends BT_Controller{
 		}else{
 			$identificador = explode("#",base64_decode($identificador));
 			$identificador_alta = $this->identificadores->query(["id_identificador"=>$identificador[0],
-			"identificador"=>$identificador[1]])[0];
+			"identificador"=>$identificador[1]]);
+			$identificador_alta = count($identificador_alta)>0?$identificador_alta[0]:null;
 			if($identificador_alta!==null){
 				$this->load->model("BT_Modelo_Pais","paises");
 				$this->load->model("BT_Modelo_Provincia","provincias");

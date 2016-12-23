@@ -1,11 +1,12 @@
 <?php  
 		abstract class Entidad{
-				public static function fromPost($controlador){
-					$propiedades = get_object_vars($this);
-					foreach($propiedades as $nombre => $valor){
+				public  function fromPost($controlador){
+					$propiedades = (new ReflectionObject($this))->getProperties(ReflectionProperty::IS_PUBLIC);
+					foreach($propiedades as $propiedad){
+						$nombre = $propiedad->name;
 						$val = $controlador->input->post($nombre);
 						if($val !== null){
-							$this->$valor = $val;
+							$this->$nombre = $val;
 						}
 					}
 				}
