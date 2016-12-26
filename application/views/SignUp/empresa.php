@@ -2,9 +2,10 @@
 	<fieldset>
 			<legend><?php echo strtoupper($idioma('iniciar_sesion')); ?></legend>
 			<div class="login-contenedor">
+					{{ lang["nombre"] || "No se encuentra"}}
 				<div class="grupo-form">
 				<input type="hidden" name="tipo" value="{{tipo}}" />
-					<div bt-input-label bt-id="nombre" ng-required="true" name="nombre" type="text" bt-label="'<?php echo ucfirst($idioma('nombre')); ?>'" bt-model="nombre"></div>
+					<div bt-input-label bt-id="nombre" ng-required="true" name="nombre" type="text" bt-label="lang['nombre']" bt-model="nombre"></div>
 					<?php echo form_error("nombre",'<div class="error-validacion" ng-hide="formLogin.nombre.$valid">',"</div>"); ?>
 					<div class="error-validacion" ng-show="(formLogin.$submitted || formLogin.nombre.$touched) && formLogin.nombre.$error.required"><?php printf($idioma("required"),$idioma("nombre")); ?></div>
 				</div>

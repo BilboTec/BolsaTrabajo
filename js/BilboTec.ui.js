@@ -40,6 +40,17 @@ angular.module("BilboTec.ui")
         templateUrl:"/Plantillas/Get/btTabla",
         link:function(scope,elem,attr){
             scope.editandoFila = -1;
+            function mostrar_error(mensaje) {
+                scope.btWindow.establecerTitulo("Error");
+                scope.btWindow.establecerContenido(mensaje);
+                scope.btWindow.establecerBotones({
+                    "Aceptar":function(){
+                        scope.btWindow.cerrar();
+                    }
+                });
+                scope.btWindow.abrir();
+                scope.btWindow.centrar();
+            }
             scope.editar = function(fila){
                 scope.mostrarInsertar = false;
                 scope.editandoFila = fila;
@@ -114,7 +125,7 @@ angular.module("BilboTec.ui")
                         scope.configuracion.paginacion.total =  Math.ceil(respuesta.data.total / scope.configuracion.paginacion.pageSizes.seleccionado.valor);
                         scope.cargando = false;
                     },function(error){
-                        alert(error.data?error.data:JSON.stringify(error));
+                        mostrar_error(error.data?error.data:JSON.stringify(error));
                         scope.cargando = false;
                     });
                 }
@@ -176,7 +187,21 @@ angular.module("BilboTec.ui")
                             data: $.param(scope.edit),
                             headers: {'Content-Type': 'application/x-www-form-urlencoded'}
                         }).then(function (respuesta) {
-                            scope.filas.unshift(respuesta.data[0]);
+                            var nuevo;
+                            if(respuesta.data){
+                                if(angular.isArray(respuesta.data)){
+                                    nuevo = respuesta.data[0];
+                                }else{
+                                    nuevo = respuesta.data;
+                                }  
+                            }else{
+                                if(angular.isArray(respuesta)){
+                                    nuevo = respuesta[0];
+                                }else{
+                                    nuevo = respuesta;
+                                }
+                            }
+                            scope.filas.unshift(nuevo);
                             scope.edit = {};
                             scope.editandoFila = -1;
                             scope.mostrarInsertar = false;
@@ -195,30 +220,39 @@ angular.module("BilboTec.ui")
                     }
                 }
             };
-            scope.eliminar = function(fila){
+            scope.eliminar = function(fila){             
                 scope.mostrarInsertar = false;
                 scope.editandoFila = -1;
                 scope.edit = {};
-                var confirmar = confirm("¿Seguro que desea eliminar la fila?");
-                if(confirmar){
-                    if(scope.configuracion.eliminar.url){
-                        $http({
-                            url:scope.configuracion.eliminar.url,
-                            method:scope.configuracion.eliminar.type||"POST",
-                            data:$.param({elem:scope.filas[fila]}),
-                            headers: {'Content-Type': 'application/x-www-form-urlencoded'}
-                        }).then(function(respuesta){
+                scope.btWindow.establecerTitulo("Confirmar Eliminar");
+                scope.btWindow.establecerContenido("¿Seguro que desea eliminar la linea?");
+                scope.btWindow.establecerBotones({
+                    "Si":function(){
+                         if(scope.configuracion.eliminar.url){
+                            $http({
+                                url:scope.configuracion.eliminar.url,
+                                method:scope.configuracion.eliminar.type||"POST",
+                                data:$.param({elem:scope.filas[fila]}),
+                                headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+                            }).then(function(respuesta){
+                                scope.filas.splice(fila,1);
+                            },function(error){
+                                mostrar_error(error.data?error.data:JSON.stringify(error));
+                            });
+                        }else{
                             scope.filas.splice(fila,1);
-                        },function(error){
-                            alert(error.data?error.data:JSON.stringify(error));
-                        });
-                    }else{
-                        scope.filas.splice(fila,1);
+                        }
+                        scope.btWindow.cerrar();
+                    },
+                    "No":function(){
+                        scope.btWindow.cerrar();
                     }
-                }
+                });
+                scope.btWindow.abrir();
+                scope.btWindow.centrar();
             };
             scope.ordenar = function(columna){
-                $scope.mostrarInsertar = false;
+                scope.mostrarInsertar = false;
                 scope.editandoFila = -1;
                 scope.edit = {};
                 scope.configuracion.direccion=scope.configuracion.orden===columna?!scope.configuracion.direccion:false;
@@ -229,9 +263,13 @@ angular.module("BilboTec.ui")
                 scope.editandoFila = -1;
                 scope.edit = {};
             	scope.configuracion = configuracion;
+                scope.configuracion.orden = Object.keys(scope.configuracion.columnas)[0];
+                scope.configuracion.direccion = true;
             	scope.leerColecciones();
             	scope.leer();
             };
+
+                
             scope.leerColecciones();
             if(scope.configuracion && scope.configuracion.leer){
                 scope.leer();
@@ -315,4 +353,71 @@ angular.module("BilboTec.ui")
 
             }
         };
+    }])
+    .directive("btWindow",["$window",function($window){
+        return {
+            restrict: "A",
+            scope:{
+                btWindow:"="
+            },
+            templateUrl:"/Plantillas/Get/btWindow",
+            link:function(scope,el,atributo){
+                var elemento = el.find(".bt-window");
+                scope.visible = false;
+                scope.movible = true;
+                scope.titulo = "";
+                scope.contenidoTexto = "";
+                scope.contenidoUrl = "#";
+                elemento.on("mousedown",".bt-window-titulo",function(evt){
+                    if(scope.movible){
+                        var offset = elemento.offset();
+                        var raton = {X:evt.clientX-offset.left,Y:evt.clientY-offset.top};
+                        var mover = function(evt){
+                            var left = evt.clientX - raton.X;
+                            var top = evt.clientY - raton.Y;
+                            elemento.css("left",left+"px");
+                            elemento.css("top",top+"px");
+                        };
+                        var wnd = angular.element($window);
+                        wnd.on("mousemove",mover);
+                        wnd.one("mouseup",function(){
+                            wnd.off("mousemove",mover);
+                        });
+                    }
+                });
+                scope.setMovible = function(movible){
+                    scope.movible = movible;
+                };
+                scope.abrir = function(){
+                    scope.visible = true;
+                };
+                scope.establecerContenido = function(contenido){
+                    scope.contenido = contenido;
+                    scope.url = false;
+                };
+                scope.cerrar = function(){
+                    scope.visible = false;
+                };
+                scope.centrar = function(){
+                    elemento.css({
+                        "left":$window.innerWidth/2-elemento.width()/2,
+                        "top":$window.innerHeight/2-elemento.height()/2
+                    });
+                };
+                scope.establecerTitulo = function(titulo){
+                    scope.titulo = titulo;
+                };
+                scope.establecerBotones = function(botones){
+                    scope.botones = botones;
+                }
+                scope.btWindow = {
+                    abrir:scope.abrir,
+                    cerrar:scope.cerrar,
+                    centrar:scope.centrar,
+                    establecerContenido:scope.establecerContenido,
+                    establecerTitulo:scope.establecerTitulo,
+                    establecerBotones:scope.establecerBotones
+                };
+            }
+        }
     }]);

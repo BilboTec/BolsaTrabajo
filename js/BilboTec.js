@@ -1,4 +1,4 @@
-angular.module("BilboTec.ui",[]);
+angular.module("BilboTec.ui",["ngAnimate"]);
 angular.module("BilboTec",["BilboTec.ui", "ngRoute"])
 .config(function($routeProvider){
 	var diccionarioDirecciones = {
@@ -378,54 +378,105 @@ angular.module("BilboTec",["BilboTec.ui", "ngRoute"])
 		
 		profesores:{
 			columnas: {
-				nombre: {
-					vistaTemplate: "/Plantillas/Editor/vistaEstandar",
-					editorTemplate: "/Plantillas/Editor/editorEstandar",
-					nombre: {
-						spanish:"nombre",
-						basque:"izena"
-					}
-				},
-				apellido: {
-					vistaTemplate: "/Plantillas/Editor/vistaEstandar",
-					editorTemplate: "/Plantillas/Editor/editorEstandar",
-					nombre: {
-						spanish:"primer apellido",
-						basque:"lehen abizena"
-					}
-				},
-				apellido2: {
-					vistaTemplate: "/Plantillas/Editor/vistaEstandar",
-					editorTemplate: "/Plantillas/Editor/editorEstandar",
-					nombre: {
-						spanish:"segundo apellido",
-						basque:"bigarren abizena"
-					}
-				},
-				id_departamento: {
-					vistaTemplate: "/Plantillas/Editor/vistaColeccion",
-					editorTemplate: "/Plantillas/Select/departamentos?clave=id_departamento&texto=nombre",
-					coleccion: [],
-					leer: {
-						url: "/api/Departamentos/Get",
-						crearElemento: function(departamento){
-							return { clave:departamento.id_departamento, valor:departamento.nombre};
-						}
-					},
-					
-					nombre: {
-						spanish: "Departamento",
-						basque: "Departamentua"
-					}
-					
-
-				},
-				id_rol: {
-					vistaTemplate: "/Plantillas/Editor/vistaEstandar",
-					editorTemplate: "/Plantillas/Editor/editorEstandar"
-				}
-				
-			},
+            nombre:{
+                nombre:{
+                    spanish:"nombre",
+                    basque:"izena"
+                },
+                vistaTemplate:"/Plantillas/Editor/vistaEstandar",
+                editorTemplate:"/Plantillas/Editor/editorEstandar",
+                validar:function(nombre){
+                    return {
+                        valido:typeof nombre !== "undefined" && nombre.trim && nombre.trim() !== "",
+                        mensaje:"El campo nombre es obligatorio"
+                    }
+                }
+            },
+            apellido:{
+                nombre:{
+                    spanish:"Primer Apellido",
+                    basque:"Lehen Abizena"
+                },
+                vistaTemplate:"/Plantillas/Editor/vistaEstandar",
+                editorTemplate:"/Plantillas/Editor/editorEstandar",
+                validar:function(nombre){
+                    return {
+                        valido:typeof nombre !== "undefined" && nombre.trim && nombre.trim() !== "",
+                        mensaje:"El campo nombre es obligatorio"
+                    }
+                }
+            },
+            apellido2:{
+                nombre:{
+                    spanish:"bigarren abizena",
+                    basque:"segundo apellido"
+                },
+                vistaTemplate:"/Plantillas/Editor/vistaEstandar",
+                editorTemplate:"/Plantillas/Editor/editorEstandar"
+            },
+            email:{
+                nombre:{
+                    spanish:"email",
+                    basque:"emaila"
+                },
+                vistaTemplate:"/Plantillas/Editor/vistaEstandar",
+                editorTemplate:"/Plantillas/Editor/editorEstandar",
+                validar:function(nombre){
+                    return {
+                        valido:typeof nombre !== "undefined" && nombre.trim && nombre.trim() !== "",
+                        mensaje:"El campo nombre es obligatorio"
+                    }
+                }
+            },
+            id_departamento:{
+                vistaTemplate:"/Plantillas/Editor/vistaColeccion",
+                editorTemplate:"/Plantillas/Select/departamentos?clave=id_departamento&texto=nombre",
+                nombre:{
+                    spanish:"Departamento",
+                    basque:"Departamentua"
+                },
+                coleccion:[],
+                leer:{
+                    url:"/api/Departamentos/Get",
+                    crearElemento:function(depart) {
+                        return {clave: depart.id_departamento, valor: depart.nombre};
+                    }
+                },
+                validar:function(id_departamento){
+                    return{
+                        valido:typeof id_departamento !== "undefined" && id_departamento > 0,
+                        mensaje:"Por favor, seleccione un departamento"
+                    }
+                }
+            },
+            id_rol:{
+                vistaTemplate:"/Plantillas/Editor/vistaColeccion",
+                editorTemplate:"/Plantillas/Select/roles?clave=id_rol&texto=nombre",
+                nombre:{
+                    spanish:"Rol",
+                    basque:"Rola"
+                },
+                coleccion:["User","Manager","Admin"],
+                validar:function(id_rol){
+                    return{
+                        valido:typeof id_rol !== "undefined" && id_rol > 0,
+                        mensaje:"Por favor, seleccione un rol"
+                    }
+                }
+            }
+        },
+            leer:{
+                url:"/api/Profesores/Get"
+            },
+            insertar:{
+                url:"/api/Profesores/Insert"
+            },
+            actualizar:{
+                url:"/api/Profesores/Update"
+            },
+            eliminar:{
+                url:"/api/Profesores/Delete"
+            },
 			leer: {
 				url: "/api/Profesores/Get"
 			},

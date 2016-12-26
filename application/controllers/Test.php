@@ -15,5 +15,12 @@ class Test extends CI_Controller
         $this->load->view("test/testListaDesplegable");
         $this->load->view("plantillas/footer");
     }
+    public function Ventana(){
+
+        $data["idioma"] = function(){};
+        $this->load->view("plantillas/header",$data);
+        $this->load->view("test/testVentana");
+        $this->load->view("plantillas/footer");
+    }
 
 }

@@ -438,14 +438,14 @@ input:focus{
 .marcador-pagina {
 	width: 4em;
 }
-tbody tr:nth-child(2n){
+[bt-tabla]  tbody tr:nth-child(2n){
 	background-color: white;
 }
 
 .btn-tabla {
 	padding: .6em 1em;
 }
-table .cargando {
+[bt-tabla]  .cargando {
 	display: none;
 	position: absolute;
 	width: 100%;
@@ -457,8 +457,69 @@ table .cargando {
 	display: block;
 }
 
-thead th:not(:last-child){
+[bt-tabla] thead th:not(:last-child){
 	background-color: $(--v-oscuro);
+}
+
+.animation-move.ng-enter {
+  transition:.4s linear all;
+  opacity:0;
+  transform: translateY(-1em) scaleY(0);
+}
+.animation-move.ng-enter.ng-enter-active {
+  opacity:1;
+  transform: translateY(0) scaleY(1);
+}
+
+[bt-tabla] th .orden::before {
+    content: " ";
+    border: 5px solid transparent;
+    border-top: 5px solid black;
+    display: inline-block;
+}
+[bt-tabla]  th .orden.asc::before {
+    border: 5px solid transparent;
+    border-bottom: 5px solid black;
+}
+/*************************************
+********BT-WINDOW*********************
+**************************************/
+.bt-window {
+    position: absolute;
+    background: white;
+    border: $(--g-oscuro) 1px solid;
+}
+.bt-window-wrapper{
+	position:fixed;
+	top:0;
+	left:0;
+	width: 100%;
+	height: 100%;
+	background-color:rgba(0,0,0,.7);
+	top: 0;
+	left:0;
+    z-index: 100000000;
+}
+.bt-window-titulo{
+	background-color: $(--v-oscuro);
+	color: white;
+	font-weight: bold;
+	user-select:none;
+	padding: .2em;
+	z-index: 100000100;
+}
+.bt-window-titulo:hover{
+	cursor:default;
+}
+.bt-window-btn-container{
+	display: flex;
+	justify-content: center;
+	padding: .5em;
+	z-index: 100000100;
+}
+.bt-window-texto, .bt-window-url{
+	padding: 1em;
+	z-index: 100000100;
 }
 /*************************************
 ********PROFESOR****************

@@ -75,9 +75,10 @@ abstract class BT_ModeloVista extends BT_ModeloEstandar{
         return $elemento;
     }
     public function delete($id){
+        $this->db->trans_start();
         $elemento = $this->get_by_id($id);
+        $resultado =  parent::delete($id);   
         $this->db->where(["id_email"=>$elemento->id_email])->delete("email");
-        $resultado =  parent::delete($id);
         $this->db->trans_complete();
         return $resultado;
     }

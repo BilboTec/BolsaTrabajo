@@ -36,12 +36,16 @@ class BT_Controlador_api_estandar extends BT_Controller
     }
     public function delete(){
         //$this->requerir_login_json();
-        $elem = $this->input->post("elem");
-		if($this->modelo->delete($elem[$this->id])){
-			echo "Ok";
-		}else{
-			set_status_header(405);
-		}
+        try{
+                $elem = $this->input->post("elem");
+        		if($this->modelo->delete($elem[$this->id])){
+        			echo "Ok";
+        		}else{
+        			set_status_header(405);
+        		}
+            }catch(Exception $ex){
+                echo $ex->getMessage();
+            }
     }
 	public function update(){
 		//$this->requerir_login_json();

@@ -1,3 +1,4 @@
+<div bt-window="btWindow"></div>
 <table ng-init="lang='<?php echo (isset($lang)?$lang:"spanish"); ?>'">
     <thead>
         <tr>
@@ -9,20 +10,20 @@
         <tr>
             <th ng-repeat="(columna, config) in configuracion.columnas"
                 ng-click="ordenar(columna)">
-                <span  ng-class='configuracion.orden==columna?"orden":"";configuracion.orden.direccion?"asc":"desc"'>
-                    {{ (config.nombre[lang||"spanish"] || columna) | uppercase  }}</span><span class="error-validacion">{{ config.error }}</span> </th>
+                <span  ng-class='{orden: configuracion.orden==columna, asc:configuracion.direccion==true}'>
+                    {{ (config.nombre[lang||"spanish"] || columna) | uppercase  }} </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-        <tr ng-show="mostrarInsertar">
+        <tr ng-show="mostrarInsertar" class="animation-move">
             <td ng-repeat="(columna,config) in configuracion.columnas"
                 ng-include="mostrarInsertar?config.editorTemplate:config.vistaTemplate">
             </td>
-            <td><button class="btn btn-tabla btn-aplicar" ng-click="aplicarInsertar()"><?php echo $idioma("actualizar"); ?></button>
-                <button class="btn btn-tabla btn-cancelar" ng-click="cancelarInsertar()"><?php echo $idioma("cancelar"); ?></button></td>
+            <td><button title="<?php echo ucfirst($idioma("actualizar")); ?>" class="btn btn-tabla btn-aplicar" ng-click="aplicarInsertar()"></button>
+                <button title="<?php echo ucfirst($idioma("cancelar")); ?>" class="btn btn-tabla btn-cancelar" ng-click="cancelarInsertar()"></button></td>
         </tr>
-        <tr ng-repeat="fila in filas">
+        <tr ng-repeat="fila in filas" class="animation-move">
             <td ng-repeat="(columna,config) in configuracion.columnas"
                 ng-include="editandoFila==$parent.$index?config.editorTemplate:config.vistaTemplate">
             </td>

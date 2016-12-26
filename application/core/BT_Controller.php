@@ -20,6 +20,7 @@ class BT_Controller extends CI_Controller{
 		$this->load->model("BT_Modelo_Alumno", "alumnos");
 		$this->load->model("BT_Modelo_Empresa", "empresas");
 		$this->load->helper("url");
+		$this->load->helper("BT_ui_helper");
 		$this->load->library("session");
 		$this->load->helper("cookie");
 		$this->idioma = get_cookie("idioma");

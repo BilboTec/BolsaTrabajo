@@ -1,12 +1,13 @@
 <?php 
 class SignUp extends BT_Controller{
-	protected $idioma = function($clave){
-		return $this->lang->line($clave);
-	}
+	protected $idioma;
 	public function __construct(){
 		parent::__construct();
 		$this->load->library('form_validation');
 		$this->load->model("BT_Modelo_IdentificadorAlta","identificadores");
+		$this->idioma =function ($clave){
+				return $this->lang->line($clave);
+			};
 	}
 	public function Empresa(){
 		$data["idioma"] = $this->idioma;
@@ -41,7 +42,7 @@ class SignUp extends BT_Controller{
 			if($identificador_alta!==null){
 				$this->form_validation->set_rules([
 					[
-						"field"=>"cif"
+						"field"=>"cif",
 						"rules"=>"trim|callback_comprobar_cif"
 					]
 				]);
