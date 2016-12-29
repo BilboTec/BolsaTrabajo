@@ -8,7 +8,7 @@
 		</div>
 		<div class="bt-window-url" ng-show="url" ng-inclide="url"></div>
 		<div class="bt-window-btn-container">
-			<button ng-repeat="(texto, accion) in botones" ng-click="accion()">{{texto}}</button>
+			<button ng-repeat="boton in botones" ng-click="boton.accion()">{{boton.texto | btLocalize | capitalize}}</button>
 		</div>
 	</div>
 </div>

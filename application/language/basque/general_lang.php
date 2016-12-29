@@ -40,3 +40,6 @@ $lang["filtrar"] = "iragazi";
 $lang["fecha"] = "data";
 $lang["nombre_o_clave_incorrectos"] = "pasahitza edo emaila ez da zuzena";
 $lang["identificador_alta_incorrecto"] = "alta identifikatzailea iranguia izan da edo ez da egokia, mesedez, hurrengo formularioa bete eta bidaliriko esteka erabiliz saiatu berriro";
+$lang["si"] = "bai";
+$lang["no"] = "ez";
+$lang["aceptar"] = "onartu";

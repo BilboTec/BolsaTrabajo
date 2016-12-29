@@ -5,10 +5,10 @@
 	<script src="/js/jquery-3.1.1.min.js"></script>
 	<script src="/js/angular.min.js"></script>
 	<script src="/js/angular-animate.js"></script>
-	<script src="/api/Localize"></script>
 	<script src="/js/angular-route.js"></script>
 	<script src="/js/BilboTec.js"></script>
 	<script src="/js/BilboTec.ui.js"></script>
+	<script src="/api/Localize"></script>
 	<?php echo csscrush_tag("/css/style.css"); ?>
 	<!--<link rel="stylesheet" href="/css/style.css"/>-->
 	<title><?php echo (isset($title)?$title:"Bolsa de Trabajo"); ?></title>

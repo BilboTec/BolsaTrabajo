@@ -1,4 +1,9 @@
 angular.module("BilboTec.ui")
+.filter("capitalize",function(){
+    return function(string){
+        return string.substr(0,1).toUpperCase() + string.substr(1);
+    }
+})
 .directive("btInputLabel",function(){
     return{
         restrict: "A",
@@ -43,11 +48,12 @@ angular.module("BilboTec.ui")
             function mostrar_error(mensaje) {
                 scope.btWindow.establecerTitulo("Error");
                 scope.btWindow.establecerContenido(mensaje);
-                scope.btWindow.establecerBotones({
-                    "Aceptar":function(){
+                scope.btWindow.establecerBotones([{
+                    accion:function(){
                         scope.btWindow.cerrar();
-                    }
-                });
+                    },
+                    texto:"aceptar"
+                }]);
                 scope.btWindow.abrir();
                 scope.btWindow.centrar();
             }
@@ -226,28 +232,33 @@ angular.module("BilboTec.ui")
                 scope.edit = {};
                 scope.btWindow.establecerTitulo("Confirmar Eliminar");
                 scope.btWindow.establecerContenido("¿Seguro que desea eliminar la linea?");
-                scope.btWindow.establecerBotones({
-                    "Si":function(){
-                         if(scope.configuracion.eliminar.url){
-                            $http({
-                                url:scope.configuracion.eliminar.url,
-                                method:scope.configuracion.eliminar.type||"POST",
-                                data:$.param({elem:scope.filas[fila]}),
-                                headers: {'Content-Type': 'application/x-www-form-urlencoded'}
-                            }).then(function(respuesta){
-                                scope.filas.splice(fila,1);
-                            },function(error){
-                                mostrar_error(error.data?error.data:JSON.stringify(error));
-                            });
-                        }else{
-                            scope.filas.splice(fila,1);
-                        }
-                        scope.btWindow.cerrar();
-                    },
-                    "No":function(){
-                        scope.btWindow.cerrar();
+                scope.btWindow.establecerBotones([
+                    {
+                        accion:function(){
+                            if(scope.configuracion.eliminar.url){
+                                $http({
+                                    url:scope.configuracion.eliminar.url,
+                                    method:scope.configuracion.eliminar.type||"POST",
+                                    data:$.param({elem:scope.filas[fila]}),
+                                    headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+                                    }).then(function(respuesta){
+                                        scope.filas.splice(fila,1);
+                                    },function(error){
+                                        mostrar_error(error.data?error.data:JSON.stringify(error));
+                                    });
+                            }else{
+                                    scope.filas.splice(fila,1);
+                            }
+                            scope.btWindow.cerrar();
+                            },
+                            texto:"si"
+                    },{   
+                        accion:function(){
+                            scope.btWindow.cerrar();
+                        },
+                        texto:"no"
                     }
-                });
+                ]);
                 scope.btWindow.abrir();
                 scope.btWindow.centrar();
             };
