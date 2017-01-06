@@ -36,6 +36,10 @@ class SignUp extends BT_Controller{
 				$this->muestraSolicitudAltaEmpresa($data);
 			}
 		}else{
+
+			$empresa = new _Empresa();
+			$empresa->fromPost($this);
+			$data["empresa"] = $empresa;
 			/*El usuario ha enviado el formulario de alta de la empresa*/
 			$identificador = $this->input->post("I");
 			$identificador_alta = $this->obtenerIdentificadorAlta($identificador);
@@ -46,6 +50,11 @@ class SignUp extends BT_Controller{
 						"rules"=>"trim|callback_comprobar_cif"
 					]
 				]);
+				if($this->form_validation_run()){
+					$this->empresas->insert($empresa);
+				}else{
+					$this->muestraFormularioAltaEmpresa($data);
+				}
 			}else{
 				/*Muestra el dialogo de solicitud con un mensaje de error*/
 					array_push($data["errores"],$this->idioma("identificador_alta_incorrecto"));
@@ -90,7 +99,7 @@ class SignUp extends BT_Controller{
 	}
 	protected function muestraSolicitudAltaEmpresa($data=[]){
 		$this->load->view("/plantillas/header", $data);
-		$this->load->view("/SignUp/Empresa", $data);
+		$this->load->view("/SignUp/empresa", $data);
 		$this->load->view("/plantillas/footer", $data);
 	}
 
@@ -116,7 +125,7 @@ class SignUp extends BT_Controller{
 	}
 	protected function muestraFormularioAltaEmpresa($data=[]){
 		$this->load->view("/plantillas/header", $data);
-		$this->load->view("/SignUp/AltaEmpresa", $data);
+		$this->load->view("/SignUp/altaEmpresa", $data);
 		$this->load->view("/plantillas/footer", $data);
 	}
 	
@@ -125,7 +134,7 @@ class SignUp extends BT_Controller{
 			return $this->lang->line($clave);
 		};
 		$this->load->view("/plantillas/header", $data);
-		$this->load->view("/SignUp/Alumno", $data);
+		$this->load->view("/SignUp/alumno", $data);
 		$this->load->view("/plantillas/footer", $data);
 	}
 }

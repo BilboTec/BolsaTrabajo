@@ -29,7 +29,7 @@
 		$db->query("SET FOREIGN_KEY_CHECKS=1");
 		$db->query("CREATE TABLE email(
 					id_email INT UNSIGNED AUTO_INCREMENT COMMENT 'Identificador de email',
-					email VARCHAR(254) NOT NULL UNIQUE COMMENT 'Dirección de correo, max 254 carácteres  (RFC 5321)',
+					email VARCHAR(150) NOT NULL UNIQUE COMMENT 'Dirección de correo, max 254 carácteres  (RFC 5321)',
 					CONSTRAINT pk_email PRIMARY KEY (id_email)
 				) COMMENT 'Tabla maestra de emails'");
 		$db->query("CREATE TABLE departamento (

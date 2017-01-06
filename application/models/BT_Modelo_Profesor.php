@@ -19,4 +19,14 @@ class BT_Modelo_Profesor extends BT_ModeloVista {
 		parent::__construct("profesor","vw_profesor", "_Profesor", "id_profesor");
 		$this->load->database();
 	}
+	public function delete($id){
+		$profesor = $this->get_by_id($id);
+		if($profesor->id_rol==2){
+			$n_admins = $this->count_where(["id_rol"=>2]);
+			if($n_admins<2){
+				throw new Exception("No se puede eliminar al último administrador");
+			}
+		}
+		return parent::delete($id);
+	}
 }

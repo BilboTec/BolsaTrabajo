@@ -21,11 +21,11 @@ class Plantillas extends CI_Controller
 		};
 		$_GET["lang"] = $this->idioma;
         $this->load
-            ->view("/Plantillas/BilboTec/$vista",$_GET);
+            ->view("/plantillas/BilboTec/$vista",$_GET);
     }
     public function Editor($vista){
         $this->load
-            ->view("/Plantillas/BilboTec/EditorTemplate/$vista",$_GET);
+            ->view("/plantillas/BilboTec/EditorTemplate/$vista",$_GET);
     }
 	public function select($controlador){
 		$modelos = [
@@ -57,6 +57,6 @@ class Plantillas extends CI_Controller
 		$data["clave"] = $this->input->get("clave");
 		$data["texto"] =$this->input->get("texto");
 		$this->load
-            ->view("/Plantillas/BilboTec/EditorTemplate/selectTemplate",$data);
+            ->view("/plantillas/BilboTec/EditorTemplate/selectTemplate",$data);
 	}
 }

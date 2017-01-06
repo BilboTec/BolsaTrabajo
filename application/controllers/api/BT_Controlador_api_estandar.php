@@ -6,8 +6,12 @@ class BT_Controlador_api_estandar extends BT_Controller
     {
     	$this->id = $id;
         parent::__construct();
+        set_exception_handler(function($error){
+            $this->json_excepcion($error);
+        });
         $this->load->model($modelo,"modelo");
         $this->load->helper("BT_ui_helper");
+        $this->output->set_content_type("application/json");
     }
     public function GetLike($nombre){
         echo json_encode($this->modelo->get_like($nombre));
@@ -29,8 +33,7 @@ class BT_Controlador_api_estandar extends BT_Controller
             $tupla = $this->modelo->insert($tupla);
             echo json_encode($tupla);
         }catch(Exception $ex){
-            http_response_code(500);
-            echo $ex;
+            $this->json_excepcion($ex);
         }
 
     }
@@ -39,12 +42,14 @@ class BT_Controlador_api_estandar extends BT_Controller
         try{
                 $elem = $this->input->post("elem");
         		if($this->modelo->delete($elem[$this->id])){
-        			echo "Ok";
+        			$respuesta = new stdClass();
+                    $respuesta->mensaje="Ok";
+                    $this->json($respuesta);
         		}else{
-        			set_status_header(405);
+        			
         		}
             }catch(Exception $ex){
-                echo $ex->getMessage();
+                echo $this->json_excepcion($ex);
             }
     }
 	public function update(){
@@ -52,7 +57,14 @@ class BT_Controlador_api_estandar extends BT_Controller
 		$viejo = $this->input->post("viejo");
 		$nuevo = $this->input->post("nuevo");
 		$tupla = $this->modelo->update($viejo,$nuevo);
-		echo json_encode($tupla);
+		echo json($tupla);
 	}
+    protected function json_excepcion($ex){
+        $this->json($ex->getMessage(),500);
+    }
+    protected function json($objeto,$codigo_estado=200){
+        set_status_header($codigo_estado);
+        $this->output->set_output(json_encode($objeto));
+    }
 
 }
