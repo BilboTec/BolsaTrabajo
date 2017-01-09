@@ -32,6 +32,19 @@
 		$data['idioma'] = function($clave){
 			return $this->lang->line($clave);
 		};
+		
+		 //cargo el modelo de departamentos
+      		$this->load->model('BT_Modelo_Departamento');
+      
+      	//pido los departamentos al modelo
+       		$data['departamentos'] = $this->BT_Modelo_Departamento->coger_departamentos();
+			
+		//cargo el modelo de ofertas
+      		$this->load->model('BT_Modelo_Oferta');
+      
+      	//pido los departamentos al modelo
+       		$data['ofertas'] = $this->BT_Modelo_Oferta->coger_ofertas();
+      
 		$this->load->view("/Profesor/buscarOferta",$data);
 	}
 	

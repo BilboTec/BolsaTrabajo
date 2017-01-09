@@ -230,7 +230,7 @@ header{
 
 .cabecera_usuario{
 	margin-top: 1em;
-	margin-left: 11%;
+	margin-left: 7%;
 	width: 80%;
 }
 .cabecera_usuario ul li{
@@ -248,12 +248,13 @@ header{
 
 .cabecera_usuario .activo div{
 	background-color: $(--v-claro);
+	border-bottom: 2px solid $(--v-claro);
 }
 
 .cabecera_usuario ul li div{
 	background-color: $(--v-oscuro);
 	position: absolute;
-	border-radius: 4px;
+	border-radius: 4px 4px 0 0;
 	width: 100%;
 	height: 100%;
 	z-index: -1;
@@ -263,7 +264,7 @@ header{
 	-webkit-transform: perspective(100px) rotateX(30deg);
 	-moz-transform: perspective(100px) rotateX(30deg);
 	
-	box-shadow: 1px 1px 1px $(--g-claro);
+	box-shadow: 1px 0px 1px $(--g-claro);
 }
 
 .cabecera_usuario ul li a{
@@ -281,8 +282,8 @@ header{
 	padding: 30px 5px 5px 10px;
 	background-color: white;
 	border: 1px solid $(--g-oscuro);
-	margin-left: 10%;
-	width: 80%;
+	margin-left: 5%;
+	width: 90%;
 	flex: 1;
 }
 .lista_cambios{
@@ -320,14 +321,40 @@ header{
 	flex-wrap: nowrap;	
 }
 
+.contenedor-ofertas fieldset{
+	margin-top: 0;
+}
+
 .contenedor-ofertas aside{
 	flex: 1;
-	padding-bottom: 2em;
 }
 
 .contenedor-ofertas section{
-	flex: 3;
+	flex: 4;
 }
+
+.filtro-contenedor{
+	margin: 0 0 1em 2em;
+}
+
+.contenedor-ofertas section article{
+	margin-left: 2em;
+	padding: 1em 0;
+	border-bottom: solid 1px $(--g-claro);
+}
+.opciones{
+	display:flex;
+	flex-direction: row;
+}
+.contenedor-ofertas section article h5{
+	background-color: $(--g-claro);
+	margin-top: .5em;
+	margin-right: 2em;
+	padding: .4em .8em;
+	border-radius: 6px;
+}
+
+
 /*ALTA EMPRESA*/
 .contenedor-alta-empresa{
 	flex-direction: row !important;

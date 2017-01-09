@@ -11,5 +11,11 @@ class BT_Modelo_Departamento extends BT_ModeloEstandar
     {
         parent::__construct("departamento", "_Departamento", "id_departamento");
     }
+	
+	public function coger_departamentos()
+	{
+		$consulta = $this->db->get('departamento');
+		return $consulta->result_array();
+	}
 
 }
