@@ -1,6 +1,9 @@
 angular.module("BilboTec.ui")
 .filter("capitalize",function(){
     return function(string){
+        if(typeof string === "undefined"){
+            return;
+        }
         return string.substr(0,1).toUpperCase() + string.substr(1);
     }
 })
@@ -94,7 +97,8 @@ angular.module("BilboTec.ui")
                             scope.cargando = false;
                             },
                             function (error) {
-                                alert(error.data ? error.data : JSON.stringify(error));
+                                var mensaje = error.data?error.data.data?error.data.data:error.data:JSON.stringify(error);
+                                mostrar_error(mensaje);
                                 scope.cargando = false;
                             });
                     } else {
@@ -131,7 +135,8 @@ angular.module("BilboTec.ui")
                         scope.configuracion.paginacion.total =  Math.ceil(respuesta.data.total / scope.configuracion.paginacion.pageSizes.seleccionado.valor);
                         scope.cargando = false;
                     },function(error){
-                        mostrar_error(error.data?error.data:JSON.stringify(error));
+                        var mensaje = error.data?error.data.data?error.data.data:error.data:JSON.stringify(error);
+                        mostrar_error(mensaje);
                         scope.cargando = false;
                     });
                 }
@@ -171,7 +176,8 @@ angular.module("BilboTec.ui")
                         scope.configuracion.columnas[col].coleccion[elemento.clave] = elemento.valor;
                     }
                 }, function (error) {
-                    alert(error.data ? error.data : JSON.stringify(error));
+                    var mensaje = error.data?error.data.data?error.data.data:error.data:JSON.stringify(error);
+                    mostrar_error(mensaje);
                 });
             };
             scope.leerColecciones = function(){
@@ -214,7 +220,8 @@ angular.module("BilboTec.ui")
                             scope.cargando = false;
                             scope.cargando = false;
                         }, function (error) {
-                            alert(error.data ? error.data : JSON.stringify(error));
+                            var mensaje = error.data?error.data.data?error.data.data:error.data:JSON.stringify(error);
+                            mostrar_error(mensaje);
                             scope.cargando = false;
                         });
                     } else {
@@ -230,11 +237,12 @@ angular.module("BilboTec.ui")
                 scope.mostrarInsertar = false;
                 scope.editandoFila = -1;
                 scope.edit = {};
-                scope.btWindow.establecerTitulo("Confirmar Eliminar");
-                scope.btWindow.establecerContenido("¿Seguro que desea eliminar la linea?");
+                scope.btWindow.establecerTitulo("confirmar_eliminar_titulo");
+                scope.btWindow.establecerContenido("confirmar_eliminar");
                 scope.btWindow.establecerBotones([
                     {
                         accion:function(){
+                            scope.cargando = true;
                             if(scope.configuracion.eliminar.url){
                                 $http({
                                     url:scope.configuracion.eliminar.url,
@@ -243,8 +251,11 @@ angular.module("BilboTec.ui")
                                     headers: {'Content-Type': 'application/x-www-form-urlencoded'}
                                     }).then(function(respuesta){
                                         scope.filas.splice(fila,1);
+                                        scope.cargando = false;
                                     },function(error){
-                                        mostrar_error(error.data?error.data:JSON.stringify(error));
+                                        var mensaje = error.data?error.data.data?error.data.data:error.data:JSON.stringify(error);
+                                        mostrar_error(mensaje);
+                                        scope.cargando = false;
                                     });
                             }else{
                                     scope.filas.splice(fila,1);
@@ -431,4 +442,38 @@ angular.module("BilboTec.ui")
                 };
             }
         }
-    }]);
+    }])
+    .directive("btImageUploader",function(){
+        return {
+            restrict: "A",
+            scope:{
+                imagen:"=ngModel"
+            },  
+            templateUrl:"/Plantillas/Get/btImageUploader",
+            link:function(scope,elem,attr){
+                var name = attr.btName;
+                if(typeof name !== "undefined"){
+                    elem.find("input[type='hidden']").attr("name",name);
+                }
+                var canvas = elem.find("canvas")[0].getContext("2d");
+                var inputImagen = elem.find("input[type='file']")[0];
+                var imagenSeleccionada = function(){
+                    var archivo = inputImagen.files[0];
+                    if(typeof archivo !== "undefined"){
+                        var fileReader = new FileReader();
+                        debugger;
+                        fileReader.onload = function(event){
+                            var imagen = new Image();
+                            imagen.onload = function(event){
+                                debugger;
+                                canvas.drawImage(imagen,100,100);
+                            };
+                            imagen.src = fileReader.result;
+                        };
+                        fileReader.readAsDataURL(archivo);
+                    }
+                };
+                angular.element(inputImagen).on("change",imagenSeleccionada);
+            }
+        };
+    });

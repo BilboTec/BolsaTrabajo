@@ -4,10 +4,67 @@ class SignUp extends BT_Controller{
 	public function __construct(){
 		parent::__construct();
 		$this->load->library('form_validation');
+		$this->load->library('email');
 		$this->load->model("BT_Modelo_IdentificadorAlta","identificadores");
+		$this->lang->load("BT_email");
 		$this->idioma =function ($clave){
 				return $this->lang->line($clave);
 			};
+	}
+	public function ConfirmarEmpresa(){
+		$data["idioma"] = $this->idioma;
+		$metodo = $this->input->method(true);
+		if($metodo === "POST"){
+			$this->form_validation->set_rules([
+					[
+						"field"=>"nombre",
+						"caption"=>"Nombre",
+						"rules"=>"trim|required"
+					],
+					[
+						"field"=>"email",
+						"caption"=>"Email",
+						"rules"=>"trim|required|valid_email"
+					]
+				]);
+			if($this->form_validation->run()){
+				$identificador = new _IdentificadorAlta();
+				$identificador->email = $this->input->post("email");
+				$identificador = $this->identificadores->insert($identificador)[0];
+				$link = $_SERVER["HTTP_ORIGIN"]."/SignUp/Empresa/?I" . base64_encode($identificador->id_identificador . "#" . $identificador->identificador);
+				$link = "<a href='.$link'>$link</a>";
+				$config = Array(
+ 				    'protocol' => 'smtp',
+ 				    'smtp_host' => 'ssl://smtp.googlemail.com',
+ 				    'smtp_port' => 465,
+ 				    'smtp_user' => 'BilboTec.algo@gmail.com',
+ 				    'smtp_pass' => 'q1w2e3R4',
+ 				    'mailtype'  => 'html', 
+ 				    'charset'   => 'utf-8'
+ 				);
+ 				$this->load->library('email', $config);
+ 				$this->email->set_newline("\r\n");
+	 			$nombre = $this->input->post("nombre");
+	 			$email = $this->input->post("email");
+	 			$this->email->from('your@example.com', 'FPTXURDINAGA: Bolsa de Trabajo');
+	 			$this->email->to($email);   
+
+		        $this->email->initialize($config);
+
+				$this->load->library('email');
+
+				$this->email->from('BilboTec.algo@gmail.com', 'CIFP Txurdinaga');
+				$this->email->to($identificador->email);
+
+				$this->email->subject($this->lang->line("asunto_confirmar_email"));
+				$this->email->message(sprintf($this->lang->line("confirmar_email_empresa_cuerpo"),$this->input->post("nombre"),$identificador));
+
+				$this->email->send();
+			}else{
+				$data["errores"] = $this->from_validation->error_array();
+				$this->muestraSolicitudAltaEmpresa($data);
+			}
+		}
 	}
 	public function Empresa(){
 		$data["idioma"] = $this->idioma;
@@ -36,7 +93,6 @@ class SignUp extends BT_Controller{
 				$this->muestraSolicitudAltaEmpresa($data);
 			}
 		}else{
-
 			$empresa = new _Empresa();
 			$empresa->fromPost($this);
 			$data["empresa"] = $empresa;
@@ -57,8 +113,8 @@ class SignUp extends BT_Controller{
 				}
 			}else{
 				/*Muestra el dialogo de solicitud con un mensaje de error*/
-					array_push($data["errores"],$this->idioma("identificador_alta_incorrecto"));
-					$this->muestraSolicitudAltaEmpresa($data);
+				array_push($data["errores"],$this->idioma("identificador_alta_incorrecto"));
+				$this->muestraSolicitudAltaEmpresa($data);
 			}
 		}	
 	}

@@ -24,9 +24,18 @@ class BT_Modelo_Profesor extends BT_ModeloVista {
 		if($profesor->id_rol==2){
 			$n_admins = $this->count_where(["id_rol"=>2]);
 			if($n_admins<2){
-				throw new Exception("No se puede eliminar al último administrador");
+				throw new Exception("eliminar_ultimo_admin");
 			}
 		}
 		return parent::delete($id);
+	}
+	public function update($viejo,$nuevo){
+		if($viejo->id_rol == 2 && $nuevo->id_rol != 2){
+			$n_admins = $this->count_where(["id_rol"=>2]);
+			if($n_admins<2){
+				throw new Exception("degradar_ultimo_admin");
+			}
+		}
+		return parent::update($viejo,$nuevo);
 	}
 }

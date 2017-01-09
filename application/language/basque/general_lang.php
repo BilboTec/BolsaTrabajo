@@ -43,3 +43,7 @@ $lang["identificador_alta_incorrecto"] = "alta identifikatzailea iranguia izan d
 $lang["si"] = "bai";
 $lang["no"] = "ez";
 $lang["aceptar"] = "onartu";
+$lang["eliminar_ultimo_admin"] = "Ezin da azkenengo administratzailea ezabatu";
+$lang["degradar_ultimo_admin"] = "Ezin da azkenengo administratzailea degradatu";
+$lang["confirmar_eliminar"] = "Ziur sarreara ezabatu nahi duzula?";
+$lang["confirmar_eliminar_titulo"] ="Ezabatu";

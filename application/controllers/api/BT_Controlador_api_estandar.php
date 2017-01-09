@@ -49,18 +49,32 @@ class BT_Controlador_api_estandar extends BT_Controller
         			
         		}
             }catch(Exception $ex){
-                echo $this->json_excepcion($ex);
+                $this->json_excepcion($ex);
             }
     }
 	public function update(){
 		//$this->requerir_login_json();
-		$viejo = $this->input->post("viejo");
-		$nuevo = $this->input->post("nuevo");
+        try{
+        $clase = $this->modelo->clase;
+        $viejo = new $clase();
+        $nuevo = new $clase();
+        $viejo->fromArray($this->input->post("viejo"));
+		$nuevo->fromArray($this->input->post("nuevo"));
 		$tupla = $this->modelo->update($viejo,$nuevo);
-		echo json($tupla);
+		echo $this->json($tupla);
+        }catch(Exception $ex){
+            $this->json_excepcion($ex);
+        }
 	}
     protected function json_excepcion($ex){
-        $this->json($ex->getMessage(),500);
+        $error = new stdClass();
+        $mensaje = $this->lang->line($ex->getMessage());
+        if(!$mensaje){
+            $mensaje = $ex->getMessage();
+        }
+        $error->data = $mensaje;
+        $error->codigo = $ex->getCode();
+        $this->json($error,500);
     }
     protected function json($objeto,$codigo_estado=200){
         set_status_header($codigo_estado);

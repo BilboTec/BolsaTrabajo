@@ -2,7 +2,6 @@
 abstract class BT_ModeloEstandar extends CI_Model
 {
 	public $tabla, $clase, $clave;
-	
     public function __construct($tabla, $clase, $clave)
     {
     	$this->tabla = $tabla;
@@ -53,7 +52,8 @@ abstract class BT_ModeloEstandar extends CI_Model
 		return true;
     }
 	public function update($viejo,$nuevo){
-		$this->db->update($this->tabla,$nuevo,[$this->clave=>$viejo[$this->clave]]);
-		return $this->db->get_where($this->tabla,[$this->clave=>$viejo[$this->clave]])->custom_result_object($this->clase);
+        $clave = $this->clave;
+		$this->db->update($this->tabla,$nuevo,[$this->clave=>$viejo->$clave]);
+		return $this->db->get_where($this->tabla,[$this->clave=>$viejo->$clave])->custom_result_object($this->clase);
 	}
 }

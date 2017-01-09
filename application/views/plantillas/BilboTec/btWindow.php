@@ -1,10 +1,10 @@
 <div class="bt-window-wrapper" ng-show="visible">
 	<div class="bt-window">
 		<div class="bt-window-titulo" ng-show="titulo">
-				{{ titulo }}
+				{{ titulo | btLocale | capitalize }}
 		</div>
 		<div class="bt-window-texto" ng-show="!url">
-			{{contenido}}
+			{{ contenido | btLocale | capitalize }}
 		</div>
 		<div class="bt-window-url" ng-show="url" ng-inclide="url"></div>
 		<div class="bt-window-btn-container">

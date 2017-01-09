@@ -43,3 +43,7 @@ $lang["identificador_alta_incorrecto"] = "identificador de alta caducado o incor
 $lang["si"] = "si";
 $lang["no"] = "no";
 $lang["aceptar"] = "aceptar";
+$lang["eliminar_ultimo_admin"] = "No se puede eliminar al útlimo adminsitrador";
+$lang["degradar_ultimo_admin"] = "No se puede degradar al último administrador";
+$lang["confirmar_eliminar"] = "¿Seguro que desea eliminar la entrada?";
+$lang["confirmar_eliminar_titulo"] ="Confirmar eliminar";

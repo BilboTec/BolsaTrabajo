@@ -47,18 +47,19 @@ abstract class BT_ModeloVista extends BT_ModeloEstandar{
     }
     public function update($viejo, $nuevo){
         $this->db->trans_start();
-        $email = is_array($nuevo) ? $nuevo["email"] : $nuevo->email;
-        if (isset($viejo["id_email"]) && $viejo["email"] !== null) {
-            $this->db->where(["id_email" => $viejo["id_email"]])->update("email", ["email" => $email]);
+        $email = $nuevo->email;
+        if (isset($viejo->id_email) && $viejo->email!== null) {
+            $this->db->where(["id_email" => $viejo->id_email])->update("email", ["email" => $email]);
         } else {
             $this->db->insert("email", ["email" => $email]);
             $nuevo->id_email = $this->db->insert_id();
         }
         unset($nuevo->email);
-        unset($nuevo["email"]);
+        unset($viejo->email);
         $result = parent::update($viejo, $nuevo);
         $this->db->trans_complete();
-        return $this->get_by_id($viejo[$this->clave]);
+        $clave = $this->clave;
+        return $this->get_by_id($viejo->$clave);
     }
 
     public function insert($elemento){

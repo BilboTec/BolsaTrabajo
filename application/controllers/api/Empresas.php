@@ -12,16 +12,17 @@ class Empresas extends BT_Controlador_api_estandar {
 			$this->load->model("BT_Modelo_IdentificadorAlta","identificadores");
 			$identificador_alta = $this->obtenerIdentificadorAlta($string_identificador);
 			if($identificador_alta!==null){
+				$empresa = new _Empresa();
+				$reglas_validacion = $empresa->get_reglas_validacion();
 				
 			}else{
 				$this->output->set_status_header(303);
 				$respuesta->error = "Acceso denegado";
-				$this->output->set_output(json_encode($respuesta));
+				$this->json($respuesta,403);
 			}
 		}else{
-			$this->output->set_status_header(405);
 			$respuesta->error = "Ésta acción no soporta el método GET";
-			$this->output->set_output(json_encode($respuesta));
+			$this->json($respuesta,405);
 		}
 	}
 	public function obtenerIdentificadorAlta($identificador){
