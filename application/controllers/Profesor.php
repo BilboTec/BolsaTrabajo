@@ -42,8 +42,8 @@
 		//cargo el modelo de ofertas
       		$this->load->model('BT_Modelo_Oferta');
       
-      	//pido los departamentos al modelo
-       		$data['ofertas'] = $this->BT_Modelo_Oferta->coger_ofertas();
+      	//pido las ofertas al modelo
+       		$data['ofertas'] = json_encode($this->BT_Modelo_Oferta->coger_ofertas());
       
 		$this->load->view("/Profesor/buscarOferta",$data);
 	}
