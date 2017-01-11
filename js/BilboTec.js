@@ -3,12 +3,17 @@ angular.module("BilboTec",["BilboTec.ui", "ngRoute"])
 .config(function($routeProvider){
 	var diccionarioDirecciones = {
 		"/Profesor/Ofertas":{
-			"/":{templateUrl:"/Profesor/BuscarOferta"},
-			"/id_oferta":{templateUrl:"/Profesor/DetalleOferta"}
+			"/":{templateUrl:"/Profesor/BuscarOferta", controller:"busquedaOfertas"},
+			"/:id_oferta":{templateUrl:"/Profesor/DetalleOferta", controller:"detalleOferta"}
 		},
-		"/Profesor":{
-			"/":{templateUrl:"/Profesor/BuscarOferta"},
-			"/id_oferta":{templateUrl:"/Profesor/DetalleOferta"}
+		"/Profesor/":{
+			"/":{templateUrl:"/Profesor/BuscarOferta", controller:"busquedaOfertas"},
+			"/:id_oferta":{templateUrl:"/Profesor/DetalleOferta", controller:"detalleOferta"}
+		},
+		"/Profesor/Perfil":{
+			"/":{templateUrl:"/Profesor/DatosPerfil", controller:"controladorDatosProfesor"},
+			"/Clave":{templateUrl:"/Profesor/CambiarClave", controller:"controladorClaveProfesor"},
+			"/Editar":{templateUrl:"/Profesor/editarPerfil", controller:"controladorDatosProfesor"}
 		}
 	};
 	var pathname = location.pathname;
@@ -16,13 +21,6 @@ angular.module("BilboTec",["BilboTec.ui", "ngRoute"])
 	for(var ruta in direcciones){
 		$routeProvider.when(ruta,direcciones[ruta])
 	}
-	$routeProvider.when("/", {
-		templateUrl : function(){
-			return "/Profesor/BuscarOferta";
-		}
-	}).when("/:id_oferta", {
-		templateUrl : "/Profesor/DetalleOferta"
-	});
 })
 .controller("altaEmpresaController",["$http","$scope",function($http,$scope){
 	$scope.onPaisCambiado = function(){
@@ -503,4 +501,117 @@ angular.module("BilboTec",["BilboTec.ui", "ngRoute"])
 			
 	};
 
-});
+})
+
+.controller("busquedaOfertas",["$http","$scope",function($http,$scope){
+		$scope.filtros = {
+			
+		};
+		
+		$scope.buscar = function(){
+			$http({url:"/api/Ofertas/Get/",params:$scope.filtros})
+			.then(
+				function(respuesta){ 
+				/* asigna la respuesta a la colección que muestras en el ng-
+				repeat*/
+				$scope.ofertas = respuesta.data.data;
+				},
+				function(error){
+					alert(error.data?error.data:error);
+				}
+			);
+		};
+
+		$scope.buscar();
+		}])
+
+.controller("detalleOferta", ["$http", "$scope", "$routeParams", function($http, $scope, $routeParams){
+		$scope.idOferta = $routeParams.id_oferta;
+		if($scope.idOferta != 0){
+			$http({url: "/api/Ofertas/getById/" +$scope.idOferta})
+			.then(
+				function(respuesta){
+					$scope.oferta = respuesta.data[0];
+				},
+				function(error){
+					alert(error.data?error.data:error);
+				}
+				)
+		}
+
+		$scope.guardar = function(){
+			$http({url: "/api/Ofertas/Guardar", 
+				method: "POST", 
+				data: $.param($scope.oferta),
+				headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+			})
+			.then(
+				function(respuesta){
+					debugger;
+				},
+				function(error){
+					alert(error.data?error.data:error);
+				}
+				)
+		}
+		
+}])
+.controller("controladorDatosProfesor", ["$http", "$scope", "$location", function($http, $scope, $location){
+	$http({url: "/api/Profesores/GetActual"})
+	.then(
+		function(respuesta){
+			var user = respuesta.data;
+			var roles = {1: "usuario", 2:"manager", 3:"administrador"};
+			$scope.nombreCompleto = user.nombre + " " + user.apellido + " " + user.apellido2;
+			$scope.email = user.email;
+			$scope.rol = roles[user.id_rol];
+			$scope.usuario = user;
+			$http({url: "/api/Departamentos/getById/" + user.id_departamento})
+			.then(
+				function(respuesta){
+					$scope.departamento = respuesta.data.nombre;
+				},
+				function(error){
+					alert(error.data?error.data:error);
+				}
+			);
+		},
+		function(error){
+			alert(error.data?error.data:error);
+		}
+		)
+
+	$scope.guardar = function(){
+		$http({url: "/api/Profesores/GuardarPerfil", 
+				method: "POST", 
+				data: $.param($scope.usuario),
+				headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+			})
+			.then(
+				function(respuesta){
+					$location.path("/");
+				},
+				function(error){
+					alert(error.data?error.data:error);
+				}
+				)
+	}
+
+}])
+.controller("controladorClaveProfesor",["$http", "$scope", "$location", function($http, $scope, $location){
+	$scope.cambiarClave = function(){
+		$http({url: "/api/Profesores/CambiarClave", 
+				method: "POST", 
+				data: $.param($scope.usuario),
+				headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+			})
+			.then(
+				function(respuesta){
+					$location.path("/");
+				},
+				function(error){
+					alert(error.data?error.data:error);
+				}
+				)
+	}
+}])

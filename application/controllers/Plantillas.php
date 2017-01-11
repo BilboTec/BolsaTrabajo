@@ -33,9 +33,9 @@ class Plantillas extends CI_Controller
 			"departamentos"=>"BT_Modelo_Departamento",
 			"provincias"=>"BT_Modelo_Provincia",
 			"roles"=>[
-				["id_rol"=>0,"nombre"=>"User"],
-				["id_rol"=>1,"nombre"=>"Manager"],
-				["id_rol"=>2,"nombre"=>"Admin"]
+				["id_rol"=>1,"nombre"=>"User"],
+				["id_rol"=>2,"nombre"=>"Manager"],
+				["id_rol"=>3,"nombre"=>"Admin"]
 			]
 		];
 		$modelo = $modelos[$controlador];

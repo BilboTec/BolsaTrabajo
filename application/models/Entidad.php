@@ -8,6 +8,9 @@
 						if($val !== null){
 							$this->$nombre = $val;
 						}
+						else{
+							unset($this->$nombre);
+						}
 					}
 				}
 				public function fromArray($array){
@@ -18,6 +21,18 @@
 							$this->$nombre = $array[$nombre];
 						}
 					}
+				}
+
+				public function toArray($excepciones){
+					$resultado = [];
+					$propiedades = (new ReflectionObject($this))->getProperties(ReflectionProperty::IS_PUBLIC);
+					foreach($propiedades as $propiedad){
+						$nombre = $propiedad->name;
+						if(!in_array($nombre, $excepciones)){
+							$resultado[$nombre]= $this->$nombre;
+						}
+					}
+					return $resultado;
 				}
 				 /**Devuelve un array de anotaciones del elemento reflector
 			     * @param $element

@@ -62,4 +62,16 @@ class BT_Controller extends CI_Controller{
 		}
 		return $usuario;
 	}
+
+	protected function es_admin(){
+		$usuario = $this->get_usuario_actual()[0];
+		return isset($usuario->id_rol) && $usuario->id_rol > 2;
+	}
+
+	public function getActual(){
+		$usuario = $this->get_usuario_actual()[0];
+		unset($usuario->clave);
+		$this->json($usuario);
+
+	}
 }

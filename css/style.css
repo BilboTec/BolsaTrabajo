@@ -354,6 +354,11 @@ header{
 	border-radius: 6px;
 }
 
+/*DETALLE OFERTAS PROFESOR*/
+.detalle_oferta_profesor{
+	flex-direction: column;
+}
+
 
 /*ALTA EMPRESA*/
 .contenedor-alta-empresa{

@@ -1,8 +1,9 @@
 <?php
 
 require_once 'BT_ModeloEstandar.php';
+require_once 'Entidad.php';
 
-class _Oferta{
+class _Oferta extends Entidad{
     public $id_oferta, $titulo, $id_empresa, $nombre_empresa, $fecha, $estudios_min, $experiencia_min,
 	$requisitos, $descripcion, $horario, $salario, $visible;
 }

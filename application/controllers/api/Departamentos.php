@@ -10,4 +10,7 @@ class Departamentos extends BT_Controlador_api_estandar
       
     }
     
+    public function getById($id){
+    	$this->json($this->modelo->query(["id_departamento"=>$id])[0]);
+    }
 }
