@@ -47,3 +47,7 @@ $lang["eliminar_ultimo_admin"] = "No se puede eliminar al útlimo adminsitrador"
 $lang["degradar_ultimo_admin"] = "No se puede degradar al último administrador";
 $lang["confirmar_eliminar"] = "¿Seguro que desea eliminar la entrada?";
 $lang["confirmar_eliminar_titulo"] ="Confirmar eliminar";
+$lang["correc_x"] = "corrección en el eje X";
+$lang["correc_y"] = "corrección en el eje Y";
+$lang["escala"] = "escala";
+$lang["tamano"] = "tamaño";

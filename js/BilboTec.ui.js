@@ -300,180 +300,192 @@ angular.module("BilboTec.ui")
 
     };
 }])
-    .directive("btListaDesplegable",["$http",function($http){
-        return {
-            restrict:"A",
-            require:"ngModel",
-            scope:{
-                valor:"=ngModel",
-                conf:"=btConfig",
-                btListaDesplegable:"="
-            },
-            templateUrl:"/Plantillas/Get/btListaDesplegable",
-            link:function(scope,element,attr,contr){
-                scope.elementos = scope.conf.elementos||[];
-                scope.cargando = false;
-                scope.conf = scope.conf||{};
-                scope.leer = function(){
-                  if(scope.conf.leer){
-                      scope.cargando=true;
-                      var l = scope.conf.leer;
-                      var parametros = l.data?l.data():{};
-                      scope.elementos = [];
-                      $http({
-                          url:l.url,
-                          method:l.method||"GET",
-                          params:parametros
-                      })
-                          .then(function(respuesta){
-                              scope.elementos = l.set?l.set(respuesta):respuesta.data;
-                              scope.cargando = false;
-                          },
-                          function(error){
-                              alert(error.data||error);
-                              scope.cargando = false;
-                          });
-                  }
-                };
-                scope.leer();
+.directive("btListaDesplegable",["$http",function($http){
+    return {
+        restrict:"A",
+        require:"ngModel",
+        scope:{
+            valor:"=ngModel",
+            conf:"=btConfig",
+            btListaDesplegable:"="
+        },
+        templateUrl:"/Plantillas/Get/btListaDesplegable",
+        link:function(scope,element,attr,contr){
+            scope.elementos = scope.conf.elementos||[];
+            scope.cargando = false;
+            scope.conf = scope.conf||{};
+            scope.leer = function(){
+              if(scope.conf.leer){
+                  scope.cargando=true;
+                  var l = scope.conf.leer;
+                  var parametros = l.data?l.data():{};
+                  scope.elementos = [];
+                  $http({
+                      url:l.url,
+                      method:l.method||"GET",
+                      params:parametros
+                  })
+                      .then(function(respuesta){
+                          scope.elementos = l.set?l.set(respuesta):respuesta.data;
+                          scope.cargando = false;
+                      },
+                      function(error){
+                          alert(error.data||error);
+                          scope.cargando = false;
+                      });
+              }
+            };
+            scope.leer();
+            scope.desplegado = false;
+            scope.conf.clave = scope.conf.clave || function(element){ return element["clave"];};
+            scope.conf.texto= scope.conf.texto||function(element){return element["texto"];};
+            scope.seleccionar = function(indice){
+                scope.valor = scope.elementos[indice];
                 scope.desplegado = false;
-                scope.conf.clave = scope.conf.clave || function(element){ return element["clave"];};
-                scope.conf.texto= scope.conf.texto||function(element){return element["texto"];};
-                scope.seleccionar = function(indice){
-                    scope.valor = scope.elementos[indice];
-                    scope.desplegado = false;
-                    contr.$setDirty(true);
-                };
-                scope.desplegar = function(){
-                    scope.desplegado =  !scope.desplegado;
-                    contr.$setTouched(true);
-                };
-                scope.btListaDesplegable = {
-                    leer:scope.leer,
-                    seleccionar:scope.seleccionar,
-                    desplegar:scope.desplegar
-                };
-                angular.element(document).on("click",function(evt){
-                    if(scope.desplegado && element.has(evt.target).length === 0){
-                        scope.$apply(function(){scope.desplegado = false;});
-                    }
-                });
-            }
+                contr.$setDirty(true);
+            };
+            scope.desplegar = function(){
+                scope.desplegado =  !scope.desplegado;
+                contr.$setTouched(true);
+            };
+            scope.btListaDesplegable = {
+                leer:scope.leer,
+                seleccionar:scope.seleccionar,
+                desplegar:scope.desplegar
+            };
+            angular.element(document).on("click",function(evt){
+                if(scope.desplegado && element.has(evt.target).length === 0){
+                    scope.$apply(function(){scope.desplegado = false;});
+                }
+            });
         }
-    }])
-    .directive("btDatePicker",["$locale",function($locale){
-        return {
-            restrict:"A",
-            require:"ngModel",
-            scope:{
-                valor:"=ngModel",
-                conf:"=btConfig",
-                btDatePicker:"="
-            },
-            templateUrl:"/Plantillas/Get/btDatePicker",
-            link:function(scope,e,a,ctr){
+    }
+}])
+.directive("btDatePicker",["$locale",function($locale){
+    return {
+        restrict:"A",
+        require:"ngModel",
+        scope:{
+            valor:"=ngModel",
+            conf:"=btConfig",
+            btDatePicker:"="
+        },
+        templateUrl:"/Plantillas/Get/btDatePicker",
+        link:function(scope,e,a,ctr){
 
-            }
-        };
-    }])
-    .directive("btWindow",["$window",function($window){
-        return {
-            restrict: "A",
-            scope:{
-                btWindow:"="
-            },
-            templateUrl:"/Plantillas/Get/btWindow",
-            link:function(scope,el,atributo){
-                var elemento = el.find(".bt-window");
-                scope.visible = false;
-                scope.movible = true;
-                scope.titulo = "";
-                scope.contenidoTexto = "";
-                scope.contenidoUrl = "#";
-                elemento.on("mousedown",".bt-window-titulo",function(evt){
-                    if(scope.movible){
-                        var offset = elemento.offset();
-                        var raton = {X:evt.clientX-offset.left,Y:evt.clientY-offset.top};
-                        var mover = function(evt){
-                            var left = evt.clientX - raton.X;
-                            var top = evt.clientY - raton.Y;
-                            elemento.css("left",left+"px");
-                            elemento.css("top",top+"px");
-                        };
-                        var wnd = angular.element($window);
-                        wnd.on("mousemove",mover);
-                        wnd.one("mouseup",function(){
-                            wnd.off("mousemove",mover);
-                        });
-                    }
-                });
-                scope.setMovible = function(movible){
-                    scope.movible = movible;
-                };
-                scope.abrir = function(){
-                    scope.visible = true;
-                };
-                scope.establecerContenido = function(contenido){
-                    scope.contenido = contenido;
-                    scope.url = false;
-                };
-                scope.cerrar = function(){
-                    scope.visible = false;
-                };
-                scope.centrar = function(){
-                    elemento.css({
-                        "left":$window.innerWidth/2-elemento.width()/2,
-                        "top":$window.innerHeight/2-elemento.height()/2
-                    });
-                };
-                scope.establecerTitulo = function(titulo){
-                    scope.titulo = titulo;
-                };
-                scope.establecerBotones = function(botones){
-                    scope.botones = botones;
-                }
-                scope.btWindow = {
-                    abrir:scope.abrir,
-                    cerrar:scope.cerrar,
-                    centrar:scope.centrar,
-                    establecerContenido:scope.establecerContenido,
-                    establecerTitulo:scope.establecerTitulo,
-                    establecerBotones:scope.establecerBotones
-                };
-            }
         }
-    }])
-    .directive("btImageUploader",function(){
-        return {
-            restrict: "A",
-            scope:{
-                imagen:"=ngModel"
-            },  
-            templateUrl:"/Plantillas/Get/btImageUploader",
-            link:function(scope,elem,attr){
-                var name = attr.btName;
-                if(typeof name !== "undefined"){
-                    elem.find("input[type='hidden']").attr("name",name);
+    };
+}])
+.directive("btWindow",["$window",function($window){
+    return {
+        restrict: "A",
+        scope:{
+            btWindow:"="
+        },
+        templateUrl:"/Plantillas/Get/btWindow",
+        link:function(scope,el,atributo){
+            var elemento = el.find(".bt-window");
+            scope.visible = false;
+            scope.movible = true;
+            scope.titulo = "";
+            scope.contenidoTexto = "";
+            scope.contenidoUrl = "#";
+            elemento.on("mousedown",".bt-window-titulo",function(evt){
+                if(scope.movible){
+                    var offset = elemento.offset();
+                    var raton = {X:evt.clientX-offset.left,Y:evt.clientY-offset.top};
+                    var mover = function(evt){
+                        var left = evt.clientX - raton.X;
+                        var top = evt.clientY - raton.Y;
+                        elemento.css("left",left+"px");
+                        elemento.css("top",top+"px");
+                    };
+                    var wnd = angular.element($window);
+                    wnd.on("mousemove",mover);
+                    wnd.one("mouseup",function(){
+                        wnd.off("mousemove",mover);
+                    });
                 }
-                var canvas = elem.find("canvas")[0].getContext("2d");
-                var inputImagen = elem.find("input[type='file']")[0];
-                var imagenSeleccionada = function(){
-                    var archivo = inputImagen.files[0];
-                    if(typeof archivo !== "undefined"){
-                        var fileReader = new FileReader();
-                        debugger;
-                        fileReader.onload = function(event){
-                            var imagen = new Image();
-                            imagen.onload = function(event){
-                                debugger;
-                                canvas.drawImage(imagen,100,100);
-                            };
-                            imagen.src = fileReader.result;
-                        };
-                        fileReader.readAsDataURL(archivo);
-                    }
-                };
-                angular.element(inputImagen).on("change",imagenSeleccionada);
+            });
+            scope.setMovible = function(movible){
+                scope.movible = movible;
+            };
+            scope.abrir = function(){
+                scope.visible = true;
+            };
+            scope.establecerContenido = function(contenido){
+                scope.contenido = contenido;
+                scope.url = false;
+            };
+            scope.cerrar = function(){
+                scope.visible = false;
+            };
+            scope.centrar = function(){
+                elemento.css({
+                    "left":$window.innerWidth/2-elemento.width()/2,
+                    "top":$window.innerHeight/2-elemento.height()/2
+                });
+            };
+            scope.establecerTitulo = function(titulo){
+                scope.titulo = titulo;
+            };
+            scope.establecerBotones = function(botones){
+                scope.botones = botones;
             }
-        };
-    });
+            scope.btWindow = {
+                abrir:scope.abrir,
+                cerrar:scope.cerrar,
+                centrar:scope.centrar,
+                establecerContenido:scope.establecerContenido,
+                establecerTitulo:scope.establecerTitulo,
+                establecerBotones:scope.establecerBotones
+            };
+        }
+    }
+}])
+.directive("btImageUploader",function(){
+    return {
+        restrict: "A",
+        scope:{
+            imagen:"=ngModel"
+        },  
+        templateUrl:"/Plantillas/Get/btImageUploader",
+        link:function(scope,elem,attr){
+            var name = attr.btName;
+            if(typeof name !== "undefined"){
+                elem.find("input[type='hidden']").attr("name",name);
+            }
+            scope.offset = {
+                x:0,y:0
+            };
+            scope.scale = 100;
+            var canvasElement = elem.find("canvas")[0];
+            canvasElement.width = 300;
+            canvasElement.height = 400;
+            var canvas = canvasElement.getContext("2d");
+            var inputImagen = elem.find("input[type='file']")[0];
+            scope.imagenSeleccionada = function(){
+                canvas.fillStyle = "#000000";
+                canvas.fillRect(0,0,canvasElement.width,canvasElement.height);
+                var archivo = inputImagen.files[0];
+                if(typeof archivo !== "undefined"){
+                    var fileReader = new FileReader();
+                    fileReader.onload = function(event){
+                        var imagen = new Image();
+                        imagen.onload = function(event){
+                            var scale = scope.scale;
+                            canvas.drawImage(imagen,scope.offset.x+(imagen.width*(scale/100))*0,
+                                scope.offset.y+(imagen.height*(scale/100))*0,scope.offset.x+imagen.width*(scale/100),
+                                scope.offset.y+imagen.height*(scale/100));
+                            scope.imagen = canvasElement.toDataURL();
+                            scope.$apply(function(){scope.size = (scope.imagen.length/1024).toFixed(2)+"KB"});
+                        };
+                        imagen.src = fileReader.result;
+                    };
+                    fileReader.readAsDataURL(archivo);
+                }
+            };
+            angular.element(inputImagen).on("change",scope.imagenSeleccionada);
+        }
+    };
+});

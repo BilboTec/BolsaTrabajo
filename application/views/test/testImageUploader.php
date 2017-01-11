@@ -1,1 +1,1 @@
-<div bt-image-uploader></div>
+<div bt-image-uploader ng-model="hey"></div>
