@@ -1,0 +1,1 @@
+<div bt-editor="editor" ng-model="valor"></div>

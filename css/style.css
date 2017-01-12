@@ -626,6 +626,26 @@ input:focus{
 [bt-image-uploader] canvas:hover {
 	cursor:move;
 }
+[bt-editor] .barra-comandos, .barra-comandos ul {
+	display:flex;
+	list-style: none;
+}
+[bt-editor] iframe{
+	background-color:white;
+	width: 100%;
+}
+.barra-comandos{
+	flex-wrap: wrap;
+}
+.barra-comandos li.btn{
+	padding: .2em;
+	margin:0 !important;
+}
+.barra-comandos ul{
+	margin: .2em;
+	border-radius: 4px;
+	overflow: hidden; 
+}
 /*************************************
 ********PROFESOR****************
 **************************************/

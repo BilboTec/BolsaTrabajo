@@ -413,6 +413,9 @@ angular.module("BilboTec.ui")
             scope.abrir = function(){
                 scope.visible = true;
             };
+            scope.estlecerUrl = function(url){
+                scope.ulr= url;
+            };
             scope.establecerContenido = function(contenido){
                 scope.contenido = contenido;
                 scope.url = false;
@@ -438,6 +441,7 @@ angular.module("BilboTec.ui")
                 centrar:scope.centrar,
                 establecerContenido:scope.establecerContenido,
                 establecerTitulo:scope.establecerTitulo,
+                establecerUrl:scope.establecerUrl,
                 establecerBotones:scope.establecerBotones
             };
         }
@@ -488,4 +492,40 @@ angular.module("BilboTec.ui")
             angular.element(inputImagen).on("change",scope.imagenSeleccionada);
         }
     };
+})
+.directive("btEditor",function(){
+    return {
+        restrict:"A",
+        require:"ngModel",
+        scope:{
+            klicoEditor:"=",
+            valor:"=ngModel"
+        },
+        templateUrl:"/Plantillas/Get/btEditor",
+        link:function(scope,el,at,controller){
+            if(at.btName){
+                el.find("input[type='hidden']").attr("name",at.btName);
+            }
+            scope.fuentes = [
+                "Georgia", "Book Antiqua","Times New Roman", "Arial", "Arial Black","Comic Sans MS",
+                "Impact", "Lucida Sans Unicode", "Tahoma", "Helvetica", "Verdana", "Courier", "Monaco"
+
+            ];
+            var doc = el.find("iframe")[0].contentDocument;
+            doc.designMode = "on";
+            scope.comando = function(tipo,valor){
+                doc.execCommand(tipo,true,valor);
+                scope.actualizar();
+            };
+            scope.actualizar = function(){
+                scope.valor = doc.body.innerHTML;
+            };
+            doc.onkeyup = function(){
+                scope.$apply(scope.actualizar);
+            };
+            scope.link = function(){
+
+            };
+        }
+    }
 });

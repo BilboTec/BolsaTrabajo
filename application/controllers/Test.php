@@ -29,5 +29,11 @@ class Test extends CI_Controller
         $this->load->view("test/testImageUploader");
         $this->load->view("plantillas/footer");
     }
+    public function Editor(){
+        $data["idioma"] = function(){};
+        $this->load->view("plantillas/header",$data);
+        $this->load->view("test/btEditor");
+        $this->load->view("plantillas/footer");
+    }
 
 }
