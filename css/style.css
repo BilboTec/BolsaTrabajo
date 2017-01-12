@@ -3,9 +3,11 @@
 	margin: 0;
 	font-family: 'exo-regular';
 }
-
-body, html{
-	height: 100%;
+html{
+	height:100%;
+}
+body{
+	min-height: 100%;
 }
 
 body, .contenido{
@@ -136,7 +138,67 @@ input[type="submit"]:hover{
 .grupo-form{
 	position:relative;
 }
+/*FORMULARIO PERFIL*/
+.contenedor-perfil .grupo{
+	display: flex;
+	flex-direction: column;
+	margin: 1em;
+}
+.contenedor-perfil .grupo :any(input,select) {
+	padding: .5em;
+	width: 250px;
+}
+.titulo{
+	align-self: center;
+	text-align: center;
+}
+/*FORMULARIO CAMBIAR CONTRASEÑA*/
 
+.contenedor-perfil ,.contenedor-perfil fieldset{
+	flex-direction: column;
+	align-items: center;
+	display: flex;
+	justify-content: center;
+}
+
+.contenedor-perfil fieldset{
+	padding: 1em 4em;
+}
+
+.contenedor-perfil legend{
+	width: 120%;
+}
+
+.contenedor-perfil {
+	display: flex;
+	align-items: center;
+	flex-direction: column;
+}
+
+.contenedor-perfil :any(.btn,a) {
+	 text-align: center;
+}
+
+.contenedor-perfil a:not(.btn){
+	color: $(--v-oscuro);
+}
+.contenedor-perfil div>p:last-of-type{
+	margin-bottom: 1em;
+}
+.contenedor-perfil .btn{
+	text-decoration: none;
+}
+.sin-margen {
+	margin: 0 2em 0 0 !important;
+}
+.contenedor-perfil [bt-input-label]{
+	display: flex;
+	margin: 1em 0em;
+}
+
+.contenedor-perfil [bt-input-label] input{
+	flex: 1;
+}
 /*MENU PRINCIPAL*/
 
 .cabecera, .usuario{

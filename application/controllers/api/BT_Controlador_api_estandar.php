@@ -6,9 +6,10 @@ class BT_Controlador_api_estandar extends BT_Controller
     {
     	$this->id = $id;
         parent::__construct();
-        set_exception_handler(function($error){
+        /*set_exception_handler(function($error){
             $this->json_excepcion($error);
-        });
+        });*/
+        $this->load->library("form_validation");
         $this->load->model($modelo,"modelo");
         $this->load->helper("BT_ui_helper");
         $this->output->set_content_type("application/json");

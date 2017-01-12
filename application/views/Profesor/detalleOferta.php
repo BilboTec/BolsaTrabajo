@@ -1,31 +1,13 @@
-<div class="detalle_oferta_profesor">
-
-<label>Titulo</label>
-<input ng-model="oferta.titulo"/><br>
-
-<label>Nombre Empresa</label>
-<input ng-model="oferta.nombre_empresa"/>
-
-<label>Estudios minimos</label>
-<textarea ng-model="oferta.estudios_min"></textarea>
-
-<label>Experiencia minima</label>
-<textarea ng-model="oferta.experiencia_min"></textarea>
-
-<label>Requisitos</label>
-<textarea ng-model="oferta.requisitos"></textarea>
-
-<label>Descripción</label>
-<textarea ng-model="oferta.descripcion"></textarea>
-
-<label>Horario</label>
-<textarea ng-model="oferta.horario"></textarea>
-
-<label>Salario</label>
-<textarea ng-model="oferta.salario"></textarea>
-
-<label>Publico<input type="checkbox" ng-model="oferta.visible"></label>
-
-<a href="#!/">Volver</a>
-<button ng-click="guardar()">Guardar</button>
+<div>
+<h1>{{oferta.titulo | uppercase}}</h1>
+<h3>{{oferta.nombre_empresa}}</h3>
+<p>Publicada hace {{ oferta.fecha | diferencia_fecha}}</p>
+<p>{{ oferta.descripcion }}</p>
+<p>{{ oferta.requisitos}}</p>
+<p>{{ oferta.estusion_min}}</p>
+<p>{{ oferta.experencia_min}}</p>
+<p>{{ oferta.horario}}</p>
+<p>{{ oferta.salario}}</p>
+<p>{{ (oferta.visible!=="0"?'Publica':'Privada') }}</p>
 </div>
+<a ng-href="#!/Editar/{{oferta.id_oferta}}">Editar</a>

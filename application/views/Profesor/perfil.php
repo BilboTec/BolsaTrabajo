@@ -1,1 +1,1 @@
-<div ng-view class="contenedor-ofertas"></div>
+<form name="formPerfil" ng-view class="contenedor-perfil contenedor"></form>

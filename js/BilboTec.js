@@ -1,19 +1,51 @@
 angular.module("BilboTec.ui",["ngAnimate"]);
 angular.module("BilboTec",["BilboTec.ui", "ngRoute"])
+.filter("diferencia_fecha",function(){
+    return function(fecha){
+    	if(typeof fecha === "undefined"){
+    		return;
+    	}
+    	var ahora = new Date();
+    	var desde = new Date(fecha);
+        var tiempo = ahora.getTime() - desde.getTime();
+        var tiempos = {
+        	"segundos":1000,
+        	"minutos":60,
+        	"horas":60,
+        	"días":24
+        };
+        for(var ext in tiempos){
+        	if(tiempo>tiempos[ext]){
+        		tiempo= tiempo/tiempos[ext];
+        	}else{
+        		return tiempo.toFixed(0) + " "+ext;
+        	}
+        }
+        return tiempo.toFixed(0) + " dias";
+    }
+})
 .config(function($routeProvider){
 	var diccionarioDirecciones = {
 		"/Profesor/Ofertas":{
 			"/":{templateUrl:"/Profesor/BuscarOferta", controller:"busquedaOfertas"},
-			"/:id_oferta":{templateUrl:"/Profesor/DetalleOferta", controller:"detalleOferta"}
+			"/:id_oferta":{templateUrl:"/Profesor/DetalleOferta", controller:"detalleOferta"},
+			"/Editar/:id_oferta":{templateUrl:"/Profesor/EditarOferta", controller:"detalleOferta"}
 		},
 		"/Profesor/":{
 			"/":{templateUrl:"/Profesor/BuscarOferta", controller:"busquedaOfertas"},
-			"/:id_oferta":{templateUrl:"/Profesor/DetalleOferta", controller:"detalleOferta"}
+			"/:id_oferta":{templateUrl:"/Profesor/DetalleOferta", controller:"detalleOferta"},
+			"/Editar/:id_oferta":{templateUrl:"/Profesor/EditarOferta", controller:"detalleOferta"}
 		},
 		"/Profesor/Perfil":{
 			"/":{templateUrl:"/Profesor/DatosPerfil", controller:"controladorDatosProfesor"},
 			"/Clave":{templateUrl:"/Profesor/CambiarClave", controller:"controladorClaveProfesor"},
 			"/Editar":{templateUrl:"/Profesor/editarPerfil", controller:"controladorDatosProfesor"}
+		},
+		"/Profesor/Alumnos":{
+			"/":{templateUrl:"/Profesor/BuscarAlumno", controller:"controladorProfesorBuscarAlumno"},
+			"/InvitarAlumnos":{templateUrl:"/Profesor/InvitarAlumnos", controller:"controladorInvitarAlumnos"},
+			"/:id_alumno":{templateUrl:"/Profesor/DetalleAlumno", controller:"controladorDetalleAlumno"},
+			"/Editar/:id_alumno":{templateUrl:"/Profesor/EditarAlumno", controller:"controladorDetalleAlumno"}
 		}
 	};
 	var pathname = location.pathname;
@@ -21,6 +53,7 @@ angular.module("BilboTec",["BilboTec.ui", "ngRoute"])
 	for(var ruta in direcciones){
 		$routeProvider.when(ruta,direcciones[ruta])
 	}
+	$routeProvider.otherwise({redirectTo:"/"});
 })
 .controller("altaEmpresaController",["$http","$scope",function($http,$scope){
 	$scope.onPaisCambiado = function(){
@@ -599,19 +632,92 @@ angular.module("BilboTec",["BilboTec.ui", "ngRoute"])
 
 }])
 .controller("controladorClaveProfesor",["$http", "$scope", "$location", function($http, $scope, $location){
+	$scope.usuario = {};
 	$scope.cambiarClave = function(){
-		$http({url: "/api/Profesores/CambiarClave", 
-				method: "POST", 
-				data: $.param($scope.usuario),
-				headers: {'Content-Type': 'application/x-www-form-urlencoded'}
-			})
+		$scope.formPerfil.$setSubmitted(true);
+		if($scope.formPerfil.$valid){
+			$http({url: "/api/Profesores/CambiarClave", 
+					method: "POST", 
+					data: $.param($scope.usuario),
+					headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+				})
 			.then(
-				function(respuesta){
-					$location.path("/");
-				},
-				function(error){
-					alert(error.data?error.data:error);
-				}
-				)
+					function(respuesta){
+						$scope.ventana.establecerTitulo("clave_cambiada");
+						$scope.ventana.establecerContenido("clave_cambiada_cuerpo");
+						$scope.ventana.establecerBotones([{
+							accion:function(){
+								$scope.ventana.cerrar();
+								$location.path("/");
+							}, 
+							texto: "aceptar"
+							}
+						]);
+						$scope.ventana.abrir();
+						$scope.ventana.centrar();
+
+						
+					},
+					function(error){
+						$scope.ventana.establecerTitulo("error");
+						var mensaje = error.data;
+						if(angular.isArray(error.data) || angular.isObject(error.data)){
+							mensaje = "";
+							for(var clave in error.data){
+								mensaje += error.data[clave] + "\r";
+							}
+						}
+						$scope.ventana.establecerContenido(mensaje);
+						$scope.ventana.establecerBotones([{
+							accion:function(){
+								$scope.ventana.cerrar();
+							}, 
+							texto: "aceptar"
+							}
+						]);
+						$scope.ventana.abrir();
+						$scope.ventana.centrar();
+					}
+					)
+		}
 	}
 }])
+.controller("controladorProfesorBuscarAlumno",["$http", "$scope", "$location", function($http, $scope, $location){
+	$scope.alumnos = [];
+	$scope.filtros = {};
+	$scope.buscar = function(){
+		$http({
+			url:"/api/Alumnos/Get",
+			params:filtros
+		})
+		.then(function(respuesta){
+			$scope.alumnos = respuesta.data;
+		},function(error){
+			debugger;
+		});
+	};
+}])
+.controller("controladorInvitarAlumnos",["$http", "$scope",function($http, $scope){
+	$scope.cargarCSV = function(){
+		var input = angular.element("input[type='file']")[0];
+			if(input.files.length>0){
+			var reader = new FileReader();
+			reader.onload = function(evt){
+				var text = evt.target.result;
+				$http({
+					url:"/api/Alumnos/Invitar/",
+					method:"POST",
+					headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+					data:$.param({emails:text})
+				})
+				.then(function(respuesta){
+					debugger;
+				},
+				function(error){
+					debugger;
+				});
+			};
+			reader.readAsText(input.files[0]);
+		}
+	};
+}]);

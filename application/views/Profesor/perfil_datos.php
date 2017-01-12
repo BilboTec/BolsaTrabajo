@@ -4,6 +4,6 @@
 	<p>{{email}}</p>
 	<p>{{rol}}</p>
 
-	<a href="#!/Editar">Editar</a>
-	<a>Cambiar Contraseña</a>
+	<a class="btn btn-tipo sin-margen" href="#!/Editar">Editar</a>
+	<a href="#!/Clave" class="btn btn-tipo">Cambiar Contraseña</a>
 </div>

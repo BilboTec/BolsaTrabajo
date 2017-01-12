@@ -27,10 +27,38 @@ class Profesores extends BT_Controlador_api_estandar
     }
 
     public function CambiarClave(){
-    	$clave_vieja = $this->input->post("clave");
-    	$profesor = $this->get_usuario_actual()[0];
-    	if($profesor->verificar_clave($clave_vieja)){
-    		$clave = $this->input->post("nuevaclave");
+    	$this->form_validation->set_rules([
+    		["field"=>"clave", "caption"=>"contraseña actual", "rules"=>"trim|required"],
+    		["field"=>"nuevaclave", "caption"=>"contraseña nueva", "rules"=>"trim|required|callback_claves_iguales"],
+    		["field"=>"repetirclave", "caption"=>"repetir contraseña", "rules"=>"trim|required"]
+    		]);
+    	if($this->form_validation->run()){
+	    	$clave_vieja = $this->input->post("clave");
+	    	$profesor = $this->get_usuario_actual()[0];
+	    	if($profesor->verificar_clave($clave_vieja)){
+	    		$clave = $this->input->post("nuevaclave");
+	    		$profesor->establecer_clave($clave);
+	    		$this->modelo->update($profesor, $profesor);
+	    		$respuesta = new stdClass();
+	    		$respuesta->mensaje = "ok";
+	    		$this->json($respuesta);
+	    	}
+	    	else{
+	    		$respuesta = new stdClass();
+	    		$respuesta->mensaje = "clave incorrecta";
+	    		$this->json($respuesta, 400);
+	    	}
     	}
+    	else{
+    		$this->json($this->form_validation->error_array(),400);
+    	}
+    }
+
+    public function claves_iguales($nuevaclave){
+    	$clave_repetida = $this->input->post("repetirclave");
+    	if($nuevaclave == $clave_repetida){
+    		return true;
+    	}
+    	$this->form_validation->set_message("claves_iguales", "las contraseñas deben ser iguales");
     }
 }

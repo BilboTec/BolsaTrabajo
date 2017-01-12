@@ -10,7 +10,6 @@
 	<script src="/js/BilboTec.ui.js"></script>
 	<script src="/api/Localize"></script>
 	<?php echo csscrush_tag("/css/style.css"); ?>
-	<!--<link rel="stylesheet" href="/css/style.css"/>-->
 	<title><?php echo (isset($title)?$title:"Bolsa de Trabajo"); ?></title>
 </head>
 <body>

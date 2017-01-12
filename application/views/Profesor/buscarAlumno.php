@@ -14,7 +14,7 @@
 				<select>
 				<?php
 				foreach ($departamentos as $departamento){
-				  echo "<option ng-model='filtro.departamento' value= '" .$departamento["nombre"] ."'>" .$departamento["nombre"] ."</option>";
+				  echo "<option ng-model='filtro.departamento' value= '" .$departamento->id_departamento ."'>" .$departamento->nombre ."</option>";
 				}
 				?>
 				</select><br><br>
@@ -23,18 +23,13 @@
 			</div>
 			
 		</fieldset>
-		<a href="#!/Editar/0">Añadir Oferta<a>
+		<a href="#!/InvitarAlumnos">Invitar Alumnos<a>
 	</aside>
 	<section>
-		<article ng-repeat="oferta in ofertas">
+		<article ng-repeat="alumno in alumnos">
 		<a ng-href="#!/{{oferta.id_oferta}}">
-			<h1>{{oferta.titulo}}</h1>
-			<p>{{oferta.descripcion}}</p>
-			<div class="opciones">
-				<h5 ng-show="oferta.estudios_min">Estudios minimos {{oferta.estudios_min}}</h5>
-				<h5 ng-show="oferta.experiencia_min">Experiencia minima {{oferta.experiencia_min}}</h5>
-				<h5 ng-show="oferta.horario">Horario {{oferta.horario}}</h5>
-			</div>
+			<h1>{{alumno.nombre + " " + alumno.apellido1 + " " + alumno.apellido2 }}</h1>
+			<p>{{alumno.email}}</p>
 		</a>
 		</article>
 			<select ng-model="filtro.resultadosPorPagina">

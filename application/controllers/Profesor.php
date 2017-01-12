@@ -10,6 +10,9 @@
 				redirect("/Alumno");
 				break;
 		}
+
+		 //cargo el modelo de departamentos
+      	$this->load->model('BT_Modelo_Departamento');
 	}
 	public function index(){
 		$data['idioma'] = function($clave){
@@ -86,8 +89,14 @@
 		};
 		$this->load->view("/Profesor/perfil_datos",$data);
 	}
+	public function EditarOferta(){
+		$data['idioma'] = function($clave){
+			return $this->lang->line($clave);
+		};
+		$this->load->view("/Profesor/editar_oferta",$data);
+	}
 
-	public function Clave(){
+	public function CambiarClave(){
 		$data['idioma'] = function($clave){
 			return $this->lang->line($clave);
 		};
@@ -98,12 +107,35 @@
 		$data['idioma'] = function($clave){
 			return $this->lang->line($clave);
 		};
-		 //cargo el modelo de departamentos
-      		$this->load->model('BT_Modelo_Departamento');
       
       	//pido los departamentos al modelo
        		$data['departamentos'] = $this->BT_Modelo_Departamento->get();
 
 		$this->load->view("/Profesor/perfil_editar",$data);
+	}
+	public function Alumnos(){
+		$data['idioma'] = function($clave){
+			return $this->lang->line($clave);
+		};
+		$data['activo'] = "alumnos";
+		$data['es_administrador'] = $this->es_admin();
+
+		$this->load->view("/plantillas/header", $data);
+		$this->load->view("/Profesor/menu", $data);
+		$this->load->view("/Profesor/alumnos", $data);
+		$this->load->view("/plantillas/footer", $data);
+	}
+	public function BuscarAlumno(){
+		$data['idioma'] = function($clave){
+			return $this->lang->line($clave);
+		};
+		$data['departamentos'] = $this->BT_Modelo_Departamento->get();
+		$this->load->view("/Profesor/buscarAlumno",$data);
+	}
+	public function InvitarAlumnos(){
+		$data['idioma'] = function($clave){
+			return $this->lang->line($clave);
+		};
+		$this->load->view("/Profesor/invitar_alumnos",$data);
 	}
 }
