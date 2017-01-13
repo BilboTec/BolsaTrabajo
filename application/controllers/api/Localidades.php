@@ -15,4 +15,11 @@ class Localidades extends BT_Controlador_api_estandar
         ->set_output(json_encode($this->modelo->query(["id_provincia"=>$id_provincia])));
 	}
     
+    public function GetById($id){
+    	$this->load->model("BT_Modelo_Provincia", "provincias");
+    	$respuesta = new stdClass();
+    	$respuesta->localidad = $this->modelo->get_by_id($id);
+    	$respuesta->provincia = $this->provincias->get_by_id($respuesta->localidad->id_provincia);
+    	$this->json($respuesta);
+    }
 }

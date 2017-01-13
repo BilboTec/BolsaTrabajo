@@ -498,7 +498,7 @@ angular.module("BilboTec.ui")
         restrict:"A",
         require:"ngModel",
         scope:{
-            klicoEditor:"=",
+            btEditor:"=",
             valor:"=ngModel"
         },
         templateUrl:"/Plantillas/Get/btEditor",
@@ -512,8 +512,10 @@ angular.module("BilboTec.ui")
 
             ];
             var doc = el.find("iframe")[0].contentDocument;
+            
             doc.designMode = "on";
             scope.comando = function(tipo,valor){
+                doc.write(scope.valor);
                 doc.execCommand(tipo,true,valor);
                 scope.actualizar();
             };

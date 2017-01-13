@@ -11,7 +11,18 @@ class Ofertas extends BT_Controlador_api_estandar
     }
     
     public function Get(){
-    	parent::Get();
+        $tipo = $this->session->tipo;
+        $usuario = $this->get_usuario_actual();
+        $condiciones = [];
+        switch($tipo){
+            case 0:
+                $condiciones["visible"] = 1;
+                break;
+            case 1:
+                $condiciones["id_empresa"] = $usuario->id_empresa;
+                break;
+            }
+    	parent::query($condiciones);
     }
 
     public function getById($id){

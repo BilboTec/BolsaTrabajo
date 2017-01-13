@@ -13,7 +13,7 @@ class Profesores extends BT_Controlador_api_estandar
     public function GuardarPerfil(){
     	$profesor = new _Profesor();
         $profesor->fromPost($this);
-        $profesor_viejo = $this->get_usuario_actual()[0];
+        $profesor_viejo = $this->get_usuario_actual();
 
         if($profesor->id_profesor != $profesor_viejo->id_profesor){
         	$this->json("id identificador incorrecto", 400);
@@ -34,7 +34,7 @@ class Profesores extends BT_Controlador_api_estandar
     		]);
     	if($this->form_validation->run()){
 	    	$clave_vieja = $this->input->post("clave");
-	    	$profesor = $this->get_usuario_actual()[0];
+	    	$profesor = $this->get_usuario_actual();
 	    	if($profesor->verificar_clave($clave_vieja)){
 	    		$clave = $this->input->post("nuevaclave");
 	    		$profesor->establecer_clave($clave);

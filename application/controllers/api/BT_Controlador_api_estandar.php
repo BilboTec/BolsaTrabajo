@@ -82,4 +82,14 @@ class BT_Controlador_api_estandar extends BT_Controller
         $this->output->set_output(json_encode($objeto));
     }
 
+     protected function query($condiciones){
+        $resultadosPorPagina = $this->input->get("resultadosPorPagina");
+        $pagina = $this->input->get("pagina");
+        $orden = $this->input->get("orden");
+        $direccion = $this->input->get("direccion");
+        if($direccion===null){
+            $direccion = "asc";
+        }
+        echo data_result($this->modelo->query($condiciones,$resultadosPorPagina,$pagina,$orden,$direccion),$this->modelo->count());
+    }
 }

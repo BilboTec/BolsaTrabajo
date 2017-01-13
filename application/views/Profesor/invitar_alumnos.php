@@ -8,3 +8,4 @@
 	<input type="file" ng-model="csv"/>
 	<span ng-click="cargarCSV()">Cargar</span>
 </div>
+<div bt-window="ventana"></div>

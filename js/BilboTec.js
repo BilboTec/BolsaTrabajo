@@ -36,6 +36,11 @@ angular.module("BilboTec",["BilboTec.ui", "ngRoute"])
 			"/:id_oferta":{templateUrl:"/Profesor/DetalleOferta", controller:"detalleOferta"},
 			"/Editar/:id_oferta":{templateUrl:"/Profesor/EditarOferta", controller:"detalleOferta"}
 		},
+		"/Profesor":{
+			"/":{templateUrl:"/Profesor/BuscarOferta", controller:"busquedaOfertas"},
+			"/:id_oferta":{templateUrl:"/Profesor/DetalleOferta", controller:"detalleOferta"},
+			"/Editar/:id_oferta":{templateUrl:"/Profesor/EditarOferta", controller:"detalleOferta"}
+		},
 		"/Profesor/Perfil":{
 			"/":{templateUrl:"/Profesor/DatosPerfil", controller:"controladorDatosProfesor"},
 			"/Clave":{templateUrl:"/Profesor/CambiarClave", controller:"controladorClaveProfesor"},
@@ -46,6 +51,24 @@ angular.module("BilboTec",["BilboTec.ui", "ngRoute"])
 			"/InvitarAlumnos":{templateUrl:"/Profesor/InvitarAlumnos", controller:"controladorInvitarAlumnos"},
 			"/:id_alumno":{templateUrl:"/Profesor/DetalleAlumno", controller:"controladorDetalleAlumno"},
 			"/Editar/:id_alumno":{templateUrl:"/Profesor/EditarAlumno", controller:"controladorDetalleAlumno"}
+		},
+
+		"/Alumno/Ofertas":{
+			"/":{templateUrl:"/Alumno/BuscarOferta", controller:"busquedaOfertas"},
+			"/:id_oferta":{templateUrl:"/Alumno/DetalleOferta", controller:"detalleOfertaAlumno"}
+		},
+		"/Alumno/":{
+			"/":{templateUrl:"/Alumno/BuscarOferta", controller:"busquedaOfertas"},
+			"/:id_oferta":{templateUrl:"/Alumno/DetalleOferta", controller:"detalleOfertaAlumno"}
+		},
+		"/Alumno":{
+			"/":{templateUrl:"/Alumno/BuscarOferta", controller:"busquedaOfertas"},
+			"/:id_oferta":{templateUrl:"/Alumno/DetalleOferta", controller:"detalleOfertaAlumno"}
+		},
+		"/Alumno/Perfil":{
+			"/":{templateUrl:"/Alumno/DatosPerfil", controller:"controladorDatosAlumno"},
+			"/Clave":{templateUrl:"/Alumno/CambiarClave", controller:"controladorClaveAlumno"},
+			"/Editar":{templateUrl:"/Alumno/editarPerfil", controller:"controladorDatosAlumno"}
 		}
 	};
 	var pathname = location.pathname;
@@ -631,6 +654,68 @@ angular.module("BilboTec",["BilboTec.ui", "ngRoute"])
 	}
 
 }])
+.controller("controladorDatosAlumno", ["$http", "$scope", "$location", function($http, $scope, $location){
+	$http({url: "/api/Alumnos/GetActual"})
+	.then(
+		function(respuesta){
+			var user = respuesta.data;
+			$scope.nombreCompleto = user.nombre + " " + user.apellido + " " + user.apellido2;
+			$scope.email = user.email;
+			$scope.usuario = user;
+			if(typeof $scope.usuario.id_localidad !== "undefined" && $scope.usuario.id_localidad){
+				$http({
+					url:"/api/Localidades/GetById/" + $scope.usuario.id_localidad
+				})
+				.then(
+				function(respuesta){
+					$scope.provincia = respuesta.data.provincia;
+					$scope.localidad = respuesta.data.localidad;
+					$scope.id_provincia = $scope.provincia.id_provincia;
+					$scope.cargarLocalidades();
+				},
+				function(error){
+
+				})
+				
+			}
+		},
+
+		function(error){
+			alert(error.data?error.data:error);
+		}
+		)
+
+	$scope.guardar = function(){
+		$http({url: "/api/Alumnos/GuardarPerfil", 
+				method: "POST", 
+				data: $.param($scope.usuario),
+				headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+			})
+			.then(
+				function(respuesta){
+					$location.path("/");
+				},
+				function(error){
+					alert(error.data?error.data:error);
+				}
+				)
+	}
+
+	$scope.cargarLocalidades = function(){
+		$http({
+			url:"/api/Localidades/GetDeProvincia/" + $scope.id_provincia
+		})
+		.then(
+			function(respuesta){
+				$scope.localidades = respuesta.data;
+			},
+			function(error){
+				alert(error.data?error.data:error);
+			}
+			)
+	}
+
+}])
 .controller("controladorClaveProfesor",["$http", "$scope", "$location", function($http, $scope, $location){
 	$scope.usuario = {};
 	$scope.cambiarClave = function(){
@@ -698,24 +783,53 @@ angular.module("BilboTec",["BilboTec.ui", "ngRoute"])
 	};
 }])
 .controller("controladorInvitarAlumnos",["$http", "$scope",function($http, $scope){
-	$scope.cargarCSV = function(){
-		var input = angular.element("input[type='file']")[0];
-			if(input.files.length>0){
-			var reader = new FileReader();
-			reader.onload = function(evt){
-				var text = evt.target.result;
-				$http({
+	$scope.cargarEmails = function(){
+		enviar($scope.emails);
+	}
+	var enviar = function(text){
+		$http({
 					url:"/api/Alumnos/Invitar/",
 					method:"POST",
 					headers: {'Content-Type': 'application/x-www-form-urlencoded'},
 					data:$.param({emails:text})
 				})
 				.then(function(respuesta){
-					debugger;
+					var errores = respuesta.data.errores;
+					var respuesta = "Se han enviado añadido todos los alumnos";
+					if(typeof errores !== "undefined" && errores.length !== 0){
+						respuesta = "No se ha podido añadir a los siguientes alumnos:";
+						var esPrimero = true;
+						for(var i in errores){
+							if(!esPrimero){
+								respuesta+=",";
+							}
+							respuesta+= " " + errores[i];
+							esPrimero = false;
+						}
+					}
+					var ventana = $scope.ventana;
+					ventana.establecerTitulo("invitar_titulo");
+					ventana.establecerContenido(respuesta);
+					ventana.establecerBotones([{
+						texto:"aceptar",
+						accion:function(){
+							ventana.cerrar();
+						}
+					}]);
+					ventana.abrir();
+					ventana.centrar();
 				},
 				function(error){
 					debugger;
 				});
+	}
+	$scope.cargarCSV = function(){
+		var input = angular.element("input[type='file']")[0];
+			if(input.files.length>0){
+			var reader = new FileReader();
+			reader.onload = function(evt){
+				var text = evt.target.result;
+				enviar(text);
 			};
 			reader.readAsText(input.files[0]);
 		}

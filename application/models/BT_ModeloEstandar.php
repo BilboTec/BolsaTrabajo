@@ -56,4 +56,8 @@ abstract class BT_ModeloEstandar extends CI_Model
 		$this->db->update($this->tabla,$nuevo,[$this->clave=>$viejo->$clave]);
 		return $this->db->get_where($this->tabla,[$this->clave=>$viejo->$clave])->custom_result_object($this->clase);
 	}
+
+    public function get_by_id($id){
+        return $this->db->get_where($this->tabla,[$this->clave=>$id])->custom_row_object(0, $this->clase);
+    }
 }

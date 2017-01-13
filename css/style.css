@@ -10,6 +10,23 @@ body{
 	min-height: 100%;
 }
 
+input[type="radio"]{
+	width: auto !important;
+}
+
+fieldset.envoltura_controles{
+	border: 1px solid rgb(169, 169, 169);
+}
+
+fieldset.envoltura_controles legend{
+	color: black;
+	font-family: "exo-regular";
+	font-size: 1em;
+	text-align: left;
+	width: auto;
+	margin:0;
+}
+
 body, .contenido{
 	display: flex;
 	flex-direction: column;

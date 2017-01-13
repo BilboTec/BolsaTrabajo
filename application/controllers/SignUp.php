@@ -51,7 +51,6 @@ class SignUp extends BT_Controller{
 
 		        $this->email->initialize($config);
 
-				$this->load->library('email');
 
 				$this->email->from('BilboTec.algo@gmail.com', 'CIFP Txurdinaga');
 				$this->email->to($identificador->email);

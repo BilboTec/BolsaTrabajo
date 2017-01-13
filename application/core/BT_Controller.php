@@ -50,13 +50,13 @@ class BT_Controller extends CI_Controller{
 		if($id!==null){
 			switch($tipo){
 				case 0:
-					$usuario = $this->alumnos->get($id);
+					$usuario = $this->alumnos->get_by_id($id);
 					break;
 				case 1:
-					$usuario = $this->empresas->get($id);
+					$usuario = $this->empresas->get_by_id($id);
 					break;
 				case 2:
-					$usuario = $this->profesores->get($id);
+					$usuario = $this->profesores->get_by_id($id);
 					break;
 			}
 		}
@@ -64,12 +64,12 @@ class BT_Controller extends CI_Controller{
 	}
 
 	protected function es_admin(){
-		$usuario = $this->get_usuario_actual()[0];
+		$usuario = $this->get_usuario_actual();
 		return isset($usuario->id_rol) && $usuario->id_rol > 2;
 	}
 
 	public function getActual(){
-		$usuario = $this->get_usuario_actual()[0];
+		$usuario = $this->get_usuario_actual();
 		unset($usuario->clave);
 		$this->json($usuario);
 
