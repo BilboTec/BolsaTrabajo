@@ -74,3 +74,4 @@ $lang["provincia"] = "provincia";
 $lang["mujer"] = "mujer";
 $lang["hombre"] = "hombre";
 $lang["sexo"] = "sexo";
+$lang["nuevo_link"] =  "nuevo hipervínculo";

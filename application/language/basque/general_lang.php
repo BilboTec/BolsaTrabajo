@@ -75,3 +75,4 @@ $lang["provincia"] = "probintzia";
 $lang["mujer"] = "emakumezkoa";
 $lang["hombre"] = "gizonezkoa";
 $lang["sexo"] = "sexua";
+$lang["nuevo_link"] = "esteka berria";

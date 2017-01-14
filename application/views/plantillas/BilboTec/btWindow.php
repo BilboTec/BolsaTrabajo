@@ -6,7 +6,7 @@
 		<div class="bt-window-texto" ng-show="!url">
 			{{ contenido | btLocale | capitalize }}
 		</div>
-		<div class="bt-window-url" ng-show="url" ng-inclide="url"></div>
+		<div class="bt-window-url" ng-show="url" ng-include="url"></div>
 		<div class="bt-window-btn-container">
 			<button ng-repeat="boton in botones" ng-click="boton.accion()">{{boton.texto | btLocale | capitalize}}</button>
 		</div>

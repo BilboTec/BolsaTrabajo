@@ -533,6 +533,9 @@ angular.module("BilboTec.ui")
                 scope.contenido = contenido;
                 scope.url = false;
             };
+            scope.establecerUrl = function(url){
+                scope.url = url;
+            }
             scope.cerrar = function(){
                 scope.visible = false;
             };
@@ -555,7 +558,8 @@ angular.module("BilboTec.ui")
                 establecerContenido:scope.establecerContenido,
                 establecerTitulo:scope.establecerTitulo,
                 establecerUrl:scope.establecerUrl,
-                establecerBotones:scope.establecerBotones
+                establecerBotones:scope.establecerBotones,
+                establecerUrl:scope.establecerUrl
             };
         }
     }
@@ -645,7 +649,26 @@ angular.module("BilboTec.ui")
                 scope.$apply(scope.actualizar);
             };
             scope.link = function(){
-
+                var ventana = scope.ventana;
+                ventana.establecerTitulo("nuevo_link");
+                ventana.establecerUrl("/Plantillas/Editor/editorEstandar");
+                ventana.establecerBotones([
+                    {
+                        texto:"aceptar",
+                        accion:function(){
+                            var url = el.find("[bt-window] input").val();
+                            scope.comando("createLink",url);
+                            ventana.cerrar();
+                        }
+                    },{
+                        texto:"cancelar",
+                        accion:function(){
+                            ventana.cerrar();
+                        }
+                    }
+                ]);
+                ventana.abrir();
+                ventana.centrar();
             };
         }
     }
