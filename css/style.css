@@ -663,6 +663,40 @@ input:focus{
 	border-radius: 4px;
 	overflow: hidden; 
 }
+/************************************
+*********BT-IMAGE-UPLOADER***********
+************************************/
+[bt-date-picker] {
+    display: flex;
+    flex-direction: row;
+    position:relative;
+}
+[bt-date-picker] #texto{
+	min-width: 60px;
+	min-height: 20px;
+	background-color: white;
+	display: inline-block;
+	border: 1px solid $(--g-oscuro);
+}
+[bt-date-picker] .barra{
+	display: flex;
+	justify-content: space-between;
+}
+[bt-date-picker] td{
+	text-align: center;
+	background-color: $(--g-claro);
+}
+[bt-date-picker] td:hover{
+	background-color: $(--v-claro);
+}
+[bt-date-piker] td.activo{
+	background-color: white; 
+}
+[bt-date-picker] .desplegable{
+	position: absolute;
+	top:100%;
+	background-color: $(--g-oscuro);
+}
 /*************************************
 ********PROFESOR****************
 **************************************/

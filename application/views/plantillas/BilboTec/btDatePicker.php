@@ -1,17 +1,23 @@
-<div class="bt-date-picker-valor">
-    <input ng-model="texto"/><button>V</button>
+<div class="editor">
+    <input type="hidden" value="{{valor}}">
+    <span id="texto" contenteditable>dd/mm/yyyy</span><button>V</button>
 </div>
-<div class="bt-date-pikcer-deslegable">
-    <div class="bt-date-picker-titulo">
-        <button>&lt;&lt;</button>
-        <span>{{ anio }}</span>
-        <button>&gt;&gt;</button>
+<div class="desplegable">
+    <div class="barra">
+        <span class="btn btn-mini" ng-click="cambiarMes(-1)">&lt;&lt;</span>
+        <span>{{ meses[mes] }} de {{ anio }}</span>
+        <span class="btn btn-mini" ng-click="cambiarMes(1)">&gt;&gt;</span>
     </div>
     <table>
         <thead>
             <tr>
-                <td ng-repeat=""
+                <th ng-repeat="dia in diasSemana">{{dia}}</th>
             </tr>
         </thead>
+        <tbody>
+            <tr ng-repeat="semana in semanas">
+                <td class="btn" ng-class="(activo?'activo':'')" ng-repeat="dia in semana" ng-click="establecerFecha(dia)">{{dia["dd"]}}</td>
+            </tr>
+        </tbody>
     </table>
 </div>

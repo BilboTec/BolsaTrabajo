@@ -19,6 +19,7 @@ class Plantillas extends CI_Controller
 		$_GET["idioma"] = function($texto){
 			return $this->lang->line($texto);
 		};
+		$arhivo_idioma = $this->input->get("archivo_idioma");
 		$_GET["lang"] = $this->idioma;
         $this->load
             ->view("/plantillas/BilboTec/$vista",$_GET);

@@ -371,8 +371,121 @@ angular.module("BilboTec.ui")
             btDatePicker:"="
         },
         templateUrl:"/Plantillas/Get/btDatePicker",
-        link:function(scope,e,a,ctr){
-
+        link:function(scope,e,a,ngModel){
+            //Formato en el que se escribirá la fecha
+            scope.formato = a.btFormato || "dd/mm/yyyy";
+            //Elemento editable en el que se encuentra la fecha
+            var texto = e.find("#texto")[0];
+            //Función para mostrar la fecha
+            ngModel.$render = function(){
+                var strFecha = scope.valor;
+                if(typeof strFecha === "undefined" || strFecha === null || !strFecha){
+                    texto.innerHTML = ""
+                }else{
+                    var formatos = scope.formato.split("/");
+                    var elementos = strFecha.split("/");
+                    if(elementos.length !== formatos.length){
+                        return;
+                    }else{
+                        var fecha = {
+                            "mm":elementos[0],
+                            "dd":elementos[1],
+                            "yyyy":elementos[2]
+                        };
+                        strFecha = "";
+                        for(var i = 0; i < formatos.length; i++){
+                            strFecha += (i!==0?"/":"") + fecha[formatos[i]];
+                        }
+                        texto.innerHTML = strFecha;
+                    }
+                }
+            }
+            //Cuando el elemento editable pierda foco se considera que el control ha sido tocado
+            angular.element(texto).on("blur",function(){
+                scope.$apply(function(){
+                    ngModel.$setTouched(true);
+                });
+            });
+            //Cada vez que se detecte un keyup en el elemento editable se intenta leer la fecha y se establece
+            //su validez
+            angular.element(texto).on("keyup",function(){
+                ngModel.$setDirty(true);
+                var strFecha = texto.innerHTML;
+                if(strFecha===""){
+                    scope.$apply(function(){
+                        scope.valor = null;
+                        ngModel.$setValidity("required",false);
+                    });
+                    return;
+                }
+                var formatos = scope.formato.split("/");
+                var elementos = strFecha.split("/");
+                if(formatos.length !== elementos.length){
+                    return;
+                }
+                var fecha = {};
+                for(var i = 0; i < formatos.length; i++){
+                    fecha[formatos[i]] = elementos[i];
+                }
+                fecha = fecha["mm"]+"/"+fecha["dd"]+"/"+fecha["yyyy"];
+                var date = new Date(fecha);
+                if(date == "Invalid Date"){
+                    scope.$apply(function(){
+                        scope.valor = fecha;
+                        ngModel.$setValidity("required",true);
+                        ngModel.$setValidity("date",false);
+                    });
+                }else{
+                    scope.$apply(function(){
+                        scope.valor = fecha;
+                        ngModel.$setValidity("required",true);
+                        ngModel.$setValidity("date",true);
+                    });
+                }
+            });
+            var date = new Date();
+            scope.anio = date.getFullYear();
+            scope.mes = date.getMonth();
+            scope.meses = ["Ene","Feb","Mar","May","Abr","Jun","Jul","Ago","Sep","Oct","Nov","Dic"];
+            scope.diasSemana = ["Lu","Ma","Mi","Ju","Vi","Sa","Do"];
+            scope.calcularMes = function(){
+                var date = new Date(scope.anio,scope.mes,1);
+                var valorFecha = new Date(scope.valor);
+                //Si no empieza en lunes
+                while(date.getDay()!==1){
+                    date.setDate(date.getDate()-1);
+                }
+                scope.semanas = [];
+                do{
+                    var semana = [];
+                    while(date.getDay()!==0){
+                        semana.push({"dd":date.getDate(),"mm":date.getMonth()+1,"yyyy":date.getFullYear(),
+                            activo:date.getFullYear() === valorFecha.getFullYear() && date.getMonth() === valorFecha.getMonth()
+                            && date.getDate() === valorFecha.getDate()});
+                        date.setDate(date.getDate()+1);
+                    }
+                    semana.push({"dd":date.getDate(),"mm":date.getMonth()+1,"yyyy":date.getFullYear()});
+                    date.setDate(date.getDate()+1);
+                    scope.semanas.push(semana);
+                }while(date.getMonth()<=scope.mes && scope.anio >= date.getFullYear());
+            };
+            scope.calcularMes();
+            scope.cambiarMes = function(cambio){
+                var mes = scope.mes + cambio;
+                while(mes<0){
+                    mes+=12;
+                    scope.anio-=1;
+                }
+                while(mes>11){
+                    mes-=12;
+                    scope.anio+=1;
+                }
+                scope.mes = mes;
+                scope.calcularMes();
+            };
+            scope.establecerFecha = function(dia){
+                scope.valor = dia["mm"] + "/" + dia["dd"] + "/" + dia["yyyy"];
+            };
         }
     };
 }])
@@ -496,15 +609,22 @@ angular.module("BilboTec.ui")
 .directive("btEditor",function(){
     return {
         restrict:"A",
-        require:"ngModel",
+        require:"?ngModel",
         scope:{
             btEditor:"=",
             valor:"=ngModel"
         },
         templateUrl:"/Plantillas/Get/btEditor",
-        link:function(scope,el,at,controller){
+        link:function(scope,el,at,ngModel){
             if(at.btName){
                 el.find("input[type='hidden']").attr("name",at.btName);
+            }
+            if(ngModel){
+                ngModel.$render = function(){
+                    if(typeof scope.valor !== "undefined" && scope.valor !== null) {
+                        doc.body.innerHTML = scope.valor;
+                    }
+                };
             }
             scope.fuentes = [
                 "Georgia", "Book Antiqua","Times New Roman", "Arial", "Arial Black","Comic Sans MS",
@@ -515,7 +635,6 @@ angular.module("BilboTec.ui")
             
             doc.designMode = "on";
             scope.comando = function(tipo,valor){
-                doc.write(scope.valor);
                 doc.execCommand(tipo,true,valor);
                 scope.actualizar();
             };
@@ -530,4 +649,10 @@ angular.module("BilboTec.ui")
             };
         }
     }
-});
+}).
+directive("btAutoComplete",["$http",function($http){
+    return{
+        restrict: "A"
+
+    }
+}]);

@@ -1,7 +1,4 @@
-<?php
-/**
- * Created by PhpStorm.
- * User: josua
- * Date: 18/12/2016
- * Time: 15:23
- */
+
+<div ng-init="date='12/12/2017'">
+<div ng-model="date" bt-date-picker></div>
+</div>
