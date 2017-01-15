@@ -23,7 +23,7 @@
 			</div>
 			
 		</fieldset>
-		<a href="#!/Editar/0">Añadir Oferta<a>
+		<a href="#!/Editar/0">Añadir Oferta<img src="/imagenes/anadir.png"/><a>
 	</aside>
 	<section>
 		<article ng-repeat="oferta in ofertas">

@@ -23,11 +23,11 @@
 			</div>
 			
 		</fieldset>
-		<a href="#!/InvitarAlumnos">Invitar Alumnos<a>
+		<a href="#!/InvitarAlumnos">Invitar Alumnos <img src="/imagenes/invitar_alumno.png"/><a>
 	</aside>
 	<section>
 		<article ng-repeat="alumno in alumnos">
-		<a ng-href="#!/{{oferta.id_oferta}}">
+		<a ng-href="#!/{{alumno.id_alumno}}">
 			<h1>{{alumno.nombre + " " + alumno.apellido1 + " " + alumno.apellido2 }}</h1>
 			<p>{{alumno.email}}</p>
 		</a>

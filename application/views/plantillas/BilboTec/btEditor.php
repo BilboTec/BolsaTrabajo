@@ -1,8 +1,8 @@
 <ul class="barra-comandos">
 	<li>
 		<ul>
-			<li class="btn btn-tipo" ng-click="comando('undo')"><img src="/imagenes/editor/undo.png"/></li>
-			<li class="btn btn-tipo" ng-click="comando('redo')">Reh</li>
+			<li class="btn btn-tipo" ng-click="comando('undo')"><img src="/imagenes/editor/undo1.png"/></li>
+			<li class="btn btn-tipo" ng-click="comando('redo')"><img src="/imagenes/editor/redo.png"/></li>
 		</ul>
 	</li>
 	<li>
@@ -26,42 +26,42 @@
 	</ul>
 	<li>
 		<ul>
-			<li class="btn btn-tipo" ng-click="comando('italic')"><i>K</i></li>
-			<li class="btn btn-tipo" ng-click="comando('bold')"><b>N</b></li>
-			<li class="btn btn-tipo" ng-click="comando('underline')"><u>S</u></li>
+			<li class="btn btn-tipo" ng-click="comando('italic')"><img src="/imagenes/editor/italic.png"/></li>
+			<li class="btn btn-tipo" ng-click="comando('bold')"><img src="/imagenes/editor/bold.png"/></li>
+			<li class="btn btn-tipo" ng-click="comando('underline')"><img src="/imagenes/editor/underline.png"/></li>
 		</ul>
 	</li>
 	<li>
 		<ul>
-			<li class="btn btn-tipo" ng-click="comando('justifyLeft')">Izq</li>
-			<li class="btn btn-tipo" ng-click="comando('justifyCenter')">Cent</li>
-			<li class="btn btn-tipo" ng-click="comando('justifyFull')">Just</li>
-			<li class="btn btn-tipo" ng-click="comando('justifyRight')">Der</li>
+			<li class="btn btn-tipo" ng-click="comando('justifyLeft')"><img src="/imagenes/editor/jleft.png"/></li>
+			<li class="btn btn-tipo" ng-click="comando('justifyCenter')"><img src="/imagenes/editor/jcenter.png"/></li>
+			<li class="btn btn-tipo" ng-click="comando('justifyFull')"><img src="/imagenes/editor/just.png"/></li>
+			<li class="btn btn-tipo" ng-click="comando('justifyRight')"><img src="/imagenes/editor/jright.png"/></li>
 		</ul>
 	</li>
 	<li>
 		<ul>
-			<li class="btn btn-tipo" ng-click="comando('indent')">Ind</li>
-			<li class="btn btn-tipo" ng-click="comando('outdent')">Out</li>
+			<li class="btn btn-tipo" ng-click="comando('indent')"><img src="/imagenes/editor/ind.png"/></li>
+			<li class="btn btn-tipo" ng-click="comando('outdent')"><img src="/imagenes/editor/out.png"/></li>
 		</ul>
 	</li>
 	<li>
 		<ul>
-			<li class="btn btn-tipo" ng-click="comando('copy')">Copiar</li>
-			<li class="btn btn-tipo" ng-click="comando('cut')">cortar</li>
-			<li class="btn btn-tipo" ng-click="comando('paste')">Pegar</li>
+			<li class="btn btn-tipo" ng-click="comando('copy')"><img src="/imagenes/editor/copy.png"/></li>
+			<li class="btn btn-tipo" ng-click="comando('cut')"><img src="/imagenes/editor/cut.png"/></li>
+			<li class="btn btn-tipo" ng-click="comando('paste')"><img src="/imagenes/editor/paste.png"/></li>
 		</ul>
 	</li>
 	<li>
 		<ul>
-			<li class="btn btn-tipo" ng-click="comando('insertOrderedList')">Ord</li>
-			<li class="btn btn-tipo" ng-click="comando('insertUnorderedList')">Unord</li>
+			<li class="btn btn-tipo" ng-click="comando('insertOrderedList')"><img src="/imagenes/editor/ord.png"/></li>
+			<li class="btn btn-tipo" ng-click="comando('insertUnorderedList')"><img src="/imagenes/editor/unord.png"/></li>
 		</ul>
 	</li>
 	<li>
 		<ul>
-			<li class="btn btn-tipo" ng-click="link()">Link</li>
-			<li class="btn btn-tipo" ng-click="comando('unlink')">Unlink</li>
+			<li class="btn btn-tipo" ng-click="link()"><img src="/imagenes/editor/link.png"/></li>
+			<li class="btn btn-tipo" ng-click="comando('unlink')"><img src="/imagenes/editor/unlink.png"/></li>
 		</ul>
 	</li>
 </ul>

@@ -554,7 +554,8 @@ input:focus{
 }
 
 .btn-tabla {
-	padding: .6em 1em;
+	background-color: transparent;
+	border: none;
 }
 [bt-tabla]  .cargando {
 	display: none;
@@ -564,6 +565,16 @@ input:focus{
 	z-index: 999999999999999999999;
 	background: rgba(255,255,255,0.4);
 }
+
+.btn-first, .btn-prev, .btn-next, .btn-prev-last, .btn-actualizar{
+	background-color: $(--v-oscuro);
+	padding: .1em .8em;
+}
+
+.btn-actualizar{
+	margin-left: .5em;	
+}
+
 .cargando.activo{
 	display: block;
 }
