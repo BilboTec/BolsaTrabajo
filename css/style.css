@@ -164,7 +164,13 @@ input[type="submit"]:hover{
 .contenedor-perfil .grupo :any(input,select) {
 	padding: .5em;
 	width: 250px;
+	/*para que los select sean del mismo tamaño que los input*/
+	-ms-box-sizing:content-box;
+	-moz-box-sizing:content-box;
+	-webkit-box-sizing:content-box; 
+	box-sizing:content-box;
 }
+
 .titulo{
 	align-self: center;
 	text-align: center;

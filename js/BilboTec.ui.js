@@ -5,7 +5,7 @@ angular.module("BilboTec.ui")
             return;
         }
         return string.substr(0,1).toUpperCase() + string.substr(1);
-    }
+    };
 })
 .directive("btInputLabel",function(){
     return{
@@ -359,7 +359,7 @@ angular.module("BilboTec.ui")
                 }
             });
         }
-    }
+    };
 }])
 .directive("btDatePicker",["$locale",function($locale){
     return {
@@ -399,7 +399,7 @@ angular.module("BilboTec.ui")
                         texto.innerHTML = strFecha;
                     }
                 }
-            }
+            };
             //Cuando el elemento editable pierda foco se considera que el control ha sido tocado
             angular.element(texto).on("blur",function(){
                 scope.$apply(function(){
@@ -535,7 +535,7 @@ angular.module("BilboTec.ui")
             };
             scope.establecerUrl = function(url){
                 scope.url = url;
-            }
+            };
             scope.cerrar = function(){
                 scope.visible = false;
             };
@@ -550,7 +550,7 @@ angular.module("BilboTec.ui")
             };
             scope.establecerBotones = function(botones){
                 scope.botones = botones;
-            }
+            };
             scope.btWindow = {
                 abrir:scope.abrir,
                 cerrar:scope.cerrar,
@@ -562,7 +562,7 @@ angular.module("BilboTec.ui")
                 establecerUrl:scope.establecerUrl
             };
         }
-    }
+    };
 }])
 .directive("btImageUploader",function(){
     return {
@@ -660,7 +660,8 @@ angular.module("BilboTec.ui")
                             scope.comando("createLink",url);
                             ventana.cerrar();
                         }
-                    },{
+                    },
+                    {
                         texto:"cancelar",
                         accion:function(){
                             ventana.cerrar();
@@ -671,11 +672,29 @@ angular.module("BilboTec.ui")
                 ventana.centrar();
             };
         }
-    }
-}).
-directive("btAutoComplete",["$http",function($http){
+    };
+})
+.directive("btAutoComplete",["$http",function($http){
     return{
         restrict: "A"
 
+    };
+}])
+.directive("btContenidoHtml",function(){
+return{
+       restrict: "A",     //Solo en atributos
+       require:"ngModel",   //Requerir que el elemento tenga ngModel, de esta forma estara disponible en la funcion link
+       scope:{//Las variables que estaran disponibles en scope
+            modelo:"=ngModel"
+       },
+       /*Esta funcion seria el controlador del elemento, en este caso no tiene que hacer nada mas que mostrar el contenido de ngModel en formato html*/
+       link:function(scope,elemento,attributos,ngModel){
+               /*Esta funcion sera llamada  cada vez que ngModel cambie, *
+                * la funcion tiene que aplicar los cambios al html de forma   *
+               * rapida                                                                                              */
+              ngModel.$render = function(){ 
+                   elemento[0].innerHTML = scope.modelo;
+               };
     }
-}]);
+};
+});

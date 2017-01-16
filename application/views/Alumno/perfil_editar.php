@@ -72,7 +72,7 @@
 
 
 <div class="grupo">
-	<h2>Otros Datos</h2>
+	<h2><?php echo ucfirst($idioma("otros_datos")); ?></h2>
 	<div bt-editor="editor" ng-model="usuario.otros_datos"></div>
 </div>
 
