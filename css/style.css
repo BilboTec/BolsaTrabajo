@@ -171,6 +171,23 @@ input[type="submit"]:hover{
 	box-sizing:content-box;
 }
 
+.contenedor-ofertas .grupo{
+	display: flex;
+	flex-direction: column;
+	margin: 1em;
+}
+
+.contenedor-ofertas .grupo :any(input,select) {
+	padding: .5em;
+	width: 250px;
+	/*para que los select sean del mismo tamaño que los input*/
+	-ms-box-sizing:content-box;
+	-moz-box-sizing:content-box;
+	-webkit-box-sizing:content-box; 
+	box-sizing:content-box;
+}
+
+
 .titulo{
 	align-self: center;
 	text-align: center;
@@ -198,7 +215,7 @@ input[type="submit"]:hover{
 	flex-direction: column;
 }
 
-.contenedor-perfil :any(.btn,a) {
+.contenedor-perfil :any(.btn,a), .contenedor-ofertas .grupo :any(.btn,a){
 	 text-align: center;
 }
 
@@ -208,7 +225,7 @@ input[type="submit"]:hover{
 .contenedor-perfil div>p:last-of-type{
 	margin-bottom: 1em;
 }
-.contenedor-perfil .btn{
+.contenedor-perfil .btn, .contenedor-ofertas{
 	text-decoration: none;
 }
 .sin-margen {
@@ -681,12 +698,13 @@ input:focus{
 	overflow: hidden; 
 }
 /************************************
-*********BT-IMAGE-UPLOADER***********
+*********BT-DATE-PICKER***********
 ************************************/
 [bt-date-picker] {
-    display: flex;
+    display: inline-flex;
     flex-direction: row;
     position:relative;
+    min-width: 154px;
 }
 [bt-date-picker] #texto{
 	min-width: 60px;
@@ -694,7 +712,21 @@ input:focus{
 	background-color: white;
 	display: inline-block;
 	border: 1px solid $(--g-oscuro);
+	flex: 1;
+	display:flex;
+	justify-content:flex-start;
+	align-items:center;
 }
+
+[bt-date-picker] .btn-picker{
+	flex:0;
+}
+
+[bt-date-picker] .editor{
+	flex:1;
+	display: flex;
+}
+
 [bt-date-picker] .barra{
 	display: flex;
 	justify-content: space-between;

@@ -1,8 +1,9 @@
 <div class="editor">
     <input type="hidden" value="{{valor}}">
-    <span id="texto" contenteditable>dd/mm/yyyy</span><button>V</button>
+    <span id="texto" contenteditable>dd/mm/yyyy</span>
+    <span class= "btn-date btn" ng-click="abrir()"><img src="/imagenes/anadir.png"></span>
 </div>
-<div class="desplegable">
+<div ng-show="abierto" class="desplegable">
     <div class="barra">
         <span class="btn btn-mini" ng-click="cambiarMes(-1)">&lt;&lt;</span>
         <span>{{ meses[mes] }} de {{ anio }}</span>

@@ -76,6 +76,19 @@
 	<div bt-editor="editor" ng-model="usuario.otros_datos"></div>
 </div>
 
+<div class="grupo">
+	<div bt-experiencia ng-model="usuario"></div>
+</div>
+
+<div class="grupo">
+	<div bt-formacion-academica ng-model="usuario"></div>
+</div>
+<div class="grupo">
+	<div bt-formacion-complementaria ng-model="usuario"></div>
+</div>
+<div class="grupo">
+	<div bt-idiomas ng-model="usuario"></div>
+</div>
 <span class="btn-tipo btn" ng-click="guardar()"><?php echo ucfirst($idioma("guardar")); ?></span>
 <a href="#!/"><?php echo ucfirst($idioma("volver")); ?></a>
 </div>

@@ -7,7 +7,7 @@
 	<p ng-show="usuario.nacionalidad">{{usuario.nacionalidad}}</p>
 	<p ng-show="usuario.sexo">{{usuario.sexo==0?"<?php echo ucfirst($idioma("mujer")); ?>":"<?php echo ucfirst($idioma("hombre")); ?>"}}</p>
 	<p ng-show="usuario.disponibilidad">{{usuario.disponibilidad==0?"<?php echo ucfirst($idioma("no")); ?>":"<?php echo ucfirst($idioma("si")); ?>"}}</p>
-	<div ng-show="usuario.otros_datos">{{usuario.otros_datos}}</div>
+	<div bt-contenido-html ng-model="usuario.otros_datos"></div>
 
 	<a class="btn btn-tipo sin-margen" href="#!/Editar">Editar</a>
 	<a href="#!/Clave" class="btn btn-tipo">Cambiar Contraseña</a>

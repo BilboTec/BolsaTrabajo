@@ -221,7 +221,7 @@ class Migration_Rellenar_Tabla_Paises extends CI_Migration{
 							('Wallis y Futuna'),
 							('Sáhara Occidental'),
 							('Yemen'),
-							('Puerto Rico');
+							('Puerto Rico')
 			   ");
 	}
 

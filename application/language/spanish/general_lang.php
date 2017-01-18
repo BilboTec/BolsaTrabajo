@@ -58,6 +58,7 @@ $lang["repetir_clave"] = "repita su contraseña";
 $lang["clave_nueva"] = "contraseña nueva";
 $lang["clave_actual"] = "contraseña actual";
 $lang["editar_perfil"] = "editar perfil";
+$lang["editar_oferta"] = "editar oferta";
 $lang["apellido1"] = "primer apellido";
 $lang["apellido2"] = "segundo apellido";
 $lang["rol"] = "rol";

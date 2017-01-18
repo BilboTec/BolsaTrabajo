@@ -380,6 +380,7 @@ angular.module("BilboTec.ui")
                 }
             }
             scope.abrir = function(){
+            	console.log("lo que te de la gana");
                 scope.abierto = true;
             };
             scope.cerrar = function(){
@@ -638,7 +639,6 @@ angular.module("BilboTec.ui")
         },
         templateUrl:"/Plantillas/Get/btEditor",
         link:function(scope,el,at,ngModel){
-            debugger;
             if(at.btName){
                 el.find("input[type='hidden']").attr("name",at.btName);
             }
@@ -698,4 +698,198 @@ directive("btAutoComplete",["$http",function($http){
         restrict: "A"
         
     }
+}])
+
+.directive("btContenidoHtml",function(){
+return{
+       restrict: "A",     //Solo en atributos
+       require:"ngModel",   //Requerir que el elemento tenga ngModel, de esta forma estara disponible en la funcion link
+       scope:{//Las variables que estaran disponibles en scope
+            modelo:"=ngModel"
+       },
+       /*Esta funcion seria el controlador del elemento, en este caso no tiene que hacer nada mas que mostrar el contenido de ngModel en formato html*/
+       link:function(scope,elemento,attributos,ngModel){
+               /*Esta funcion sera llamada  cada vez que ngModel cambie, *
+                * la funcion tiene que aplicar los cambios al html de forma   *
+               * rapida                                                                                              */
+              ngModel.$render = function(){ 
+                   elemento[0].innerHTML = scope.modelo;
+               };
+      }
+    };
+})
+
+.directive("btExperiencia",["$http", function($http){
+	return{
+		restrict: "A",
+		require: "ngModel",
+		scope:{
+			alumno: "=ngModel"
+		},
+		templateUrl: "/plantillas/Get/btExperiencia",
+		link: function(scope, elemento, atributos, ngModel){
+			scope.editar = "/plantillas/Get/btEditarExperiencia";
+			scope.vista = "/plantillas/Get/btMostrarExperiencia";
+			scope.$on("cancelar_edicion", function(){
+				scope.indiceEdicion = -1;
+				scope.insertando = false;
+			})
+			scope.$on("editar_experiencia", function(evento, args){
+				scope.indiceEdicion = args.indice;
+			});
+			scope.insertar = function(){
+				scope.indiceEdicion = -1;
+				scope.insertando = true;
+			};
+			scope.$on("aplicar_edicion_experiencia",function(avento,args){
+				if(typeof args.nuevo !== "undefined" && args.nuevo){
+					scope.alumno.experiencias.push(args.experiencia);
+				}else{
+					scope.alumno.experiencias[scope.indiceEdicion] = args.experiencia;
+				}
+				scope.indiceEdicion = -1;
+				scope.insertando = false;
+			});
+			ngModel.$render = function(){
+				if(typeof scope.alumno === "undefined"){
+					return;
+				}
+				$http({
+					url: "/api/Experiencias/Get/" + scope.alumno.id_alumno
+				})
+				.then(
+					function(respuesta){
+						scope.alumno.experiencias = respuesta.data.data;
+				},
+					function(error){
+						alert(error.data?error.data:error);
+					})
+			}
+		}
+	}
+}])
+
+.controller("btEditarExperiencia",["$scope","$http", function($scope,$http){
+			$scope.vista = angular.copy($scope.experiencia);
+			$scope.onTrabajandoActualmente_change = function(){
+				if($scope.experiencia.trabajando_actualmente){
+					$scope.experiencia.fecha_fin = null;
+				}
+			};
+			$scope.cancelar = function(){
+				$scope.$emit("cancelar_edicion");
+			};
+			$scope.guardar = function(){
+				var config ={
+					url: "/api/Experiencias/Update",
+					method: "POST",
+					data: $.param({
+						viejo:$scope.experiencia,
+						nuevo:$scope.vista
+						}),
+                    headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+				};
+				if(typeof $scope.nuevo !== "undefined" && $scope.nuevo){
+					config.url = "/api/Experiencias/Insert";
+					config.data = $.param($scope.vista);
+				}
+				$http(config)
+				.then(
+					function(respuesta){
+						var args = {experiencia:respuesta.data[0]};
+						if(typeof $scope.nuevo !== "undefined" && $scope.nuevo){
+							args.nuevo = true;
+						}
+						$scope.$emit("aplicar_edicion_experiencia",args);
+					}
+				)
+			}
+		
+}])
+
+.controller("btMostrarExperiencia", function($scope){
+	$scope.editar = function(){
+		$scope.$emit("editar_experiencia", {
+			indice:$scope.$index
+		});
+	};
+})
+.directive("btFormacionAcademica",["$http",function(){
+	return{
+		scope:{
+			alumno:"=ngModel"
+			},
+			templateUrl:"/plantillas/Get/btFormacionAcademica",
+			link:function(scope){
+			scope.editar = "/plantillas/Get/btEditarFormacionAcademica?coleccion[]=tipo_titulacion&coleccion[]=oferta_formativa";
+			scope.vista = "/plantillas/Get/btMostrarFormacionAcademica";
+			scope.$on("cancelar_edicion", function(){
+				scope.indiceEdicion = -1;
+				scope.insertando = false;
+			})
+			scope.$on("editar_experiencia", function(evento, args){
+				scope.indiceEdicion = args.indice;
+			});
+			scope.insertar = function(){
+				scope.indiceEdicion = -1;
+				scope.insertando = true;
+			};
+			scope.$on("aplicar_edicion_experiencia",function(avento,args){
+				if(typeof args.nuevo !== "undefined" && args.nuevo){
+					scope.alumno.experiencias.push(args.experiencia);
+				}else{
+					scope.alumno.experiencias[scope.indiceEdicion] = args.experiencia;
+				}
+				scope.indiceEdicion = -1;
+				scope.insertando = false;
+			});
+				scope.$render = function(){
+					$http({
+						url:"/api/FormacionAcademica/Get/" + scope.alumno.id_alumno
+					})
+					.then(function(respuesta){
+						scope.alumno.formaciones = respuesta.data.data;
+					},function(error){
+						
+					})
+				};
+			}
+		}
+}])
+.controller("btEditarFormacionAcademica",["$scope","$http", function($scope,$http){
+			$scope.vista = angular.copy($scope.formacion);
+			$scope.onCursando_change = function(){
+				if($scope.formacion.cursando){
+					$scope.formacion.fecha_fin = null;
+				}
+			};
+			$scope.cancelar = function(){
+				$scope.$emit("cancelar_edicion");
+			};
+			$scope.guardar = function(){
+				var config ={
+					url: "/api/FormacionAcademica/Update",
+					method: "POST",
+					data: $.param({
+						viejo:$scope.experiencia,
+						nuevo:$scope.vista
+						}),
+                    headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+				};
+				if(typeof $scope.nuevo !== "undefined" && $scope.nuevo){
+					config.url = "/api/FormacionAcademica/Insert";
+					config.data = $.param($scope.vista);
+				}
+				$http(config)
+				.then(
+					function(respuesta){
+						var args = {experiencia:respuesta.data[0]};
+						if(typeof $scope.nuevo !== "undefined" && $scope.nuevo){
+							args.nuevo = true;
+						}
+						$scope.$emit("aplicar_edicion_experiencia",args);
+					}
+				)
+			}
+		
 }]);

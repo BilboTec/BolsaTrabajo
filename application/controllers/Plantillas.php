@@ -14,8 +14,22 @@ class Plantillas extends CI_Controller
 		$this->lang->load('general', $idioma);
 		$this->idioma = $idioma;
 	}
-
+	protected $modelos = [
+		"tipo_titulacion"=>"BT_Modelo_TipoTitulacion",
+		"oferta_formativa"=>"BT_Modelo_OfertaFormativa"
+	];
 	public function Get($vista){
+		$colecciones = $this->input->get("coleccion");
+		if(!is_array($colecciones)){
+			$colecciones = [$colecciones];
+		}
+		foreach($colecciones as $nombre){
+			if(isset($this->modelos[$nombre])){
+				$this->load->model($this->modelos[$nombre],$nombre);
+				$_GET[$nombre] = $this->$nombre->get();
+			}
+		}
+		
 		$_GET["idioma"] = function($texto){
 			return $this->lang->line($texto);
 		};

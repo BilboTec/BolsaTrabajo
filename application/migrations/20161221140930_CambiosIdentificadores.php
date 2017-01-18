@@ -11,4 +11,7 @@ class Migration_Cambiosidentificadores extends CI_Migration {
 			constraint pk_identificador_alta PRIMARY KEY identificador_alta(id_identificador)
 		)");
 	}
+	 public function down(){
+        
+    }
 }
