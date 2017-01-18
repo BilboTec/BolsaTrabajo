@@ -29,7 +29,9 @@
 	public function ofertas(){
 		$this->index();
 	}
-	
+	public function DatosPersonales(){
+		$this->load->view("/Alumno/DatosPersonales");
+	}
 	public function buscarOferta(){
 		$data['idioma'] = function($clave){
 			return $this->lang->line($clave);

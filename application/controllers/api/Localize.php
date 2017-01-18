@@ -13,6 +13,7 @@ class Localize extends CI_Controller {
 				$this->idioma = "spanish";
 			}
 			$this->lang->load('form_validation', $this->idioma);
+			$this->lang->load("calendar",$this->idioma);
 			$this->lang->load('general', $this->idioma);
 			$this->config->set_item('language', $this->idioma);
 		

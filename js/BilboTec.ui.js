@@ -380,7 +380,6 @@ angular.module("BilboTec.ui")
                 }
             }
             scope.abrir = function(){
-            	console.log("lo que te de la gana");
                 scope.abierto = true;
             };
             scope.cerrar = function(){
@@ -431,7 +430,7 @@ angular.module("BilboTec.ui")
                 var strFecha = texto.innerHTML;
                 if(strFecha===""){
                     scope.$apply(function(){
-                        scope.valor = null;
+                        ngModel.$setViewValue(null);
                         ngModel.$setValidity("required",false);
                     });
                     return;
@@ -449,13 +448,13 @@ angular.module("BilboTec.ui")
                 var date = new Date(fecha);
                 if(date == "Invalid Date"){
                     scope.$apply(function(){
-                        scope.valor = fecha;
+                        ngModel.$setViewValue(fecha);
                         ngModel.$setValidity("required",true);
                         ngModel.$setValidity("date",false);
                     });
                 }else{
                     scope.$apply(function(){
-                        scope.valor = fecha;
+                        ngModel.$setViewValue(fecha);
                         ngModel.$setValidity("required",true);
                         ngModel.$setValidity("date",true);
                     });
@@ -464,8 +463,8 @@ angular.module("BilboTec.ui")
             var date = new Date();
             scope.anio = date.getFullYear();
             scope.mes = date.getMonth();
-            scope.meses = ["Ene","Feb","Mar","May","Abr","Jun","Jul","Ago","Sep","Oct","Nov","Dic"];
-            scope.diasSemana = ["Lu","Ma","Mi","Ju","Vi","Sa","Do"];
+            scope.meses = ["cal_jan","cal_feb","cal_mar","cal_may","cal_apr","cal_jun","cal_jul","cal_aug","cal_sep","cal_oct","cal_nov","cal_dec"];
+            scope.diasSemana = ["cal_mo","cal_tu","cal_we","cal_th","cal_fr","cal_sa","cal_su"];
             scope.calcularMes = function(){
                 var date = new Date(scope.anio,scope.mes,1);
                 var valorFecha = new Date(scope.valor);
