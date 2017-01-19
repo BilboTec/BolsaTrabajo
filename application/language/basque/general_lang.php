@@ -99,3 +99,5 @@ $lang["cortar"] = "moztu";
 $lang["pegar"] = "itsatsi";
 $lang["hipervinculo"] = "hiperesteka";
 $lang["quitar_hipervinculo"] = "hiperesteka kendu";
+$lang['datos_personales'] = "datu pertsonalak";
+$lang['tlf'] = "telefonoa";

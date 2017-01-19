@@ -49,6 +49,7 @@ class Alumnos extends BT_Controlador_api_estandar
     }
 
     public function GuardarPerfil(){
+    	$imagen = $this->input->post("imagen");
         $alumno = new _Alumno();
         $alumno->fromPost($this);
         $alumno_viejo = $this->get_usuario_actual();
@@ -57,10 +58,21 @@ class Alumnos extends BT_Controlador_api_estandar
             $this->json("id identificador incorrecto", 400);
         }
         else{
-            $this->modelo->update($alumno_viejo, $alumno);  
-            $respuesta = new stdClass;
-            $respuesta->mensaje = "ok";
-            $this->json($respuesta);
+        	$alumno =  $this->modelo->update($alumno_viejo, $alumno);		
+            $this->json($alumno);
         }
+    }
+
+    public function GuardarImagen(){
+        $alumno = $this->get_usuario_actual();
+        $imagen = $this->modelo->cargar_imagen($alumno);
+        $this->modelo->guardar_imagen($imagen, $alumno);
+        $this->CargarImagen();
+    }
+
+    public function CargarImagen(){
+        $alumno = $this->get_usuario_actual();
+        $imagen = $this->modelo->cargar_imagen($alumno);
+        $this->json(["imagen"=>$imagen]);
     }
 }

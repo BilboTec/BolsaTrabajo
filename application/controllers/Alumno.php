@@ -30,7 +30,21 @@
 		$this->index();
 	}
 	public function DatosPersonales(){
-		$this->load->view("/Alumno/DatosPersonales");
+		$data['idioma'] = function($clave){
+			return $this->lang->line($clave);
+		};
+		$this->load->model('BT_Modelo_Provincia', 'provincias');
+		$data['provincias'] = $this->provincias->get();
+		
+		$this->load->view("/Alumno/DatosPersonales", $data);
+	}
+
+	public function OtrosDatos(){
+		$data['idioma'] = function($clave){
+			return $this->lang->line($clave);
+		};
+		
+		$this->load->view("/Alumno/OtrosDatos", $data);
 	}
 	public function buscarOferta(){
 		$data['idioma'] = function($clave){

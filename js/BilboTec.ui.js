@@ -597,10 +597,23 @@ angular.module("BilboTec.ui")
             scope.offset = {
                 x:0,y:0
             };
+            scope.$render = function(){
+            	var imagen = new Image();
+            	imagen.onload = function(){
+            		var scale = scope.scale;
+                            canvas.drawImage(imagen,scope.offset.x+(imagen.width*(scale/100))*0,
+                                scope.offset.y+(imagen.height*(scale/100))*0,scope.offset.x+imagen.width*(scale/100),
+                                scope.offset.y+imagen.height*(scale/100));
+                            scope.imagen = canvasElement.toDataURL();
+                            scope.$apply(function(){scope.size = (scope.imagen.length/1024).toFixed(2)+"KB"});
+            	};
+            	
+            	imagen.src = scope.imagen;
+            };
             scope.scale = 100;
             var canvasElement = elem.find("canvas")[0];
-            canvasElement.width = 300;
-            canvasElement.height = 400;
+            canvasElement.width = 100;
+            canvasElement.height = 127;
             var canvas = canvasElement.getContext("2d");
             var inputImagen = elem.find("input[type='file']")[0];
             scope.imagenSeleccionada = function(){
@@ -826,14 +839,15 @@ return{
 				scope.indiceEdicion = -1;
 				scope.insertando = false;
 			})
-			scope.$on("editar_experiencia", function(evento, args){
+			scope.$on("editar_formacion", function(evento, args){
 				scope.indiceEdicion = args.indice;
 			});
 			scope.insertar = function(){
+                scope.vista = {};
 				scope.indiceEdicion = -1;
 				scope.insertando = true;
 			};
-			scope.$on("aplicar_edicion_experiencia",function(avento,args){
+			scope.$on("aplicar_edicion_formacion",function(avento,args){
 				if(typeof args.nuevo !== "undefined" && args.nuevo){
 					scope.alumno.experiencias.push(args.experiencia);
 				}else{
@@ -890,5 +904,106 @@ return{
 					}
 				)
 			}
+
+            $scope.cargarOfertas = function(){
+                $http({url:"/api/OfertaFormativa/GetByTipo/" +$scope.formacion.id_tipo_titulacion})
+                .then(
+                    function(respuesta){
+                        $scope.ofertas = respuesta.data.data;
+                    },
+                    function(error){
+
+                    }
+                    )
+            }
 		
+}])
+
+.controller("perfilAlumnoDatosPersonalesController", ["$http", "$scope", function($http, $scope){
+    $scope.cargarLocalidades = function(){
+        $http({
+            url:"/api/Localidades/GetDeProvincia/" + $scope.id_provincia
+        })
+        .then(
+            function(respuesta){
+                $scope.localidades = respuesta.data;
+            },
+            function(error){
+                alert(error.data?error.data:error);
+            }
+            )
+    }
+	$scope.editar = function(){
+		$scope.vista = angular.copy($scope.alumno);
+        $scope.cargarLocalidades();
+		$scope.editando = true;
+        $scope.imagen_copia = angular.copy($scope.imagen);
+	}
+	
+	$scope.cancelar = function(){
+		$scope.vista= {};
+		$scope.editando = false;
+	}
+	
+	$scope.guardar = function(){
+		$http({url: "/api/Alumnos/GuardarPerfil", 
+				method: "POST", 
+				data: $.param($scope.vista),
+				headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+			})
+			.then(
+				function(respuesta){
+					$scope.cancelar();
+					$scope.alumno = respuesta.data;
+				},
+				function(error){
+					alert(error.data?error.data:error);
+				}
+				)
+        $http({url: "/api/Alumnos/GuardarImagen", 
+                method: "POST", 
+                data: $.param({imagen:$scope.imagen_copia}),
+                headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+            })
+            .then(
+                function(respuesta){
+                   $scope.imagen = respuesta.data.imagen;
+
+                },
+                function(error){
+                    alert(error.data?error.data:error);
+                }
+                )
+	}
+}])
+.controller("perfilAlumnoOtrosDatosController", ["$http", "$scope", function($http, $scope){
+   
+    $scope.editar = function(){
+        $scope.vista = angular.copy($scope.alumno);
+        $scope.cargarLocalidades();
+        $scope.editando = true;
+        $scope.imagen_copia = angular.copy($scope.imagen);
+    }
+    
+    $scope.cancelar = function(){
+        $scope.vista= {};
+        $scope.editando = false;
+    }
+    
+    $scope.guardar = function(){
+        $http({url: "/api/Alumnos/GuardarPerfil", 
+                method: "POST", 
+                data: $.param($scope.vista),
+                headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+            })
+            .then(
+                function(respuesta){
+                    $scope.cancelar();
+                    $scope.alumno = respuesta.data;
+                },
+                function(error){
+                    alert(error.data?error.data:error);
+                }
+                )
+    }
 }]);

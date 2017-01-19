@@ -662,6 +662,7 @@ angular.module("BilboTec",["BilboTec.ui", "ngRoute"])
 			$scope.nombreCompleto = user.nombre + " " + user.apellido + " " + user.apellido2;
 			$scope.email = user.email;
 			$scope.usuario = user;
+			$scope.alumno = user;
 			if(typeof $scope.usuario.id_localidad !== "undefined" && $scope.usuario.id_localidad){
 				$http({
 					url:"/api/Localidades/GetById/" + $scope.usuario.id_localidad
@@ -680,6 +681,15 @@ angular.module("BilboTec",["BilboTec.ui", "ngRoute"])
 			}
 		},
 
+		function(error){
+			alert(error.data?error.data:error);
+		}
+		)
+	$http({url:"/api/Alumnos/CargarImagen"})
+	.then(
+		function(respuesta){
+			$scope.imagen = respuesta.data.imagen;
+		},
 		function(error){
 			alert(error.data?error.data:error);
 		}
@@ -835,3 +845,4 @@ angular.module("BilboTec",["BilboTec.ui", "ngRoute"])
 		}
 	};
 }]);
+

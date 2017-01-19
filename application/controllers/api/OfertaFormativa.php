@@ -8,5 +8,8 @@ class OfertaFormativa extends BT_Controlador_api_estandar
     {
         parent::__construct("BT_Modelo_OfertaFormativa","id_oferta_formativa");
     }
+    public function GetByTipo($id){
+    	$this->query(["id_tipo_titulacion"=>$id]);
+    }
 
 }

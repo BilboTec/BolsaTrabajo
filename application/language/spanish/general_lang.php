@@ -98,3 +98,5 @@ $lang["cortar"] = "cortar";
 $lang["pegar"] = "pegar";
 $lang["hipervinculo"] = "hipervinculo";
 $lang["quitar_hipervinculo"] = "quitar hipervinculo";
+$lang['datos_personales'] = "datos personales";
+$lang['tlf'] = "teléfono";
