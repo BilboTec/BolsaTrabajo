@@ -8,5 +8,13 @@ class Idioma extends BT_Controlador_api_estandar
     {
         parent::__construct("BT_Modelo_Idioma","id_idioma");
     }
+    public function insert(){
+    	$idioma = new _Idioma();
+    	$idioma->fromPost($this);
+    	$alumno = $this->get_usuario_actual();
+    	$idioma->id_alumno = $alumno->id_alumno;
+    	$idioma = $this->modelo->insert($idioma);
+    	$this->json($idioma);
+    }
 
 }

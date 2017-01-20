@@ -4,5 +4,6 @@
 	<div bt-formacion-academica ng-model="alumno"></div>
 	<div bt-formacion-complementaria ng-model="alumno"></div>
 	<div bt-idiomas ng-model="alumno"></div>
+	<div ng-include="'/Alumno/Idiomas'"></div>
 	<div ng-include="'/Alumno/OtrosDatos'"></div>
 </div>

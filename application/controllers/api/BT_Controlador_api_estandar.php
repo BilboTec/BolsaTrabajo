@@ -42,13 +42,10 @@ class BT_Controlador_api_estandar extends BT_Controller
         //$this->requerir_login_json();
         try{
                 $elem = $this->input->post("elem");
-        		if($this->modelo->delete($elem[$this->id])){
-        			$respuesta = new stdClass();
-                    $respuesta->mensaje="Ok";
-                    $this->json($respuesta);
-        		}else{
-        			
-        		}
+    			$respuesta = new stdClass();
+                $respuesta->mensaje=$this->modelo->delete($elem[$this->id]);
+                $this->json($respuesta);
+        		
             }catch(Exception $ex){
                 $this->json_excepcion($ex);
             }

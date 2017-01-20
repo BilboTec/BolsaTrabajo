@@ -12,4 +12,13 @@ class BT_Modelo_FormacionAcademica extends BT_ModeloEstandar
     {
         parent::__construct("formacion_academica","_FormacionAcademica","id_formacion_academica");
     }
+    public function update($nuevo, $viejo){
+    	if($nuevo->id_oferta_formativa === ""){
+    		$nuevo->id_oferta_formativa = null;
+    	}
+    	if($nuevo->id_tipo_titulacion === ""){
+    		$nuevo->id_tipo_titulacion = null;
+    	}
+    	return parent::update($nuevo,$viejo);
+    }
 }

@@ -1,11 +1,11 @@
 <div ng-controller="btEditarFormacionAcademica">
 	<div class="grupo">
-		<label for="nombre"><?php echo $idioma("nombre"); ?></label>
-		<input id="nombre" type="text" ng-model="formacion.nombre"/>
+		<label for="nombre"><?php echo ucfirst($idioma("nombre")); ?></label>
+		<input id="nombre" type="text" ng-model="vista.nombre"/>
 	</div>
 	<div class="grupo">
-		<label for="id_tipo_titulacion"><?php echo $idioma("nombre"); ?></label>
-		<select ng-change="cargarOfertas()" id="id_tipo_titulacion" ng-model="formacion.id_tipo_titulacion">
+		<label for="id_tipo_titulacion"><?php echo ucfirst($idioma("tipo_titulacion")); ?></label>
+		<select ng-change="cargarOfertas()" id="id_tipo_titulacion" ng-model="vista.id_tipo_titulacion">
 			<?php 
 				if(isset($tipo_titulacion)){
 					foreach($tipo_titulacion as $tipo){
@@ -16,8 +16,8 @@
 		</select>
 	</div>
 	<div class="grupo">
-		<label for="id_oferta_formativa"><?php echo $idioma("nombre"); ?></label>
-		<select id="id_oferta_formativa" ng-model="formacion.id_oferta_formativa">
+		<label for="id_oferta_formativa"><?php echo ucfirst($idioma("oferta_formativa")); ?></label>
+		<select id="id_oferta_formativa" ng-model="vista.id_oferta_formativa">
 			<option ng-repeat="oferta in ofertas track by $index" value="{{oferta.id_oferta_formativa}}">{{oferta.nombre}}</option>
 		</select>
 	</div>

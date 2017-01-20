@@ -46,6 +46,13 @@
 		
 		$this->load->view("/Alumno/OtrosDatos", $data);
 	}
+	public function Idiomas(){
+		$data['idioma'] = function($clave){
+			return $this->lang->line($clave);
+		};
+		
+		$this->load->view("/Alumno/Idiomas", $data);
+	}
 	public function buscarOferta(){
 		$data['idioma'] = function($clave){
 			return $this->lang->line($clave);

@@ -48,8 +48,7 @@ abstract class BT_ModeloEstandar extends CI_Model
         return $this->db->get_where($this->tabla,[$this->clave=>$id])->custom_result_object($this->clase);
     }
     public function delete($id){
-        $this->db->delete($this->tabla,[$this->clave=>$id]);
-		return true;
+        return $this->db->delete($this->tabla,[$this->clave=>$id]);
     }
 	public function update($viejo,$nuevo){
         $clave = $this->clave;

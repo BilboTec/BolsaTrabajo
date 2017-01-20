@@ -1,8 +1,8 @@
 <?php
-
+require_once "Entidad.php";
 require_once 'BT_ModeloEstandar.php';
 
-class _Idioma{
+class _Idioma extends Entidad{
     public $id_idioma, $nombre ,$id_alumno, $nivel, $oficial;
 }
 class BT_Modelo_Idioma extends BT_ModeloEstandar

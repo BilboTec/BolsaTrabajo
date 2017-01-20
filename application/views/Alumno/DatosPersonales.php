@@ -10,6 +10,7 @@
 		<p ng-show="alumno.dni"><?php echo ucfirst($idioma("dni")); ?>: {{ alumno.dni }}</p>
 		<p ng-show="alumno.nacionalidad"><?php echo ucfirst($idioma("nacionalidad")); ?>: {{ alumno.nacionalidad }}</p>
 		<p ng-show="alumno.tlf"><?php echo ucfirst($idioma("tlf")); ?>: {{ alumno.tlf }}</p>
+		<p ng-show="alumno.calle"><?php echo ucfirst("calle");?>{{alumno.calle}} </p>
 	</div>
 	<form id="formDatosPersonales" name="formDatosPersonales" ng-show="editando">
 	<div>
