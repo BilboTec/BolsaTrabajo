@@ -1,16 +1,16 @@
-<div class="auto-complete">
-    <ul>
-        <li ng-repeat="v in valor">
-            {{ v[indiceTexto] }}
-            <ul>
-                <li ng-repeat="i in [0,1,2]" ng-class="v.puntuacion>=i?'activo':'inactivo'" ng-click="v.puntuacion=i">
-                    &nbsp;
-                </li>
-            </ul>
-        </li>
-    </ul>
-    <input type="text" ng-model="texto" ng-change="buscar()"/>
-</div>
+<div><input type="text" ng-model="textoBusqueda" ng-change="buscar()"></div>
 <ul class="dropdown">
-    <li ng-repeat="elem in vista">{{ elem[indiceTexto] }}</li>
+    <li ng-repeat="resultado in resultadosFiltrados">{{ resultado[texto] }}</li>
 </ul>
+<ul>
+    <li ng-repeat="valor in valores">
+        {{ valor[texto] }}
+        <ul>
+            <li ng-if="hayPuntuaciones"  ng-repeat="puntuacion in [1,2,3]" ng-class="v.puntuacion>=i?'activo':'inactivo'" ng-click="establecerPuntuacion($index,puntuacion)">
+                &nbsp;
+            </li>
+            <li class="btn" ng-click="eliminar($index)">&times;</li>
+        </ul>
+    </li>
+</ul>
+<div bt-window="ventana"></div>

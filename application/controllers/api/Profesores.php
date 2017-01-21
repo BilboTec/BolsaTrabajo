@@ -19,10 +19,16 @@ class Profesores extends BT_Controlador_api_estandar
         	$this->json("id identificador incorrecto", 400);
         }
         else{
+            try{
             $this->modelo->update($profesor_viejo, $profesor);  
-            $respuesta = new stdClass;
-            $respuesta->mensaje = "ok";
-            $this->json($respuesta);
+                $respuesta = new stdClass;
+                $respuesta->mensaje = "ok";
+                $this->json($respuesta);
+            }
+            catch(Exception $ex){
+                $error_msg = $this->lang->line($ex->getMessage());
+                $this->json(["error"=>$error_msg?$error_msg:$ex->getMessage()],400);
+            }
         }
     }
 

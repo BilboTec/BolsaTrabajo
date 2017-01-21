@@ -42,4 +42,11 @@ class Test extends CI_Controller
         $this->load->view("plantillas/footer");
     }
 
+    public function autoComplete(){
+        $data["idioma"] = function(){};
+        $this->load->view("plantillas/header",$data);
+        $this->load->view("test/autoComplete");
+        $this->load->view("plantillas/footer");
+    }
+
 }

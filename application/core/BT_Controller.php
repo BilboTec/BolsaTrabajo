@@ -2,18 +2,25 @@
 
 class BT_Controller extends CI_Controller{
 	
-	protected $idioma;
-	
+	protected $idioma,$roles;	
 	public function get_rol(){
 		$usuario = $this->get_usuario_actual();
-		$rol = ["ver", "editar", "admin"];
 		if($usuario != null && isset($usuario->id_rol)){
-			return $rol[($usuario->id_rol > 2?2:$usuario->id_rol)];
+			return $this->roles[($usuario->id_rol > 2?2:$usuario->id_rol)];
 		}
 		return null;
 	}
-	
-	
+	public function rol_id($rol){
+		foreach($this->roles as $id => $nombre){
+			if($nombre == $rol){
+				return $id;
+			}
+		}
+		return -1;
+	}
+	public function rol_nombre($rol_id){
+		return isset($this->roles[$rol_id])?$this->roles[$rol_id]:null;
+	}
 	public function __construct(){
 		parent::__construct();
 		$this->load->model("BT_Modelo_Profesor", "profesores");
@@ -30,7 +37,11 @@ class BT_Controller extends CI_Controller{
 		$this->lang->load('form_validation', $this->idioma);
 		$this->lang->load('general', $this->idioma);
 		$this->config->set_item('language', $this->idioma);
-	
+		$this->roles = [
+			1 => $this->lang->line("rol1"),
+			2 => $this->lang->line("rol2"),
+			3 => $this->lang->line("rol3")
+		];
 	}
 	 public function requerir_login(){
 	 		if($this->get_usuario_actual()===null){

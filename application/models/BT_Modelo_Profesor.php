@@ -30,8 +30,8 @@ class BT_Modelo_Profesor extends BT_ModeloVista {
 		return parent::delete($id);
 	}
 	public function update($viejo,$nuevo){
-		if($viejo->id_rol == 2 && $nuevo->id_rol != 2){
-			$n_admins = $this->count_where(["id_rol"=>2]);
+		if($viejo->id_rol == 3 && $nuevo->id_rol < 3){
+			$n_admins = $this->count_where(["id_rol"=>3]);
 			if($n_admins<2){
 				throw new Exception("degradar_ultimo_admin");
 			}

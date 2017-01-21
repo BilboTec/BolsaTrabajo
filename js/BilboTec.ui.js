@@ -707,7 +707,100 @@ angular.module("BilboTec.ui")
 }).
 directive("btAutoComplete",["$http",function($http){
     return{
-        restrict: "A"
+        restrict: "A",
+        require:"ngModel",
+        scope:{
+            btAutoComplete:"=",
+            valores:"=ngModel"
+        },
+        templateUrl:"/plantillas/Get/btAutoComplete",
+        link:function(scope,elem,attr,ngModel){
+            var dataUrl = attr.btUrl;
+            scope.clave = attr.btClave || "clave";
+            scope.texto = attr.btTexto || "texto";
+            scope.valores =  scope.valores || [];
+            var setData = function(data){};
+            scope.buscar = function(){
+                scope.resultados = [];
+                scope.resultadosFiltrados = [];
+                if(scope.textoBusqueda.trim() != ""){
+                    var data = {
+                        texto:scope.textoBusqueda
+                    };
+                    setData(data,scope.texto);
+                    $http({
+                        url:dataUrl,
+                        params:data
+                    })
+                    .then(function(respuesta){
+                        scope.resultados = respuesta.data.data || respuesta.data;
+                        scope.filtrar();
+                    },
+                    function(error){
+                        var mensaje = error;
+                        while(angular.isObject(mensaje)){
+                            mensaje = mensaje.data || mensaje.error || mensaje.mensaje;
+                        }
+                        scope.ventana.establecerTitulo("Error");
+                        scope.ventana.establecerContenido(mensaje);
+                        scope.establecerBotones([
+                                {
+                                    texto:"aceptar",
+                                    accion:function(){
+                                        scope.ventana.cerrar();
+                                    }
+                                }
+                            ]);
+                        scope.ventana.abrir();
+                        scope.ventana.cerrar();
+                    })
+                }
+            };
+            scope.filtrar = function(){
+                scope.resultadosFiltrados = [];
+                for(var i = 0; i < scope.resultados.length;i++){
+                    var existe = false;
+                    for(var j = 0; j < scope.valores.length; j++){
+                        existe = existe || (scope.valores[j][clave] == scope.resultados[i][clave]);
+                    }
+                    if(!existe){
+                        scope.resultadosFiltrados.push(scope.resultados[i]);
+                    }
+                }
+            };
+            scope.add = function(indice){
+                var elemento = scope.resultadosFiltrados.splice(indice,1);
+                scope.valores.push(elemento[indice]);
+            };
+            scope.eliminar = function(indice){
+                var elemento = scope.valores.splice(indice,1);
+                if(elemento[clave]){
+                    scope.resultadosFiltrados.push(elemento);
+                }
+            };
+            scope.nuevo = function(){
+                var elemento = {};
+                elemento[clave] = 0;
+                elemento[texto] = scope.texto;
+                elemento["puntuacion"]  = 1;
+                scope.valores.push(elemento);
+            }
+            scope.btAutoComplete = {
+                url:function(url){
+                    if(typeof url !== "undeined"){
+                        return dataUrl;
+                    }else{
+                        dataUrl = url;
+                    }
+                },
+                setClave:function(c){
+                    clave = c;
+                },
+                setTexto:function(t){
+                    texto = t;
+                }
+            };
+        }
         
     }
 }])
@@ -730,7 +823,52 @@ return{
       }
     };
 })
+.directive("btFileInput",function(){
+    return{
+        restrict:"A",
+        require:"ngModel",
+        scope:{
+            btFileInput:"=",
+            files:"=ngModel"
+        },
+        templateUrl:"/plantillas/Get/btFileInput",
+        link:function(scope,elem,attr,ngModel){
+            scope.estado = "";
+            elem.on("dragover",function(evt){
+                var transfer = evt.originalEvent.dataTransfer;
+                var tipo = transfer.items[0].kind;
+                if(tipo=="file"){
+                    evt.preventDefault();
+                    evt.stopPropagation();
+                    scope.estado = "enmarcado";
+                }
+            });
+            elem.on("dragleave",function(evt){
+                scope.estado = "";
+            })
+            elem.on("drop",function(evt){
+                ngModel.$setViewValue(evt.originalEvent.dataTransfer.files);
+                evt.preventDefault();
+                evt.stopPropagation();
+            });
+            var elemHtml = "<input type='file'";
+            if(attr.btAccept){
+                elemHtml += " accept='"+attr.btAccept+"'";
+            }
+            elemHtml+="/>";
+            var input = angular.element(elemHtml)[0];
+            scope.abrirDialogo = function(){
+                angular.element(input).trigger("click");
+            };
+            input.onchange = function(){
+                ngModel.$setViewValue(input.files);
+            };
+            ngModel.$render = function(){
 
+            };
+        }
+    }
+})
 .directive("btExperiencia",["$http", function($http){
 	return{
 		restrict: "A",

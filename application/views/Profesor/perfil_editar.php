@@ -36,7 +36,7 @@
 	?>
 	</select>
 </div>
-
+<div bt-window="ventana"></div>
 <span class="btn-tipo btn" ng-click="guardar()"><?php echo ucfirst($idioma("guardar")); ?></span>
 <a href="#!/"><?php echo ucfirst($idioma("volver")); ?></a>
 </div>

@@ -613,6 +613,23 @@ angular.module("BilboTec",["BilboTec.ui", "ngRoute"])
 		
 }])
 .controller("controladorDatosProfesor", ["$http", "$scope", "$location", function($http, $scope, $location){
+	function mostrarMensajeError(mensaje){
+		while(angular.isObject(mensaje)){
+				mensaje=mensaje.error || mensaje.data || mensaje.mensaje;
+		}
+			$scope.ventana.establecerTitulo("ERROR");
+			$scope.ventana.establecerContenido(mensaje);
+			$scope.ventana.establecerBotones([
+					{
+						texto:"aceptar",
+						accion:function(){
+							$scope.ventana.cerrar();
+						}
+					}
+				]);
+			$scope.ventana.abrir();
+			$scope.ventana.centrar();
+	}
 	$http({url: "/api/Profesores/GetActual"})
 	.then(
 		function(respuesta){
@@ -628,12 +645,12 @@ angular.module("BilboTec",["BilboTec.ui", "ngRoute"])
 					$scope.departamento = respuesta.data.nombre;
 				},
 				function(error){
-					alert(error.data?error.data:error);
+					mostrarMensajeError(error);
 				}
 			);
 		},
 		function(error){
-			alert(error.data?error.data:error);
+			mostrarMensajeError(error);
 		}
 		)
 
@@ -648,7 +665,7 @@ angular.module("BilboTec",["BilboTec.ui", "ngRoute"])
 					$location.path("/");
 				},
 				function(error){
-					alert(error.data?error.data:error);
+					mostrarMensajeError(error);
 				}
 				)
 	}
@@ -796,6 +813,24 @@ angular.module("BilboTec",["BilboTec.ui", "ngRoute"])
 	$scope.cargarEmails = function(){
 		enviar($scope.emails);
 	}
+	function mostrarError(error){
+		var mensaje = error;
+		while(angular.isObject(error)){
+			error = error.error || error.mensaje || error.data;
+		}
+		$scope.ventana.establecerTitulo("Error");
+		$scope.ventana.establecerContenido(mensaje);
+		$scope.ventana.establecerBotones([
+			{
+				texto:"aceptar",
+				accion:function(){
+					$scope.ventana.cerrar();
+				}
+			}
+			]);
+		$scope.ventana.abrir();
+		$scope.ventana.centrar();
+	}
 	var enviar = function(text){
 		$http({
 					url:"/api/Alumnos/Invitar/",
@@ -834,14 +869,13 @@ angular.module("BilboTec",["BilboTec.ui", "ngRoute"])
 				});
 	}
 	$scope.cargarCSV = function(){
-		var input = angular.element("input[type='file']")[0];
-			if(input.files.length>0){
+			if($scope.files.length>0){
 			var reader = new FileReader();
 			reader.onload = function(evt){
 				var text = evt.target.result;
 				enviar(text);
 			};
-			reader.readAsText(input.files[0]);
+			reader.readAsText($scope.files[0]);
 		}
 	};
 }]);
