@@ -510,7 +510,7 @@ angular.module("BilboTec",["BilboTec.ui", "ngRoute"])
                     spanish:"Rol",
                     basque:"Rola"
                 },
-                coleccion:["User","Manager","Admin"],
+                coleccion:{1:"User",2:"Manager",3:"Admin"},
                 validar:function(id_rol){
                     return{
                         valido:typeof id_rol !== "undefined" && id_rol > 0,

@@ -21,7 +21,7 @@
 
 		$data['activo'] = "ofertas";
 		$data['es_administrador'] = $this->es_admin();
-
+		$data["user"] = $this->get_usuario_actual();
 		
 		$this->load->view("/plantillas/header", $data);
 		$this->load->view("/Profesor/menu", $data);
@@ -62,6 +62,7 @@
 
 		$data['activo'] = "administrador";
 		$data['es_administrador'] = $this->es_admin();
+		$data["user"] = $this->get_usuario_actual();
 
 		$this->load->view("/plantillas/header", $data);
 		$this->load->view("/Profesor/menu", $data);

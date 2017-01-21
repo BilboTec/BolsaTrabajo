@@ -40,7 +40,6 @@ class BT_Modelo_Alumno extends BT_ModeloVista {
 			$file = fopen("data/fotos/" .$alumno->id_alumno .".jpg", "wb");
 			fwrite($file, $imagen);
 			fclose($file);
-			
 		}
 	}
 	public function cargar_imagen($alumno){

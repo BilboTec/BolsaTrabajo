@@ -56,8 +56,13 @@ class BT_Controlador_api_estandar extends BT_Controller
         $clase = $this->modelo->clase;
         $viejo = new $clase();
         $nuevo = new $clase();
+        $indice = "nuevo";
+        if($this->input->post($indice)===null){
+            $indice = "vista";
+        }
         $viejo->fromArray($this->input->post("viejo"));
-		$nuevo->fromArray($this->input->post("nuevo"));
+		$nuevo->fromArray($this->input->post($indice));
+
 		$tupla = $this->modelo->update($viejo,$nuevo);
 		echo $this->json($tupla);
         }catch(Exception $ex){

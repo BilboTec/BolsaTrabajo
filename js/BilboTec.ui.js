@@ -361,7 +361,7 @@ angular.module("BilboTec.ui")
         }
     }
 }])
-.directive("btDatePicker",["$locale",function($locale){
+.directive("btDatePicker",["$document",function($document){
     return {
         restrict:"A",
         require:"ngModel",
@@ -385,12 +385,12 @@ angular.module("BilboTec.ui")
             scope.cerrar = function(){
                 scope.abierto = false;
             };
-            angular.element(document).on("click",cerrarSiClickFuera);
+            $document.on("click",cerrarSiClickFuera);
             scope.$on("$destroy",function(){
-                angular.element(document).off(cerrarSiClickFuera);
+                $document.off(cerrarSiClickFuera);
             })
             //Formato en el que se escribirá la fecha
-            scope.formato = a.btFormato || "dd/mm/yyyy";
+            scope.formato = a.btFormato || "dd-mm-yyyy";
             //Elemento editable en el que se encuentra la fecha
             var texto = e.find("#texto")[0];
             //Función para mostrar la fecha
@@ -399,19 +399,19 @@ angular.module("BilboTec.ui")
                 if(typeof strFecha === "undefined" || strFecha === null || !strFecha){
                     texto.innerHTML = ""
                 }else{
-                    var formatos = scope.formato.split("/");
-                    var elementos = strFecha.split("/");
+                    var formatos = scope.formato.split("-");
+                    var elementos = strFecha.split("-");
                     if(elementos.length !== formatos.length){
                         return;
                     }else{
                         var fecha = {
-                            "mm":elementos[0],
-                            "dd":elementos[1],
-                            "yyyy":elementos[2]
+                            "mm":elementos[1],
+                            "dd":elementos[2],
+                            "yyyy":elementos[0]
                         };
                         strFecha = "";
                         for(var i = 0; i < formatos.length; i++){
-                            strFecha += (i!==0?"/":"") + fecha[formatos[i]];
+                            strFecha += (i!==0?"-":"") + fecha[formatos[i]];
                         }
                         texto.innerHTML = strFecha;
                     }
@@ -435,8 +435,8 @@ angular.module("BilboTec.ui")
                     });
                     return;
                 }
-                var formatos = scope.formato.split("/");
-                var elementos = strFecha.split("/");
+                var formatos = scope.formato.split("-");
+                var elementos = strFecha.split("-");
                 if(formatos.length !== elementos.length){
                     return;
                 }
@@ -444,7 +444,7 @@ angular.module("BilboTec.ui")
                 for(var i = 0; i < formatos.length; i++){
                     fecha[formatos[i]] = elementos[i];
                 }
-                fecha = fecha["mm"]+"/"+fecha["dd"]+"/"+fecha["yyyy"];
+                fecha = fecha["yyyy"]+"-"+fecha["mm"]+"-"+fecha["dd"];
                 var date = new Date(fecha);
                 if(date == "Invalid Date"){
                     scope.$apply(function(){
@@ -501,7 +501,7 @@ angular.module("BilboTec.ui")
                 scope.calcularMes();
             };
             scope.establecerFecha = function(dia){
-                scope.valor = dia["mm"] + "/" + dia["dd"] + "/" + dia["yyyy"];
+                scope.valor = dia["yyyy"] + "-" + dia["mm"] + "-" + dia["dd"];
                 scope.cerrar();
             };
         }
@@ -585,11 +585,12 @@ angular.module("BilboTec.ui")
 .directive("btImageUploader",function(){
     return {
         restrict: "A",
+        require:"ngModel",
         scope:{
             imagen:"=ngModel"
         },  
         templateUrl:"/Plantillas/Get/btImageUploader",
-        link:function(scope,elem,attr){
+        link:function(scope,elem,attr,ngModel){
             var name = attr.btName;
             if(typeof name !== "undefined"){
                 elem.find("input[type='hidden']").attr("name",name);
@@ -597,7 +598,10 @@ angular.module("BilboTec.ui")
             scope.offset = {
                 x:0,y:0
             };
-            scope.$render = function(){
+            ngModel.$render = function(){
+                if(typeof scope.imagen==="undefined"){
+                    return;
+                }
             	var imagen = new Image();
             	imagen.onload = function(){
             		var scale = scope.scale;
@@ -1107,66 +1111,142 @@ return{
             if(typeof $scope.formacion !== "undefined"){
                 $scope.vista = angular.copy($scope.formacion);
                 $scope.cargarOfertas();
-            }
-		
+            }	
 }])
-
-.controller("perfilAlumnoDatosPersonalesController", ["$http", "$scope", function($http, $scope){
-    $scope.cargarLocalidades = function(){
-        $http({
-            url:"/api/Localidades/GetDeProvincia/" + $scope.id_provincia
-        })
-        .then(
-            function(respuesta){
-                $scope.localidades = respuesta.data;
+.directive("btPerfilAlumnosDatosPersonales",["$http",function($http){
+    return {
+            restrict:"A",
+            require:"ngModel",
+            scope:{
+                btPrefilAlumnosPersonales:"=",
+                alumno:"=ngModel"
             },
-            function(error){
-                alert(error.data?error.data:error);
-            }
-            )
-    }
-	$scope.editar = function(){
-		$scope.vista = angular.copy($scope.alumno);
-        $scope.cargarLocalidades();
-		$scope.editando = true;
-        $scope.imagen_copia = angular.copy($scope.imagen);
-	}
-	
-	$scope.cancelar = function(){
-		$scope.vista= {};
-		$scope.editando = false;
-	}
-	
-	$scope.guardar = function(){
-		$http({url: "/api/Alumnos/GuardarPerfil", 
-				method: "POST", 
-				data: $.param($scope.vista),
-				headers: {'Content-Type': 'application/x-www-form-urlencoded'}
-			})
-			.then(
-				function(respuesta){
-					$scope.cancelar();
-					$scope.alumno = respuesta.data;
-				},
-				function(error){
-					alert(error.data?error.data:error);
-				}
-				)
-        $http({url: "/api/Alumnos/GuardarImagen", 
-                method: "POST", 
-                data: $.param({imagen:$scope.imagen_copia}),
-                headers: {'Content-Type': 'application/x-www-form-urlencoded'}
-            })
-            .then(
-                function(respuesta){
-                   $scope.imagen = respuesta.data.imagen;
-
-                },
-                function(error){
-                    alert(error.data?error.data:error);
+            templateUrl:"/Alumno/DatosPersonales",
+            link:function(scope,elem,attr,ngModel){
+                function mostrarMensajeError(error){
+                    var mensaje = error;
+                    while(angular.isObjet(error)){
+                        mensaje = mensaje.data || mensaje.error || mensaje.mensaje;
+                    }
+                    var ventana = scope.ventana;
+                    ventana.establecerTitulo("Error");
+                    ventana.establecerContenido(mensaje);
+                    ventana.establecerBotones([
+                            {
+                                texto:"aceptar",
+                                accion:function(){
+                                    ventana.cerrar();
+                                }
+                            }
+                        ]);
+                    ventana.abrir();
+                    ventana.centrar();
                 }
-                )
-	}
+                ngModel.$render = function(){
+                    if(typeof scope.alumno !== "undefined"  && scope.alumno.id_localidad){
+                        $http({
+                            url:"/api/Provincias/GetByLocalidad/"+scope.alumno.id_localidad
+                        }).then(
+                            function(respuesta){
+                                scope.id_provincia = respuesta.data.provincia.id_provincia;
+                                scope.nombre_provincia = respuesta.data.provincia.nombre;
+                                scope.nombre_localidad = respuesta.data.localidad.nombre;
+                                scope.cargarLocalidades();
+                            },
+                            mostrarMensajeError
+                        );
+                    }
+                    if(typeof scope.alumno !== "undefined"){
+                        $http({
+                            url:"/api/Alumnos/CargarImagen"
+                        }).then(
+                            function(respuesta){
+                                scope.imagen = respuesta.data.imagen;
+                            },
+                            mostrarMensajeError
+                        );
+                    }
+                };
+                scope.cargarLocalidades = function(){
+                    if(scope.id_provincia){
+                        $http({
+                            url:"/api/Localidades/GetDeProvincia/"+scope.id_provincia
+                        }).then(
+                            function(respuesta){
+                                scope.localidades = respuesta.data;
+                            },
+                            function(error){
+                                mostrarMensajeError(error);
+                            }
+                        );
+                    }
+                }
+                scope.editar = function(){
+                    scope.vista = angular.copy(scope.alumno);
+                    scope.imagen_copia = angular.copy(scope.imagen);
+                    scope.editando = true;
+                };
+                scope.cancelar = function(){
+                    scope.vista = {};
+                    scope.editando = false;
+                };
+                var controles = {
+                    nombre:elem.find("#nombre").controller("ngModel"),
+                    apellido1:elem.find("#apellido1").controller("ngModel"),
+                    apellido2:elem.find("#apellido2").controller("ngModel"),
+                    dni:elem.find("#dni").controller("ngModel"),
+                    tlf:elem.find("#tlf").controller("ngModel"),
+                    nacionalidad:elem.find("#nacionalidad").controller("ngModel"),
+                    calle:elem.find("#calle").controller("ngModel")
+                };
+                controles.dni.$parsers.push(function(dni){
+                    return dni.replace("-","").replace(" ","");
+                });
+                controles.dni.$validators.dni  = function(dni){
+                    if(typeof dni === "undefined" || !dni){
+                        return false;
+                    }
+                    dni = dni.replace("-","").replace(" ","");
+                    if(dni.length!=9){
+                        return false;
+                    }
+                    var letras = ["T","R","W","A","G","M","Y","F","P","D","X","B",
+                            "N","J","Z","S","Q","V","H","L","C","K","E"];
+                    var n = dni.substr(0,8).toUpperCase();
+                    n = n.replace("X","0").replace("Y","1").replace("Z","2");
+                    var resto = n%23;
+                    var letra = dni[8];
+                    return letra == letras[resto];
+                };
+                scope.guardar = function(){
+                        $http({url: "/api/Alumnos/GuardarPerfil", 
+                                method: "POST", 
+                                data: $.param(scope.vista),
+                                headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+                        }).then(
+                                function(respuesta){
+                                    scope.cancelar();
+                                    scope.alumno = respuesta.data;
+                        },
+                                function(error){
+                                    mostrarMensajeError(error);
+                                }
+                        );
+                        $http({url: "/api/Alumnos/GuardarImagen", 
+                                method: "POST", 
+                                data: $.param({imagen:scope.imagen_copia}),
+                                headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+                        }).then(
+                            function(respuesta){
+                                scope.imagen = respuesta.data.imagen;
+                            },
+                            function(error){
+                                mostrarMensajeError(error);
+                            }
+                        );
+                    };
+            }      
+    };
 }])
 .controller("perfilAlumnoOtrosDatosController", ["$http", "$scope", function($http, $scope){
    
@@ -1270,4 +1350,4 @@ return{
             $scope.insertando = false;
             $scope.indiceEdicion = -1;
         }
-    }]);
+}]);

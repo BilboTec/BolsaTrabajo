@@ -16,7 +16,7 @@
 <header>
 	<ul class="cabecera" >
 		<?php if(isset($user)){
-		
+		echo "<li class='usuario'>".strtoupper($user->nombre);	
 	}else{
 		echo "<li class='usuario'>".strtoupper($idioma("usuario"))."</li>";
 	} ?>

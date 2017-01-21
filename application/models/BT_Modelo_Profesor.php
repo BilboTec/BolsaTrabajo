@@ -21,8 +21,8 @@ class BT_Modelo_Profesor extends BT_ModeloVista {
 	}
 	public function delete($id){
 		$profesor = $this->get_by_id($id);
-		if($profesor->id_rol==2){
-			$n_admins = $this->count_where(["id_rol"=>2]);
+		if($profesor->id_rol==3){
+			$n_admins = $this->count_where(["id_rol"=>3]);
 			if($n_admins<2){
 				throw new Exception("eliminar_ultimo_admin");
 			}

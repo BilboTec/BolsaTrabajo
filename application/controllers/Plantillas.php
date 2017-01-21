@@ -1,5 +1,5 @@
 <?php
-class Plantillas extends CI_Controller
+class Plantillas extends BT_Controller
 {
 	public $idioma;
 	public function __construct()

@@ -1,4 +1,4 @@
-<div ng-controller="perfilAlumnoDatosPersonalesController">
+<!--<div ng-controller="perfilAlumnoDatosPersonalesController">-->
 	<div class="contenido_linea">
 		<h1><?php echo strtoupper($idioma("datos_personales")); ?></h1>
 		<button ng-click="editar()" ng-show="!editando"><?php echo strtoupper($idioma("editar")); ?></button>
@@ -10,7 +10,10 @@
 		<p ng-show="alumno.dni"><?php echo ucfirst($idioma("dni")); ?>: {{ alumno.dni }}</p>
 		<p ng-show="alumno.nacionalidad"><?php echo ucfirst($idioma("nacionalidad")); ?>: {{ alumno.nacionalidad }}</p>
 		<p ng-show="alumno.tlf"><?php echo ucfirst($idioma("tlf")); ?>: {{ alumno.tlf }}</p>
-		<p ng-show="alumno.calle"><?php echo ucfirst("calle");?>{{alumno.calle}} </p>
+		<p ng-show="alumno.calle"><?php echo ucfirst("calle");?>{{alumno.calle}} 
+			<span ng-show="nombre_localidad">, {{nombre_localidad}}</span>
+			<span ng-show="nombre_provincia">, {{nombre_provincia}}</span>
+		</p>
 	</div>
 	<form id="formDatosPersonales" name="formDatosPersonales" ng-show="editando">
 	<div>
@@ -33,7 +36,7 @@
 			</div>
 			<div class="grupo">
 				<label for="dni"><?php echo strtoupper($idioma("dni")); ?></label>
-				<input type="text" id="for" ng-model="vista.dni"/>
+				<input type="text" id="dni" ng-model="vista.dni"/>
 			</div>
 		</div>
 	</div>
@@ -76,7 +79,7 @@
 
 			<div class="grupo">
 				<label for="localidad"><?php echo ucfirst($idioma("localidad")); ?></label>
-				<select name="id_localidad" id="localidad" ng-model="usuario.id_localidad">
+				<select name="id_localidad" id="localidad" ng-model="vista.id_localidad">
 					<option ng-repeat="localidad in localidades" value="{{localidad.id_localidad}}">{{localidad.nombre}}</option>
 				</select>
 			</div>
@@ -87,4 +90,5 @@
 		<button ng-click="guardar()" ng-show="editando"><?php echo strtoupper($idioma("guardar")); ?></button>
 		<button ng-click="cancelar()" ng-show="editando"><?php echo strtoupper($idioma("cancelar")); ?></button>
 	</div>
-</div>
+	<div bt-window="ventana"></div>
+<!--</div>-->
