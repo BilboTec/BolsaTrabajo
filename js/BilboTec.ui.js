@@ -462,8 +462,13 @@ angular.module("BilboTec.ui")
             });
             var date = new Date();
             scope.anio = date.getFullYear();
+            scope.anios = [];
             scope.mes = date.getMonth();
             scope.meses = ["cal_jan","cal_feb","cal_mar","cal_may","cal_apr","cal_jun","cal_jul","cal_aug","cal_sep","cal_oct","cal_nov","cal_dec"];
+            scope.mesesCompletos = ["cal_january","cal_february",
+            "cal_march","cal_mayl","cal_april","cal_june","cal_july",
+            "cal_august","cal_september","cal_october","cal_november",
+            "cal_december"];
             scope.diasSemana = ["cal_mo","cal_tu","cal_we","cal_th","cal_fr","cal_sa","cal_su"];
             scope.calcularMes = function(){
                 var date = new Date(scope.anio,scope.mes,1);
@@ -503,6 +508,56 @@ angular.module("BilboTec.ui")
             scope.establecerFecha = function(dia){
                 scope.valor = dia["yyyy"] + "-" + dia["mm"] + "-" + dia["dd"];
                 scope.cerrar();
+            };
+            scope.mostrarMeses = function($event){
+                scope.estado = 1;
+                $event.preventDefault();
+                $event.stopPropagation();
+            };
+            scope.mostrarAnios = function($event){
+                scope.anioInicio = scope.anio;
+                while(scope.anioInicio%10!==0){
+                    scope.anioInicio--;
+                }
+                scope.anioFin = scope.anio+1;
+                while(scope.anioFin%10!==0){
+                    scope.anioFin++;
+                }
+                scope.calcularAnios();
+                scope.estado = 2;
+                $event.preventDefault();
+                $event.stopPropagation();
+            };
+            scope.calcularAnios = function(){
+                scope.anios = [];
+                for(var i = scope.anioInicio; i <= scope.anioFin; i++){
+                    scope.anios.push(i);
+                }
+            };
+            scope.seleccionarMes = function($event,indice){
+                scope.mes = indice;
+                scope.calcularMes();
+                scope.estado = 0;
+                $event.preventDefault();
+                $event.stopPropagation();
+            };
+            scope.cambiarAnio = function ($event,cambio){
+                scope.anio+=cambio;
+                $event.preventDefault();
+                $event.stopPropagation();
+            };
+            scope.cambiarAniosMostrados = function($event,cambio){
+                scope.anioFin +=cambio;
+                scope.anioInicio +=cambio;
+                scope.calcularAnios();
+                $event.preventDefault();
+                $event.stopPropagation();
+            };
+            scope.establecerAnio = function($event,anio){
+                scope.anio = anio;
+                scope.estado = 1;
+                $event.preventDefault();
+                $event.stopPropagation();
             };
         }
     };
@@ -591,57 +646,59 @@ angular.module("BilboTec.ui")
         },  
         templateUrl:"/Plantillas/Get/btImageUploader",
         link:function(scope,elem,attr,ngModel){
+            var input = angular.element("<input type='file' accept='image/*'/>")[0];
             var name = attr.btName;
+            var inputX = elem.find("#offsetX");
+            var inputY = elem.find("#offsetY");
+            var inputS = elem.find("#scale");
+            var canvasElement = elem.find("canvas")[0];
+            scope.scale = 100;
+            canvasElement.width = 100;
+            canvasElement.height = 127;
+            var canvas = canvasElement.getContext("2d");
             if(typeof name !== "undefined"){
                 elem.find("input[type='hidden']").attr("name",name);
             }
             scope.offset = {
                 x:0,y:0
             };
-            ngModel.$render = function(){
-                if(typeof scope.imagen==="undefined"){
+            function dibujar(){
+                canvas.clearRect(0,0,canvasElement.width,canvasElement.height);
+                if(typeof scope.imagen === "undefined"){
                     return;
                 }
-            	var imagen = new Image();
-            	imagen.onload = function(){
-            		var scale = scope.scale;
-                            canvas.drawImage(imagen,scope.offset.x+(imagen.width*(scale/100))*0,
-                                scope.offset.y+(imagen.height*(scale/100))*0,scope.offset.x+imagen.width*(scale/100),
-                                scope.offset.y+imagen.height*(scale/100));
-                            scope.imagen = canvasElement.toDataURL();
-                            scope.$apply(function(){scope.size = (scope.imagen.length/1024).toFixed(2)+"KB"});
-            	};
-            	
-            	imagen.src = scope.imagen;
+                var imagen = new Image();
+                imagen.onload = function(){
+                    var s = 1 + (1-scope.scale/100);
+                    var x = scope.offset.x;
+                    var y = scope.offset.y;
+                    var w = imagen.width;
+                    var h = imagen.height;
+                    var ch = canvasElement.height;
+                    var cw = canvasElement.width;
+
+                    canvas.drawImage(imagen,x,y,w*s,h*s,0,0,cw,ch);
+                };
+                imagen.src = scope.imagen;
+            }
+            ngModel.$render = dibujar;
+            inputX.on("change",dibujar);
+            inputY.on("change",dibujar);
+            inputS.on("change",dibujar);
+            scope.abrirDialogo = function(){
+                angular.element(input).trigger("click");
             };
-            scope.scale = 100;
-            var canvasElement = elem.find("canvas")[0];
-            canvasElement.width = 100;
-            canvasElement.height = 127;
-            var canvas = canvasElement.getContext("2d");
-            var inputImagen = elem.find("input[type='file']")[0];
-            scope.imagenSeleccionada = function(){
-                canvas.fillStyle = "#000000";
-                canvas.fillRect(0,0,canvasElement.width,canvasElement.height);
-                var archivo = inputImagen.files[0];
-                if(typeof archivo !== "undefined"){
-                    var fileReader = new FileReader();
-                    fileReader.onload = function(event){
-                        var imagen = new Image();
-                        imagen.onload = function(event){
-                            var scale = scope.scale;
-                            canvas.drawImage(imagen,scope.offset.x+(imagen.width*(scale/100))*0,
-                                scope.offset.y+(imagen.height*(scale/100))*0,scope.offset.x+imagen.width*(scale/100),
-                                scope.offset.y+imagen.height*(scale/100));
-                            scope.imagen = canvasElement.toDataURL();
-                            scope.$apply(function(){scope.size = (scope.imagen.length/1024).toFixed(2)+"KB"});
-                        };
-                        imagen.src = fileReader.result;
+            angular.element(input).on("change",function(){
+                if(input.files.length){
+                    var file = input.files[0];
+                    var reader = new FileReader();
+                    reader.onload = function(){
+                        scope.imagen = reader.result;
+                        dibujar();
                     };
-                    fileReader.readAsDataURL(archivo);
+                    reader.readAsDataURL(file);
                 }
-            };
-            angular.element(inputImagen).on("change",scope.imagenSeleccionada);
+            });
         }
     };
 })

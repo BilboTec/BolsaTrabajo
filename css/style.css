@@ -541,7 +541,7 @@ footer{
 	color: black;
 }
 
-input:focus{
+:any(input,select,textarea):focus{
 	border: 2px solid $(--v-oscuro);
 	outline: $(--v-oscuro);
 }
@@ -634,16 +634,12 @@ input:focus{
 	background-color: $(--v-oscuro);
 }
 
-.animation-move.ng-enter {
-  transition:.4s linear all;
-  opacity:0;
-  transform: translateY(-1em) scaleY(0);
+[bt-tabla] tr:any(.ng-hide-remove, .ng-enter){
+	animation: btTablaEnter 0.5s;
 }
-.animation-move.ng-enter.ng-enter-active {
-  opacity:1;
-  transform: translateY(0) scaleY(1);
+[bt-table] tr:any(.ng-hide-add-active,.ng-leave){
+	animation: btTablaEnter 0.5s reverse;
 }
-
 [bt-tabla] th .orden::before {
     content: " ";
     border: 5px solid transparent;
@@ -653,6 +649,18 @@ input:focus{
 [bt-tabla]  th .orden.asc::before {
     border: 5px solid transparent;
     border-bottom: 5px solid black;
+}
+@keyframes btTablaEnter {
+	0%{
+		transform: translateY(-50%);
+		opacity: 0;
+	}
+	60%{
+		opacity: 0.5;
+	}
+	100%{
+		transform: translateY(0);
+	}
 }
 /*************************************
 ********BT-WINDOW*********************
@@ -702,6 +710,9 @@ input:focus{
 	flex-direction: column;
 	align-items: flex-start;
 }
+[bt-image-uploader] canvas{
+	border: 2px dashed $(--v-oscuro);
+}
 [bt-image-uploader] input {
 	width: 33% !important;
 }
@@ -733,6 +744,14 @@ input:focus{
     flex-direction: row;
     position:relative;
     min-width: 154px;
+}
+[bt-date-picker] .btn-select {
+	background: $(--g-claro);
+	border: 1px solid $(--g-oscuro);
+	text-align: center;
+}
+[bt-date-picker] .btn-select:hover{
+	background: $(--v-claro);
 }
 [bt-date-picker] #texto{
 	min-width: 60px;
@@ -778,10 +797,51 @@ input:focus{
     display:flex;
     flex-direction: column;
     align-items: stretch;
+    overflow: hidden;
 }
 [bt-date-picker] table {
     width: 100%;
 }
+
+[bt-date-picker] .desplegable.ng-hide-add{
+	animation: ocultar 0.5s;
+	transform-origin: top;
+}
+[bt-date-picker] .desplegable.ng-hide-remove{
+	animation: ocultar 0.5s reverse;
+	transform-origin: top;
+}
+[bt-date-picker] .panel.ng-enter{
+	animation: traer 0.2s;
+	transform-origin: top;
+}
+@keyframes traer {
+	0%{
+		transform: translateY(-50%) scale(0.1);
+		opacity: 0;
+	}
+	70%{
+		transform: scale(1.1);
+	}
+	100%{
+		transform: translateY(0);
+		opacity: 1;
+	}
+}
+@keyframes ocultar {
+	0%{
+		transform: scaleY(1);
+		opacity: 1;
+	}
+	30%{
+		transform: scaleY(1.2);
+	}
+	100%{
+		transform: scaleY(0);
+		opacity: 0;	
+	}
+}
+
 /*************************************
 ********BT-FILE INPUT*****************
 **************************************/
