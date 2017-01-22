@@ -1,16 +1,15 @@
-<div><input type="text" ng-model="textoBusqueda" ng-change="buscar()"></div>
-<ul class="dropdown">
-    <li ng-repeat="resultado in resultadosFiltrados">{{ resultado[texto] }}</li>
-</ul>
-<ul>
-    <li ng-repeat="valor in valores">
+<ul class="lista-valores">
+    <li class="valor" ng-repeat="valor in valores track by $index">
         {{ valor[texto] }}
-        <ul>
-            <li ng-if="hayPuntuaciones"  ng-repeat="puntuacion in [1,2,3]" ng-class="v.puntuacion>=i?'activo':'inactivo'" ng-click="establecerPuntuacion($index,puntuacion)">
+            <span ng-if="hayPuntuaciones"  ng-repeat="puntuacion in [1,2,3]" ng-class="v.puntuacion>=i?'activo':'inactivo'" ng-click="establecerPuntuacion($index,puntuacion)">
                 &nbsp;
-            </li>
-            <li class="btn" ng-click="eliminar($index)">&times;</li>
-        </ul>
+            </span>
+            <span class="btn btn-cerrar" ng-click="eliminar($index)">&times;</span>
     </li>
+</ul>
+<input type="text" ng-model="textoBusqueda" ng-change="buscar()" ng-focus="abrir()">
+<ul class="dropdown" ng-show="abierto">
+    <li class="btn" ng-repeat="resultado in resultadosFiltrados"
+    ng-click="add(resultado)">{{ resultado[texto] }}</li>
 </ul>
 <div bt-window="ventana"></div>

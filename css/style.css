@@ -694,13 +694,33 @@ footer{
 }
 .bt-window-btn-container{
 	display: flex;
-	justify-content: center;
+	justify-content: space-around;
 	padding: .5em;
 	z-index: 100000100;
 }
 .bt-window-texto, .bt-window-url{
 	padding: 1em;
 	z-index: 100000100;
+}
+.bt-window-wrapper.ng-hide-add{
+	animation: dummy 0.5s;
+}
+.bt-window-wrapper.ng-hide-remove{
+	animation: dummy 0.5s reverse;
+}
+.bt-window.ng-hide-remove{
+	animation: aparecer 0.5s;
+}
+.bt-window.ng-hide-add{
+	animation: aparecer 0.5s reverse;
+}
+@keyframes fadeIn {
+	0%{
+		opacity: initial;
+	}
+	100%{
+		opacity: initial;
+	}
 }
 /************************************
 *********BT-IMAGE-UPLOADER***********
@@ -735,6 +755,83 @@ footer{
 	margin: .2em;
 	border-radius: 4px;
 	overflow: hidden; 
+}
+
+/************************************
+*********BT-AUTO-COMPLETE************
+*************************************/
+[bt-auto-complete] {
+	position: relative;
+	display: inline-flex;
+	flex-direction: column;
+}
+[bt-auto-complete] .dropdown {
+	position: absolute;
+	display: inline-block;
+	top:100%;
+	min-width: 100%;
+	background-color: $(--g-claro);
+	border-color: $(--v-oscuro);
+}
+[bt-auto-complete] .dropdown li {
+	border: 1px solid $(--v-oscuro);
+	padding: .5em;
+}
+[bt-auto-complete] .dropdown li:hover{
+	background-color: $(--v-claro);
+}
+[bt-auto-complete] .lista-valores{
+	display: flex;
+	flex-wrap: wrap;
+	list-style: none;
+}
+[bt-auto-complete] .lista-valores>li{
+	color: white;
+	background-color: $(--v-oscuro);
+	border-radius: .5em;
+	padding: .5em;
+	margin: .2em;
+}
+[bt-auto-complete] .btn-cerrar{
+	border-radius: 50%;
+	background-color: $(--g-oscuro);
+	color:white;
+	width:15px;
+	height: 15px;
+	justify-content: center;
+	display: inline-flex;
+	align-items: center;
+}
+[bt-auto-complete] .btn-cerrar:hover{
+	color:black;
+	background-color: $(--g-claro);
+}
+[bt-auto-complete] .dropdown.ng-hide-add{
+	animation: ocultar 0.5s;
+	transform-origin: top;
+}
+[bt-auto-complete] .dropdown.ng-hide-remove{
+	animation: ocultar 0.5s reverse;
+	transform-origin: top;
+}
+[bt-auto-complete] .valor.ng-enter{
+	animation: aparecer 0.5s; 
+}
+[bt-auto-complete] .valor.ng-leave{
+	animation: aparecer 0.5s reverse;
+}
+@keyframes aparecer {
+	0%{
+		transform: scale(0);
+		opacity: 0;
+	}
+	70%{
+		transform: scale(1.05); 
+	}
+	100%{
+		transform: scale(1);
+		opacity: 1;
+	}
 }
 /************************************
 *********BT-DATE-PICKER***********

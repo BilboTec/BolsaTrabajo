@@ -728,12 +728,18 @@ angular.module("BilboTec.ui")
                 "Impact", "Lucida Sans Unicode", "Tahoma", "Helvetica", "Verdana", "Courier", "Monaco"
 
             ];
-            var doc = el.find("iframe")[0].contentDocument;
+            var iframe  = el.find("iframe")[0];
+            var doc = iframe.contentDocument;
             
             doc.designMode = "on";
-            scope.comando = function(tipo,valor){
+            scope.comando = function($event,tipo,valor){
                 doc.execCommand(tipo,true,valor);
                 scope.actualizar();
+                if(typeof $event !== "undefined"){
+                    $event.preventDefault();
+                    $event.stopPropagation();
+                }
+                iframe.focus();
             };
             scope.actualizar = function(){
                 scope.valor = doc.body.innerHTML;
@@ -766,7 +772,7 @@ angular.module("BilboTec.ui")
         }
     }
 }).
-directive("btAutoComplete",["$http",function($http){
+directive("btAutoComplete",["$http","$document",function($http,$document){
     return{
         restrict: "A",
         require:"ngModel",
@@ -783,6 +789,11 @@ directive("btAutoComplete",["$http",function($http){
             var setData = function(data){};
             scope.buscar = function(){
                 scope.resultados = [];
+                scope.abrir = function(){
+                    if(scope.resultadosFiltrados.length!=0){
+                        scope.abierto = true;
+                    }
+                }
                 scope.resultadosFiltrados = [];
                 if(scope.textoBusqueda.trim() != ""){
                     var data = {
@@ -796,6 +807,7 @@ directive("btAutoComplete",["$http",function($http){
                     .then(function(respuesta){
                         scope.resultados = respuesta.data.data || respuesta.data;
                         scope.filtrar();
+                        scope.abrir();
                     },
                     function(error){
                         var mensaje = error;
@@ -817,38 +829,51 @@ directive("btAutoComplete",["$http",function($http){
                     })
                 }
             };
+            scope.cerrar = function(){
+                scope.abierto = false;
+            };
+            function cerrarSiClickFuera($event){
+                if($event.target !== elem && elem.has($event.target).length === 0){
+                    scope.$apply(scope.cerrar);
+                }
+            };
+            $document.on("click",cerrarSiClickFuera);
+            scope.$on("destroy",function(){
+                $documen.off("click",cerrarSiClickFuera);
+            });
             scope.filtrar = function(){
                 scope.resultadosFiltrados = [];
                 for(var i = 0; i < scope.resultados.length;i++){
                     var existe = false;
                     for(var j = 0; j < scope.valores.length; j++){
-                        existe = existe || (scope.valores[j][clave] == scope.resultados[i][clave]);
+                        existe = existe || (scope.valores[j][scope.clave] == scope.resultados[i][scope.clave]);
                     }
                     if(!existe){
                         scope.resultadosFiltrados.push(scope.resultados[i]);
                     }
                 }
             };
-            scope.add = function(indice){
-                var elemento = scope.resultadosFiltrados.splice(indice,1);
-                scope.valores.push(elemento[indice]);
+            scope.add = function(valor){
+                var indice = scope.resultadosFiltrados.indexOf(valor);
+                scope.resultadosFiltrados.splice(indice,1);
+                scope.valores.push(valor);
             };
             scope.eliminar = function(indice){
-                var elemento = scope.valores.splice(indice,1);
-                if(elemento[clave]){
+                var elemento = scope.valores.splice(indice,1)[0];
+                if(elemento[scope.clave]){
                     scope.resultadosFiltrados.push(elemento);
                 }
             };
             scope.nuevo = function(){
                 var elemento = {};
-                elemento[clave] = 0;
-                elemento[texto] = scope.texto;
+                elemento[scope.clave] = 0;
+                elemento[scope.texto] = scope.texto;
                 elemento["puntuacion"]  = 1;
                 scope.valores.push(elemento);
             }
             scope.btAutoComplete = {
                 url:function(url){
-                    if(typeof url !== "undeined"){
+                    if(typeof url !== "undefined"){
                         return dataUrl;
                     }else{
                         dataUrl = url;
