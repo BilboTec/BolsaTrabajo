@@ -626,6 +626,45 @@ angular.module("BilboTec.ui")
             scope.establecerBotones = function(botones){
                 scope.botones = botones;
             }
+            function preguntar(titulo,texto,accionSi,accionNo){
+                scope.establecerTitulo(titulo);
+                scope.establecerContenido(texto);
+                scope.establecerBotones([
+                    {
+                        texto:"si",
+                        accion:function(){
+                            scope.cerrar();
+                            accionSi();
+                        }
+                    },
+                    {
+                        texto:"no",
+                        accion:function(){
+                            scope.cerrar();
+                            accionNo();
+                        }
+                    }
+                    ]);
+                scope.abrir();
+                scope.centrar();
+            }
+            function alerta(titulo,texto,accion){
+                scope.establecerTitulo(titulo);
+                scope.establecerContenido(texto);
+                scope.establecerBotones([
+                    {
+                        texto:"si",
+                        accion:function(){
+                            scope.cerrar();
+                            if(typeof accion !== undefined){
+                                accion();
+                            }
+                        }
+                    }
+                    ]);
+                scope.abrir();
+                scope.centrar();
+            }
             scope.btWindow = {
                 abrir:scope.abrir,
                 cerrar:scope.cerrar,
@@ -634,7 +673,9 @@ angular.module("BilboTec.ui")
                 establecerTitulo:scope.establecerTitulo,
                 establecerUrl:scope.establecerUrl,
                 establecerBotones:scope.establecerBotones,
-                establecerUrl:scope.establecerUrl
+                establecerUrl:scope.establecerUrl,
+                preguntar:preguntar,
+                alerta:alerta
             };
         }
     }
@@ -966,46 +1007,73 @@ return{
 		},
 		templateUrl: "/plantillas/Get/btExperiencia",
 		link: function(scope, elemento, atributos, ngModel){
-			scope.editar = "/plantillas/Get/btEditarExperiencia";
-			scope.vista = "/plantillas/Get/btMostrarExperiencia";
-			scope.$on("cancelar_edicion", function(){
-				scope.indiceEdicion = -1;
-				scope.insertando = false;
-			});
-			scope.$on("editar_experiencia", function(evento, args){
+            scope.cancelar = function(){
+                scope.indiceEdicion = -1;
                 scope.insertando = false;
-				scope.indiceEdicion = args.indice;
-			});
-			scope.$on("borrar_experiencia",function(evento,args){
-                $http({
-                    url:"/api/Experiencias/Delete",
-                    method: "POST",
-                    data: $.param({elem:scope.alumno.experiencias[args.indice]}),
-                    headers: {'Content-Type': 'application/x-www-form-urlencoded'}
-                })
-                .then(function(respuesta){
-                    scope.alumno.experiencias.splice(args.indice,1);
-                },
-                function(error){
+            };
+            scope.editar = function(evento,indice){
+                scope.vista = angular.copy(scope.experiencias[indice]);
+                scope.indiceEdicion = indice;
+                scope.insertando = false;
+            };
+            scope.borrar = function(evento,indice){
+                scope.ventana.preguntar("confirmar_eliminar_titulo","confirmar_eliminar",
+                    function(){
+                        $http({
+                            url:"/api/Experiencias/Delete",
+                            method: "POST",
+                            data: $.param({elem:scope.experiencias[indice]}),
+                            headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+                            })
+                            .then(function(respuesta){
+                                scope.experiencias.splice(indice,1);
+                            },
+                            function(error){
+                                vetana.alerta(error,error.data||error.mensaje,function(){});
+                                });
+                    },
+                    function(){
 
-                });
-           })
+                    });
+            }; 
 			scope.insertar = function(){
 				scope.vista = true;
                 scope.vista = {};
 				scope.indiceEdicion = -1;
 				scope.insertando = true;
-			};
-			scope.$on("aplicar_edicion_experiencia",function(avento,args){
-				if(typeof args.vista !== "undefined" && args.vista){
-					scope.alumno.experiencias.unshift(args.experiencia);
-				}else{
-					scope.alumno.experiencias[scope.indiceEdicion] = args.experiencia;
-					scope.alumno.experiencias = angular.copy(scope.alumno.experiencias);
-				}
-				scope.indiceEdicion = -1;
-				scope.insertando = false;
-			});
+			};;
+            scope.aplicarEdicion = function(evento,indice){
+                //TODO: Validar en cliente
+                $http({
+                    url:"/api/Experiencias/Update",
+                    method:"POST",
+                    data:$.param({nuevo:scope.vista, viejo:scope.experiencias[indice]}),
+                    headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+                }).then(function(respuesta){
+                    scope.experiencias[indice] = respuesta.data[0];
+                    scope.indiceEdicion = -1;
+                    scope.insertando = false;
+                },
+                function(error){
+                    scope.vetana.alerta("error",error.mensaje ||error.data);
+                });
+            };
+            scope.aplicarInsertar = function(evento){
+                //TODO: Validar en cliente
+                $http({
+                    url:"/api/Experiencias/Insert",
+                    method:"POST",
+                    data:$.param(scope.vista),
+                    headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+                }).then(function(respuesta){
+                    scope.experiencias.unshift(respuesta.data[0]);
+                    scope.indiceEdicion = -1;
+                    scope.insertando = false;
+                },
+                function(error){
+                    scope.ventana.alerta("error",error.mensaje ||error.data,function(){});
+                });
+            };
 			ngModel.$render = function(){
 				if(typeof scope.alumno === "undefined"){
 					return;
@@ -1015,12 +1083,12 @@ return{
 				})
 				.then(
 					function(respuesta){
-						scope.alumno.experiencias = respuesta.data.data;
+						scope.experiencias = respuesta.data.data;
 				},
 					function(error){
-						alert(error.data?error.data:error);
+						scope.ventana.alerta("error",error.data?error.data:error,function(){});
 					})
-			}
+			};
 		}
 	}
 }])

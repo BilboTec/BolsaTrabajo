@@ -44,7 +44,11 @@ body, .contenido{
 	margin-top: 4em;
 	flex: 7;
 }
-
+.titulo-con-boton{
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+}
 /* FORMULARIO LOGIN*/
 
 .btn-tipo{
@@ -165,6 +169,9 @@ input[type="submit"]:hover{
 	display: flex;
 	flex-direction: column;
 	margin: 1em;
+}
+.grupo{
+	align-items: flex-start;
 }
 .contenedor-perfil .grupo :any(input,select) {
 	padding: .5em;
@@ -649,6 +656,24 @@ footer{
 [bt-tabla]  th .orden.asc::before {
     border: 5px solid transparent;
     border-bottom: 5px solid black;
+}
+.animacion-cortina.ng-enter, .animacion-cortina.ng-leave{
+	transform-origin: top;
+	animation: cortina 0.5s;
+}
+.animacion-cortina.ng-leave {
+	animation-direction: reverse;
+}
+@keyframes cortina {
+	0%{
+		transform: scaleY(0)
+	}
+	90%{
+		transform: scaleY(1.1);
+	}
+	100%{
+		transform: scaleY(1) ;
+	}
 }
 @keyframes btTablaEnter {
 	0%{
