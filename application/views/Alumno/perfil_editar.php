@@ -67,7 +67,7 @@
 </div>
 
 <div class="grupo">
-	<label for="disponobilidad"><input type="checkbox" name="disponibilidad" id="disponibilidad" ng-model="usuario.disponibilidad" value="0"/><?php echo ucfirst($idioma("disponibilidad")); ?></label>
+	<label for="disponibilidad"><input type="checkbox" name="disponibilidad" id="disponibilidad" ng-model="usuario.disponibilidad" value="0"/><?php echo ucfirst($idioma("disponibilidad")); ?></label>
 </div>
 
 

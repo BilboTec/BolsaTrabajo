@@ -20,7 +20,7 @@ $lang["empresas"] ="empresas";
 $lang["administrador"] = "administrador";
 $lang["rol1"]  = "lector";
 $lang["rol2"] = "leer/editar";
-$lang["rol3"] = $lang["administrador"];
+$lang["rol3"] = "administrador";
 $lang["anadir"] = "añadir";
 $lang["cargar"] = "cargar";
 $lang["cargar_csv"] = "cargar CSV";
@@ -120,5 +120,9 @@ $lang["cargo"] = "cargo";
 $lang["empresa"] = "empresa";
 $lang["trabajando_actualmente"] = "trabajando actualmente";
 $lang["funciones"] = "funciones";
-$lang["especialedad"] = "especialidad";
+$lang["especialidad"] = "especialidad";
+$lang["experiencia"] = "experiencia";
+$lang["formacion"] = "formación";
+$lang["cursando"] = "cursando";
+
 

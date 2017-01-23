@@ -385,7 +385,7 @@ header{
 }
 
 /* ADMIN */
-.contenedor-admin, .contenedor-ofertas,.contenedor{
+.contenedor-admin, .contenedor-ofertas,.contenedor, .contenedor-perfil{
 	padding: 30px 5px 5px 10px;
 	background-color: white;
 	border: 1px solid $(--g-oscuro);

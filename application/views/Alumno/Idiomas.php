@@ -2,7 +2,7 @@
 	echo json_encode([$idioma("basico"),$idioma("intermedio"),$idioma("avanzado")]);
  ?>;'>
 	<h1><?php echo strtoupper($idioma("idiomas")); ?></h1>
-	<button ng-click="insertar()">Añadir Idioma</button>
+	<button ng-show="!insertando" ng-click="insertar()">Añadir Idioma</button>
 	<div ng-show="insertando">
 		<div class="grupo-horizontal">
 			<div class="grupo">
@@ -53,5 +53,9 @@
 			</div>
 			<p ng-if="idioma.oficial==1"><?php echo ucfirst($idioma("oficial")); ?></p>
 		</div>
+	</div>
+	<div>
+		<button ng-click="guardar()" ng-show="insertando"><?php echo strtoupper($idioma("guardar")); ?></button>
+		<button ng-click="cancelar()" ng-show="insertando"><?php echo strtoupper($idioma("cancelar")); ?></button>
 	</div>
 </div>

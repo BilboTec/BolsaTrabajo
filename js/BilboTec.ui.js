@@ -5,7 +5,7 @@ angular.module("BilboTec.ui")
             return;
         }
         return string.substr(0,1).toUpperCase() + string.substr(1);
-    }
+    };
 })
 .directive("btInputLabel",function(){
     return{
@@ -359,7 +359,7 @@ angular.module("BilboTec.ui")
                 }
             });
         }
-    }
+    };
 }])
 .directive("btDatePicker",["$document",function($document){
     return {
@@ -388,7 +388,7 @@ angular.module("BilboTec.ui")
             $document.on("click",cerrarSiClickFuera);
             scope.$on("$destroy",function(){
                 $document.off(cerrarSiClickFuera);
-            })
+            }),
             //Formato en el que se escribirá la fecha
             scope.formato = a.btFormato || "dd-mm-yyyy";
             //Elemento editable en el que se encuentra la fecha
@@ -398,12 +398,14 @@ angular.module("BilboTec.ui")
                 var strFecha = scope.valor;
                 if(typeof strFecha === "undefined" || strFecha === null || !strFecha){
                     texto.innerHTML = ""
-                }else{
+                }
+                else{
                     var formatos = scope.formato.split("-");
                     var elementos = strFecha.split("-");
                     if(elementos.length !== formatos.length){
                         return;
-                    }else{
+                    }
+                    else{
                         var fecha = {
                             "mm":elementos[1],
                             "dd":elementos[2],
@@ -969,12 +971,28 @@ return{
 			scope.$on("cancelar_edicion", function(){
 				scope.indiceEdicion = -1;
 				scope.insertando = false;
-			})
+			});
 			scope.$on("editar_experiencia", function(evento, args){
                 scope.insertando = false;
 				scope.indiceEdicion = args.indice;
 			});
+			scope.$on("borrar_experiencia",function(evento,args){
+                $http({
+                    url:"/api/Experiencias/Delete",
+                    method: "POST",
+                    data: $.param({elem:scope.alumno.experiencias[args.indice]}),
+                    headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+                })
+                .then(function(respuesta){
+                    scope.alumno.experiencias.splice(args.indice,1);
+                },
+                function(error){
+
+                });
+           })
 			scope.insertar = function(){
+				scope.vista = true;
+                scope.vista = {};
 				scope.indiceEdicion = -1;
 				scope.insertando = true;
 			};
@@ -983,6 +1001,7 @@ return{
 					scope.alumno.experiencias.unshift(args.experiencia);
 				}else{
 					scope.alumno.experiencias[scope.indiceEdicion] = args.experiencia;
+					scope.alumno.experiencias = angular.copy(scope.alumno.experiencias);
 				}
 				scope.indiceEdicion = -1;
 				scope.insertando = false;
@@ -1038,6 +1057,9 @@ return{
 							args.vista = true;
 						}
 						$scope.$emit("aplicar_edicion_experiencia",args);
+					},
+					function(error){
+						
 					}
 				)
 			}
@@ -1050,6 +1072,11 @@ return{
 			indice:$scope.$index
 		});
 	};
+	$scope.borrar = function(){
+        $scope.$emit("borrar_experiencia",{
+            indice:$scope.$index
+        });
+   };
 })
 .directive("btFormacionAcademica",["$http",function($http){
 	return{
@@ -1067,6 +1094,7 @@ return{
 			})
 			scope.$on("editar_formacion", function(evento, args){
 				scope.indiceEdicion = args.indice;
+				scope.insertando = false;
 			});
             scope.$on("borrar_formacion",function(evento,args){
                 $http({
@@ -1075,12 +1103,14 @@ return{
                     data: $.param({elem:scope.alumno.formaciones[args.indice]}),
                     headers: {'Content-Type': 'application/x-www-form-urlencoded'}
                 })
-                .then(function(respuesta){
-                    scope.alumno.formaciones.splice(args.indice,1);
-                },
-                function(error){
+                .then(
+	                function(respuesta){
+	                    scope.alumno.formaciones.splice(args.indice,1);
+	                },
+	                function(error){
 
-                });
+                	}
+                );
             })
 			scope.insertar = function(){
                 scope.vista = true;
@@ -1175,9 +1205,12 @@ return{
 							args.vista = true;
 						}
 						$scope.$emit("aplicar_edicion_formacion",args);
+					},
+					function(error){
+						
 					}
-				)
-			}
+				);
+			};
 
             $scope.cargarOfertas = function(){
                 $http({url:"/api/OfertaFormativa/GetByTipo/" +$scope.vista.id_tipo_titulacion})
@@ -1188,7 +1221,7 @@ return{
                     function(error){
 
                     }
-                    )
+                  );
             };
             if(typeof $scope.formacion !== "undefined"){
                 $scope.vista = angular.copy($scope.formacion);
@@ -1262,7 +1295,7 @@ return{
                             }
                         );
                     }
-                }
+                };
                 scope.editar = function(){
                     scope.vista = angular.copy(scope.alumno);
                     scope.imagen_copia = angular.copy(scope.imagen);

@@ -3,4 +3,5 @@
 	<p>{{experiencia.cargo}}</p>
 	<p bt-contenido-html ng-model="experiencia.funciones"></p>
 	<button ng-click="editar()">Editar</button>
+	<button ng-click="borrar()">Borrar</button>
 </div>

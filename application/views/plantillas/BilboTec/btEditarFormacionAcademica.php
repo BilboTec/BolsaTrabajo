@@ -34,7 +34,7 @@
 	<div class="grupo">
 		<label for="cursando"><input ng-change="onCursando_change()" 
 			id="cursando" type="checkbox" ng-model="vista.cursando"
-			ng-true-value="1" ng-false-value="0" ng-checked="vista.cursando == 1"/><?php echo ucfirst($idioma("trabajando_actualmente")); ?></label>	
+			ng-true-value="1" ng-false-value="0" ng-checked="vista.cursando == 1"/><?php echo ucfirst($idioma("cursando")); ?></label>	
 	</div>
 	<div class="grupo">
 		<label for="fecha_inicio"><?php echo ucfirst($idioma("descripcion")); ?></label>
