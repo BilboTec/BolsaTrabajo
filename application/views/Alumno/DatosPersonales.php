@@ -1,5 +1,6 @@
 <!--<div ng-controller="perfilAlumnoDatosPersonalesController">-->
-	<div class="contenido_linea">
+<div class="contenedor-datos-personales">
+	<div class="contenido_linea titulo-con-boton">
 		<h1><?php echo strtoupper($idioma("datos_personales")); ?></h1>
 		<button ng-click="editar()" ng-show="!editando"><?php echo strtoupper($idioma("editar")); ?></button>
 	</div>
@@ -10,7 +11,7 @@
 		<p ng-show="alumno.dni"><?php echo ucfirst($idioma("dni")); ?>: {{ alumno.dni }}</p>
 		<p ng-show="alumno.nacionalidad"><?php echo ucfirst($idioma("nacionalidad")); ?>: {{ alumno.nacionalidad }}</p>
 		<p ng-show="alumno.tlf"><?php echo ucfirst($idioma("tlf")); ?>: {{ alumno.tlf }}</p>
-		<p ng-show="alumno.calle"><?php echo ucfirst("calle");?>{{alumno.calle}} 
+		<p ng-show="alumno.calle"><?php echo ucfirst($idioma("calle"));?>: {{alumno.calle}} 
 			<span ng-show="nombre_localidad">, {{nombre_localidad}}</span>
 			<span ng-show="nombre_provincia">, {{nombre_provincia}}</span>
 		</p>
@@ -91,4 +92,5 @@
 		<button ng-click="cancelar()" ng-show="editando"><?php echo strtoupper($idioma("cancelar")); ?></button>
 	</div>
 	<div bt-window="ventana"></div>
+</div>
 <!--</div>-->

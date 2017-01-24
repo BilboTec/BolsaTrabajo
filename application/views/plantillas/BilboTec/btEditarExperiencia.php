@@ -30,6 +30,6 @@
 	<label for="funciones"><?php echo ucfirst($idioma("funciones")); ?></label>
 	<div bt-editor ng-model="vista.funciones"></div>
 </div>
-<button ng-click="guardar()">Guardar</button>
-<button ng-click="cancelar()">Cancelar</button>
+<button ng-click="guardar()"><?php echo ucfirst($idioma("guardar")); ?></button>
+<button ng-click="cancelar()"><?php echo ucfirst($idioma("cancelar")); ?></button>
 </div>

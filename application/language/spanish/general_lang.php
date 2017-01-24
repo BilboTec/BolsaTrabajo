@@ -122,7 +122,10 @@ $lang["trabajando_actualmente"] = "trabajando actualmente";
 $lang["funciones"] = "funciones";
 $lang["especialidad"] = "especialidad";
 $lang["experiencia"] = "experiencia";
-$lang["formacion"] = "formación";
+$lang["formacion_academica"] = "formación académica";
 $lang["cursando"] = "cursando";
+$lang["anadir_formacion"] = "añadir formación";
+$lang["anadir_experiencia"] = "añadir experiencia";
+$lang["anadir_idioma"] = "añadir idioma";
 
 

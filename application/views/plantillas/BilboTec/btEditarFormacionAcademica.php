@@ -40,6 +40,6 @@
 		<label for="fecha_inicio"><?php echo ucfirst($idioma("descripcion")); ?></label>
 		<div bt-editor ng-model="vista.descripcion"></div>
 	</div>
-	<button ng-click="guardar()">Guardar</button>
-	<button ng-click="cancelar()">Cancelar</button>
+	<button ng-click="guardar()"><?php echo ucfirst($idioma("guardar")); ?></button>
+	<button ng-click="cancelar()"><?php echo ucfirst($idioma("cancelar")); ?></button>
 </div>

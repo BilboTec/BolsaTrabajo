@@ -227,6 +227,10 @@ input[type="submit"]:hover{
 	flex-direction: column;
 }
 
+.contenedor-perfil > div{
+	width: 100%;
+}
+
 .contenedor-perfil :any(.btn,a), .contenedor-ofertas .grupo :any(.btn,a){
 	 text-align: center;
 }
@@ -509,6 +513,14 @@ header{
 }
 .grupo-vertical{
 	flex-direction: column;
+}
+
+
+.contenedor-experiencia, .contenedor-formacion-academica, .contenedor-idioma, .contenedor-otros-datos, 
+.contenedor-datos-personales{
+	border-bottom: solid 1px $(--g-claro);
+	margin: 2em 0;
+	width: 100%;
 }
 /*FOOTER*/
 footer{
