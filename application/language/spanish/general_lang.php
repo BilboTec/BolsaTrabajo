@@ -127,5 +127,17 @@ $lang["cursando"] = "cursando";
 $lang["anadir_formacion"] = "añadir formación";
 $lang["anadir_experiencia"] = "añadir experiencia";
 $lang["anadir_idioma"] = "añadir idioma";
-
+$lang["anadir_oferta"] = "añadir oferta";
+$lang["titulo"] = "titulo";
+$lang["nombre_empresa"] = "nombre empresa";
+$lang["estudios_min"] = "estudios mínimos";
+$lang["experiencia_min"] = "experiencia mínima";
+$lang["requisitos"] = "requisitos";
+$lang["horario"] = "horario";
+$lang["salario"] = "salario";
+$lang["publico"] = "público";
+$lang["horas"] = "horas";
+$lang["formacion_complementaria"] = "formación complementaria";
+$lang["fecha_fin"] = "fecha fin";
+$lang["fecha_inicio"] = "fecha inicio";
 
