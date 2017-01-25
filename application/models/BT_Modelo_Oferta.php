@@ -21,5 +21,62 @@ class BT_Modelo_Oferta extends BT_ModeloEstandar
 		return $consulta->result_array();
 	}
 
+	public function query(array $condiciones, $resultadosPorPagina=false, $pagina=false, $orden=false, $direccion="asc"){
+		$filtros = [];
+		foreach ($condiciones as $key => $value) {
+			if(property_exists($this->clase, $key)){
+				$filtros[$key] = $value;
+			}
+			else{
+				switch ($key) {
+					case 'conocimientos':
+						$conocimientos = $value;
+						break;
+					
+					case 'buscador':
+						$buscador = $value;
+						break;
+					case "fecha_oferta":
+						$fecha = $value;
+						break;
+				}
+			}
+		}
+		
+		$this->db->where($filtros)->from($this->tabla);
+		if(isset($conocimientos) && count($conocimientos) > 0){
+			$filtro_conocimiento = [];
+			foreach ($conocimientos as $conocimiento) {
+				array_push($filtro_conocimiento, $conocimiento->id_conocimiento);
+			}
+			$this->db->join("conocimiento_oferta", "conocimiento_oferta.id_oferta = oferta.id_oferta")
+			->where_in("id_conocimiento", $filtro_conocimiento);
+		}
+		
+		if(isset($buscador) && $buscador){
+			$this->db->where("(LOWER(titulo) LIKE LOWER('%$buscador%') OR LOWER(nombre_empresa) LIKE LOWER('%$buscador%') OR 
+			LOWER(estudios_min) LIKE LOWER('%$buscador%') OR LOWER(experiencia_min) LIKE LOWER('%$buscador%') OR 
+			LOWER(requisitos) LIKE LOWER('%$buscador%') OR LOWER(descripcion) LIKE LOWER('%$buscador%') OR 
+			LOWER(horario) LIKE LOWER('%$buscador%') OR LOWER(salario) LIKE LOWER('%$buscador%'))");
+		}
+		
+		if(isset($fecha) && $fecha){
+			switch ($fecha) {
+				case '2':
+					$fecha = '7';
+					break;
+				
+				case '3':
+					$fecha = '15';
+					break;
+			}
+		$date = new DateTime();
+		$date->sub(new DateInterval("P$fecha"."D"));
+		$this->db->where(["fecha >" => $date->format("Y-m-d")]);
+		}
+		return $this->db->get()->result($this->clase);
+
+	}
+
 }
 ?>

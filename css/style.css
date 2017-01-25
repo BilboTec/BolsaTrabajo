@@ -739,10 +739,10 @@ footer{
 	padding: 1em;
 	z-index: 100000100;
 }
-.bt-window-wrapper.ng-hide-add{
+.bt-window-wrapper.ng-leave{
 	animation: dummy 0.5s;
 }
-.bt-window-wrapper.ng-hide-remove{
+.bt-window-wrapper.ng-enter{
 	animation: dummy 0.5s reverse;
 }
 .bt-window.ng-hide-remove{

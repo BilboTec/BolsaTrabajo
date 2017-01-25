@@ -8,8 +8,8 @@ class FormacionAcademica extends BT_Controlador_api_estandar
     {
         parent::__construct("BT_Modelo_FormacionAcademica","id_formacion_academica");
     }
-    public function GetByTipo($id_oferta_formaiva){
-    	$this->query(["id_oferta_formaiva"=>$id_oferta_formaiva]);
+    public function GetByTipo($id_oferta_formativa){
+    	$this->query(["id_oferta_formaiva"=>$id_oferta_formativa]);
     }
     public function insert(){
     	$formacion_academica = new _FormacionAcademica();

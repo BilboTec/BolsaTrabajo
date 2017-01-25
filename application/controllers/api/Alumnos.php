@@ -8,6 +8,14 @@ class Alumnos extends BT_Controlador_api_estandar
         parent::__construct("BT_Modelo_Alumno", "id_alumno");
         $this->load->helper("bt_email");
     }
+	public function Buscar(){
+		$filtros = $this->input->post("filtros");
+		$this->get($filtros);
+		
+	}
+	public function GetById($id_alumno){
+		$this->query(["id_alumno"=>$id_alumno]);
+	}
     public function Invitar(){
     	$this->form_validation->set_rules([
     		[

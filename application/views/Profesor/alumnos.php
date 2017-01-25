@@ -1,1 +1,3 @@
-<div class="contenedor-ofertas" ng-view></div>
+<div class="contenedor-ofertas" ng-view>
+	
+</div>

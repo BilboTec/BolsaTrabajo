@@ -2,22 +2,24 @@
 		<fieldset>
 			<legend><?php echo strtoupper($idioma('filtro')); ?></legend>
 			<div class="filtro-contenedor">
-				<label><?php echo ucfirst($idioma('fecha')); ?></label><br>
-				<input ng-model="filtro.fecha" type="radio" name="fecha" value="Cualquier fecha"/> Cualquier fecha<br>
-  				<input ng-model="filtro.fecha" type="radio" name="fecha" value="Ultimas 24 Horas"/> Ultimas 24 Horas<br>
-  				<input ng-model="filtro.fecha" type="radio" name="fecha" value="Ultimos 7 dias"/> Ultimos 7 dias<br>
-  				<input ng-model="filtro.fecha" type="radio" name="fecha" value="Ultimos 15 dias"/> Ultimos 15 dias<br><br>
+				
+				<label for="conocimientos"><?php echo ucfirst($idioma('conocimientos')); ?></label>
+				<div id="conocimientos" ng-model="filtros.conocimientos" bt-clave="id_conocimiento" bt-texto="nombre" bt-url="/api/Conocimientos/Get" bt-auto-complete="completeConocimientos"></div>
+				
+  				<label><?php echo ucfirst($idioma('oferta_formativa')); ?></label><br>
   				
-  				
-  				<label><?php echo ucfirst($idioma('departamento')); ?></label><br>
-  				
-				<select>
+				<select ng-model='filtros.id_oferta_formativa'>
 				<?php
-				foreach ($departamentos as $departamento){
-				  echo "<option ng-model='filtro.departamento' value= '" .$departamento->id_departamento ."'>" .$departamento->nombre ."</option>";
+				foreach ($ofertas_formativas as $oferta_formativa){
+				  echo "<option value= '" .$oferta_formativa->id_oferta_formativa ."'>" .$oferta_formativa->nombre ."</option>";
 				}
 				?>
 				</select><br><br>
+				
+				<label><?php echo ucfirst($idioma('fecha_fin_estudios')); ?></label>
+				<div bt-date-picker ng-model="filtros.fecha_fin"></div>
+				
+				<input type="text" ng-model="filtros.buscador"/>
 
 				<button ng-click="buscar()" type="button"><?php echo ucfirst($idioma('filtrar')); ?></button>
 			</div>

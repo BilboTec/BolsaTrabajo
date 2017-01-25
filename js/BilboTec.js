@@ -49,8 +49,7 @@ angular.module("BilboTec",["BilboTec.ui", "ngRoute"])
 		"/Profesor/Alumnos":{
 			"/":{templateUrl:"/Profesor/BuscarAlumno", controller:"controladorProfesorBuscarAlumno"},
 			"/InvitarAlumnos":{templateUrl:"/Profesor/InvitarAlumnos", controller:"controladorInvitarAlumnos"},
-			"/:id_alumno":{templateUrl:"/Profesor/DetalleAlumno", controller:"controladorDetalleAlumno"},
-			"/Editar/:id_alumno":{templateUrl:"/Profesor/EditarAlumno", controller:"controladorDetalleAlumno"}
+			"/:id_alumno":{templateUrl:"/Profesor/DetalleAlumno", controller:"controladorDetalleAlumno"}
 		},
 
 		"/Alumno/Ofertas":{
@@ -565,7 +564,14 @@ angular.module("BilboTec",["BilboTec.ui", "ngRoute"])
 		};
 		
 		$scope.buscar = function(){
-			$http({url:"/api/Ofertas/Get/",params:$scope.filtros})
+			$http({
+				url:"/api/Ofertas/Get/",
+				method: "POST",
+				data:$.param({filtros: JSON.stringify($scope.filtros),
+							  resultadosPorPagina: typeof resultadosPorPagina !== "undefined"?resultadosPorPagina:null,
+							  pagina: typeof pagina !== "undefined"?pagina:null}),
+				headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+			})
 			.then(
 				function(respuesta){ 
 				/* asigna la respuesta a la colección que muestras en el ng-
@@ -800,14 +806,17 @@ angular.module("BilboTec",["BilboTec.ui", "ngRoute"])
 	$scope.buscar = function(){
 		$http({
 			url:"/api/Alumnos/Get",
-			params:filtros
+			method: "POST",
+			data:$.param({filtros: $scope.filtros}),
+			headers: {'Content-Type': 'application/x-www-form-urlencoded'}	
 		})
 		.then(function(respuesta){
-			$scope.alumnos = respuesta.data;
+			$scope.alumnos = respuesta.data.data;
 		},function(error){
 			debugger;
 		});
 	};
+	$scope.buscar();
 }])
 .controller("controladorInvitarAlumnos",["$http", "$scope",function($http, $scope){
 	$scope.cargarEmails = function(){
@@ -878,5 +887,61 @@ angular.module("BilboTec",["BilboTec.ui", "ngRoute"])
 			reader.readAsText($scope.files[0]);
 		}
 	};
+}])
+.controller("controladorDetalleAlumno",["$http","$scope","$routeParams",function($http,$scope,$routeParams){
+	$http({
+		url:"/api/Alumnos/GetById/"+$routeParams.id_alumno
+	})
+	.then(
+		function(respuesta){
+			$scope.alumno = respuesta.data.data[0];
+			$http({
+					url: "/api/Experiencias/Get/" + $scope.alumno.id_alumno
+				})
+				.then(
+					function(respuesta){
+						$scope.experiencias = respuesta.data.data;
+				},
+					function(error){
+						$scope.ventana.alerta("error",error.data?error.data:error,function(){});
+					});
+			$http({
+				url:"/api/FormacionAcademica/Get/" + $scope.alumno.id_alumno
+			})
+			.then(
+				function(respuesta){
+					$scope.formaciones_academicas = respuesta.data.data;
+				},
+				function(error){
+					console.log(JSON.stringify(error));
+				}
+			);
+			$http({
+				url:"/api/FormacionComplementaria/Get/" + $scope.alumno.id_alumno
+			})
+			.then(
+				function(respuesta){
+					$scope.formaciones_complementarias = respuesta.data.data;
+				},
+				function(error){
+					console.log(JSON.stringify(error));
+				}
+			);
+			$http({
+				url:"/api/Idioma/Get/" + $scope.alumno.id_alumno
+			})
+			.then(
+				function(respuesta){
+					$scope.idiomas = respuesta.data.data;
+				},
+				function(error){
+					console.log(JSON.stringify(error));
+				}
+			);
+		},
+		function(error){
+			debugger;
+		}
+	);
 }]);
 

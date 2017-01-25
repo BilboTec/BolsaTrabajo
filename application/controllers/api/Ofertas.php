@@ -13,16 +13,26 @@ class Ofertas extends BT_Controlador_api_estandar
     public function Get(){
         $tipo = $this->session->tipo;
         $usuario = $this->get_usuario_actual();
-        $condiciones = [];
+		$string_filtros = $this->input->post("filtros");
+		if($string_filtros === null){
+			$condiciones = [];
+		}
+		else{
+			$condiciones = json_decode($string_filtros);
+		}
         switch($tipo){
+        	//si alumno
             case 0:
-                $condiciones["visible"] = 1;
+                $condiciones->visible = 1;
                 break;
+			//si empresa
             case 1:
-                $condiciones["id_empresa"] = $usuario->id_empresa;
+                $condiciones->id_empresa = $usuario->id_empresa;
                 break;
             }
-    	parent::query($condiciones);
+		$resultadosPorPagina = $this->input->post("resultadosPorPagina");
+		$pagina = $this->input->post("pagina");
+    	parent::query((array)$condiciones, $resultadosPorPagina, $pagina);
     }
 
     public function getById($id){

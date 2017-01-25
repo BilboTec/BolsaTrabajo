@@ -30,7 +30,22 @@ class BT_Modelo_Alumno extends BT_ModeloVista {
 	{
 		parent::__construct("alumno", "vw_alumno", "_Alumno", "id_alumno");
 	}
-	
+	public function buscar($filtros){
+		$this->from("alumnos");
+		foreach($filtros as $clave => $valor){
+			switch($clave){
+				case "conocimientos":
+					$filtrosConocimientos = [];
+					foreach($valor as $conocimiento){
+						array_push($filtrosConocimientos,$conocimiento);
+					}
+					if(count($filtrosConocimientos) > 0){
+						
+					}
+					break;
+			}
+		}
+	}
 	public function guardar_imagen($imagen, $alumno){
 		if($imagen != null){
 			$imagen = base64_decode(str_replace("data:image/png;base64,", "", $imagen));

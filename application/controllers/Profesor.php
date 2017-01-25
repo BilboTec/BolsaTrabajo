@@ -132,8 +132,16 @@
 		$data['idioma'] = function($clave){
 			return $this->lang->line($clave);
 		};
-		$data['departamentos'] = $this->BT_Modelo_Departamento->get();
+		$this->load->model("BT_Modelo_OfertaFormativa","ofertasFormativas");
+		$data['ofertas_formativas'] = $this->ofertasFormativas->get();
 		$this->load->view("/Profesor/buscarAlumno",$data);
+	}
+	public function DetalleAlumno(){
+		$data['idioma'] = function($clave){
+			return $this->lang->line($clave);
+		};
+		$data['departamentos'] = $this->BT_Modelo_Departamento->get();
+		$this->load->view("/Profesor/detalleAlumno",$data);
 	}
 	public function InvitarAlumnos(){
 		$data['idioma'] = function($clave){

@@ -12,17 +12,17 @@
 	
 	<div class="grupo">
 	<label>Estudios minimos</label>
-	<textarea ng-model="oferta.estudios_min"></textarea>
+	<input type="text" ng-model="oferta.estudios_min"/>
 	</div>
 	
 	<div class="grupo">
 	<label>Experiencia minima</label>
-	<textarea ng-model="oferta.experiencia_min"></textarea>
+	<input type="text" ng-model="oferta.experiencia_min"/>
 	</div>
 	
 	<div class="grupo">
 	<label>Requisitos</label>
-	<textarea ng-model="oferta.requisitos"></textarea>
+	<div bt-editor ng-model="oferta.requisitos"></div>
 	</div>
 	
 	<div class="grupo">
@@ -32,12 +32,12 @@
 	
 	<div class="grupo">
 	<label>Horario</label>
-	<textarea ng-model="oferta.horario"></textarea>
+	<input type="text" ng-model="oferta.horario"/>
 	</div>
 	
 	<div class="grupo">
 	<label>Salario</label>
-	<textarea ng-model="oferta.salario"></textarea>
+	<input type="text" ng-model="oferta.salario"/>
 	</div>
 	
 	<div class="grupo">
@@ -45,5 +45,5 @@
 	</div>
 	
 	<span class="btn-tipo btn" ng-click="guardar()"><?php echo ucfirst($idioma("guardar")); ?></span>
-	<a ng-href="#!/{{oferta.id_oferta==0?'':oferta.id_oferta}}">Volver</a>
+	<a ng-href="#!/{{oferta.id_oferta==0?'':oferta.id_oferta}}"><?php echo ucfirst($idioma("volver")); ?></a>
 </div>
