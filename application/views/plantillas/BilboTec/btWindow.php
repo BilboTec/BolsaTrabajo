@@ -1,4 +1,4 @@
-<div class="bt-window-wrapper" ng-if="visible">
+<div class="bt-window-wrapper" ng-show="visible" style="display:none">
 	<div class="bt-window" ng-show="visible">
 		<div class="bt-window-titulo" ng-show="titulo">
 				{{ titulo | btLocale | capitalize }}

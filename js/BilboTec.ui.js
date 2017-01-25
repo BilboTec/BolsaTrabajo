@@ -380,6 +380,7 @@ angular.module("BilboTec.ui")
                 }
             }
             scope.abrir = function(){
+                e.find(".desplegable").removeAttr("style");
                 scope.abierto = true;
             };
             scope.cerrar = function(){
@@ -599,6 +600,7 @@ angular.module("BilboTec.ui")
                 scope.movible = movible;
             };
             scope.abrir = function(){
+                el.find(".bt-window-wrapper").removeAttr("style");
                 scope.visible = true;
             };
             scope.estlecerUrl = function(url){
