@@ -387,7 +387,7 @@ angular.module("BilboTec.ui")
             };
             $document.on("click",cerrarSiClickFuera);
             scope.$on("$destroy",function(){
-                $document.off(cerrarSiClickFuera);
+                $document.off("click",cerrarSiClickFuera);
             }),
             //Formato en el que se escribirá la fecha
             scope.formato = a.btFormato || "dd-mm-yyyy";
@@ -695,6 +695,7 @@ angular.module("BilboTec.ui")
             var inputY = elem.find("#offsetY");
             var inputS = elem.find("#scale");
             var canvasElement = elem.find("canvas")[0];
+            var original = null;
             scope.scale = 100;
             canvasElement.width = 100;
             canvasElement.height = 127;
@@ -713,18 +714,32 @@ angular.module("BilboTec.ui")
                 var imagen = new Image();
                 imagen.onload = function(){
                     var s = 1 + (1-scope.scale/100);
-                    var x = scope.offset.x;
-                    var y = scope.offset.y;
-                    var w = imagen.width;
-                    var h = imagen.height;
+                    var x = scope.offset.x * s;
+                    var y = scope.offset.y * s;
+                    var w = imagen.width * s;
+                    var h = imagen.height * s;
                     var ch = canvasElement.height;
                     var cw = canvasElement.width;
+                    var ih = imagen.height;
+                    var iw = imagen.width;
+                    var mul = 1;
+                    if(ch/cw > ih/iw){
+                        mult =  ch/ih;
+                    }else{
+                        mult = cw/iw; 
+                    }
 
-                    canvas.drawImage(imagen,x,y,w*s,h*s,0,0,cw,ch);
+                    canvas.drawImage(imagen,-x*iw/100,-y*ih/100,w*s,h*s,0,0,iw*mult,ih*mult);
+                    /*setInterval(function(){
+                        scope.$apply(function(){*/ngModel.$setViewValue(canvasElement.toDataURL());
+                    /*});*/
                 };
-                imagen.src = scope.imagen;
+                imagen.src = original || scope.imagen;
             }
-            ngModel.$render = dibujar;
+            ngModel.$render = function(){
+                scope.original = scope.imagen;
+                dibujar();
+            };
             inputX.on("change",dibujar);
             inputY.on("change",dibujar);
             inputS.on("change",dibujar);
@@ -736,6 +751,7 @@ angular.module("BilboTec.ui")
                     var file = input.files[0];
                     var reader = new FileReader();
                     reader.onload = function(){
+                        original = reader.result;
                         scope.imagen = reader.result;
                         dibujar();
                     };
@@ -771,10 +787,61 @@ angular.module("BilboTec.ui")
                 "Impact", "Lucida Sans Unicode", "Tahoma", "Helvetica", "Verdana", "Courier", "Monaco"
 
             ];
+            scope.fn = "Georgia";
+            scope.tam = "3";
+            scope.bold = false;
+            scope.italic = false;
+            scope.underline= false;
             var iframe  = el.find("iframe")[0];
             var doc = iframe.contentDocument;
-            
             doc.designMode = "on";
+            doc.onselectstart = function(evt){
+                actualizarControles(evt.target);
+            }
+            var actualizarControles =  function(target){
+                var font = "Georgia";
+                var hasFont = false;
+                var hasSize = false;
+                var italic = false;
+                var underline = false;
+                var bold = false;
+                var size = "3";
+                while(target!==null && target.tagName !== "BODY"){
+                    if(target.nodeName == "#text"){
+                        target = target.parentElement;
+                    }
+                    switch(target.tagName){
+                        case "FONT":
+                        if(target.size && !hasSize){
+                            size = target.size;
+                            hasSize = true;
+                        }
+                        if(target.face && !hasFont){
+                            font = target.face;
+                            hasFont = true;
+                        }
+                        break;
+                        case "B":
+                        bold = true;
+                        break;
+                        case "U":
+                        underline = true;
+                        break;
+                        case "I":
+                        italic = true;
+                        break;
+                    }
+                    target = target.parentElement;
+                }
+                setTimeout(function(){scope.$apply(function(){
+                        scope.fn = font;
+                        scope.tam = size;
+                        scope.bold = bold;
+                        scope.italic = italic;
+                        scope.underline = underline;
+                    });
+                });
+            };
             scope.comando = function($event,tipo,valor){
                 doc.execCommand(tipo,true,valor);
                 scope.actualizar();
@@ -782,12 +849,13 @@ angular.module("BilboTec.ui")
                     $event.preventDefault();
                     $event.stopPropagation();
                 }
-                iframe.focus();
             };
             scope.actualizar = function(){
                 scope.valor = doc.body.innerHTML;
             };
             doc.onkeyup = function(){
+                var seleccion = doc.getSelection();
+                actualizarControles(seleccion.anchorNode);
                 ngModel.$setViewValue(doc.body.innerHTML);
             }
             scope.link = function(){

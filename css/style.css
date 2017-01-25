@@ -383,6 +383,8 @@ header{
 	-moz-transform: perspective(100px) rotateX(30deg);
 	
 	box-shadow: 1px 0px 1px $(--g-claro);
+	top: 0;
+	left: 0;
 }
 
 .cabecera_usuario ul li a{
@@ -780,6 +782,10 @@ footer{
 [bt-editor] iframe{
 	background-color:white;
 	width: 100%;
+}
+[bt-editor].btn.activo{
+	background-color: $(--v-claro);
+	color:black;
 }
 .barra-comandos{
 	flex-wrap: wrap;

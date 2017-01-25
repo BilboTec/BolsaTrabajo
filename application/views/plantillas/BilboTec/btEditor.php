@@ -1,4 +1,4 @@
-<ul class="barra-comandos">
+	<ul class="barra-comandos">
 	<li>
 		<ul>
 			<li class="btn btn-tipo" ng-click="comando('undo')"><img alt="<?php echo ucfirst($idioma("deshacer")); ?>" title="<?php echo ucfirst($idioma("deshacer")); ?>" src="/imagenes/editor/undo1.png"/></li>
@@ -6,7 +6,7 @@
 		</ul>
 	</li>
 	<li>
-		<ul>
+		<ul ng-model="parrafo" class="parrafo">
 			<li class="btn btn-tipo" ng-click="comando($event,'formatBlock','h1')">h1</li>
 			<li class="btn btn-tipo" ng-click="comando($event,'formatBlock','h2')">h2</li>
 			<li class="btn btn-tipo" ng-click="comando($event,'formatBlock','h3')">h3</li>
@@ -26,9 +26,9 @@
 	</ul>
 	<li>
 		<ul>
-			<li class="btn btn-tipo" ng-click="comando($event,'italic')"><img alt="<?php echo ucfirst($idioma("cursiva")); ?>" title="<?php echo ucfirst($idioma("cursiva")); ?>" src="/imagenes/editor/italic.png"/></li>
-			<li class="btn btn-tipo" ng-click="comando($event,'bold')"><img alt="<?php echo ucfirst($idioma("negrita")); ?>" title="<?php echo ucfirst($idioma("negrita")); ?>" src="/imagenes/editor/bold.png"/></li>
-			<li class="btn btn-tipo" ng-click="comando($event,'underline')"><img alt="<?php echo ucfirst($idioma("subrayado")); ?>" title="<?php echo ucfirst($idioma("subrayado")); ?>" src="/imagenes/editor/underline.png"/></li>
+			<li class="btn btn-tipo" ng-click="comando($event,'italic')" ng-class="italic?'activo':''"><img alt="<?php echo ucfirst($idioma("cursiva")); ?>" title="<?php echo ucfirst($idioma("cursiva")); ?>" src="/imagenes/editor/italic.png"/></li>
+			<li class="btn btn-tipo" ng-click="comando($event,'bold')" ng-class="bold?'activo':''"><img alt="<?php echo ucfirst($idioma("negrita")); ?>" title="<?php echo ucfirst($idioma("negrita")); ?>" src="/imagenes/editor/bold.png"/></li>
+			<li class="btn btn-tipo" ng-click="comando($event,'underline')" ng-class="underline?'activo':''"><img alt="<?php echo ucfirst($idioma("subrayado")); ?>" title="<?php echo ucfirst($idioma("subrayado")); ?>" src="/imagenes/editor/underline.png"/></li>
 		</ul>
 	</li>
 	<li>

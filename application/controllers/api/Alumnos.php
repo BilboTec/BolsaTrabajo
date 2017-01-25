@@ -73,7 +73,7 @@ class Alumnos extends BT_Controlador_api_estandar
 
     public function GuardarImagen(){
         $alumno = $this->get_usuario_actual();
-        $imagen = $this->modelo->cargar_imagen($alumno);
+        $imagen = $this->input->post("imagen");
         $this->modelo->guardar_imagen($imagen, $alumno);
         $this->CargarImagen();
     }

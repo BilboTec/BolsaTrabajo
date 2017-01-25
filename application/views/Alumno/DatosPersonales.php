@@ -2,7 +2,7 @@
 <div class="contenedor-datos-personales">
 	<div class="contenido_linea titulo-con-boton">
 		<h1><?php echo strtoupper($idioma("datos_personales")); ?></h1>
-		<button ng-click="editar()" ng-show="!editando"><?php echo strtoupper($idioma("editar")); ?></button>
+		<span class="btn btn-tipo" ng-click="editar()" ng-show="!editando"><?php echo strtoupper($idioma("editar")); ?></span>
 	</div>
 	<div ng-show="!editando">
 		<h1>{{ alumno.nombre }} {{ alumno.apellido1 }} {{ alumno.apellido2 }}</h1>
@@ -88,8 +88,8 @@
 	</div>
 	</form>
 	<div>
-		<button ng-click="guardar()" ng-show="editando"><?php echo strtoupper($idioma("guardar")); ?></button>
-		<button ng-click="cancelar()" ng-show="editando"><?php echo strtoupper($idioma("cancelar")); ?></button>
+		<span class="btn btn-tipo" ng-click="guardar()" ng-show="editando"><?php echo strtoupper($idioma("guardar")); ?></span>
+		<span class="btn btn-tipo" ng-click="cancelar()" ng-show="editando"><?php echo strtoupper($idioma("cancelar")); ?></span>
 	</div>
 	<div bt-window="ventana"></div>
 </div>
