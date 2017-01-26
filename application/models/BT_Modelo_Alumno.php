@@ -31,7 +31,8 @@ class BT_Modelo_Alumno extends BT_ModeloVista {
 		parent::__construct("alumno", "vw_alumno", "_Alumno", "id_alumno");
 	}
 	public function buscar($filtros){
-		$this->from("alumnos");
+		$db = $this->db;
+		$db->from("alumnos");
 		foreach($filtros as $clave => $valor){
 			switch($clave){
 				case "conocimientos":
@@ -40,7 +41,7 @@ class BT_Modelo_Alumno extends BT_ModeloVista {
 						array_push($filtrosConocimientos,$conocimiento);
 					}
 					if(count($filtrosConocimientos) > 0){
-						
+						$db->join("conocimiento_experiencia","alumno.id_conocimiento = conocimiento_experiencia_id_experiencia")
 					}
 					break;
 			}
