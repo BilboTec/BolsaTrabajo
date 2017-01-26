@@ -11,12 +11,21 @@ class Alumnos extends BT_Controlador_api_estandar
     public function Curriculum($id_alumno){
         $alumno = $this->modelo->get_by_id($id_alumno);
         if($alumno !== null){
-            require_once "html2pdf/vendor/autoload.php";
+            if(file_exist("data/curriculum/".$id_alumno.".pdf")){
+                $this->output
+        ->set_content_type('pdf'
+        ->set_output(file_get_contents('data/curriculum/'.$id_alumno.".dpf"));
+            }else{
+                generarCurriculum($id_alumno);
+            }
+        }
+    }
+    protected generarCurriculum(){
+        require_once "html2pdf/vendor/autoloader.php";
             require_once "html2pdf/html2pdf.class.php";
             $pdf = new HTML2PDF("P","A4","en");
-            $pdf->WriteHtml("<p>Curriculum</p>");
+            $pdf->WriteHtml("<h1>Curriculum Vitae</h1>");
             $pdf->output("Curriculum.pdf");
-        }
     }
 	public function Buscar(){
 		$filtros = $this->input->post("filtros");

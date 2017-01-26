@@ -41,7 +41,6 @@ class BT_Modelo_Alumno extends BT_ModeloVista {
 						array_push($filtrosConocimientos,$conocimiento);
 					}
 					if(count($filtrosConocimientos) > 0){
-						$db->join("conocimiento_experiencia","alumno.id_conocimiento = conocimiento_experiencia_id_experiencia")
 					}
 					break;
 			}

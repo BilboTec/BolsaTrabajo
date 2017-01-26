@@ -1,3 +1,4 @@
 RewriteEngine On
 RewriteRule ^(js|css|imagenes|fuentes|content) - [L,NC]
+RewriteBase /
 RewriteRule ^(.*) index.php  [L]
