@@ -26,7 +26,7 @@
 					<div class="error-validacion" ng-show="(formLogin.$submitted || formLogin.clave.$touched) && formLogin.clave.$invalid"><?php printf($idioma("required"),$idioma("clave")); ?></div>
 				</div>
 				<input type="submit" value="<?php echo ucfirst($idioma('entrar')); ?>">
-				<a href="#"><?php echo ucfirst($idioma('recordar_clave')); ?></a>
+				<a href="/Login/RecordarClave"><?php echo ucfirst($idioma('recordar_clave')); ?></a>
 			</div>
 		</fieldset>
 		<a ng-href="/SignUp/{{tipo==1?'Empresa':'Alumno'}}" class="registrarse" ng-show="tipo!==2" href="#"><?php echo strtoupper($idioma('registrarse')); ?></a>

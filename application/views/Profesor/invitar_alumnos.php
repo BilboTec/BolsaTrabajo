@@ -9,5 +9,6 @@
 		<div bt-file-input="fileInput" ng-model="files" bt-accept=".csv"></div>
 		<span class="btn btn-tipo" ng-click="cargarCSV()"><?php echo ucfirst($idioma("cargar")); ?></span>
 	</div>
+	<a href="#/!" class="btn btn-tipo"><?php echo ucfirst($idioma("volver")); ?></a>
 	<div bt-window="ventana"></div>
 </div>

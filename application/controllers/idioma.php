@@ -1,6 +1,6 @@
 <?php
 
-class idioma extends CI_Controller{
+class Idioma extends CI_Controller{
 	
 	public function cambiar($idioma){
 		$this->load->helper("cookie");

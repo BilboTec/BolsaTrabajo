@@ -140,4 +140,7 @@ $lang["horas"] = "horas";
 $lang["formacion_complementaria"] = "formación complementaria";
 $lang["fecha_fin"] = "fecha fin";
 $lang["fecha_inicio"] = "fecha inicio";
-
+$lang["enviar"] = "enviar";
+$lang["exito"] = "éxito";
+$lang["alerta_recuperar_clave"] = "se ha enviado un correo electrónico a su dirección, en el cual se incluye un vínculo mediante el cual recuperar su contraseña. <br>
+Acepte este cuadro de dialogo para volver.";

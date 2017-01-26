@@ -52,4 +52,55 @@ class Login extends BT_Controller{
 		$this->load->view("/Login/FormularioLogin", $data);
 		$this->load->view("/plantillas/footer", $data);
 	}
+
+	public function RecordarClave(){
+		$data['idioma'] = function($clave){
+			return $this->lang->line($clave);
+		};
+		$this->load->view("/plantillas/header", $data);
+		$this->load->view("/Login/RecordarClave", $data);
+		$this->load->view("/plantillas/footer", $data);
+	}
+	
+	public function EnviarIdentificador(){
+		$this->lang->load("BT_email");
+		$this->form_validation->set_rules("email", $this->lang->line("email"), "required|trim|valid_email");
+		if(/*$this->form_validation->run()*/true){
+			$this->load->model("BT_Modelo_Identificador_Clave", "ids");
+			$this->load->helper("bt_email");
+			$email = $this->input->get("email");
+			$identificador = $this->ids->crear($email);
+			$link = $_SERVER["SERVER_NAME"]."/SignUp/Empresa/?I=" .$identificador;
+			$link = "<a href='.$link'>$link</a>";
+			$asunto = $this->lang->line("asunto_email_recordar_clave");
+			$mensaje = sprintf($this->lang->line("cuerpo_email_recordar_clave"), $link);
+			enviar_email($this, $email, $asunto, $mensaje);
+			echo "ok";
+		}
+		else{
+			var_dump($this->input->get());
+			echo "no";
+		}
+	}
+	
+	public function CambiarClave(){
+		$this->model->load("BT_Modelo_Identificador_Clave", "ids");
+		$metodo = $this->input->method(true);
+		if($metodo === "POST"){
+			
+		}
+		else{
+			$identificador = $this->ids->obtener($this->input->get("I"));
+			if($identificador != null){
+				$data["idioma"] = function($clave){
+					return $this->lang->line($clave);
+				};
+				$data["identificador"] = $identificador;
+				$this->load->view("/plantillas/header", $data);
+				$this->load->view("/Login/CambiarClave", $data);
+				$this->load->view("/plantillas/footer", $data);
+			}
+		}
+	}
+
 }

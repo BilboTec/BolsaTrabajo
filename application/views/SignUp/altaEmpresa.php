@@ -1,6 +1,6 @@
 
 <form action="/SignUp/AltaEmpresa" method="post" ng-controller="altaEmpresaController" ng-init="empresa={<?php 
-	echo "email:'".$email."',id_pais:'".$es->id_pais."'};id_es='".$es->id_pais;
+	echo "email:'".$empresa->email."',id_pais:'".$es."'};id_es='".$es."';identificador='".$identificador;
 ?>'" novalidate ng-submit="onSubmit($event)" name="formAltaEmpresa">
 	<fieldset class="contenedor contenedor-alta-empresa" >
 		<legend>ALTA EMPRESA</legend>
@@ -20,13 +20,14 @@
 			</div>
 			<div class="grupo-form-flex">
 				<label for="email">Email</label>
+				<input type="hidden" name="email" value="{{empresa.email}}"/>
 				<input id="email" type="email" name="email" disabled="disabled" ng-model="empresa.email">
 				<div class="error-validacion" ng-show="(formLogin.$submitted || formLogin.email.$touched) && formLogin.email.$error.email"><?php printf($idioma("valid_email"),$idioma("email")); ?></div>
 				<div class="error-validacion" ng-show="(formLogin.$submitted || formLogin.email.$touched) && formLogin.email.$error.required"><?php printf($idioma("required"),$idioma("email")); ?></div>
 			</div>
 			<div class="grupo-form-flex">
 				<label for="clave">Contraseña</label>
-				<input type="password" id="clave" type="text" name="clave" ng-model="clave" />
+				<input type="password" id="clave" type="text" name="clave" ng-model="empresa.clave" />
 				<div class="error-validacion" ng-show="(formLogin.$submitted || formAltaEmpresa.clave.$touched) && fromAltaEmpresa.clave.$error.required ||formAltaEmpresa.clave.$error.required"><?php printf($idioma("required"),$idioma("clave")); ?></div>
 				<label for="clave2">Repita la contraseña</label>
 				<input type="password" id="clave2" type="text" name="clave2" ng-model="empresa.clave2" />

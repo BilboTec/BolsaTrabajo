@@ -6,6 +6,8 @@ class SignUp extends BT_Controller{
 		$this->load->library('form_validation');
 		$this->load->library('email');
 		$this->load->model("BT_Modelo_IdentificadorAlta","identificadores");
+		$this->load->model("BT_Modelo_Empresa","empresas");
+		$this->load->model("BT_Modelo_Pais","paises");
 		$this->lang->load("BT_email");
 		$this->idioma =function ($clave){
 				return $this->lang->line($clave);
@@ -31,7 +33,7 @@ class SignUp extends BT_Controller{
 				$identificador = new _IdentificadorAlta();
 				$identificador->email = $this->input->post("email");
 				$identificador = $this->identificadores->insert($identificador)[0];
-				$link = $_SERVER["HTTP_ORIGIN"]."/SignUp/Empresa/?I" . base64_encode($identificador->id_identificador . "#" . $identificador->identificador);
+				$link = $_SERVER["HTTP_ORIGIN"]."/Login/CambiarClave/?I=" . base64_encode($identificador->id_identificador . "#" . $identificador->identificador);
 				$link = "<a href='.$link'>$link</a>";
 				$config = Array(
  				    'protocol' => 'smtp',
@@ -56,7 +58,7 @@ class SignUp extends BT_Controller{
 				$this->email->to($identificador->email);
 
 				$this->email->subject($this->lang->line("asunto_confirmar_email"));
-				$this->email->message(sprintf($this->lang->line("confirmar_email_empresa_cuerpo"),$this->input->post("nombre"),$identificador));
+				$this->email->message(sprintf($this->lang->line("confirmar_email_empresa_cuerpo"),$this->input->post("nombre"),$link));
 
 				$this->email->send();
 			}else{
@@ -68,6 +70,7 @@ class SignUp extends BT_Controller{
 	public function Empresa(){
 		$data["idioma"] = $this->idioma;
 		$data["errores"] = [];
+		$data["es"] = $this->paises->id_es();
 		$metodo = $this->input->method(true);
 		if($metodo=="GET"){
 			/*Si venimos de get*/
@@ -151,6 +154,51 @@ class SignUp extends BT_Controller{
         else return (strtoupper($control) == $letras[$suma_D]);
     }
     else return false;
+	}
+	public function AltaEmpresa(){
+		$data["idioma"] = $this->idioma;
+		$data["errores"] = [];
+		$data["es"] = $this->paises->id_es();
+		$metodo = $this->input->method(true);
+		if($metodo==="POST"){
+			$empresa = new _Empresa();
+			$empresa->fromPost($this);
+			$empresa->email = $this->input->post("email");
+			$data["empresa"] = "empresa";
+			$this->form_validation->set_rules([
+				[
+					"field"=>"clave",
+					"rules"=>"required|trim"
+				],
+				[
+					"field"=>"clave2",
+					"rules"=>"required|trim"
+				],
+				[
+					"field"=>"nombre",
+					"rules"=>"required|trim"
+				],
+				[
+					"field"=>"identificador",
+					"rules"=>"required|callback_identificador_valido"
+				]
+			]);
+			if($this->form_validation->run()){
+				if(!is_numeric($empresa->id_pais)){
+					$empresa->id_pais = null;
+				}
+				$this->empresas->insert($empresa);
+				redirect("/Login?t=1");
+			}else{
+				$this->muestraFormularioAltaEmpresa($data);
+			}
+		}else{
+			$this->muestraSolicitudAltaEmpresa();
+		}
+	}
+	public function identificador_valido($identificador){
+		$identficador = $this->obtenerIdentificadorAlta($identificador);
+		return $identificador !== null;
 	}
 	protected function muestraSolicitudAltaEmpresa($data=[]){
 		$this->load->view("/plantillas/header", $data);

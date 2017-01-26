@@ -141,3 +141,4 @@ $lang["horas"] = "orduak";
 $lang["formacion_complementaria"] = "heziketa osagarria";
 $lang["fecha_fin"] = "amaiera data";
 $lang["fecha_inicio"] = "hasiera data";
+$lang["enviar"] = "bidali";

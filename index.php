@@ -1,7 +1,7 @@
 <?php
 function mb_ucfirt($string){
 	$result = "";
-	if(length($string)>0){
+	if(strlen($string)>0){
 		$c = $string[0];
 		switch($c){
 			case "á":
