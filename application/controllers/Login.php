@@ -70,7 +70,7 @@ class Login extends BT_Controller{
 			$this->load->helper("bt_email");
 			$email = $this->input->get("email");
 			$identificador = $this->ids->crear($email);
-			$link = $_SERVER["SERVER_NAME"]."/SignUp/Empresa/?I=" .$identificador;
+			$link = "http://" .$_SERVER["SERVER_NAME"]."/Login/CambiarClave/?I=" .$identificador;
 			$link = "<a href='.$link'>$link</a>";
 			$asunto = $this->lang->line("asunto_email_recordar_clave");
 			$mensaje = sprintf($this->lang->line("cuerpo_email_recordar_clave"), $link);
@@ -84,10 +84,37 @@ class Login extends BT_Controller{
 	}
 	
 	public function CambiarClave(){
-		$this->model->load("BT_Modelo_Identificador_Clave", "ids");
+		$this->load->model("BT_Modelo_Identificador_Clave", "ids");
 		$metodo = $this->input->method(true);
 		if($metodo === "POST"){
-			
+			$identificador = $this->input->post("identificador");
+			$nueva_clave = $this->input->post("claveNueva");
+			$repetir_clave = $this->input->post("repetirClave");
+			$exito = false;
+			if($this->ids->comprobar($identificador) && $repetir_clave === $nueva_clave && $nueva_clave){
+				$modelos = [$this->empresas, $this->alumnos, $this->profesores];
+					var_dump($modelos);
+				foreach ($modelos as $modelo) {
+					$usuario = $modelo->query(["id_email"=>$identificador["id_email"]]);
+					var_dump($usuario);
+					if(count($usuario) > 0){
+						var_dump($usuario);
+						$usuario[0]->establecer_clave($nueva_clave);
+						var_dump($usuario);
+						$modelo->update($usuario[0], $usuario[0]);
+						$exito = true;
+					} 
+				}
+			}
+			if($exito){
+				$this->output->set_content_type("application/json")
+				->set_output(json_encode(["mesaje"=>"ok"]));
+			}
+			else{
+				set_status_header(400);
+				$this->output->set_content_type("application/json")
+				->set_output(json_encode(["mesaje"=>"ohhh:("]));
+			}
 		}
 		else{
 			$identificador = $this->ids->obtener($this->input->get("I"));
@@ -99,6 +126,9 @@ class Login extends BT_Controller{
 				$this->load->view("/plantillas/header", $data);
 				$this->load->view("/Login/CambiarClave", $data);
 				$this->load->view("/plantillas/footer", $data);
+			}
+			else{
+				/*redirect("/Login/RecuperarClave");*/
 			}
 		}
 	}

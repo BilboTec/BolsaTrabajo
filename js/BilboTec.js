@@ -943,5 +943,22 @@ angular.module("BilboTec",["BilboTec.ui", "ngRoute"])
 			debugger;
 		}
 	);
+}])
+.controller("detalleOfertaAlumno", ["$http","$scope","$routeParams",function($http,$scope){
+	$scope.apuntarse = function(){
+		
+	};
+	$http({
+		url:"/api/Ofertas/Get/"+$routeParams.id_oferta
+	}).
+	then(
+		function(respuesta){
+			$scope.oferta = respuesta.data;
+		},
+		function(error){
+			
+		}
+	);
+	
 }]);
 

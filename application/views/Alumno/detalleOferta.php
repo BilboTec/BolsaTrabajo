@@ -8,6 +8,6 @@
 <p>{{ oferta.experencia_min}}</p>
 <p>{{ oferta.horario}}</p>
 <p>{{ oferta.salario}}</p>
-<p>{{ (oferta.visible!=="0"?'Publica':'Privada') }}</p>
 </div>
-<a ng-href="#!/Editar/{{oferta.id_oferta}}">Editar</a>
+<span ng-click="apuntarse()" class="btn btn-tipo" ng-show="!apuntado">Apuntarme</a>
+<p ng-show="apuntado">Ya estas apuntado a esta oferta</p>

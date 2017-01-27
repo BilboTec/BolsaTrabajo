@@ -20,7 +20,22 @@ class BT_Modelo_Oferta extends BT_ModeloEstandar
 		$consulta = $this->db->get('oferta');
 		return $consulta->result_array();
 	}
-
+	
+	public function apuntar_alumno($id_oferta,$id_alumno){
+		$this->bd->insert("candidatura",[
+			"id_oferta"=>$id_oferta,
+			"id_alumno"=>$i_alumno	
+		]);
+	}
+	public function get_alumnos_apuntados($id_oferta){
+		$ids = $this->db->select("id_alumno")->get_where("candidatura",["id_oferta"=>$id_oferta]);
+		return $ids;
+	}
+	public function get_ofertas_por_alumno($id_alumno){
+		return $this->db->from($this->tabla)
+			->join("candidatura","oferta.id_oferta = alumno.id_alumno")
+			->result($this->clase);
+	}
 	public function query(array $condiciones, $resultadosPorPagina=false, $pagina=false, $orden=false, $direccion="asc"){
 		$filtros = [];
 		foreach ($condiciones as $key => $value) {

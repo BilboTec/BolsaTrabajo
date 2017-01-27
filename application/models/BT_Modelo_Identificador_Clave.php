@@ -17,8 +17,8 @@ class BT_Modelo_Identificador_Clave extends BT_ModeloEstandar{
 			$fecha = new DateTime();
 			$fecha = date("Y-m-d H:i:s", $fecha->getTimestamp());
 			$this->db->insert($this->tabla,["id_email"=>$id_email,"fecha"=>$fecha]);
-			$identificador =  $this->db->get_where($this->tabla,["id_email"=>$id_email,"fecha"=>$fecha])->row($this->clase);
-			return base64_encode($identificador["id_identificador"] . "#" . $identificador["fecha"]);
+			$identificador =  $this->db->get_where($this->tabla,["id_email"=>$id_email,"fecha"=>$fecha])->row(0, $this->clase);
+			return base64_encode($identificador->id_identificador_clave . "#" . $identificador->fecha);
 		}
 		return null;
 	}
@@ -30,11 +30,23 @@ class BT_Modelo_Identificador_Clave extends BT_ModeloEstandar{
 			$fecha = $parametros[1];
 			$ahora = new DateTime();
 			$ahora->sub(new DateInterval("PT30M"));
-			$identificador = $this->db->get_where("identificador_clave", ["id_identificador"=>$id_identificador, 
-			"fecha"=>$fecha, "fecha >"=>$ahora])->row($this->clase);
+			$ahora = date("Y-m-d H:i:s", $ahora->getTimestamp());
+			echo $ahora;
+			$identificador = $this->db->get_where("identificador_clave", ["id_identificador_clave"=>$id_identificador, 
+			"fecha"=>$fecha, "fecha >"=>$ahora])->row(0, $this->clase);
 			return $identificador;
 		}
 		
 		return null;
+	}
+	
+	public function comprobar($identificador){
+		$ahora = new DateTime();
+		$ahora->sub(new DateInterval("PT30M"));
+		$ahora = date("Y-m-d H:i:s", $ahora->getTimestamp());
+		$identificador = $this->db->get_where("identificador_clave", ["id_identificador_clave"=>$identificador["id_identificador_clave"], 
+		"fecha"=>$identificador["fecha"], "fecha >"=>$ahora])->row(0, $this->clase);
+		echo $this->db->last_query();
+		return $identificador != null;
 	}
 }
