@@ -954,6 +954,7 @@ angular.module("BilboTec",["BilboTec.ui", "ngRoute"])
 	then(
 		function(respuesta){
 			$scope.oferta = respuesta.data;
+			
 		},
 		function(error){
 			
