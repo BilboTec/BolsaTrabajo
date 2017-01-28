@@ -1,5 +1,8 @@
 <div>
-	<h1>{{usuario.nombre + " " + (usuario.apellido1 || "") + " " + (usuario.apellido2 || "")}}</h1>
+	<div class="grupo-horizontal">
+		<h1>{{usuario.nombre + " " + (usuario.apellido1 || "") + " " + (usuario.apellido2 || "")}}</h1>
+		<a class="btn btn-tipo" href="/api/Alumnos/Curriculum">Imprimir curriculum</a>
+	</div>
 	<p>{{email}}</p>
 	<p ng-show="usuario.fecha_nacimiento">{{usuario.fecha_nacimiento}}</p>
 	<p ng-show="usuario.dni">{{usuario.dni}}</p>

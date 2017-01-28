@@ -8,8 +8,12 @@ class Alumnos extends BT_Controlador_api_estandar
         parent::__construct("BT_Modelo_Alumno", "id_alumno");
         $this->load->helper("bt_email");
     }
-    public function Curriculum($id_alumno){
-        $alumno = $this->modelo->get_by_id($id_alumno);
+    public function Curriculum($id_alumno=null){
+        if($id_alumno!==null){
+            $alumno = $this->modelo->get_by_id($id_alumno);
+        }else{
+            $alumno = $this->get_usuario_actual();
+        }
         if($alumno !== null){
             if(file_exists("data/curriculum/".$id_alumno.".pdf")){
                 $this->output
@@ -20,11 +24,79 @@ class Alumnos extends BT_Controlador_api_estandar
             }
         }
     }
-    protected function generarCurriculum(){
+    protected function generarCurriculum($id_alumno=null){
         require_once "html2pdf/vendor/autoload.php";
+        if($id_alumno === null){
+            $alumno = $this->get_usuario_actual();
+        }else{
+            $alumno = $this->alumnos->get_by_id($id_alumno);
+        }
+        $provincia = "";
+        $loalidad = "";
+        if($alumno->id_localidad){
+            $this->load->model("BT_Modelo_Provincia","provincias");
+            $this->load->model("BT_Modelo_Localidad","localidades");
+            $localidad = $this->localidades->get_by_id($alumno->id_localidad);
+            $provincia = $this->provincias->get_by_id($localidad->id_provincia);
+            $localidad = $localidad->nombre;
+            $provincia = $provincia->nombre;
+        }
             require_once "html2pdf/html2pdf.class.php";
             $pdf = new HTML2PDF("P","A4","en");
-            $pdf->WriteHtml("<h1>Curriculum Vitae</h1>");
+            $edad = new DateTime();
+            $edad = $edad->diff(new DateTime($alumno->fecha_nacimiento));
+            $imagen = $this->modelo->cargar_imagen($alumno);
+            $html = "<style>
+                        .titulo{
+                        }
+                    </style>";
+            $html .= "<h1 class='titulo'>" . $alumno->nombre . " " . $alumno->apellido1 . " " . $alumno->apellido2 ."</h1>";
+            $html .= "<table>
+                        <tr>
+                            <td rowspan='99'>
+                                <img src='$imagen'/>
+                            </td>
+                            <td>
+                                ".$edad->format("%y años")."
+                            </td>
+                        </tr>
+                        ".(isset($alumno->nacionalidad)?
+                            "<tr>
+                                <td>".$alumno->nacionalidad."</td>
+                            </tr>"
+                            :"").
+                        "<tr>
+                            <td>
+                                ".$alumno->dni."
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                ".$alumno->email."
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                ".$alumno->tlf."
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                ".$alumno->calle." ".$localidad." ".$provincia." ".$alumno->cp."
+                            </td>
+                        </tr>
+                      </table>";
+            $this->load->model("BT_Modelo_Experiencia","experiencias");
+            $experiencias = $this->experiencias->query(["id_alumno"=>$alumno->id_alumno]);
+            if(count($experiencias)>0){
+                $html.="<h1>Experiencia Laboral</h1>";
+            }
+            foreach($experiencias as $experiencia){
+                $html.="<table>
+                            <h2>".$experiencia->nombre."</h2>
+                        </table>";
+            }
+            $pdf->WriteHtml($html);
             $pdf->output("Curriculum.pdf");
     }
 	public function Buscar(){
@@ -97,8 +169,12 @@ class Alumnos extends BT_Controlador_api_estandar
         $this->CargarImagen();
     }
 
-    public function CargarImagen(){
-        $alumno = $this->get_usuario_actual();
+    public function CargarImagen($id_alumno=null){
+        if($id_alumno !== null){
+            $alumno = $this->get_usuario_actual();
+        }else{
+            $alumno = $this->alumnos->get_by_id($id_alumno);  
+        }
         $imagen = $this->modelo->cargar_imagen($alumno);
         $this->json(["imagen"=>$imagen]);
     }

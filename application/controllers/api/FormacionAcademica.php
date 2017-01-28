@@ -19,4 +19,11 @@ class FormacionAcademica extends BT_Controlador_api_estandar
     	$formacion_academica = $this->modelo->insert($formacion_academica);
     	$this->json($formacion_academica);
     }
+    public function update(){
+        var_dump($this->input->post());
+        die();
+    }
+    protected function actualizar_conocimientos(){
+
+    }
 }

@@ -21,4 +21,4 @@
 </div>
 <p>{{ (oferta.visible!=="0"?'Publica':'Privada') }}</p>
 </div>
-<a href="#!/"><?php echo mb_ucfirt($idioma("volver")); ?> </a>
+<a href="#!/"><?php echo mb_ucfirst($idioma("volver")); ?> </a>

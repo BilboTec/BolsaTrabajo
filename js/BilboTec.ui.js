@@ -1244,12 +1244,12 @@ return{
                 $http({
                     url:"/api/FormacionAcademica/Delete",
                     method: "POST",
-                    data: $.param({elem:scope.alumno.formaciones[args.indice]}),
+                    data: $.param({elem:scope.formaciones[args.indice]}),
                     headers: {'Content-Type': 'application/x-www-form-urlencoded'}
                 })
                 .then(
 	                function(respuesta){
-	                    scope.alumno.formaciones.splice(args.indice,1);
+	                    scope.formaciones.splice(args.indice,1);
 	                },
 	                function(error){
 
@@ -1264,10 +1264,10 @@ return{
 			};
 			scope.$on("aplicar_edicion_formacion",function(evento,args){
 				if(typeof args.vista !== "undefined" && args.vista){
-					scope.alumno.formaciones.unshift(args.formacion);
+					scope.formaciones.unshift(args.formacion);
 				}else{
-					scope.alumno.formaciones[scope.indiceEdicion] = args.formacion;
-                    scope.alumno.formaciones = angular.copy(scope.alumno.formaciones);
+					scope.formaciones[scope.indiceEdicion] = args.formacion;
+                    scope.formaciones = angular.copy(scope.formaciones);
 				}
 				scope.indiceEdicion = -1;
 				scope.insertando = false;
@@ -1278,7 +1278,7 @@ return{
     						url:"/api/FormacionAcademica/Get/" + scope.alumno.id_alumno
     					})
     					.then(function(respuesta){
-    						scope.alumno.formaciones = respuesta.data.data;
+    						scope.formaciones = respuesta.data.data;
     					},function(error){
     						
     					});

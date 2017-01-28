@@ -37,8 +37,13 @@
 			ng-true-value="1" ng-false-value="0" ng-checked="vista.cursando == 1"/><?php echo ucfirst($idioma("cursando")); ?></label>	
 	</div>
 	<div class="grupo">
-		<label for="fecha_inicio"><?php echo ucfirst($idioma("descripcion")); ?></label>
-		<div bt-editor ng-model="vista.descripcion"></div>
+			<label for="conocimientos"><?php echo mb_ucfirst($idioma("conocimientos")); ?></label>
+			<div bt-auto-complete="autoComplete" bt-url="/api/conocimientos/Like"
+			bt-clave="id_conocimiento" bt-texto="nombre" ng-model="formacion.conocimientos"></div>
+	</div>
+	<div class="grupo">
+		<label for="descripcion"><?php echo ucfirst($idioma("descripcion")); ?></label>
+		<div id="descripcion" bt-editor ng-model="vista.descripcion"></div>
 	</div>
 	<button ng-click="guardar()"><?php echo ucfirst($idioma("guardar")); ?></button>
 	<button ng-click="cancelar()"><?php echo ucfirst($idioma("cancelar")); ?></button>

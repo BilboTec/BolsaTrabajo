@@ -1,5 +1,5 @@
 <?php
-function mb_ucfirt($string){
+function mb_ucfirst($string){
 	if($string){
 		$upper = mb_strtoupper($string);
 		$lower = mb_strtolower($string);
