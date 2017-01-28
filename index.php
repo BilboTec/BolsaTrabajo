@@ -1,31 +1,11 @@
 <?php
 function mb_ucfirt($string){
-	$result = "";
-	if(strlen($string)>0){
-		$c = $string[0];
-		switch($c){
-			case "á":
-			$c = "Á";
-			break;
-			case "é":
-			$c = "É";
-			break;
-			case "í":
-			$c = "Í";
-			break;
-			case "ó":
-			$c = "Ó";
-			break;
-			case "ú":
-			$c = "U";
-			break;
-			case "ñ":
-			$c = "Ñ";
-			break;
-		}
-		$result = $c . substr($result, 1);
+	if($string){
+		$upper = mb_strtoupper($string);
+		$lower = mb_strtolower($string);
+		$string = substr($upper, 0,1) . substr($lower, 1,strlen($lower));
 	}
-	return $result;
+	return $string;
 }
 require_once "crush/CssCrush.php";
 /**

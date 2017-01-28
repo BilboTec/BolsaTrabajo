@@ -1,8 +1,10 @@
-<div class="contenedor-centrado contenedor-vertical">
+<div class="contenedor-invitar">
 	<div>
 		<h1><?php echo ucfirst($idioma("anadir_alumnos")); ?></h1>
-		<input type="text" ng-model="emails"/>
-		<span class="btn btn-tipo" ng-click="cargarEmails()"><?php echo ucfirst($idioma("anadir")); ?></span>
+		<div class="grupo-horizontal">
+			<input type="text" ng-model="emails"/>
+			<span class="btn btn-tipo" ng-click="cargarEmails()"><?php echo ucfirst($idioma("anadir")); ?></span>
+		</div>
 	</div>
 	<div>
 		<h1><?php echo ucfirst($idioma("cargar_csv")); ?></h1>

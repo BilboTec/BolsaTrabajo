@@ -991,6 +991,9 @@ footer{
 	align-items: stretch;
 }
 [bt-file-input] .cuadro-archivos {
+	display: flex;
+    justify-content: center;
+    align-items: center;
 	flex: 1 0 30px;
 	border: 1px dashed $(--v-oscuro);
 }
@@ -1006,7 +1009,22 @@ nav ul, .contenedor-admin{
 	display: flex;
 	
 }
-
+.contenedor-invitar>div:not([bt-window]){
+		border-bottom: 2px solid $(--g-oscuro);
+		padding: 2em 1em;
+		display: flex;
+		flex-direction: column;
+		align-items:  center;
+}
+.contenedor-invitar :any([bt-file-input],.grupo-horizontal){
+	align-self: stretch;
+}
+.contenedor-invitar .grupo-horizontal input{
+	flex: 1;
+}
+.contenedor-invitar h1 {
+	margin-bottom: .5em;
+}
 /*************************************
 ********EMPRESA***********************
 **************************************/
@@ -1060,6 +1078,53 @@ nav ul, .contenedor-admin{
  		display: none;
  	}
  	
+ }
+ @media all and (max-width: 633px){
+ 	.form-login>ul{
+ 		align-self: stretch;
+ 	}
+ 	.form-login>ul .btn-tipo {
+ 		padding-left: 0;
+ 		padding-right: 0;
+ 		flex: 1;
+ 		text-align: center;
+ 	}
+ 	.form-logn {
+ 		align-self: stretch;
+ 	}
+ 	.contenido{
+ 		align-items: stretch;
+ 	}
+ 	.cabecera_usuario{
+ 		width: 100%;
+    	margin:0;
+    	overflow: hidden;
+ 	}
+ 	.cabecera_usuario>ul{
+ 		display: flex;
+    	flex-wrap: wrap;
+    	width: 100%;
+ 	}
+ 	.contenedor-admin, .contenedor-ofertas, .contenedor, .contenedor-perfil{
+ 		width: auto;
+ 		margin:0;
+ 		flex-direction: column;
+    	overflow: scroll;		
+ 	}
+ 	.cabecera_usuario>ul>li{
+ 		flex: 1;
+ 	}
+ 	.contenedor-perfil>div{
+ 		display: flex;
+ 		flex-direction: column;
+ 	}
+ 	.contenedor-perfil .btn-tipo{
+ 		align-self: center;
+ 		margin:1em 0;
+ 	}
+ 	.contenedor-perfil .btn-tipo.sin-margen{
+ 		margin: 1em 0 !important;
+ 	}
  }
 
 
