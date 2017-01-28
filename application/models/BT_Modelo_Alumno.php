@@ -30,21 +30,115 @@ class BT_Modelo_Alumno extends BT_ModeloVista {
 	{
 		parent::__construct("alumno", "vw_alumno", "_Alumno", "id_alumno");
 	}
-	public function buscar($filtros){
+	public function buscar($filtros=[]){
+		if(!$filtros){
+				$filtros = [];
+		}
 		$db = $this->db;
-		$db->from("alumnos");
+		$ids_alumno_conocimientos = null;
+		$ids_alumno_busqueda = null;
 		foreach($filtros as $clave => $valor){
 			switch($clave){
 				case "conocimientos":
 					$filtrosConocimientos = [];
 					foreach($valor as $conocimiento){
-						array_push($filtrosConocimientos,$conocimiento);
+						array_push($filtrosConocimientos,$conocimiento["id_conocimiento"]);
 					}
 					if(count($filtrosConocimientos) > 0){
+						$ids_alumno_conocimientos = [];
+						$tablas = [
+								"experiencia"=>[
+									"join"=>"conocimiento_experiencia",
+									"columna"=>"id_experiencia"
+								],
+								"formacion_academica"=>[
+									"join"=>"conocimiento_formacion_academica",
+									"columna"=>"id_formacion_academica"
+								],
+								"formacion_complementaria"=>[
+									"join"=>"conocimiento_formacion_complementaria",
+									"columna"=>"id_formacion_complementaria"
+								]];
+						foreach($tablas as $tabla => $conf){
+							$resultado = $this->db->select("id_alumno")
+							->from($tabla)
+							->join($conf["join"],$conf["join"].".".$conf["columna"]." = "
+								. $tabla . "." . $conf["columna"])
+							->where_in("id_conocimiento",$filtrosConocimientos)
+						->get()->result();
+							foreach($resultado as $id){
+								if(!in_array($id, $ids_alumno_conocimientos)){
+										array_push($ids_alumno_conocimientos, $id);
+								}
+							}
+						}
+						if(count($ids_alumno_conocimientos)===0){
+							return [];
+						}
 					}
 					break;
+				case "buscar":
+					$buscar = $filtros["buscar"];
+					if($buscar){
+						$tablas = [
+							"experiencia"=>[
+								"nombre", "empresa","cargo","functiones"
+							],
+							"formacion_academica"=>[
+								"descripcion","nombre"
+							],
+							"formacion_complementaria"=>[
+								"desripcion","nombre"
+							],
+							"vw_alumno"=>[
+								"otros_datos",
+								"email",
+								"nombre",
+								"apellido1",
+								"apellido2",
+								"dni",
+								"direccion"
+							]
+						];
+						$ids_alumno_busqueda = [];
+						foreach ($tablas as $tabla => $columnas) {
+							foreach($columnas as $columna){
+								$this->db->or_like($columna,$buscar);
+							}
+							$ids = $this->db
+							->select("id_aluno")->get($tabla)->result();
+							foreach($ids as $id){
+								if(!in_array($id,$ids_alumno_busqueda)){
+									array_push($ids_alumno_busqueda,$id);
+								}
+							}
+						}
+						if(count($ids_alumno_busqueda) ===0){
+							return [];
+						}
+					}
+				break;
+				case "fecha":
+					$fecha = $filtros["fecha"];
+					try{
+						$fecha = DateTime::createFromFormat("Y-m-d", $fecha);
+						$fecha = $fecha->format("Y");
+					}catch(Exception $ex){
+						$fecha = null;
+					}
+				break;
 			}
 		}
+		if($ids_alumno_conocimientos!== null){
+			$this->db->where_in("id_alumno",$ids_alumno_conocimientos);
+		}
+		if($ids_alumno_busqueda !== null){
+			$this->db->where_in("id_alumno",$ids_alumno_busqueda);
+		}
+		if(isset($fecha) && $fecha !== nul){
+
+		}
+		return $this->db->get($this->vista)->custom_result_object($this->clase);
 	}
 	public function guardar_imagen($imagen, $alumno){
 		if($imagen != null){

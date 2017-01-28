@@ -13,7 +13,13 @@ class BT_Modelo_Conocimiento extends BT_ModeloEstandar
 
     }
     public function get_like($nombre){
-        return $this->db->where(sql_string_busqueda('nombre')." LIKE " . sql_string_busqueda("'%$nombre%'") )->get("conocimiento")->result("_Conocimiento");
+        return $this->db->from($this->tabla)->like("LOWER(nombre)",mb_strtolower($nombre))
+        ->get()->custom_result_object($this->clase);
+    }
+    public function get_from_oferta($id_oferta){
+    	return $this->db->from($this->tabla)->join("conocimiento_oferta",
+    		"conocimiento.id_conocimiento = conocimiento_oferta.id_conocimiento")->where(["id_oferta"=>$id_oferta])->get()
+    	->custom_result_object($this->clase);
     }
     
 }

@@ -45,16 +45,19 @@ class Ofertas extends BT_Controlador_api_estandar
         if(isset($oferta->id_empresa) && !$oferta->id_empresa){
             $oferta = $oferta->toArray(["id_empresa"]);
         }
+        $conocimientos = $this->input->post("conocimientos");
         if(isset($oferta->id_oferta) || (is_array($oferta) && isset($oferta["id_oferta"]))){
             $id = isset($oferta->id_oferta)?$oferta->id_oferta:$oferta["id_oferta"];
             $oferta_vieja = $this->modelo->query(["id_oferta"=>$id])[0];
-            $this->modelo->update($oferta_vieja, $oferta);  
-            $respuesta = new stdClass;
-            $respuesta->mensaje = "ok";
-            $this->json($respuesta);
+            $oferta = $this->modelo->update($oferta_vieja, $oferta);
+            if(is_array($oferta)){
+                $oferta = $oferta[0];
+            }
         }
         else{
-            $this->modelo->insert($oferta);
+            $oferta = $this->modelo->insert($oferta);
         }
+        $this->modelo->actualizar_conocimientos($oferta,$conocimientos);
+        $this->json($oferta);
     }
 }

@@ -955,6 +955,9 @@ directive("btAutoComplete",["$http","$document",function($http,$document){
                 $documen.off("click",cerrarSiClickFuera);
             });
             scope.filtrar = function(){
+                if(typeof scope.valores === "undefined"){
+                    scope.valores = [];
+                }
                 scope.resultadosFiltrados = [];
                 for(var i = 0; i < scope.resultados.length;i++){
                     var existe = false;
@@ -974,6 +977,9 @@ directive("btAutoComplete",["$http","$document",function($http,$document){
             scope.eliminar = function(indice){
                 var elemento = scope.valores.splice(indice,1)[0];
                 if(elemento[scope.clave]){
+                    if(typeof scope.resultadosFiltrados === "undefined"){
+                        scope.resultadosFiltrados = [];
+                    }
                     scope.resultadosFiltrados.push(elemento);
                 }
             };

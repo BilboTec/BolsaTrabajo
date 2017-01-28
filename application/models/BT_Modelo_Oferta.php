@@ -21,10 +21,19 @@ class BT_Modelo_Oferta extends BT_ModeloEstandar
 		return $consulta->result_array();
 	}
 	
+    public function actualizar_conocimientos($oferta,$conocimientos){
+    	$this->db->delete("conocimiento_oferta",["id_oferta"=>$oferta->id_oferta]);
+    	foreach ($conocimientos as $conocimiento) {
+    		$this->db->insert("conocimiento_oferta",[
+    			"id_oferta"=>$oferta->id_oferta,
+    			"id_conocimiento"=>$conocimiento["id_conocimiento"]
+    			]);
+    	}
+    }
 	public function apuntar_alumno($id_oferta,$id_alumno){
 		$this->bd->insert("candidatura",[
 			"id_oferta"=>$id_oferta,
-			"id_alumno"=>$i_alumno	
+			"id_alumno"=>$id_alumno	
 		]);
 	}
 	public function get_alumnos_apuntados($id_oferta){

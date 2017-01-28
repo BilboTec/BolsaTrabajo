@@ -808,6 +808,10 @@ footer{
 	display: inline-flex;
 	flex-direction: column;
 }
+[bt-auto-complete] input{
+	height: 1.5em;
+	border-radius: 2px;
+}
 [bt-auto-complete] .dropdown {
 	position: absolute;
 	display: inline-block;
@@ -815,6 +819,9 @@ footer{
 	min-width: 100%;
 	background-color: $(--g-claro);
 	border-color: $(--v-oscuro);
+	z-index: 1000000;
+	max-height: 200px;
+	overflow-y: scroll;
 }
 [bt-auto-complete] .dropdown li {
 	border: 1px solid $(--v-oscuro);
@@ -862,6 +869,9 @@ footer{
 }
 [bt-auto-complete] .valor.ng-leave{
 	animation: aparecer 0.5s reverse;
+}
+[bt-auto-complete] ul {
+	list-style: none;
 }
 @keyframes aparecer {
 	0%{

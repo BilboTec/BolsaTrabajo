@@ -9,7 +9,7 @@
   				<input ng-model="filtros.fecha_oferta" type="radio" name="fecha" value="3"/> Ultimos 15 dias<br><br>
   			
 				<label for="conocimientos"><?php echo ucfirst($idioma('conocimientos')); ?></label>
-				<div id="conocimientos" ng-model="filtros.conocimientos" bt-clave="id_conocimiento" bt-texto="nombre" bt-url="/api/Conocimientos/Get" bt-auto-complete="completeConocimientos"></div>
+				<div id="conocimientos" ng-model="filtros.conocimientos" bt-clave="id_conocimiento" bt-texto="nombre" bt-url="/api/Conocimientos/Like" bt-auto-complete="completeConocimientos"></div>
 				
 				<input type="text" ng-model="filtros.buscador"/>
 				
@@ -23,7 +23,7 @@
 		<article ng-repeat="oferta in ofertas">
 		<a ng-href="#!/{{oferta.id_oferta}}">
 			<h1>{{oferta.titulo}}</h1>
-			<p>{{oferta.descripcion}}</p>
+			<div ng-model="oferta.descripcion" bt-contenido-html></div>
 			<div class="opciones">
 				<h5 ng-show="oferta.estudios_min">Estudios minimos {{oferta.estudios_min}}</h5>
 				<h5 ng-show="oferta.experiencia_min">Experiencia minima {{oferta.experiencia_min}}</h5>

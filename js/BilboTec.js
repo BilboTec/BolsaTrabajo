@@ -559,11 +559,17 @@ angular.module("BilboTec",["BilboTec.ui", "ngRoute"])
 })
 
 .controller("busquedaOfertas",["$http","$scope",function($http,$scope){
-		$scope.filtros = {
+
+		$scope.filtros ={
 			
 		};
-		
+		var filtrosAnteriores = sessionStorage.getItem("filtrosOfertas");
+		if(filtrosAnteriores !== null){
+			$scope.filtros = JSON.parse(filtrosAnteriores);
+		}
 		$scope.buscar = function(){
+			sessionStorage.setItem("filtrosOfertas",
+				JSON.stringify($scope.filtros));
 			$http({
 				url:"/api/Ofertas/Get/",
 				method: "POST",
@@ -594,6 +600,14 @@ angular.module("BilboTec",["BilboTec.ui", "ngRoute"])
 			.then(
 				function(respuesta){
 					$scope.oferta = respuesta.data[0];
+					$http({
+						url:"/api/Conocimientos/GetFromOferta/" + $scope.oferta.id_oferta
+					})
+					.then(function(respuestaConocimientos){
+						$scope.oferta.conocimientos = respuestaConocimientos.data || respuestaConocimientos.data.data;
+					},function(error){
+						alert(error.data || error);
+					});
 				},
 				function(error){
 					alert(error.data?error.data:error);
@@ -609,7 +623,7 @@ angular.module("BilboTec",["BilboTec.ui", "ngRoute"])
 			})
 			.then(
 				function(respuesta){
-					debugger;
+					window.location = "#!/" + $scope.idOferta;
 				},
 				function(error){
 					alert(error.data?error.data:error);
@@ -805,7 +819,7 @@ angular.module("BilboTec",["BilboTec.ui", "ngRoute"])
 	$scope.filtros = {};
 	$scope.buscar = function(){
 		$http({
-			url:"/api/Alumnos/Get",
+			url:"/api/Alumnos/Buscar",
 			method: "POST",
 			data:$.param({filtros: $scope.filtros}),
 			headers: {'Content-Type': 'application/x-www-form-urlencoded'}	

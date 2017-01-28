@@ -39,7 +39,10 @@
 	<label>Salario</label>
 	<input type="text" ng-model="oferta.salario"/>
 	</div>
-	
+	<div class="grupo">
+		<label for="conocimientos"><?php echo mb_ucfirt("conocimientos"); ?></label>
+		<div id="conocimientos" ng-model="oferta.conocimientos" bt-auto-complete="autoCompleteConocimientos"  bt-texto="nombre" bt-clave="id_conocimiento" bt-url="/api/Conocimientos/Like"></div>
+	</div>
 	<div class="grupo">
 	<label>Publico<input type="checkbox" ng-model="oferta.visible"></label>
 	</div>
