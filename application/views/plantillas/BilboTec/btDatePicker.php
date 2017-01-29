@@ -1,7 +1,7 @@
 <div class="editor">
     <input type="hidden" value="{{valor}}">
     <span id="texto" contenteditable>dd/mm/yyyy</span>
-    <span class= "btn-date btn" ng-click="abrir()"><img src="/imagenes/anadir.png"></span>
+    <span class= "btn-date btn" ng-click="abrir()"><img src="/imagenes/calendario.png"></span>
 </div>
 <div  style="display: none" ng-show="abierto" class="desplegable" ng-switch="estado">
     <div class="panel" ng-switch-when="2">

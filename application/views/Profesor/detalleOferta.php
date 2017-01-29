@@ -16,9 +16,9 @@
 <p>{{ oferta.horario}}</p>
 <p>{{ oferta.salario}}</p>
 <div>
-	<h2><?php echo mb_ucfirt($idioma("conocimientos")); ?></h2>
+	<h2><?php echo ucfirst($idioma("conocimientos")); ?></h2>
 	<p ng-repeat="conocimiento in oferta.conocimientos">{{ conocimiento.nombre }}</p>
 </div>
 <p>{{ (oferta.visible!=="0"?'Publica':'Privada') }}</p>
 </div>
-<a href="#!/"><?php echo mb_ucfirst($idioma("volver")); ?> </a>
+<a href="#!/"><?php echo ucfirst($idioma("volver")); ?> </a>

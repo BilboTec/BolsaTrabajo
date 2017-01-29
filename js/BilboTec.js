@@ -68,7 +68,26 @@ angular.module("BilboTec",["BilboTec.ui", "ngRoute"])
 			"/":{templateUrl:"/Alumno/DatosPerfil", controller:"controladorDatosAlumno"},
 			"/Clave":{templateUrl:"/Alumno/CambiarClave", controller:"controladorClaveAlumno"},
 			"/Editar":{templateUrl:"/Alumno/editarPerfil", controller:"controladorDatosAlumno"}
+		},
+
+		"/Empresa/Ofertas":{
+			"/":{templateUrl:"/Empresa/BuscarOferta", controller:"busquedaOfertas"},
+			"/:id_oferta":{templateUrl:"/Empresa/DetalleOferta", controller:"detalleOfertaEmpresa"}
+		},
+		"/Empresa/":{
+			"/":{templateUrl:"/Empresa/BuscarOferta", controller:"busquedaOfertas"},
+			"/:id_oferta":{templateUrl:"/Empresa/DetalleOferta", controller:"detalleOfertaEmpresa"}
+		},
+		"/Empresa":{
+			"/":{templateUrl:"/Empresa/BuscarOferta", controller:"busquedaOfertas"},
+			"/:id_oferta":{templateUrl:"/Empresa/DetalleOferta", controller:"detalleOfertaEmpresa"}
+		},
+		"/Empresa/Perfil":{
+			"/":{templateUrl:"/Empresa/DatosPerfil", controller:"controladorDatosEmpresa"},
+			"/Clave":{templateUrl:"/Empresa/CambiarClave", controller:"controladorClaveEmpresa"},
+			"/Editar":{templateUrl:"/Empresa/editarPerfil", controller:"controladorDatosEmpresa"}
 		}
+		
 	};
 	var pathname = location.pathname;
 	direcciones = diccionarioDirecciones[pathname];
