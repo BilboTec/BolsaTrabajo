@@ -48,5 +48,22 @@ class Empresas extends BT_Controlador_api_estandar {
 		$empresas = $this->modelo->buscar($filtros);
 		
 	}*/
+	
+	public function Insert(){
+		$empresa = new _Empresa();
+        $empresa->fromPost($this);
+        $usuario = $this->get_usuario_actual();
+		
+		if(isset($usuario->id_profesor) && $usuario->id_rol > 1 || isset($usuario->id_empresa)
+		&& $usuario->id_empresa == $empresa->id_empresa){
+			parent::Insert();
+	    }
+	    else
+	    {
+	    	$respuesta = new stdClass();
+	    	$respuesta->mensaje = "no tiene privilegios";
+	    	$this->json($respuesta, 400);
+	    }
+	}
 
 }

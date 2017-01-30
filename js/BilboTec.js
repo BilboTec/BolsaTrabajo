@@ -1019,7 +1019,7 @@ angular.module("BilboTec",["BilboTec.ui", "ngRoute"])
 }]).controller("controladorAnadirEmpresa",["$http", "$scope", function($http, $scope){
 	$scope.anadirEmpresa = function(){
 		$http({
-					url:"/api/Profesores/AnadirEmpresa/",
+					url:"/api/Empresas/Insert/",
 					method:"POST",
 					headers: {'Content-Type': 'application/x-www-form-urlencoded'}
 		})
@@ -1030,7 +1030,7 @@ angular.module("BilboTec",["BilboTec.ui", "ngRoute"])
 			function(error){
 				
 			}
-		)
-	}
+		);
+	};
 
 }]);
