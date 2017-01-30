@@ -399,11 +399,14 @@ angular.module("BilboTec.ui")
                 var strFecha = scope.valor;
                 if(typeof strFecha === "undefined" || strFecha === null || !strFecha){
                     texto.innerHTML = ""
+                    ngModel.$setValidity("required",false);
                 }
                 else{
+
                     var formatos = scope.formato.split("-");
-                    var elementos = strFecha.split("-");
+                    var elementos = strFecha.split(" ")[0].split("-");
                     if(elementos.length !== formatos.length){
+                        ngModel.$setValidity("date",false);
                         return;
                     }
                     else{
@@ -416,6 +419,7 @@ angular.module("BilboTec.ui")
                         for(var i = 0; i < formatos.length; i++){
                             strFecha += (i!==0?"-":"") + fecha[formatos[i]];
                         }
+                        ngModel.$setValidity("required",true);
                         texto.innerHTML = strFecha;
                     }
                 }
@@ -431,7 +435,7 @@ angular.module("BilboTec.ui")
             angular.element(texto).on("keyup",function(){
                 ngModel.$setDirty(true);
                 var strFecha = texto.innerHTML;
-                if(strFecha===""){
+                if(strFecha.trim()===""){
                     scope.$apply(function(){
                         ngModel.$setViewValue(null);
                         ngModel.$setValidity("required",false);
@@ -441,6 +445,10 @@ angular.module("BilboTec.ui")
                 var formatos = scope.formato.split("-");
                 var elementos = strFecha.split("-");
                 if(formatos.length !== elementos.length){
+                    scope.$apply(function(){
+                        ngModel.$setValidity("required",true);
+                        ngModel.$setValidity("date",false);
+                    });
                     return;
                 }
                 var fecha = {};
@@ -1168,122 +1176,108 @@ return{
 		}
 	}
 }])
-
-.controller("btEditarExperiencia",["$scope","$http", function($scope,$http){
-			$scope.vista = angular.copy($scope.experiencia);
-			$scope.onTrabajandoActualmente_change = function(){
-				if($scope.experiencia.trabajando_actualmente){
-					$scope.experiencia.fecha_fin = null;
-				}
-			};
-			$scope.cancelar = function(){
-				$scope.$emit("cancelar_edicion");
-			};
-			$scope.guardar = function(){
-				var config ={
-					url: "/api/Experiencias/Update",
-					method: "POST",
-					data: $.param({
-						viejo:$scope.experiencia,
-						vista:$scope.vista
-						}),
-                    headers: {'Content-Type': 'application/x-www-form-urlencoded'}
-				};
-				if(typeof $scope.vista !== "undefined" && $scope.vista){
-					config.url = "/api/Experiencias/Insert";
-					config.data = $.param($scope.vista);
-				}
-				$http(config)
-				.then(
-					function(respuesta){
-						var args = {experiencia:respuesta.data[0]};
-						if(typeof $scope.vista !== "undefined" && $scope.vista){
-							args.vista = true;
-						}
-						$scope.$emit("aplicar_edicion_experiencia",args);
-					},
-					function(error){
-						
-					}
-				)
-			}
-		
-}])
-
-.controller("btMostrarExperiencia" ,function($scope){
-	$scope.editar = function(){
-		$scope.$emit("editar_experiencia", {
-			indice:$scope.$index
-		});
-	};
-	$scope.borrar = function(){
-        $scope.$emit("borrar_experiencia",{
-            indice:$scope.$index
-        });
-   };
-})
 .directive("btFormacionAcademica",["$http",function($http){
 	return{
 		scope:{
 			alumno:"=ngModel"
 			},
             require:"ngModel",
-			templateUrl:"/plantillas/Get/btFormacionAcademica",
+			templateUrl:"/Alumno/FormacionAcademica",
 			link:function(scope,elemento,atributos,ngModel){
-			scope.editar = "/plantillas/Get/btEditarFormacionAcademica?coleccion[]=tipo_titulacion";
-			scope.vista = "/plantillas/Get/btMostrarFormacionAcademica";
-			scope.$on("cancelar_edicion", function(){
-				scope.indiceEdicion = -1;
-				scope.insertando = false;
-			})
-			scope.$on("editar_formacion", function(evento, args){
-				scope.indiceEdicion = args.indice;
-				scope.insertando = false;
-			});
-            scope.$on("borrar_formacion",function(evento,args){
-                $http({
-                    url:"/api/FormacionAcademica/Delete",
-                    method: "POST",
-                    data: $.param({elem:scope.formaciones[args.indice]}),
-                    headers: {'Content-Type': 'application/x-www-form-urlencoded'}
-                })
-                .then(
-	                function(respuesta){
-	                    scope.formaciones.splice(args.indice,1);
-	                },
-	                function(error){
-
-                	}
-                );
-            })
+			function error(respuesta){
+                scope.ventana.alert("error",respuesta.data);
+            }
 			scope.insertar = function(){
-                scope.vista = true;
-                scope.vista = {};
-				scope.indiceEdicion = -1;
-				scope.insertando = true;
+                if(!scope.insertando){
+                    scope.vista = {};
+				    scope.indiceEdicion = -1;
+				    scope.insertando = true;
+                }
 			};
-			scope.$on("aplicar_edicion_formacion",function(evento,args){
-				if(typeof args.vista !== "undefined" && args.vista){
-					scope.formaciones.unshift(args.formacion);
-				}else{
-					scope.formaciones[scope.indiceEdicion] = args.formacion;
-                    scope.formaciones = angular.copy(scope.formaciones);
-				}
-				scope.indiceEdicion = -1;
-				scope.insertando = false;
-			});
-				ngModel.$render = function(){
-                    if(typeof scope.alumno !== "undefined"){
-    					$http({
-    						url:"/api/FormacionAcademica/Get/" + scope.alumno.id_alumno
-    					})
-    					.then(function(respuesta){
-    						scope.formaciones = respuesta.data.data;
-    					},function(error){
-    						
-    					});
-                    }
-				};
+            scope.eliminar = function(indice){
+                scope.ventana.preguntar("confirmar_eliminar_titulo",
+                    "confirmar_eliminar",function(){
+                        scope.ventana.cerrar();
+                        $http({
+                        url:"/api/FormacionAcademica/Update",
+                        method:"POST",
+                        data:$.param({
+                            elem:scope.formaciones[indice]
+                        }),
+                        headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+                    })
+                    .then(function(respuesta){
+                        scope.formaciones.splice(indice,1);
+                        scope.cancelar();
+                    },error);
+                    },function(){
+                        scope.ventana.cerrar();
+                    })
+            }
+            scope.editar = function(indice){
+                scope.indiceEdicion = indice;
+                scope.insertando = false;
+                scope.vista = angular.copy(scope.formaciones[indice]);
+            };
+            scope.cancelar = function(){
+                scope.vista = {};
+                scope.indiceEdicion = -1;
+                scope.insertando = false;
+            };
+            scope.OnCursandoClick = function(){
+                var contr = elemento.find("#fecha_fin").controller("ngModel");
+                contr.$validators.required = function(fecha){
+                    return scope.vista.cursando || fecha!==null && fecha.trim() != ""
+                };
+                contr.$validate();
+            }
+            scope.aplicarEdicion = function(){
+                scope.formInsertar = elemento.find("[ng-form='ins']").controller("form");
+                scope.formInsertar.$setSubmitted(true);
+                if(scope.formInsertar.$valid){
+                    $http({
+                        url:"/api/FormacionAcademica/Update",
+                        method:"POST",
+                        data:$.param({
+                            nuevo:scope.vista,
+                            viejo:scope.formaciones[scope.indiceEdicion]
+                        }),
+                        headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+                    })
+                    .then(function(respuesta){
+                        scope.formaciones[scope.indiceEdicion] = (respuesta.data.data ||  respuesta.data)[0];
+                        scope.cancelar();
+                    },error);
+                }
+            }
+            scope.aplicarInsertar = function(){
+                scope.formInsertar = elemento.find("[ng-form='ins']").controller("form");
+                scope.formInsertar.$setSubmitted(true);
+                if(scope.formInsertar.$valid){
+                    $http({
+                        url:"/api/FormacionAcademica/Insert",
+                        method:"POST",
+                        data:$.param(scope.vista),
+                        headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+                    })
+                    .then(function(respuesta){
+                        scope.formaciones.unshift((respuesta.data.data ||  respuesta.data)[0]);
+                        scope.cancelar();
+                    },error);
+                }
+            };
+			ngModel.$render = function(){
+                if(typeof scope.alumno !== "undefined"){
+					$http({
+						url:"/api/FormacionAcademica/Get/" + scope.alumno.id_alumno
+					})
+					.then(function(respuesta){
+						scope.formaciones = respuesta.data.data;
+					},function(error){
+						
+					});
+                }
+			};
 			}
 		}
 }])

@@ -26,6 +26,18 @@
 		$this->load->view("/plantillas/footer", $data);
 	}
 
+	public function FormacionAcademica(){
+		$data['idioma'] = function($clave){
+			return $this->lang->line($clave);
+		};
+		
+		$this->load->model("BT_Modelo_OfertaFormativa","ofertas");
+		$this->load->model("BT_Modelo_TipoTitulacion","tipos_titulacion");
+		$data["ofertas_formativas"] = $this->ofertas->get();
+		$data["tipos_titulacion"] = $this->tipos_titulacion->get();
+		$this->load->view("/Alumno/BTFormacionAcademica", $data);
+	}
+
 	public function ofertas(){
 		$this->index();
 	}

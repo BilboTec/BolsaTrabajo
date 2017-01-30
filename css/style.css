@@ -172,6 +172,7 @@ input[type="submit"]:hover{
 }
 .grupo{
 	align-items: flex-start;
+	position:relative;
 }
 .contenedor-perfil .grupo :any(input,select) {
 	padding: .5em;
@@ -181,6 +182,10 @@ input[type="submit"]:hover{
 	-moz-box-sizing:content-box;
 	-webkit-box-sizing:content-box; 
 	box-sizing:content-box;
+}
+input[type='checkbox']{
+	padding:0 !important;
+	width: auto !important;
 }
 
 .contenedor-ofertas .grupo{
@@ -512,7 +517,17 @@ header{
 	flex-wrap: wrap;
 	flex-direction: column;
 }
-
+.error_validacion{
+	background: $(--v-claro);
+    padding: .2em;
+    border-radius: 8px;
+    position: absolute;
+    top: 100%;
+    z-index: 99;
+}
+.error_validacion.ng-enter{
+	animation: aparecer .5s;
+}
 #formDatosPersonales > div{
 	flex-direction: row;
 }

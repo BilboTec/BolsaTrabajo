@@ -170,7 +170,7 @@ class Alumnos extends BT_Controlador_api_estandar
     }
 
     public function CargarImagen($id_alumno=null){
-        if($id_alumno !== null){
+        if(!$id_alumno){
             $alumno = $this->get_usuario_actual();
         }else{
             $alumno = $this->alumnos->get_by_id($id_alumno);  

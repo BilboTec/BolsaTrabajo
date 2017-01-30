@@ -20,8 +20,28 @@ class FormacionAcademica extends BT_Controlador_api_estandar
     	$this->json($formacion_academica);
     }
     public function update(){
-        var_dump($this->input->post());
-        die();
+        $this->requerir_login_json();
+        try{
+        $clase = $this->modelo->clase;
+        $viejo = new $clase();
+        $nuevo = new $clase();
+        $indice = "nuevo";
+        if($this->input->post($indice)===null){
+            $indice = "vista";
+        }
+        $viejo->fromArray($this->input->post("viejo"));
+        $nuevo->fromArray($this->input->post($indice));
+        if(!$nuevo->id_tipo_titulacion){
+            $nuevo->id_tipo_titulacion = null; 
+        }
+        if(!$nuevo->id_oferta_formativa){
+            $nuevo->id_oferta_formativa = null;
+        }
+        $tupla = $this->modelo->update($viejo,$nuevo);
+        echo $this->json($tupla);
+        }catch(Exception $ex){
+            $this->json_excepcion($ex);
+        }
     }
     protected function actualizar_conocimientos(){
 
