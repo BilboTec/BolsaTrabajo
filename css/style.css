@@ -291,6 +291,18 @@ input[type="submit"]:hover{
 	background-size: cover;
 }
 
+.usuario input[type="submit"]{
+	border-style: none;
+    color: white;
+    background-color: transparent;
+}
+
+.usuario input[type="submit"]:hover{
+	border-style: none;
+    color: white;
+    background-color: transparent;
+}
+
 :any(.cabecera >li:last-child, .usuario )::after{
 	content: ' ';
 	border-left: 1px solid white;
@@ -366,7 +378,7 @@ header{
 
 .cabecera_usuario .activo div{
 	background-color: $(--v-claro);
-	border-bottom: 2px solid $(--v-claro);
+	border-bottom: 1px solid $(--v-claro);
 }
 
 .cabecera_usuario ul li div{

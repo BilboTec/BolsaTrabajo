@@ -21,4 +21,6 @@ class BT_Modelo_Empresa extends BT_ModeloVista
         parent::__construct("empresa","vw_empresa","_Empresa","id_empresa");
 		$this->load->database();
     }
+	
+	
 }

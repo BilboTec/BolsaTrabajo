@@ -133,4 +133,10 @@ class Login extends BT_Controller{
 		}
 	}
 
+	public function cerrarSesion(){
+    	$this->session->sess_destroy();
+    	// redirigimos al controlador principal
+		redirect("/Login");
+	}
+
 }

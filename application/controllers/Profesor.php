@@ -153,4 +153,35 @@
 		};
 		$this->load->view("/Profesor/invitar_alumnos",$data);
 	}
+	
+	public function Empresas(){
+		$data['idioma'] = function($clave){
+			return $this->lang->line($clave);
+		};
+		$data['activo'] = "empresas";
+		$data['es_administrador'] = $this->es_admin();
+		$data["user"] = $this->get_usuario_actual();
+
+		$this->load->view("/plantillas/header", $data);
+		$this->load->view("/Profesor/menu", $data);
+		$this->load->view("/Profesor/empresas", $data);
+		$this->load->view("/plantillas/footer", $data);
+	}
+	
+	public function BuscarEmpresa(){
+		$data['idioma'] = function($clave){
+			return $this->lang->line($clave);
+		};
+		$this->load->model("BT_Modelo_OfertaFormativa","ofertasFormativas");
+		$data['ofertas_formativas'] = $this->ofertasFormativas->get();
+		$this->load->view("/Profesor/buscarEmpresa",$data);
+	}
+	
+	public function anadirEmpresa(){
+		$data['idioma'] = function($clave){
+			return $this->lang->line($clave);
+		};
+		$this->load->view("/Profesor/anadir_empresa",$data);
+		
+	}
 }

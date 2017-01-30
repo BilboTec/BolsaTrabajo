@@ -67,4 +67,23 @@ class Profesores extends BT_Controlador_api_estandar
     	}
     	$this->form_validation->set_message("claves_iguales", "las contraseñas deben ser iguales");
     }
+	
+	public function anadirEmpresa(){
+		$empresa = new _Empresa();
+        $empresa->fromPost($this);
+        $usuario = $this->get_usuario_actual();
+		
+		if(isset($usuario->id_profesor)){
+			$this->modelo->Insert();
+			$respuesta = new stdClass();
+	    	$respuesta->mensaje = "ok";
+	    	$this->json($respuesta);
+	    }
+	    else
+	    {
+	    	$respuesta = new stdClass();
+	    	$respuesta->mensaje = "no tiene privilegios";
+	    	$this->json($respuesta, 400);
+	    }
+	}
 }

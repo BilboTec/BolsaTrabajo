@@ -51,6 +51,11 @@ angular.module("BilboTec",["BilboTec.ui", "ngRoute"])
 			"/InvitarAlumnos":{templateUrl:"/Profesor/InvitarAlumnos", controller:"controladorInvitarAlumnos"},
 			"/:id_alumno":{templateUrl:"/Profesor/DetalleAlumno", controller:"controladorDetalleAlumno"}
 		},
+		"/Profesor/Empresas":{
+			"/":{templateUrl:"/Profesor/BuscarEmpresa", controller:"controladorProfesorBuscarEmpresa"},
+			"/AnadirEmpresa":{templateUrl:"/Profesor/AnadirEmpresa", controller:"controladorAnadirEmpresa"},
+			"/:id_empresa":{templateUrl:"/Profesor/DetalleEmpresa", controller:"controladorDetalleEmpresa"}
+		},
 
 		"/Alumno/Ofertas":{
 			"/":{templateUrl:"/Alumno/BuscarOferta", controller:"busquedaOfertas"},
@@ -994,5 +999,38 @@ angular.module("BilboTec",["BilboTec.ui", "ngRoute"])
 		}
 	);
 	
-}]);
+}]).controller("controladorProfesorBuscarEmpresa",["$http", "$scope", "$location", function($http, $scope, $location){
+	$scope.empresas = [];
+	$scope.filtros = {};
+	$scope.buscar = function(){
+		$http({
+			url:"/api/Empresas/Buscar",
+			method: "POST",
+			data:$.param({filtros: $scope.filtros}),
+			headers: {'Content-Type': 'application/x-www-form-urlencoded'}	
+		})
+		.then(function(respuesta){
+			$scope.empresas = respuesta.data.data;
+		},function(error){
+			debugger;
+		});
+	};
+	$scope.buscar();
+}]).controller("controladorAnadirEmpresa",["$http", "$scope", function($http, $scope){
+	$scope.anadirEmpresa = function(){
+		$http({
+					url:"/api/Profesores/AnadirEmpresa/",
+					method:"POST",
+					headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+		})
+		.then(
+			function(respuesta){
+			
+			},
+			function(error){
+				
+			}
+		)
+	}
 
+}]);

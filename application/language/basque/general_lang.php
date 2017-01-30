@@ -145,3 +145,4 @@ $lang["enviar"] = "bidali";
 $lang["exito"] = "arrakasta";
 $lang["alerta_recuperar_clave"] = "email bat bidali da zure helbidera, zeinean pasahitza berreskuratzeko esteka bat duzun, onartu ";
 $lang["arrastre_archivo"] = "Fitxategi bat arrastatu honera";
+$lang["cerrar_sesion"] = "itxi";

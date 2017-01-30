@@ -43,10 +43,10 @@ class Empresas extends BT_Controlador_api_estandar {
 		return $identificador_alta;
 	}
 	
-	public function Buscar(){
+	/*public function Buscar(){
 		$filtros = $this->input->post("filtros");
 		$empresas = $this->modelo->buscar($filtros);
 		
-	}
+	}*/
 
 }
