@@ -146,3 +146,4 @@ $lang["alerta_recuperar_clave"] = "se ha enviado un correo electrónico a su dir
 Acepte este cuadro de dialogo para volver.";
 $lang["arrastre_archivo"] = "Arrastre un archivo aquí";
 $lang["cerrar_sesion"] = "salir";
+$lang["imprimir_curriculum"] = "imprimir curriculum";
