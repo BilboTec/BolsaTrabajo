@@ -147,3 +147,6 @@ Acepte este cuadro de dialogo para volver.";
 $lang["arrastre_archivo"] = "Arrastre un archivo aquí";
 $lang["cerrar_sesion"] = "salir";
 $lang["imprimir_curriculum"] = "imprimir curriculum";
+$lang["sector"] = "sector";
+$lang["cif"] = "CIF";
+$lang["pais"] = "pais";

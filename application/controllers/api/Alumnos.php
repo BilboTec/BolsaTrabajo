@@ -93,7 +93,7 @@ class Alumnos extends BT_Controlador_api_estandar
             }
             foreach($experiencias as $experiencia){
                 $html.="<table>
-                            <h2>".$experiencia->nombre."</h2>
+                            <h2>" .(isset($experiencia->nombre)?$experiencia->nombre:"") ."</h2>
                         </table>";
             }
             $pdf->WriteHtml($html);

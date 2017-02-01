@@ -147,3 +147,6 @@ $lang["alerta_recuperar_clave"] = "email bat bidali da zure helbidera, zeinean p
 $lang["arrastre_archivo"] = "Fitxategi bat arrastatu honera";
 $lang["cerrar_sesion"] = "itxi";
 $lang["imprimir_curriculum"] = "imprimatu curriculuma";
+$lang["sector"] = "sektorea";
+$lang["cif"] = "IFK";
+$lang["pais"] = "herrialdea";

@@ -9,5 +9,6 @@
 <p>{{ oferta.horario}}</p>
 <p>{{ oferta.salario}}</p>
 </div>
-<span ng-click="apuntarse()" class="btn btn-tipo" ng-show="!apuntado">Apuntarme</a>
+<span ng-click="apuntarse()" class="btn btn-tipo" ng-show="!apuntado">Apuntarme</span>
 <p ng-show="apuntado">Ya estas apuntado a esta oferta</p>
+<a class="btn btn-tipo" href="#!/"><?php echo mb_ucfirst($idioma('volver')); ?></a>

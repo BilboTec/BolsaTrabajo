@@ -40,7 +40,7 @@
 		
 		 //cargo el modelo de departamentos
       		$this->load->model('BT_Modelo_Departamento');
-      
+      		$data['es_administrador'] = $this->es_admin();
       	//pido los departamentos al modelo
        		$data['departamentos'] = $this->BT_Modelo_Departamento->coger_departamentos();
 			
@@ -57,6 +57,25 @@
 			$data["puedeEditar"] = $usuarioActual->id_rol > 1;
 		}
 		$this->load->view("/Profesor/detalleOferta",$data);
+	}
+	
+	public function detalleEmpresa(){
+		$data['idioma'] = function($clave){
+			return $this->lang->line($clave);
+		};
+		$usuarioActual = $this->get_usuario_actual();
+		if(isset($usuarioActual->id_rol)){
+			$data["puedeEditar"] = $usuarioActual->id_rol > 1;
+		}
+		
+		$this->load->model("BT_Modelo_Pais", "paises");
+		$this->load->model("BT_Modelo_Provincia", "provincias");
+		$data["espana"] = $this->paises->query(["nombre"=>"España"])[0];
+		$data['es_administrador'] = $this->es_admin();
+		$data["paises"] = $this->paises->get();
+		$data["provincias"] = $this->provincias->get();
+		$this->load->view("/Profesor/detalleEmpresa",$data);
+		
 	}
 	
 	public function administrador(){
@@ -172,8 +191,13 @@
 		$data['idioma'] = function($clave){
 			return $this->lang->line($clave);
 		};
-		$this->load->model("BT_Modelo_OfertaFormativa","ofertasFormativas");
-		$data['ofertas_formativas'] = $this->ofertasFormativas->get();
+		$this->load->model("BT_Modelo_Pais","paises");
+		$data['es_administrador'] = $this->es_admin();
+		$this->load->model("BT_Modelo_Provincia","provincias");
+		$data['paises'] = $this->paises->get();
+		$data['provincias'] = $this->provincias->get();
+		
+		$data["espana"] = $this->paises->query(["nombre"=>"España"])[0];
 		$this->load->view("/Profesor/buscarEmpresa",$data);
 	}
 	

@@ -18,7 +18,7 @@
 		};
 
 		$data['activo'] = "ofertas";
-
+		$data["user"] = $this->get_usuario_actual();
 		
 		$this->load->view("/plantillas/header", $data);
 		$this->load->view("/Alumno/menu", $data);
@@ -93,7 +93,8 @@
 		};
 
 		$data['activo'] = "perfil";
-
+		$data["user"] = $this->get_usuario_actual();
+		
 		$this->load->view("/plantillas/header", $data);
 		$this->load->view("/Alumno/menu", $data);
 		$this->load->view("/Alumno/perfil", $data);
@@ -122,6 +123,30 @@
 		};
 
 		$this->load->view("/Alumno/perfil_editar",$data);
+	}
+	
+	public function Candidaturas(){
+		$data['idioma'] = function($clave){
+			return $this->lang->line($clave);
+		};
+
+		$data['activo'] = "candidaturas";
+		$data["user"] = $this->get_usuario_actual();
+		
+		$this->load->view("/plantillas/header", $data);
+		$this->load->view("/Alumno/menu", $data);
+		$this->load->view("/Alumno/candidaturas", $data);
+		$this->load->view("/plantillas/footer", $data);
+	}
+	
+	public function listaCandidaturas(){
+		$data['idioma'] = function($clave){
+			return $this->lang->line($clave);
+		};
+		$this->load->model("BT_Modelo_Oferta", "ofertas");
+		$id_alumno = $this->get_usuario_actual()->id_alumno;
+		$data["candidaturas"] = $this->ofertas->get_candidaturas($id_alumno);
+		$this->load->view("/Alumno/listaCandidaturas",$data);
 	}
 
 }

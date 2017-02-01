@@ -31,13 +31,13 @@ class BT_Modelo_Oferta extends BT_ModeloEstandar
     	}
     }
 	public function apuntar_alumno($id_oferta,$id_alumno){
-		$this->bd->insert("candidatura",[
+		$this->db->insert("candidatura",[
 			"id_oferta"=>$id_oferta,
 			"id_alumno"=>$id_alumno	
 		]);
 	}
 	public function get_alumnos_apuntados($id_oferta){
-		$ids = $this->db->select("id_alumno")->get_where("candidatura",["id_oferta"=>$id_oferta]);
+		$ids = $this->db->select("id_alumno")->get_where("candidatura",["id_oferta"=>$id_oferta])->result();
 		return $ids;
 	}
 	public function get_ofertas_por_alumno($id_alumno){
@@ -100,6 +100,13 @@ class BT_Modelo_Oferta extends BT_ModeloEstandar
 		}
 		return $this->db->get()->result($this->clase);
 
+	}
+
+	public function get_candidaturas($id_alumno){
+		return $this->db->select("oferta.id_oferta, titulo, candidatura.fecha")->from("oferta")
+		->join("candidatura", "candidatura.id_oferta = oferta.id_oferta")
+		->where(["id_alumno"=>$id_alumno])->get()->result();
+		
 	}
 
 }

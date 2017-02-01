@@ -53,7 +53,7 @@ angular.module("BilboTec",["BilboTec.ui", "ngRoute"])
 		},
 		"/Profesor/Empresas":{
 			"/":{templateUrl:"/Profesor/BuscarEmpresa", controller:"controladorProfesorBuscarEmpresa"},
-			"/AnadirEmpresa":{templateUrl:"/Profesor/AnadirEmpresa", controller:"controladorAnadirEmpresa"},
+			"/AnadirEmpresa":{templateUrl:"/Profesor/DetalleEmpresa", controller:"controladorAnadirEmpresa"},
 			"/:id_empresa":{templateUrl:"/Profesor/DetalleEmpresa", controller:"controladorDetalleEmpresa"}
 		},
 
@@ -73,6 +73,10 @@ angular.module("BilboTec",["BilboTec.ui", "ngRoute"])
 			"/":{templateUrl:"/Alumno/DatosPerfil", controller:"controladorDatosAlumno"},
 			"/Clave":{templateUrl:"/Alumno/CambiarClave", controller:"controladorClaveAlumno"},
 			"/Editar":{templateUrl:"/Alumno/editarPerfil", controller:"controladorDatosAlumno"}
+		},
+		"/Alumno/Candidaturas":{
+			"/":{templateUrl:"/Alumno/listaCandidaturas"},
+			"/:id_oferta":{templateUrl:"/Alumno/DetalleOferta", controller:"detalleOfertaAlumno"}
 		},
 
 		"/Empresa/Ofertas":{
@@ -982,16 +986,45 @@ angular.module("BilboTec",["BilboTec.ui", "ngRoute"])
 		}
 	);
 }])
-.controller("detalleOfertaAlumno", ["$http","$scope","$routeParams",function($http,$scope){
+.controller("detalleOfertaAlumno", ["$http","$scope","$routeParams",function($http,$scope,$routeParams){
 	$scope.apuntarse = function(){
-		
+		$http({
+			url:"/api/Ofertas/Apuntar",
+			method:"POST",
+			data:$.param({
+				id_oferta:$scope.oferta.id_oferta
+			}),
+			headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+		})
+		.then(
+			function(respuesta){
+				$scope.apuntado = respuesta.data;
+			},
+			function(error){
+				
+			}
+		);
 	};
 	$http({
-		url:"/api/Ofertas/Get/"+$routeParams.id_oferta
+		url:"/api/Ofertas/GetbyId/"+$routeParams.id_oferta
 	}).
 	then(
 		function(respuesta){
-			$scope.oferta = respuesta.data;
+			$scope.oferta = respuesta.data[0];
+			$http({
+				url:"/api/Ofertas/Candidatura",
+				params: {
+					id_oferta: $scope.oferta.id_oferta
+				}
+			})
+			.then(
+				function(respuesta){
+					$scope.apuntado = respuesta.data;
+				},
+				function(error){
+					
+				}
+			);
 			
 		},
 		function(error){
@@ -1002,6 +1035,20 @@ angular.module("BilboTec",["BilboTec.ui", "ngRoute"])
 }]).controller("controladorProfesorBuscarEmpresa",["$http", "$scope", "$location", function($http, $scope, $location){
 	$scope.empresas = [];
 	$scope.filtros = {};
+	$scope.cargarLocalidades = function(){
+                   if($scope.filtros.id_provincia){
+                        $http({
+                            url:"/api/Localidades/GetDeProvincia/"+$scope.filtros.id_provincia
+                        }).then(
+                            function(respuesta){
+                                $scope.localidades = respuesta.data;
+                            },
+                            function(error){
+                                mostrarMensajeError(error);
+                            }
+                        );
+                    }
+                };
 	$scope.buscar = function(){
 		$http({
 			url:"/api/Empresas/Buscar",
@@ -1010,27 +1057,162 @@ angular.module("BilboTec",["BilboTec.ui", "ngRoute"])
 			headers: {'Content-Type': 'application/x-www-form-urlencoded'}	
 		})
 		.then(function(respuesta){
-			$scope.empresas = respuesta.data.data;
+			$scope.empresas = respuesta.data;
 		},function(error){
-			debugger;
 		});
 	};
-	$scope.buscar();
-}]).controller("controladorAnadirEmpresa",["$http", "$scope", function($http, $scope){
-	$scope.anadirEmpresa = function(){
-		$http({
-					url:"/api/Empresas/Insert/",
-					method:"POST",
-					headers: {'Content-Type': 'application/x-www-form-urlencoded'}
-		})
-		.then(
-			function(respuesta){
-			
-			},
-			function(error){
-				
-			}
-		);
+	$scope.comprobarPais = function(){
+		if($scope.filtros.id_pais == $scope.espana.id_pais){
+			$scope.provinciasDisabled = false;
+		}else{
+			$scope.provinciasDisabled = true;
+			$scope.filtros.id_localidad = null;
+			$scope.filtros.id_provincia = null;
+		}
 	};
+	$scope.buscar();
+}]).controller("controladorAnadirEmpresa",["$http", "$scope", function($http, $scope){0
+	$scope.vista = {};
+	$scope.init = function(){
+		$scope.vista.id_pais = $scope.espana.id_pais;
+	}
+	$scope.editando = true;
+	$scope.ocultar = true;
+	$scope.guardar = function(){
+		$scope.ocultar = false;
+		$scope.form = angular.element("[ng-form='form']").controller('form');
+		if($scope.form.$valid){
+			$http({
+				url: "/api/Empresas/Insert",
+				method: "POST",
+				data: $.param($scope.vista),
+				headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+			})
+			.then(
+				function(respuesta){
+					window.location = "!#/";
+				},
+				function(error){
+					
+				}
+			);
+		}
+	};
+	$scope.comprobarPais = function(){
+		if($scope.vista.id_pais == $scope.espana.id_pais){
+			$scope.provinciasDisabled = false;
+		}else{
+			$scope.provinciasDisabled = true;
+			$scope.vista.id_localidad = null;
+			$scope.provincia.id_provincia = null;
+		}
+	};
+	$scope.provincia = { id_provincia: 0};
+	$scope.cargarLocalidades = function(){
+                   if($scope.provincia.id_provincia){
+                        $http({
+                            url:"/api/Localidades/GetDeProvincia/"+$scope.provincia.id_provincia
+                        }).then(
+                            function(respuesta){
+                                $scope.localidades = respuesta.data;
+                            },
+                            function(error){
+                                mostrarMensajeError(error);
+                            }
+                        );
+                    }
+                };
 
+}]).controller("controladorDetalleEmpresa", ["$http", "$scope", "$routeParams", function($http, $scope, $routeParams){
+	$scope.id_empresa = $routeParams.id_empresa;
+	$http({
+		url:"/api/Empresas/GetbyId/" + $scope.id_empresa
+	})
+	.then(
+		function(respuesta){
+			$scope.empresa = respuesta.data;
+			$scope.provinciasDisabled = $scope.empresa.id_pais != $scope.espana.id_pais;
+			if($scope.empresa.id_localidad){
+				$http({
+					url:"/api/Provincias/GetByLocalidad/"+ $scope.empresa.id_localidad
+				})
+				.then(function(respuesta){
+					$scope.provincia = respuesta.data.provincia;
+					$scope.cargarLocalidades();
+				},function(error){});
+			}
+		},
+		function(error){
+		}
+	);
+	$scope.editando = false;
+	$scope.editar = function(){
+		$scope.vista = angular.copy($scope.empresa);
+		$scope.editando = true;
+	};
+	$scope.cancelar = function(){
+		$scope.vista = {};
+		$scope.editando = false;
+	};
+	$scope.guardar = function(){
+		$scope.form = angular.element("[ng-form='form']").controller('form');
+		if($scope.form.$valid){
+			$http({
+				url: "/api/Empresas/Update",
+				method: "POST",
+				data: $.param({
+					viejo:$scope.empresa,
+					nuevo:$scope.vista
+				}),
+				headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+			})
+			.then(
+				function(respuesta){
+					$scope.empresa = respuesta.data;
+					$scope.cancelar();
+					if($scope.empresa.id_localidad){
+						$http({
+							url:"/api/Provincias/GetByLocalidad/"+ $scope.empresa.id_localidad
+						})
+						.then(function(respuesta){
+							$scope.provincia = respuesta.data.provincia;
+							$scope.cargarLocalidades();
+						},
+						function(error){
+							
+						});
+					}else{
+						$scope.provincia = {};
+					}
+				},
+				function(error){
+					
+				}
+			);
+		}
+	};
+	$scope.comprobarPais = function(){
+		if($scope.vista.id_pais == $scope.espana.id_pais){
+			$scope.provinciasDisabled = false;
+		}else{
+			$scope.provinciasDisabled = true;
+			$scope.vista.id_localidad = null;
+			$scope.provincia.id_provincia = null;
+		}
+	};
+	$scope.provincia = { id_provincia: 0};
+	$scope.cargarLocalidades = function(){
+                   if($scope.provincia.id_provincia){
+                        $http({
+                            url:"/api/Localidades/GetDeProvincia/"+$scope.provincia.id_provincia
+                        }).then(
+                            function(respuesta){
+                                $scope.localidades = respuesta.data;
+                            },
+                            function(error){
+                                mostrarMensajeError(error);
+                            }
+                        );
+                    }
+                };
 }]);

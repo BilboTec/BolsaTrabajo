@@ -15,7 +15,7 @@ class Ofertas extends BT_Controlador_api_estandar
         $usuario = $this->get_usuario_actual();
 		$string_filtros = $this->input->post("filtros");
 		if($string_filtros === null){
-			$condiciones = [];
+			$condiciones = new stdClass();
 		}
 		else{
 			$condiciones = json_decode($string_filtros);
@@ -60,4 +60,45 @@ class Ofertas extends BT_Controlador_api_estandar
         $this->modelo->actualizar_conocimientos($oferta,$conocimientos);
         $this->json($oferta);
     }
+	
+	public function Candidatura(){
+		$metodo = $this->input->method(true);
+		if($metodo === "GET"){
+			$id_alumno = $this->input->get("id_alumno");
+			if($id_alumno === null){
+				$id_alumno = $this->get_usuario_actual()->id_alumno;
+			}
+			$id_oferta = $this->input->get("id_oferta");
+			$ids_alumnos = $this->modelo->get_alumnos_apuntados($id_oferta);
+			$esta_apuntado = false;
+			foreach ($ids_alumnos as $id) {
+				if($id->id_alumno == $id_alumno){
+					$esta_apuntado = true;
+				}
+			}
+			$this->json($esta_apuntado);
+		}
+	}
+	
+	public function Apuntar(){
+		$id_oferta = $this->input->post("id_oferta");
+		if($id_oferta){
+			$oferta = $this->modelo->query(["id_oferta"=>$id_oferta]);
+			if(count($oferta) > 0){
+				$id_alumno = $this->input->post("id_alumno");
+				if(!$id_alumno){
+					$id_alumno = $this->get_usuario_actual()->id_alumno;
+				}
+				$this->modelo->apuntar_alumno($id_oferta,$id_alumno);
+				$this->json(true);
+			}
+			else{
+				$this->json(false);
+			}
+			
+		}
+		else{
+			$this->json(false);
+		}
+	}
 }

@@ -43,11 +43,11 @@ class Empresas extends BT_Controlador_api_estandar {
 		return $identificador_alta;
 	}
 	
-	/*public function Buscar(){
+	public function Buscar(){
 		$filtros = $this->input->post("filtros");
 		$empresas = $this->modelo->buscar($filtros);
-		
-	}*/
+		$this->json($empresas);
+	}
 	
 	public function Insert(){
 		$empresa = new _Empresa();
@@ -64,6 +64,17 @@ class Empresas extends BT_Controlador_api_estandar {
 	    	$respuesta->mensaje = "no tiene privilegios";
 	    	$this->json($respuesta, 400);
 	    }
+	}
+	
+	public function GetbyId($id_empresa){
+		$empresa = $this->modelo->query(["id_empresa"=>$id_empresa]);
+		if(count($empresa) > 0){
+			$this->json($empresa[0]);
+		}
+		else{
+			$this->json(null, 404);
+		}
+				
 	}
 
 }
