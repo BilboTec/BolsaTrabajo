@@ -150,3 +150,4 @@ $lang["imprimir_curriculum"] = "imprimir curriculum";
 $lang["sector"] = "sector";
 $lang["cif"] = "CIF";
 $lang["pais"] = "pais";
+$lang["anadir_empresa"] = "añadir empresa";

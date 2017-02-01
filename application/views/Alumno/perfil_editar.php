@@ -1,4 +1,4 @@
-<div class="grupo">
+<!--<div class="grupo">
 <h1 class="titulo"><?php echo strtoupper($idioma("editar_perfil")); ?></h1>
 <div class="grupo">
 	<label for="nombre"><?php echo ucfirst($idioma("nombre")); ?></label>
@@ -91,4 +91,4 @@
 </div>
 <span class="btn-tipo btn" ng-click="guardar()"><?php echo ucfirst($idioma("guardar")); ?></span>
 <a href="#!/"><?php echo ucfirst($idioma("volver")); ?></a>
-</div>
+</div>-->

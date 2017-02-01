@@ -25,6 +25,8 @@
 	</select>
 </div>
 
+<?php
+if($es_administrador){ ?>
 <div class="grupo">
 	<label for="rol"><?php echo ucfirst($idioma("rol")); ?></label>
 	<select id="rol" ng-model="usuario.id_rol">
@@ -36,6 +38,7 @@
 	?>
 	</select>
 </div>
+<?php } ?>
 <div bt-window="ventana"></div>
 <span class="btn-tipo btn" ng-click="guardar()"><?php echo ucfirst($idioma("guardar")); ?></span>
 <a href="#!/"><?php echo ucfirst($idioma("volver")); ?></a>

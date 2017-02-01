@@ -150,3 +150,5 @@ $lang["imprimir_curriculum"] = "imprimatu curriculuma";
 $lang["sector"] = "sektorea";
 $lang["cif"] = "IFK";
 $lang["pais"] = "herrialdea";
+$lang["anadir_empresa"] = "enpresa gehitu";
+

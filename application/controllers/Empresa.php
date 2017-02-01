@@ -19,7 +19,7 @@ class Empresa extends BT_Controller{
 		};
 
 		$data['activo'] = "ofertas";
-
+		$data["user"] = $this->get_usuario_actual();
 		
 		$this->load->view("/plantillas/header", $data);
 		$this->load->view("/Empresa/menu", $data);
@@ -32,8 +32,13 @@ class Empresa extends BT_Controller{
 			return $this->lang->line($clave);
 		};
 
+		$this->load->model("BT_Modelo_Pais","paises");
+		$this->load->model("BT_Modelo_Provincia","provincias");
+		$data['paises'] = $this->paises->get();
+		$data["espana"] = $this->paises->query(["nombre"=>"España"])[0];
+		$data['provincias'] = $this->provincias->get();
 		$data['activo'] = "perfil";
-
+		$data["user"] = $this->get_usuario_actual();
 		$this->load->view("/plantillas/header", $data);
 		$this->load->view("/Empresa/menu", $data);
 		$this->load->view("/Empresa/perfil", $data);

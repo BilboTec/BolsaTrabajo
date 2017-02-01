@@ -73,8 +73,21 @@ class Empresas extends BT_Controlador_api_estandar {
 		}
 		else{
 			$this->json(null, 404);
-		}
-				
+		}			
 	}
 
+	public function cambiarClave(){
+		$id_empresa = $this->input->post("id_empresa");
+		$empresa = $this->modelo->query(["id_empresa"=>$id_empresa]);
+		if(count($empresa)>0){
+			$empresa = $empresa[0];
+			$clave =$this->input->post("nuevaclave");
+			$empresa->establecer_clave($clave);
+			$empresa = $this->modelo->update($empresa, $empresa);
+			$this->json(["clave"=>$clave,"empresa"=>$empresa]);
+		}
+		else{
+			$this->json("ooohhh", 400);
+		}
+	}
 }

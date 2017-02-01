@@ -25,7 +25,10 @@
 			</div>
 			
 		</fieldset>
+		<?php
+		if(!$es_user){ ?>
 		<a href="#!/InvitarAlumnos">Invitar Alumnos <img src="/imagenes/invitar_alumno.png"/><a>
+		<?php } ?>
 	</aside>
 	<section>
 		<article ng-repeat="alumno in alumnos">

@@ -132,7 +132,8 @@
 		$data['idioma'] = function($clave){
 			return $this->lang->line($clave);
 		};
-      
+		
+      	$data['es_administrador'] = $this->es_admin();
       	//pido los departamentos al modelo
        		$data['departamentos'] = $this->BT_Modelo_Departamento->get();
 
@@ -155,6 +156,7 @@
 		$data['idioma'] = function($clave){
 			return $this->lang->line($clave);
 		};
+		$data['es_user']= $this->es_user();
 		$this->load->model("BT_Modelo_OfertaFormativa","ofertasFormativas");
 		$data['ofertas_formativas'] = $this->ofertasFormativas->get();
 		$this->load->view("/Profesor/buscarAlumno",$data);

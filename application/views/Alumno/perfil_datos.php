@@ -1,4 +1,4 @@
-<div>
+<!--<div>
 	<div class="grupo-horizontal">
 		<h1>{{usuario.nombre + " " + (usuario.apellido1 || "") + " " + (usuario.apellido2 || "")}}</h1>
 		<a class="btn btn-tipo" href="/api/Alumnos/Curriculum">Imprimir curriculum</a>
@@ -14,4 +14,4 @@
 
 	<a class="btn btn-tipo sin-margen" href="#!/Editar">Editar</a>
 	<a href="#!/Clave" class="btn btn-tipo">Cambiar Contraseña</a>
-</div>
+</div>-->

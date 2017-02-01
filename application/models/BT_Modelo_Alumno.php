@@ -65,7 +65,7 @@ class BT_Modelo_Alumno extends BT_ModeloVista {
 							->join($conf["join"],$conf["join"].".".$conf["columna"]." = "
 								. $tabla . "." . $conf["columna"])
 							->where_in("id_conocimiento",$filtrosConocimientos)
-						->get()->result();
+						->get()->result_array();
 							foreach($resultado as $id){
 								if(!in_array($id, $ids_alumno_conocimientos)){
 										array_push($ids_alumno_conocimientos, $id);
@@ -77,18 +77,18 @@ class BT_Modelo_Alumno extends BT_ModeloVista {
 						}
 					}
 					break;
-				case "buscar":
-					$buscar = $filtros["buscar"];
+				case "buscador":
+					$buscar = $filtros["buscador"];
 					if($buscar){
 						$tablas = [
 							"experiencia"=>[
-								"nombre", "empresa","cargo","functiones"
+								 "empresa","cargo","funciones"
 							],
 							"formacion_academica"=>[
 								"descripcion","nombre"
 							],
 							"formacion_complementaria"=>[
-								"desripcion","nombre"
+								"descripcion","nombre"
 							],
 							"vw_alumno"=>[
 								"otros_datos",
@@ -97,7 +97,7 @@ class BT_Modelo_Alumno extends BT_ModeloVista {
 								"apellido1",
 								"apellido2",
 								"dni",
-								"direccion"
+								"calle"
 							]
 						];
 						$ids_alumno_busqueda = [];
@@ -106,10 +106,10 @@ class BT_Modelo_Alumno extends BT_ModeloVista {
 								$this->db->or_like($columna,$buscar);
 							}
 							$ids = $this->db
-							->select("id_aluno")->get($tabla)->result();
+							->select("id_alumno")->get($tabla)->result();
 							foreach($ids as $id){
-								if(!in_array($id,$ids_alumno_busqueda)){
-									array_push($ids_alumno_busqueda,$id);
+								if(!in_array($id->id_alumno,$ids_alumno_busqueda)){
+									array_push($ids_alumno_busqueda,$id->id_alumno);
 								}
 							}
 						}
@@ -135,7 +135,7 @@ class BT_Modelo_Alumno extends BT_ModeloVista {
 		if($ids_alumno_busqueda !== null){
 			$this->db->where_in("id_alumno",$ids_alumno_busqueda);
 		}
-		if(isset($fecha) && $fecha !== nul){
+		if(isset($fecha) && $fecha !== null){
 
 		}
 		return $this->db->get($this->vista)->custom_result_object($this->clase);

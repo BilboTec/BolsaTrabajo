@@ -54,6 +54,7 @@ angular.module("BilboTec",["BilboTec.ui", "ngRoute"])
 		"/Profesor/Empresas":{
 			"/":{templateUrl:"/Profesor/BuscarEmpresa", controller:"controladorProfesorBuscarEmpresa"},
 			"/AnadirEmpresa":{templateUrl:"/Profesor/DetalleEmpresa", controller:"controladorAnadirEmpresa"},
+			"/CambiarClave/:id_empresa":{templateUrl: "/Profesor/CambiarClave", controller:"controladorCambiarClaveEmpresa"},
 			"/:id_empresa":{templateUrl:"/Profesor/DetalleEmpresa", controller:"controladorDetalleEmpresa"}
 		},
 
@@ -853,7 +854,7 @@ angular.module("BilboTec",["BilboTec.ui", "ngRoute"])
 			headers: {'Content-Type': 'application/x-www-form-urlencoded'}	
 		})
 		.then(function(respuesta){
-			$scope.alumnos = respuesta.data.data;
+			$scope.alumnos = respuesta.data;
 		},function(error){
 			debugger;
 		});
@@ -1090,7 +1091,7 @@ angular.module("BilboTec",["BilboTec.ui", "ngRoute"])
 			})
 			.then(
 				function(respuesta){
-					window.location = "!#/";
+					window.location = "#!/";
 				},
 				function(error){
 					
@@ -1215,4 +1216,143 @@ angular.module("BilboTec",["BilboTec.ui", "ngRoute"])
                         );
                     }
                 };
+}])
+.controller("controladorCambiarClaveEmpresa", ["$scope", "$http", "$routeParams", function($scope,$http,$routeParams){
+	$scope.ocultar_clave = true;
+	$scope.usuario = {id_empresa:$routeParams.id_empresa};
+	$scope.cambiarClave = function(){
+		if($scope.usuario.nuevaclave === $scope.usuario.repetirclave &&$scope.usuario.nuevaclave && $scope.usuario.nuevaclave.trim()){
+			$http({url: "/api/Empresas/CambiarClave", 
+					method: "POST", 
+					data: $.param($scope.usuario),
+					headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+				})
+			.then(
+					function(respuesta){
+						$scope.ventana.establecerTitulo("clave_cambiada");
+						$scope.ventana.establecerContenido("clave_cambiada_cuerpo");
+						$scope.ventana.establecerBotones([{
+							accion:function(){
+								$scope.ventana.cerrar();
+								$location.path("/");
+							}, 
+							texto: "aceptar"
+							}
+						]);
+						$scope.ventana.abrir();
+						$scope.ventana.centrar();
+
+						
+					},
+					function(error){
+						$scope.ventana.establecerTitulo("error");
+						var mensaje = error.data;
+						if(angular.isArray(error.data) || angular.isObject(error.data)){
+							mensaje = "";
+							for(var clave in error.data){
+								mensaje += error.data[clave] + "\r";
+							}
+						}
+						$scope.ventana.establecerContenido(mensaje);
+						$scope.ventana.establecerBotones([{
+							accion:function(){
+								$scope.ventana.cerrar();
+							}, 
+							texto: "aceptar"
+							}
+						]);
+						$scope.ventana.abrir();
+						$scope.ventana.centrar();
+					}
+					)
+		}
+		else{
+			$scope.formPerfil = {$submitted:true, repetirclave:{$invalid:true}, nuevaclave:{$invalid:true} };
+		}
+	}
+}])
+.controller("controladorDatosEmpresa", ["$scope", "$http", function($scope, $http){
+	$scope.editando = 0;
+	$scope.editar = function(){
+		$scope.editando = 1;
+		$scope.vista = angular.copy($scope.empresa);		
+		$scope.comprobarPais();
+		$scope.init();
+	};
+	$scope.cancelar = function(){
+		$scope.editando = 0;
+	};
+	$scope.mostrarcambiarclave = function(){
+		$scope.editando =2;
+	};
+	$scope.init = function(){
+		if($scope.empresa.id_localidad){
+				$http({
+					url:"/api/Provincias/GetByLocalidad/"+ $scope.empresa.id_localidad
+				})
+				.then(function(respuesta){
+					$scope.provincia = respuesta.data.provincia;
+					$scope.cargarLocalidades();
+				},function(error){});
+		}
+	};
+	$scope.guardar = function(){
+		$http({
+				url: "/api/Empresas/Update",
+				method: "POST",
+				data: $.param({
+					viejo:$scope.empresa,
+					nuevo:$scope.vista
+				}),
+				headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+			})
+			.then(
+				function(respuesta){
+					$scope.empresa = respuesta.data;
+					$scope.cancelar();
+					if($scope.empresa.id_localidad){
+						$http({
+							url:"/api/Provincias/GetByLocalidad/"+ $scope.empresa.id_localidad
+						})
+						.then(function(respuesta){
+							$scope.provincia = respuesta.data.provincia;
+							$scope.cargarLocalidades();
+						},
+						function(error){
+							
+						});
+					}else{
+						$scope.provincia = {};
+					}
+				},
+				function(error){
+					
+				}
+			);
+	};
+	$scope.comprobarPais = function(){
+		if($scope.vista.id_pais == $scope.espana.id_pais){
+			$scope.provinciasDisabled = false;
+		}else{
+			$scope.provinciasDisabled = true;
+			$scope.vista.id_localidad = null;
+			$scope.provincia.id_provincia = null;
+		}
+	};
+	$scope.provincia = { id_provincia: 0};
+	$scope.cargarLocalidades = function(){
+       if($scope.provincia.id_provincia){
+            $http({
+                url:"/api/Localidades/GetDeProvincia/"+$scope.provincia.id_provincia
+            }).then(
+                function(respuesta){
+                    $scope.localidades = respuesta.data;
+                },
+                function(error){
+                    mostrarMensajeError(error);
+                }
+            );
+        }
+     };
+	
 }]);

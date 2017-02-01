@@ -11,7 +11,7 @@ class _Empresa extends Entidad implements iEntidadConId {
 		return password_verify($clave, $this->clave);
 	}
 	public function establecer_clave($clave){
-		$this->clave = password_verify($clave, $this->clave);
+		$this->clave = password_hash($clave, PASSWORD_DEFAULT);
 	}
 }
 class BT_Modelo_Empresa extends BT_ModeloVista

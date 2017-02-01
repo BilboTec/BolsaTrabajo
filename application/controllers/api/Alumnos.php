@@ -102,7 +102,7 @@ class Alumnos extends BT_Controlador_api_estandar
 	public function Buscar(){
 		$filtros = $this->input->post("filtros");
 		$alumnos = $this->modelo->buscar($filtros);
-		
+		$this->json($alumnos);
 	}
 	public function GetById($id_alumno){
 		$this->query(["id_alumno"=>$id_alumno]);

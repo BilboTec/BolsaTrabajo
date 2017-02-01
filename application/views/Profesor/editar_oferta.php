@@ -44,7 +44,7 @@
 		<div id="conocimientos" ng-model="oferta.conocimientos" bt-auto-complete="autoCompleteConocimientos"  bt-texto="nombre" bt-clave="id_conocimiento" bt-url="/api/Conocimientos/Like"></div>
 	</div>
 	<div class="grupo">
-	<label>Publico<input type="checkbox" ng-model="oferta.visible"></label>
+	<label>Publico<input type="checkbox" ng-true-value="'1'" ng-false-value="'0'" ng-model="oferta.visible"></label>
 	</div>
 	
 	<span class="btn-tipo btn" ng-click="guardar()"><?php echo ucfirst($idioma("guardar")); ?></span>

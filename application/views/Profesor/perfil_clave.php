@@ -1,7 +1,7 @@
 <fieldset>
 	<legend><?php echo strtoupper($idioma("cambiar_clave")); ?></legend>
-	<div bt-input-label bt-id="clave" ng-required="true" name="clave" bt-label="'<?php echo ucfirst($idioma("clave_actual")); ?>'" bt-model="usuario.clave" type="password"></div>
-	<div  ng-show="(formPerfil.$submitted || formPerfil.clave.$touched) && formPerfil.clave.$invalid"><?php printf($idioma("required"),$idioma("clave_actual")); ?></div>
+	<div ng-if="!ocultar_clave" bt-input-label bt-id="clave" ng-required="true" name="clave" bt-label="'<?php echo ucfirst($idioma("clave_actual")); ?>'" bt-model="usuario.clave" type="password"></div>
+	<div ng-if="!ocultar_clave" ng-show="(formPerfil.$submitted || formPerfil.clave.$touched) && formPerfil.clave.$invalid"><?php printf($idioma("required"),$idioma("clave_actual")); ?></div>
 
 	<div bt-input-label bt-id="nuevaclave" ng-required="true" name="nuevaclave" bt-label="'<?php echo ucfirst($idioma("clave_nueva")); ?>'" bt-model="usuario.nuevaclave" type="password"></div>
 

@@ -23,6 +23,9 @@ class BT_Modelo_Oferta extends BT_ModeloEstandar
 	
     public function actualizar_conocimientos($oferta,$conocimientos){
     	$this->db->delete("conocimiento_oferta",["id_oferta"=>$oferta->id_oferta]);
+		if(!$conocimientos){
+			return;
+		}
     	foreach ($conocimientos as $conocimiento) {
     		$this->db->insert("conocimiento_oferta",[
     			"id_oferta"=>$oferta->id_oferta,
