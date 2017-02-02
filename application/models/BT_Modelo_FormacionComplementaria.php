@@ -21,4 +21,19 @@ class BT_Modelo_FormacionComplementaria extends BT_ModeloEstandar
     	}
     	return parent::update($nuevo,$viejo);
     }
+    public function actualizar_conocimentos($id_formacion_complementaria,$conocimientos){
+        $this->db->delete("conocimiento_formacion_complementaria",["id_formacion_complementaria"=>$id_formacion_complementaria]);
+        foreach($conocimientos as $conocimiento){
+            $this->db->insert("formacion_complementaria_conocimiento",[
+                    "id_formacion_complementaria"=>$id_formacion_complementaria,
+                    "id_conocimiento"=>$conocimiento["id_conocimiento"]
+                ]);
+        }
+    }
+    public function get_conocimientos($id_formacion_complementaria){
+        return $this->db->from("conocimiento")
+        ->join("conocimiento_formacion_complementaria","conocimiento_formacion_complementaria.id_conocimiento = conocimiento.id_conocimiento")
+        ->where(["id_formacion_complementaria"=>$id_formacion_complementaria])
+        ->get()->result();
+    }
 }

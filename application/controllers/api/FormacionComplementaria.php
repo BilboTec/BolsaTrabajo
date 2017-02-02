@@ -17,6 +17,29 @@ class FormacionComplementaria extends BT_Controlador_api_estandar
     	$alumno = $this->get_usuario_actual();
     	$formacion_complementaria->id_alumno = $alumno->id_alumno;
     	$formacion_complementaria = $this->modelo->insert($formacion_complementaria);
+        $this->actualizarConocimientos($formacion_complementaria[0]->id_formacion_complementaria);
     	$this->json($formacion_complementaria);
+    }
+    public function update(){
+        if(isset($_POST["nuevo"])){
+            $_POST["nuevo"]["id_alumno"] = $this->get_usuario_actual()->id_alumno;
+        }
+        $id = $this->input->post("nuevo")["id_formacion_complementaria"];
+        $this->actualizarConocimientos($id);
+        parent::update();
+    }
+    private function actualizarConocimientos($id_formacion_complementaria){
+        $conocimientos = $this->input->post();
+        if(isset($conocimientos["conocimientos"])){
+            $conocimientos = $conocimientos["conocimientos"];
+        } else if(isset($conocimientos["nuevo"]) && isset($conocimientos["nuevo"]["conocimientos"])){
+            $conocimientos = $conocimientos["nuevo"]["conocimienots"];
+        } else{
+            $conocimientos = [];
+        }
+        $this->modelo->actualizar_conocimentos($id_formacion_complementaria,$conocimientos);
+    }
+    public function Conocimientos($id_formacion_complementaria){
+        $this->json($this->modelo->get_conocimientos($id_formacion_complementaria));
     }
 }

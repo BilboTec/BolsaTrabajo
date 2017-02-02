@@ -6,6 +6,7 @@
 html{
 	height:100%;
 }
+
 body{
 	min-height: 100%;
 }
@@ -52,7 +53,8 @@ body, .contenido{
 /* FORMULARIO LOGIN*/
 
 .btn-tipo{
-	padding: 0.4em 2em;
+	margin: 0.1em 0.1em;
+	padding: 0.3em 1.9em;
 	background-color: $(--v-oscuro);
 	color: white;
 	min-height:1.3em;
@@ -540,6 +542,9 @@ header{
 	display: flex;
 	flex-direction: row;
 }
+.grupo-horizontal.space-between{
+	justify-content: space-between;
+}
 .grupo-vertical{
 	flex-direction: column;
 }
@@ -704,6 +709,33 @@ footer{
 }
 .animacion-cortina.ng-leave {
 	animation-direction: reverse;
+}
+.entrar-izq.ng-enter{
+	animation: entrar-izq 0.5s;
+}
+.salir-der.ng-leave{
+	animation: salir-der 0.5s;
+}
+@keyframes salir-der{
+	0%{
+		transform: translate(0);
+		opacity: 1;
+	}
+	100%{
+		transform: translate(100%);
+		opacity: 0;
+	}
+}
+@keyframes entrar-izq {
+	0%{
+		transform: translateX(-100%);
+		opacity: 0;
+	}
+
+	100%{
+		transform: translateX(0);
+		opacity: 1;
+	}
 }
 @keyframes cortina {
 	0%{

@@ -2,7 +2,10 @@
 
 class BT_Controller extends CI_Controller{
 	
-	protected $idioma,$roles;	
+	protected $idioma,$roles;
+	private function backup(){
+		
+	}	
 	public function get_rol(){
 		$usuario = $this->get_usuario_actual();
 		if($usuario != null && isset($usuario->id_rol)){

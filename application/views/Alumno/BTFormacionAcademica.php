@@ -1,6 +1,6 @@
 
 
-<div class="grupo-horizontal" ng-init='ofertas_formativas=<?php echo json_encode($ofertas_formativas); ?>;tipos_titulacion=<?php echo json_encode($tipos_titulacion); ?>'>
+<div class="grupo-horizontal space-between" ng-init='ofertas_formativas=<?php echo json_encode($ofertas_formativas); ?>;tipos_titulacion=<?php echo json_encode($tipos_titulacion); ?>'>
 	<h1><?php echo mb_strtoupper($idioma("formacion_academica")); ?></h1>
 	<span class="btn btn-tipo" ng-click="insertar()"><?php echo mb_ucfirst($idioma("anadir_formacion")); ?></span>
 </div>
@@ -55,13 +55,17 @@
 	</div>
 </div>
 <div ng-repeat="formacion in formaciones">
-	<div ng-if="indiceEdicion !== $index">
-		<div class="grupo-horizontal">
-			<h2>{{formacion.nombre}}</h2>
-			<p>{{formacion.fecha_inicio | btDate}} - <span ng-if="formacion.cursando!='1'">{{formacion.fecha_fin | btDate}}</span>
-			<span ng-if="formacion.cursando == '1'"><?php echo mb_ucfirst($idioma("cursando")); ?></span></p>
-			<span ng-click="editar($index)" ng-if="indiceEdicion !== $index" class="btn btn-tipo"><?php echo mb_ucfirst($idioma("editar")); ?></span>
-			<span ng-click="eliminar($index)" class="btn btn-tipo" ng-if="indiceEdicion !== $index"><?php echo mb_ucfirst($idioma("eliminar")); ?></span>
+	<div ng-if="indiceEdicion !== $index" class="entrar-izq salir-der">
+		<div class="grupo-horizontal space-between">
+			<div class="grupo-horizontal">
+				<h2>{{formacion.nombre}}</h2>
+				<p>{{formacion.fecha_inicio | btDate}} - <span ng-if="formacion.cursando!='1'">{{formacion.fecha_fin | btDate}}</span>
+				<span ng-if="formacion.cursando == '1'"><?php echo mb_ucfirst($idioma("cursando")); ?></span></p>
+			</div>
+			<div class="grupo-horizontal">
+				<span ng-click="editar($index)" ng-if="indiceEdicion !== $index" class="btn btn-tipo"><?php echo mb_ucfirst($idioma("editar")); ?></span>
+				<span ng-click="eliminar($index)" class="btn btn-tipo" ng-if="indiceEdicion !== $index"><?php echo mb_ucfirst($idioma("eliminar")); ?></span>
+			</div>
 		</div>
 		<p>{{nombre_tipo_titulacion}}</p>
 		<p>{{nombre_oferta_formativa}}</p>
@@ -69,7 +73,7 @@
 		<p>Conocimientos:</p>
 		<p ng-repeat="conocimiento in formacion.conocimientos">{{conocimiento.nombre}}</p>
 	</div>
-	<div ng-if="$parent.indiceEdicion === $index" ng-form="ins">
+	<div ng-if="$parent.indiceEdicion === $index" ng-form="ins" class="entrar-izq salir-der">
 		<div class="grupo-horizontal">
 		<div class="grupo">
 			<label for="nombre"><?php echo mb_ucfirst($idioma("nombre")); ?></label>

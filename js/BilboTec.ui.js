@@ -1215,7 +1215,7 @@ return{
                     "confirmar_eliminar",function(){
                         scope.ventana.cerrar();
                         $http({
-                        url:"/api/FormacionAcademica/Update",
+                        url:"/api/FormacionAcademica/Delete",
                         method:"POST",
                         data:$.param({
                             elem:scope.formaciones[indice]
@@ -1320,50 +1320,105 @@ return{
 			alumno:"=ngModel"
 			},
             require:"ngModel",
-			templateUrl:"/plantillas/Get/btFormacionComplementaria",
+			templateUrl:"/Alumno/FormacionComplementaria",
 			link:function(scope,elemento,atributos,ngModel){
-			scope.editar = "/plantillas/Get/btEditarFormacionComplementaria?coleccion[]=tipo_titulacion";
-			scope.vista = "/plantillas/Get/btMostrarFormacionComplementaria";
-			scope.$on("cancelar_edicion", function(){
+			scope.cancelar =  function(){
 				scope.indiceEdicion = -1;
 				scope.insertando = false;
-			})
-			scope.$on("editar_formacion", function(evento, args){
-				scope.indiceEdicion = args.indice;
-				scope.formaciones[args.indice].horas = parseInt(scope.formaciones[args.indice].horas);
+                scope.vista = {};
+			};
+			scope.editar = function(indice){
+				scope.indiceEdicion = indice;
+				scope.formaciones[indice].horas = parseInt(scope.formaciones[indice].horas);
+                scope.vista = angular.copy(scope.formaciones[indice]);
 				scope.insertando = false;
-			});
-            scope.$on("borrar_formacion",function(evento,args){
-                $http({
-                    url:"/api/FormacionComplementaria/Delete",
-                    method: "POST",
-                    data: $.param({elem:scope.alumno.formaciones[args.indice]}),
-                    headers: {'Content-Type': 'application/x-www-form-urlencoded'}
-                })
-                .then(
-	                function(respuesta){
-	                    scope.formaciones.splice(args.indice,1);
-	                },
-	                function(error){
-
-                	}
+			};
+            scope.eliminar = function(indice){
+                scope.ventana.preguntar("confirmar_eliminar_titulo","confirmar_eliminar",
+                    function(){
+                        scope.ventana.cerrar();
+                        $http({
+                            url:"/api/FormacionComplementaria/Delete",
+                            method: "POST",
+                            data: $.param({elem:scope.formaciones[indice]}),
+                            headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+                        })
+                        .then(
+        	                function(respuesta){
+        	                    scope.formaciones.splice(indice,1);
+        	                },
+        	                function(error){
+                                    scope.ventana.alerta(error.data,function(){
+                                        scope.ventana.cerrar();
+                                    });
+                        	}
+                        );
+                    },function(){}
                 );
-            })
+            };
 			scope.insertar = function(){
                 scope.vista = true;
                 scope.vista = {};
 				scope.indiceEdicion = -1;
 				scope.insertando = true;
 			};
-			scope.$on("aplicar_edicion_formacion",function(evento,args){
-				if(typeof scope.insertando !== "undefined" && scope.insertando){
-					scope.formaciones.unshift(args.formacion);
-				}else{
-					scope.formaciones[scope.indiceEdicion] = args.formacion;
-				}
+            scope.nombresTiposTitulacion = {};
+            scope.nomrbesOfertasFormativas = {};
+            for(var i in scope.tipos_titulacion){
+                scope.nombresTiposTitulacion[scope.tipos_titulacion[i.id_tipo_titulacion]] = scope.tipos_titulacion[i].nombre;
+            }
+            for(var i in scope.ofertas_formativas){
+                scope.nomrbesOfertasFormativas[scope.ofertas_formativas[i.id_oferta_formativa]] = scope.ofertas_formativas[i].nombre;
+            }
+
+			scope.aplicarEdicion = function(){
+				$http({
+                    url:"/api/FormacionComplementaria/Update",
+                    method: "POST",
+                    data: $.param({
+                        viejo:scope.formaciones[scope.indiceEdicion],
+                        nuevo:scope.vista
+                    }),
+                    headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+                })
+                .then(
+                    function(respuesta){
+                        scope.formaciones[scope.indiceEdicion]=respuesta.data[0];
+                        cargarConocimientos(scope.indiceEdicion);
+                    },
+                    function(error){
+
+                    }
+                );
 				scope.indiceEdicion = -1;
 				scope.insertando = false;
-			});
+			};
+            scope.aplicarInsertar = function(){
+                $http({
+                    url:"/api/FormacionComplementaria/Insert",
+                    method: "POST",
+                    data: $.param(scope.vista),
+                    headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+                })
+                .then(
+                    function(respuesta){
+                        scope.formaciones.unshift(respuesta.data[0]);
+                        cargarConocimientos(scope.formaciones[0]);
+                    },
+                    function(error){
+
+                    }
+                );
+                scope.indiceEdicion = -1;
+                scope.insertando = false;
+            };
+            function cargarConocimientos(formacion){
+                $http({
+                        url:"/api/FormacionComplementaria/Conocimientos/" + formacion.id_formacion_complementaria
+                }).then(function(respuesta){
+                        formacion.conocimientos = respuesta.data;
+                },function(error){});
+            }
 				ngModel.$render = function(){
                     if(typeof scope.alumno !== "undefined"){
     					$http({
@@ -1371,6 +1426,9 @@ return{
     					})
     					.then(function(respuesta){
     						scope.formaciones = respuesta.data.data;
+                            for(var i in scope.formaciones){
+                                cargarConocimientos(scope.formaciones[i]);
+                            }
     					},function(error){
     						
     					});
