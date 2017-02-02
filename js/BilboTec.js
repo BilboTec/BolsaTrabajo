@@ -1355,4 +1355,93 @@ angular.module("BilboTec",["BilboTec.ui", "ngRoute"])
         }
      };
 	
+}])
+.controller("detalleOfertaEmpresa" , ["$scope", "$http", "$routeParams", function($scope, $http, $routeParams){
+	$scope.id_oferta = $routeParams.id_oferta;
+	if($scope.id_oferta == 0){
+		$scope.editando = true;
+		$scope.vista = {};
+	}
+	
+	if($scope.id_oferta != 0){
+		$http({url: "/api/Ofertas/getById/" +$scope.id_oferta})
+			.then(
+				function(respuesta){
+					$scope.oferta = respuesta.data[0];
+					$http({
+						url:"/api/Conocimientos/GetFromOferta/" + $scope.oferta.id_oferta
+					})
+					.then(function(respuestaConocimientos){
+						$scope.oferta.conocimientos = respuestaConocimientos.data || respuestaConocimientos.data.data;
+					},function(error){
+						alert(error.data || error);
+					});
+				},
+				function(error){
+					alert(error.data?error.data:error);
+				}
+			);
+	}
+	
+	$scope.editar = function(){
+		$scope.vista = angular.copy($scope.oferta);
+		$scope.editando = true;
+	};
+	
+	$scope.cancelar = function(){
+		if($scope.id_oferta == 0){
+			window.location = "#!/";
+		}
+		else{
+			$scope.editando = false;
+		}
+	};
+	
+	$scope.guardar = function(){
+		$http({
+			url :"/api/Ofertas/Guardar",
+			data : $.param($scope.vista),
+			headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+			method: "POST"
+		})
+		.then(
+			function(respuesta){
+				$scope.oferta = respuesta.data;
+				if($scope.id_oferta == 0){
+					window.location = "#!/" + $scope.oferta.id_oferta;
+				}
+				else{
+					$http({
+						url:"/api/Conocimientos/GetFromOferta/" + $scope.oferta.id_oferta
+					})
+					.then(function(respuestaConocimientos){
+						$scope.oferta.conocimientos = respuestaConocimientos.data || respuestaConocimientos.data.data;
+					},function(error){
+						alert(error.data || error);
+					});
+					$scope.cancelar();
+				}
+			},
+			function(error){
+				
+			}
+		);
+	};
+	
+	function cargarAlumnos(){
+		if($scope.id_oferta){
+			$http({
+				url: "/api/Ofertas/Candidatos/" + $scope.id_oferta
+			})
+			.then(function(respuesta){
+				$scope.alumnos = respuesta.data;
+			},
+			function(error){
+				
+			});
+		}
+	}
+	
+	cargarAlumnos();
+	
 }]);

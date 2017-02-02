@@ -191,4 +191,9 @@ class BT_Modelo_Alumno extends BT_ModeloVista {
 				$alumno->imagen = $imagen;
 			}
     }*/
+    
+    public function getByOferta($id_oferta){
+    	return $this->db->from("vw_alumno")->join("candidatura", "vw_alumno.id_alumno = candidatura.id_alumno")
+    	->where(["id_oferta"=>$id_oferta])->get()->custom_result_object($this->clase);
+    }
 }

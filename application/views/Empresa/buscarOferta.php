@@ -12,6 +12,7 @@
 			</div>
 			
 		</fieldset>
+		<a href="#!/0"> <?php echo mb_ucfirst($idioma("anadir_oferta")); ?></a>
 	</aside>
 	<section>
 		<article ng-repeat="oferta in ofertas">

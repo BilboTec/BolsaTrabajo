@@ -42,6 +42,11 @@ class Ofertas extends BT_Controlador_api_estandar
     public function guardar(){
         $oferta = new _Oferta();
         $oferta->fromPost($this);
+		$usuario = $this->get_usuario_actual();
+		if(isset($usuario->id_empresa)){
+			$oferta->id_empresa = $usuario->id_empresa;
+			$oferta->nombre_empresa = $usuario->nombre;
+		}
         if(isset($oferta->id_empresa) && !$oferta->id_empresa){
             $oferta = $oferta->toArray(["id_empresa"]);
         }
@@ -50,12 +55,12 @@ class Ofertas extends BT_Controlador_api_estandar
             $id = isset($oferta->id_oferta)?$oferta->id_oferta:$oferta["id_oferta"];
             $oferta_vieja = $this->modelo->query(["id_oferta"=>$id])[0];
             $oferta = $this->modelo->update($oferta_vieja, $oferta);
-            if(is_array($oferta)){
-                $oferta = $oferta[0];
-            }
         }
         else{
             $oferta = $this->modelo->insert($oferta);
+        }
+	 	if(is_array($oferta)){
+            $oferta = $oferta[0];
         }
         $this->modelo->actualizar_conocimientos($oferta,$conocimientos);
         $this->json($oferta);
@@ -100,5 +105,26 @@ class Ofertas extends BT_Controlador_api_estandar
 		else{
 			$this->json(false);
 		}
+	}
+	
+	public function update(){
+		$usuario = $this->get_usuario_actual();
+		if(isset($usuario->id_profesor)){
+			parent::update();
+		}
+		else{
+			if(isset($usuario->id_empresa)){
+				$viejo = new _Oferta();
+				$nuevo = new _Oferta();
+				$viejo->fromArray($this->input->post("viejo"));
+				$nuevo->fromArray($this->input->post("nuevo"));
+				
+			}
+		}
+	}
+	
+	public function Candidatos($id_oferta){
+		$this->json($this->alumnos->getByOferta($id_oferta));
+		
 	}
 }

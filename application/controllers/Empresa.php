@@ -44,4 +44,22 @@ class Empresa extends BT_Controller{
 		$this->load->view("/Empresa/perfil", $data);
 		$this->load->view("/plantillas/footer", $data);
 	}
+	
+	public function detalleOferta(){
+		$data['idioma'] = function($clave){
+			return $this->lang->line($clave);
+		};
+		
+		$this->load->view("/Empresa/detalleOferta", $data);
+		
+	}
+	
+	public function buscarOferta(){
+		$data['idioma'] = function($clave){
+			return $this->lang->line($clave);
+		};
+		
+		$this->load->view("/Empresa/buscarOferta", $data);
+		
+	}
 }
