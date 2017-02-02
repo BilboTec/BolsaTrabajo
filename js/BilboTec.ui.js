@@ -1228,8 +1228,8 @@ return{
                     },error);
                     },function(){
                         scope.ventana.cerrar();
-                    })
-            }
+                    });
+            };
             scope.editar = function(indice){
                 scope.indiceEdicion = indice;
                 scope.insertando = false;
@@ -1246,6 +1246,18 @@ return{
                     return scope.vista.cursando || fecha!==null && fecha.trim() != ""
                 };
                 contr.$validate();
+            };
+            function cargarConocimientos(formacion){
+            	if(typeof formacion !== "undefined"&& formacion.id_formacion_academica){
+            		$http({
+            			url:"/api/FormacionAcademica/Conocimientos/" + formacion.id_formacion_academica
+            		})
+            		.then(function(respuesta){
+            			formacion.conocimientos = respuesta.data;
+            		},function(error){
+            			
+            		});
+            	}
             }
             scope.aplicarEdicion = function(){
                 scope.formInsertar = elemento.find("[ng-form='ins']").controller("form");
@@ -1262,10 +1274,11 @@ return{
                     })
                     .then(function(respuesta){
                         scope.formaciones[scope.indiceEdicion] = (respuesta.data.data ||  respuesta.data)[0];
+                        cargarConocimientos(scope.formaciones[scope.indiceEdicion]);
                         scope.cancelar();
                     },error);
                 }
-            }
+            };
             scope.aplicarInsertar = function(){
                 scope.formInsertar = elemento.find("[ng-form='ins']").controller("form");
                 scope.formInsertar.$setSubmitted(true);
@@ -1278,6 +1291,7 @@ return{
                     })
                     .then(function(respuesta){
                         scope.formaciones.unshift((respuesta.data.data ||  respuesta.data)[0]);
+                        cargarConocimientos(scope.formaciones[0]);
                         scope.cancelar();
                     },error);
                 }
@@ -1289,13 +1303,16 @@ return{
 					})
 					.then(function(respuesta){
 						scope.formaciones = respuesta.data.data;
+						for(var i in scope.formaciones){
+							cargarConocimientos(scope.formaciones[i]);
+						}
 					},function(error){
 						
 					});
                 }
 			};
 			}
-		}
+		};
 }])
 .directive("btFormacionComplementaria",["$http",function($http){
 	return{

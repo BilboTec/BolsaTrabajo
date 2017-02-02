@@ -86,7 +86,7 @@
 			<p><h1>{{experiencia.empresa}}</h1><span>({{experiencia.fecha_inicio}} - {{experiencia.trabajando_actualmente=="1"?"<?php echo $idioma("actualmente"); ?>":experiencia.fecha_fin}})</span></p>
 			<p>{{experiencia.cargo}}</p>
 			<p bt-contenido-html ng-model="experiencia.funciones"></p>
-			<p ng-repeat="conocimiento in conocimientos">{{conocimiento.nombre}}</p>
+			<p ng-repeat="conocimiento in experiencia.conocimientos">{{conocimiento.nombre}}</p>
 			<button ng-click="editar($event,$index)"><?php echo ucfirst($idioma("editar")); ?></button>
 			<button ng-click="borrar($event,$index)"><?php echo ucfirst($idioma("eliminar")); ?></button>
 		</div>
