@@ -1,5 +1,10 @@
 angular.module("BilboTec.ui",["ngAnimate"]);
 angular.module("BilboTec",["BilboTec.ui", "ngRoute"])
+.filter("btDate",function(){
+	return function(date){
+		return date.split(" ")[0];
+	};
+})
 .filter("diferencia_fecha",function(){
     return function(fecha){
     	if(typeof fecha === "undefined"){

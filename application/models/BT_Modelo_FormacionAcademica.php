@@ -21,4 +21,20 @@ class BT_Modelo_FormacionAcademica extends BT_ModeloEstandar
     	}
     	return parent::update($nuevo,$viejo);
     }
+	public function get_conocimientos($id_formacion_academica){
+		return $this->db->from("conocimiento")
+		->join("conocimiento_formacion_academica","conocimiento_formacion_academica.id_conocimiento = conocimiento.id_conocimiento")
+		->where(["id_formacion_academica"=>$id_formacion_academica])
+		->get()->result();
+	}
+	public function actualizar_conocimientos($id_formacion_academica,$conocimientos){
+		if($conocimientos == null){
+			$conocimientos = [];
+		}
+		$this->db->delete("conocimiento_formacion_academica",["id_formacion_academica"=>$id_formacion_academica]);
+		foreach($conocimientos as $conocimiento){
+			$this->db->insert("conocimiento_formacion_academica",["id_conocimiento"=>$conocimiento["id_conocimiento"],
+			"id_formacion_academica"=>$id_formacion_academica]);
+		}
+	}
 }
