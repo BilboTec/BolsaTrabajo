@@ -10,6 +10,6 @@ class BT_Modelo_Pais extends BT_ModeloEstandar{
 		parent::__construct("pais", "_Pais", "id_pais");
 	}
 	public function id_es(){
-		return $this->db->select("id_pais")->get_where("pais",["nombre"=>"España"])->row()["id_pais"];
+		return $this->db->select("id_pais")->get_where("pais",["nombre"=>"España"])->row()->id_pais;
 	}
 }

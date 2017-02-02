@@ -32,7 +32,7 @@ class Alumnos extends BT_Controlador_api_estandar
             $alumno = $this->alumnos->get_by_id($id_alumno);
         }
         $provincia = "";
-        $loalidad = "";
+        $localidad = "";
         if($alumno->id_localidad){
             $this->load->model("BT_Modelo_Provincia","provincias");
             $this->load->model("BT_Modelo_Localidad","localidades");
@@ -92,9 +92,33 @@ class Alumnos extends BT_Controlador_api_estandar
                 $html.="<h1>Experiencia Laboral</h1>";
             }
             foreach($experiencias as $experiencia){
-                $html.="<table>
-                            <h2>" .(isset($experiencia->nombre)?$experiencia->nombre:"") ."</h2>
-                        </table>";
+                $html.="<div>
+                            <h2>" .(isset($experiencia->empresa)?$experiencia->empresa:"") ."</h2>
+                            <p> " .(isset($experiencia->fecha_inicio)?$experiencia->fecha_inicio:"") ."-" .(isset($experiencia->trabajando_actualmente)? "Trabajando actualmente" :$experiencia->fecha_fin) ."</p>
+                            <p> " .(isset($experiencia->cargo)?$experiencia->cargo:"") ."</p>
+                            <p> " .(isset($experiencia->funciones)?$experiencia->funciones:"") ."</p>
+                        </div>";
+            }
+             $this->load->model("BT_Modelo_FormacionAcademica","formacionAcademica");
+            $formaciones_academicas = $this->formacionAcademica->query(["id_alumno"=>$alumno->id_alumno]);
+            if(count($formaciones_academicas)>0){
+                $html.="<h1>Formacion Académica</h1>";
+                $this->load->model("BT_Modelo_OfertaFormativa","oferta_formativa");
+                $this->load->model("BT_Modelo_TipoTitulacion","tipo_titulacion");
+            }
+            foreach($formaciones_academicas as $formacion_academica){
+                $oferta_formativa = $this->oferta_formativa->get_by_id($formacion_academica->id_oferta_formativa);
+                $tipo_titulacion = $this->tipo_titulacion->get_by_id($formacion_academica->id_tipo_titulacion);
+                $oferta_formativa =($oferta_formativa === null)?"":$oferta_formativa->nombre;
+                $tipo_titulacion =($tipo_titulacion === null)?"": $tipo_titulacion->nombre; 
+                $html.="<div>
+                            <h2>" .(isset($formacion_academica->nombre)?$formacion_academica->nombre:"") ."</h2>
+                            <p> " .(isset($formacion_academica->fecha_inicio)?$formacion_academica->fecha_inicio:"") ."-" 
+                            .(isset($formacion_academica->cursando)?"Cursando":$formacion_academica->fecha_fin) ."</p>
+                            <p> " .(isset($oferta_formativa)?$oferta_formativa:"") ."</p>
+                            <p> " .(isset($tipo_titulacion)?$tipo_titulacion:"") ."</p>
+                            <p> " .(isset($formacion_academica->descripcion)?$formacion_academica->descripcion:"") ."</p>
+                        </div>";
             }
             $pdf->WriteHtml($html);
             $pdf->output("Curriculum.pdf");

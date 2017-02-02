@@ -29,7 +29,7 @@ class Migration_Crear_Vista_Completa_Alumno extends CI_Migration{
 				CONSTRAINT fk_f_c_conocimiento_formacion_complementaria FOREIGN KEY(id_formacion_complementaria)REFERENCES formacion_complementaria(id_formacion_complementaria)
 			)");
 
-			$db->query("CREATE OR REPLACE VIEW vw_completa_alumno AS select * from alumno a left join idioma i using a.id_alumno = i.id_alumno left join formacion_academica fa using a.id_alumno = fa.id_alumno left join experiencia e using e.id_alumno = a.id_alumno left join conocimiento_experiencia ce using ce.id_experiencia = e.id_experiencia left join localidad l using l.id_localidad = a.id_localidad left join conocimiento_formacion_academica cfa using cfa.id_formacion_academica = fa.id_formacion_academica left join formacion_complementaria cf using cf.id_alumno = a.id_alumno left join conocimiento_formacion_complementaria cfc using cfc.id_formacion_complementaria = cf.id_formacion_complementaria; ");
+			/*$db->query("CREATE OR REPLACE VIEW vw_completa_alumno AS select * from alumno a left join idioma i using a.id_alumno = i.id_alumno left join formacion_academica fa using a.id_alumno = fa.id_alumno left join experiencia e using e.id_alumno = a.id_alumno left join conocimiento_experiencia ce using ce.id_experiencia = e.id_experiencia left join localidad l using l.id_localidad = a.id_localidad left join conocimiento_formacion_academica cfa using cfa.id_formacion_academica = fa.id_formacion_academica left join formacion_complementaria cf using cf.id_alumno = a.id_alumno left join conocimiento_formacion_complementaria cfc using cfc.id_formacion_complementaria = cf.id_formacion_complementaria; ");*/
 
 	}
 

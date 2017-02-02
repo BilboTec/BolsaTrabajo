@@ -1162,7 +1162,7 @@ return{
                     data:$.param(scope.vista),
                     headers: {'Content-Type': 'application/x-www-form-urlencoded'}
                 }).then(function(respuesta){
-                    scope.experiencias.unshift(respuesta.data[0]);
+                    scope.experiencias.unshift(respuesta.data);
                     cargarConocimientos(scope.experiencias[0]);
                     scope.indiceEdicion = -1;
                     scope.insertando = false;

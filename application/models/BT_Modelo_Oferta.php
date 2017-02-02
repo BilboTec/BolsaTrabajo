@@ -34,6 +34,7 @@ class BT_Modelo_Oferta extends BT_ModeloEstandar
     	}
     }
 	public function apuntar_alumno($id_oferta,$id_alumno){
+		$this->db->set("fecha", "NOW()", false);
 		$this->db->insert("candidatura",[
 			"id_oferta"=>$id_oferta,
 			"id_alumno"=>$id_alumno	

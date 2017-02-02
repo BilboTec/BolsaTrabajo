@@ -33,7 +33,7 @@ class SignUp extends BT_Controller{
 				$identificador = new _IdentificadorAlta();
 				$identificador->email = $this->input->post("email");
 				$identificador = $this->identificadores->insert($identificador)[0];
-				$link = $_SERVER["HTTP_ORIGIN"]."/Login/CambiarClave/?I=" . base64_encode($identificador->id_identificador . "#" . $identificador->identificador);
+				$link = $_SERVER["HTTP_ORIGIN"]."/SignUp/AltaEmpresa/?I=" . base64_encode($identificador->id_identificador . "#" . $identificador->identificador);
 				$link = "<a href='.$link'>$link</a>";
 				$config = Array(
  				    'protocol' => 'smtp',

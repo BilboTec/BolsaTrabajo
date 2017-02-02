@@ -18,7 +18,7 @@ class Experiencias extends BT_Controlador_api_estandar
 		$experiencia = new _Experiencia();
 		$experiencia->fromPost($this);
 		$experiencia->id_alumno = $usuario_actual->id_alumno;
-		$experiencia = $this->modelo->insert($experiencia);
+		$experiencia = $this->modelo->insert($experiencia)[0];
 		$this->actualizarConocimientos($experiencia->id_experiencia);
 		$this->json($experiencia);
 	}
@@ -26,10 +26,10 @@ class Experiencias extends BT_Controlador_api_estandar
 		$conocimientos = $this->input->post();
 		if(isset($conocimientos["conocimientos"])){
 			$conocimientos = $conocimientos["conocimientos"];
-		}else{
+		}else if(isset($conocimientos["nuevo"]) && isset($conocimientos["nuevo"]["conocimientos"])){
 			$conocimientos = $conocimientos["nuevo"]["conocimientos"];
 		}
-		if($conocimientos === null){
+		else{
 			$conocimientos = [];
 		}
 		$this->modelo->actualizar_conocimientos($id_experiencia,$conocimientos);

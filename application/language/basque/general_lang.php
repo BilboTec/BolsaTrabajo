@@ -151,4 +151,5 @@ $lang["sector"] = "sektorea";
 $lang["cif"] = "IFK";
 $lang["pais"] = "herrialdea";
 $lang["anadir_empresa"] = "enpresa gehitu";
+$lang["no_alumnos_apuntados"] = "ez dago izena eman duen ikaslerik";
 

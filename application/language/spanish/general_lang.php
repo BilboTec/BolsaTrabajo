@@ -151,3 +151,4 @@ $lang["sector"] = "sector";
 $lang["cif"] = "CIF";
 $lang["pais"] = "pais";
 $lang["anadir_empresa"] = "añadir empresa";
+$lang["no_alumnos_apuntados"] = "no hay alumnos apuntados a esta oferta";
