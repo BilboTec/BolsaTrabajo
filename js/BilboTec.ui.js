@@ -420,6 +420,7 @@ angular.module("BilboTec.ui")
                             strFecha += (i!==0?"-":"") + fecha[formatos[i]];
                         }
                         ngModel.$setValidity("required",true);
+                        ngModel.$setValidity("date",true);
                         texto.innerHTML = strFecha;
                     }
                 }
