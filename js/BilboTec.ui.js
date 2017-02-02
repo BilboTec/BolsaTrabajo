@@ -1121,12 +1121,22 @@ return{
 
                     });
             }; 
+           	function cargarConocimientos(experiencia){
+           		if(typeof experiencia !== "undefined" && experiencia.id_experiencia){
+           			$http({
+           				url:"/api/Experiencias/Conocimientos/" + experiencia.id_experiencia
+           			}).
+           			then(function(respuesta){
+           				experiencia.conocimientos = respuesta.data;
+           			},function(error){});
+           		}
+           	}
 			scope.insertar = function(){
 				scope.vista = true;
                 scope.vista = {};
 				scope.indiceEdicion = -1;
 				scope.insertando = true;
-			};;
+			};
             scope.aplicarEdicion = function(evento,indice){
                 //TODO: Validar en cliente
                 $http({
@@ -1136,6 +1146,7 @@ return{
                     headers: {'Content-Type': 'application/x-www-form-urlencoded'}
                 }).then(function(respuesta){
                     scope.experiencias[indice] = respuesta.data[0];
+                    cargarConocimientos(scope.experiencias[indice]);
                     scope.indiceEdicion = -1;
                     scope.insertando = false;
                 },
@@ -1152,6 +1163,7 @@ return{
                     headers: {'Content-Type': 'application/x-www-form-urlencoded'}
                 }).then(function(respuesta){
                     scope.experiencias.unshift(respuesta.data[0]);
+                    cargarConocimientos(scope.experiencias[0]);
                     scope.indiceEdicion = -1;
                     scope.insertando = false;
                 },
@@ -1169,13 +1181,16 @@ return{
 				.then(
 					function(respuesta){
 						scope.experiencias = respuesta.data.data;
+						for(var indice in scope.experiencias){
+							cargarConocimientos(scope.experiencias[indice]);
+						}
 				},
 					function(error){
 						scope.ventana.alerta("error",error.data?error.data:error,function(){});
-					})
+					});
 			};
 		}
-	}
+	};
 }])
 .directive("btFormacionAcademica",["$http",function($http){
 	return{

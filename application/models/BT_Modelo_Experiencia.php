@@ -14,4 +14,17 @@ class BT_Modelo_Experiencia extends BT_ModeloEstandar
         parent::__construct("experiencia", "_Experiencia", "id_experiencia");
 
     }
+	public function get_conocimientos($id_experiencia){
+		return $this->db->from("experiencia")
+		->join("conocimiento_experiencia","conocimiento_experiencia.id_experiencia = experiencia.id_experiencia")
+		->where(["experiencia.id_experiencia"=>$id_experiencia])->get()
+		->result();
+	}
+	public function actualizar_conocimientos($id_experiencia,$conocimientos){
+		$this->delete("conocimiento_experiencia",["id_experiencia"=>$id_experiencia]);
+		foreach ($conocimientos as $conocimiento) {
+			$this->db->insert("conocimiento_experiencia",
+			["id_experiencia"=>$id_experiencia,"id_conocimiento"=>$conocimiento["id_conocimiento"]]);
+		}
+	}
 }
