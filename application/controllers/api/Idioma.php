@@ -16,5 +16,8 @@ class Idioma extends BT_Controlador_api_estandar
     	$idioma = $this->modelo->insert($idioma);
     	$this->json($idioma);
     }
+	public function get($id=null){
+		echo data_result($this->modelo->query(["id_alumno"=>$id]),$this->modelo->count_where(["id_alumno"=>$id]));
+	}
 
 }

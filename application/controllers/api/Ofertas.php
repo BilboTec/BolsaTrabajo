@@ -9,8 +9,15 @@ class Ofertas extends BT_Controlador_api_estandar
         parent::__construct("BT_Modelo_Oferta", "id_oferta");
         
     }
-    
-    public function Get(){
+    public function ActualizarCandidatos(){
+    	$metodo = $this->input->method(true);
+		if($metodo === "POST"){
+			$id_oferta = $this->input->post("id_oferta");
+			$alumnos = $this->input->post("alumnos");
+			$this->modelo->actualizar_candidaturas($id_oferta,$alumnos);
+		}
+    }
+    public function Get($id=null){
         $tipo = $this->session->tipo;
         $usuario = $this->get_usuario_actual();
 		$string_filtros = $this->input->post("filtros");

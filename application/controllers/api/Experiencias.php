@@ -43,4 +43,7 @@ class Experiencias extends BT_Controlador_api_estandar
 		$experiencia->fromArray($this->input->post("nuevo"));
 		$this->actualizarConocimientos($experiencia->id_experiencia);
 	}
+	public function get($id=null){
+		echo data_result($this->modelo->query(["id_alumno"=>$id]),$this->modelo->count_where(["id_alumno"=>$id]));
+	}
 }

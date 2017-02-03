@@ -17,7 +17,7 @@ class BT_Controlador_api_estandar extends BT_Controller
     public function GetLike($nombre){
         echo json_encode($this->modelo->get_like($nombre));
     }
-    public function Get(){
+    public function Get($id=null){
         $resultadosPorPagina = $this->input->get("resultadosPorPagina");
         $pagina = $this->input->get("pagina");
         $orden = $this->input->get("orden");
@@ -25,7 +25,12 @@ class BT_Controlador_api_estandar extends BT_Controller
         if($direccion===null){
             $direccion = "asc";
         }
-        echo data_result($this->modelo->get($resultadosPorPagina,$pagina,$orden,$direccion),$this->modelo->count());
+		if($id!==null){
+			$this->json($this->modelo->get_by_id($id));
+		}else{
+			echo data_result($this->modelo->get($resultadosPorPagina,$pagina,$orden,$direccion),$this->modelo->count());
+		}
+        
     }
     public function Insert(){
         try {

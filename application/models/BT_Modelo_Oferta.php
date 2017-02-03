@@ -14,7 +14,25 @@ class BT_Modelo_Oferta extends BT_ModeloEstandar
     {
         parent::__construct("oferta", "_Oferta", "id_oferta");
     }
-	
+	public function actualizar_candidaturas($id_oferta,$alumnos){
+		$eliminados = $this->db->select("id_alumno")->where(["id_oferta"=>$id_oferta])
+		->where_not_in("id_alumno",$alumnos)->from("candidatura")->get()->result();
+		$eliminados = array_values($eliminados);
+		$this->db->where(["id_oferta"=>$id_oferta])
+		->where_not_in("id_alumno",$alumnos)->delete("candidatura");
+		$candidaturas = $this->db->select("id_alumno")->where(["id_oferta"=>$id_oferta])->get("candidatura")
+		->result();
+		$candidaturas = array_values($candidaturas);
+		$nuevos = [];
+		var_dump($alumnos);
+		foreach($alumnos as $alumno){
+			if(!in_array($alumno, $candidaturas)){
+				array_push($nuevos,$alumno);
+				$this->apuntar_alumno($id_oferta, $alumno);
+			}
+		}
+		return ["eliminados"=>$eliminados,"nuevos"=>$nuevos];
+	}
 	public function coger_ofertas()
 	{
 		$consulta = $this->db->get('oferta');

@@ -56,10 +56,10 @@
 			<div class="grupo-horizontal space-between">
 				<div class="grupo-horizontal">
 					<h1>{{formacion_complementaria.nombre}}</h1>
-					<p>{{formacion_complementaria.fecha_inicio}}</p>
+					<p>{{formacion_complementaria.fecha_inicio | btDate}}</p>
 					<p>-</p>
 					<p ng-if="formacion_complementaria.cursando == '1'"><?php echo mb_ucfirst($idioma("cursando")); ?></p>
-					<p ng-if="formacion_complementaria.cursando != '1'">{{formacion_complementaria.fecha_fin}}</p>
+					<p ng-if="formacion_complementaria.cursando != '1'">{{formacion_complementaria.fecha_fin | btDate}}</p>
 				</div>
 				<div class="grupo-horizontal">		
 					<span class="btn btn-tipo" ng-click="editar($index)"><?php echo ucfirst($idioma("editar")); ?></span>

@@ -9,6 +9,7 @@
   				<label><?php echo ucfirst($idioma('oferta_formativa')); ?></label><br>
   				
 				<select ng-model='filtros.id_oferta_formativa'>
+					<option></option>
 				<?php
 				foreach ($ofertas_formativas as $oferta_formativa){
 				  echo "<option value= '" .$oferta_formativa->id_oferta_formativa ."'>" .$oferta_formativa->nombre ."</option>";

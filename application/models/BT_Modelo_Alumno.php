@@ -67,8 +67,8 @@ class BT_Modelo_Alumno extends BT_ModeloVista {
 							->where_in("id_conocimiento",$filtrosConocimientos)
 						->get()->result_array();
 							foreach($resultado as $id){
-								if(!in_array($id, $ids_alumno_conocimientos)){
-										array_push($ids_alumno_conocimientos, $id);
+								if(!in_array($id["id_alumno"], $ids_alumno_conocimientos)){
+										array_push($ids_alumno_conocimientos, $id["id_alumno"]);
 								}
 							}
 						}
@@ -116,18 +116,50 @@ class BT_Modelo_Alumno extends BT_ModeloVista {
 						if(count($ids_alumno_busqueda) ===0){
 							return [];
 						}
+						
 					}
 				break;
-				case "fecha":
-					$fecha = $filtros["fecha"];
-					try{
-						$fecha = DateTime::createFromFormat("Y-m-d", $fecha);
-						$fecha = $fecha->format("Y");
-					}catch(Exception $ex){
-						$fecha = null;
+				case "fecha_fin":
+					$fecha = $filtros["fecha_fin"];
+					if($fecha){	
+						$ids_fechas = [];
+						$resultado = $this->db
+						->query("SELECT id_alumno FROM formacion_academica WHERE YEAR(fecha_fin) = YEAR('$fecha')")->result();
+						foreach($resultado as $alumno){
+							if(!in_array($alumno->id_alumno, $ids_fechas)){
+								array_push($ids_fechas,$alumno->id_alumno);
+							}
+						}
+						if(count($ids_fechas) === 0){
+							return[];
+						}
+					}
+				break;
+				case "id_oferta_formativa":
+					$id_oferta_formativa = $filtros["id_oferta_formativa"];
+					if($id_oferta_formativa){
+						$ids_oferta = [];
+						$resultado = $this->db
+						->query("SELECT id_alumno FROM formacion_academica where id_oferta_formativa = $id_oferta_formativa UNION
+								SELECT id_alumno FROM formacion_complementaria WHERE id_oferta_formativa = $id_oferta_formativa")
+						->result();
+						foreach($resultado as $alumno){
+							if(!in_array($alumno->id_alumno, $ids_oferta)){
+								array_push($ids_oferta,$alumno->id_alumno);
+							}
+						}
+						if(count($ids_oferta) === 0){
+							return[];
+						}
 					}
 				break;
 			}
+		}
+		if(isset($ids_fechas)){
+			$this->db->where_in("id_alumno",$ids_fechas);
+		}
+		if(isset($ids_oferta)){
+			$this->db->where_in("id_alumno",$ids_oferta);
 		}
 		if($ids_alumno_conocimientos!== null){
 			$this->db->where_in("id_alumno",$ids_alumno_conocimientos);
@@ -136,7 +168,7 @@ class BT_Modelo_Alumno extends BT_ModeloVista {
 			$this->db->where_in("id_alumno",$ids_alumno_busqueda);
 		}
 		if(isset($fecha) && $fecha !== null){
-
+			
 		}
 		return $this->db->get($this->vista)->custom_result_object($this->clase);
 	}

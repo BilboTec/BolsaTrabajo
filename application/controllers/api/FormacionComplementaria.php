@@ -33,7 +33,7 @@ class FormacionComplementaria extends BT_Controlador_api_estandar
         if(isset($conocimientos["conocimientos"])){
             $conocimientos = $conocimientos["conocimientos"];
         } else if(isset($conocimientos["nuevo"]) && isset($conocimientos["nuevo"]["conocimientos"])){
-            $conocimientos = $conocimientos["nuevo"]["conocimienots"];
+            $conocimientos = $conocimientos["nuevo"]["conocimientos"];
         } else{
             $conocimientos = [];
         }
@@ -42,4 +42,7 @@ class FormacionComplementaria extends BT_Controlador_api_estandar
     public function Conocimientos($id_formacion_complementaria){
         $this->json($this->modelo->get_conocimientos($id_formacion_complementaria));
     }
+	public function get($id=null){
+		echo data_result($this->modelo->query(["id_alumno"=>$id]),$this->modelo->count_where(["id_alumno"=>$id]));
+	}
 }

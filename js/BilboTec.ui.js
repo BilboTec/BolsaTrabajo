@@ -1384,14 +1384,14 @@ return{
                 .then(
                     function(respuesta){
                         scope.formaciones[scope.indiceEdicion]=respuesta.data[0];
-                        cargarConocimientos(scope.indiceEdicion);
+                        cargarConocimientos(scope.formaciones[scope.indiceEdicion]);                       
+						scope.indiceEdicion = -1;
+						scope.insertando = false;
                     },
                     function(error){
 
                     }
                 );
-				scope.indiceEdicion = -1;
-				scope.insertando = false;
 			};
             scope.aplicarInsertar = function(){
                 $http({
@@ -1834,14 +1834,97 @@ return{
             $scope.indiceEdicion = -1;
             $scope.insertando = true;
             $scope.vista = {};
-        }
+        };
         $scope.editar = function(indice){
             $scope.insertando = false;
             $scope.indiceEdicion = indice;
             $scope.vista = angular.copy($scope.idiomas[indice]);
-        }
+        };
         $scope.cancelar = function(){
             $scope.insertando = false;
             $scope.indiceEdicion = -1;
-        }
+        };
+}])
+.directive("btBuscadorAlumnos",["$http",function($http){
+	return {
+		restrict:"A",
+		require:"ngModel",
+		scope:{
+			oferta:"=ngModel"
+		},
+		templateUrl:"/plantillas/Get/BTBuscadorAlumno",
+		link:function(scope,el,at,ngModel){
+			scope.filtros = {};
+			scope.filtros.buscador = sessionStorage.getItem("filtro_busqueda_alumno_oferta");
+			scope.seleccionados = [];
+			scope.vista = [];
+			scope.buscar = function(){
+				if(scope.filtros.buscador){
+					$http({
+						url:"/api/Alumnos/Buscar",
+						method:"POST",
+						data:$.param({filtros:scope.filtros}),
+						headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+					})
+					.then(function(respuesta){
+						scope.alumnos = respuesta.data;
+						filtrar();
+					},function(error){
+						
+					});
+				}
+			};
+			function filtrar(){
+				scope.vista = [];
+				for(var indiceAlumno in scope.alumnos){
+					var existe = false;
+					for(var indiceS in scope.seleccionados){
+						existe = existe || scope.seleccionados[indiceS].id_alumno == scope.alumnos[indiceAlumno].id_alumno;
+					}
+					if(!existe){
+						scope.vista.push(scope.alumnos[indiceAlumno]);
+					}
+					
+				}
+			}
+			scope.seleccionar = function(indice){
+				var alumno = scope.vista.splice(indice,1)[0];
+				scope.seleccionados.push(alumno);
+			};
+			scope.deseleccionar = function(indice){
+				var alumno = scope.seleccionados.splice(indice,1)[0];
+				scope.vista.push(alumno);
+			};
+			scope.guardar = function(){
+				var ids_alumnos = [];
+				for(var i in scope.seleccionados){
+					ids_alumnos.push(scope.seleccionados[i].id_alumno);
+				}
+				$http({
+					url:"/api/Ofertas/ActualizarCandidatos",
+					method:"POST",
+					data: $.param({
+						id_oferta:scope.oferta.id_oferta,
+						alumnos:ids_alumnos
+					}),
+					headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+				})
+				.then(function(respuesta){
+					alert("Se han guardado los cambios");
+				},function(error){
+					
+				});
+			};
+			ngModel.$render = function(){
+				if(typeof scope.oferta !== "undefined" && scope.oferta && scope.oferta.id_oferta){
+					$http({
+						url:"/api/Ofertas/Candidatos/" + scope.oferta.id_oferta
+					})
+					.then(function(respuesta){
+						scope.seleccionados = respuesta.data;
+					},function(error){});
+				}
+			};
+		}
+	};
 }]);

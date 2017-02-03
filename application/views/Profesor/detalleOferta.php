@@ -21,4 +21,5 @@
 </div>
 <p>{{ (oferta.visible!=="0"?'Publica':'Privada') }}</p>
 </div>
+<div bt-buscador-alumnos ng-model="oferta"></div>
 <a href="#!/"><?php echo ucfirst($idioma("volver")); ?> </a>
