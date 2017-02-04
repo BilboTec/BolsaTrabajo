@@ -848,6 +848,7 @@ angular.module("BilboTec",["BilboTec.ui", "ngRoute"])
 		}
 	}
 }])
+
 .controller("controladorProfesorBuscarAlumno",["$http", "$scope", "$location", function($http, $scope, $location){
 	$scope.alumnos = [];
 	$scope.filtros = {};
@@ -1038,7 +1039,9 @@ angular.module("BilboTec",["BilboTec.ui", "ngRoute"])
 		}
 	);
 	
-}]).controller("controladorProfesorBuscarEmpresa",["$http", "$scope", "$location", function($http, $scope, $location){
+}])
+
+.controller("controladorProfesorBuscarEmpresa",["$http", "$scope", "$location", function($http, $scope, $location){
 	$scope.empresas = [];
 	$scope.filtros = {};
 	$scope.cargarLocalidades = function(){
@@ -1077,7 +1080,9 @@ angular.module("BilboTec",["BilboTec.ui", "ngRoute"])
 		}
 	};
 	$scope.buscar();
-}]).controller("controladorAnadirEmpresa",["$http", "$scope", function($http, $scope){0
+	
+}])
+.controller("controladorAnadirEmpresa",["$http", "$scope", function($http, $scope){0
 	$scope.vista = {};
 	$scope.init = function(){
 		$scope.vista.id_pais = $scope.espana.id_pais;
@@ -1449,4 +1454,55 @@ angular.module("BilboTec",["BilboTec.ui", "ngRoute"])
 	
 	cargarAlumnos();
 	
+}])
+.controller("controladorClaveAlumno",["$http", "$scope", "$location", function($http, $scope, $location){
+	$scope.usuario = {};
+	$scope.cambiarClave = function(){
+		$scope.formPerfil.$setSubmitted(true);
+		if($scope.formPerfil.$valid){
+			$http({url: "/api/Alumnos/CambiarClave", 
+					method: "POST", 
+					data: $.param($scope.usuario),
+					headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+				})
+			.then(
+					function(respuesta){
+						$scope.ventana.establecerTitulo("clave_cambiada");
+						$scope.ventana.establecerContenido("clave_cambiada_cuerpo");
+						$scope.ventana.establecerBotones([{
+							accion:function(){
+								$scope.ventana.cerrar();
+								$location.path("/");
+							}, 
+							texto: "aceptar"
+							}
+						]);
+						$scope.ventana.abrir();
+						$scope.ventana.centrar();
+
+						
+					},
+					function(error){
+						$scope.ventana.establecerTitulo("error");
+						var mensaje = error.data;
+						if(angular.isArray(error.data) || angular.isObject(error.data)){
+							mensaje = "";
+							for(var clave in error.data){
+								mensaje += error.data[clave] + "\r";
+							}
+						}
+						$scope.ventana.establecerContenido(mensaje);
+						$scope.ventana.establecerBotones([{
+							accion:function(){
+								$scope.ventana.cerrar();
+							}, 
+							texto: "aceptar"
+							}
+						]);
+						$scope.ventana.abrir();
+						$scope.ventana.centrar();
+					}
+				)
+	}
+	}
 }]);

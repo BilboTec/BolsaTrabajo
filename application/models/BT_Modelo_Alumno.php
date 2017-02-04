@@ -3,7 +3,7 @@ require_once "Entidad.php";
 require_once "BT_ModeloVista.php";
 class _Alumno extends  Entidad implements iEntidadConId{
 	public $id_alumno, $nombre, $apellido1, $apellido2, $id_email, $calle, $cp, $disponibilidad, $dni, $fecha_nacimiento,
-	$id_localidad, $nacionalidad, $otros_datos, $sexo, $tlf, $email;
+	$id_localidad, $nacionalidad, $otros_datos, $sexo, $tlf, $email, $clave;
 	
 	public function establecer_clave($clave){
 		$this->clave = password_hash($clave,PASSWORD_DEFAULT);
@@ -29,6 +29,7 @@ class BT_Modelo_Alumno extends BT_ModeloVista {
 	public function __construct()
 	{
 		parent::__construct("alumno", "vw_alumno", "_Alumno", "id_alumno");
+		
 	}
 	public function buscar($filtros=[]){
 		if(!$filtros){
@@ -228,4 +229,5 @@ class BT_Modelo_Alumno extends BT_ModeloVista {
     	return $this->db->from("vw_alumno")->join("candidatura", "vw_alumno.id_alumno = candidatura.id_alumno")
     	->where(["id_oferta"=>$id_oferta])->get()->custom_result_object($this->clase);
     }
+	
 }

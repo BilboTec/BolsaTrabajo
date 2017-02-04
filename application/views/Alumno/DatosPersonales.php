@@ -1,9 +1,11 @@
 <!--<div ng-controller="perfilAlumnoDatosPersonalesController">-->
+
 <div class="contenedor-datos-personales">
 	<div class="contenido_linea titulo-con-boton">
 		<h1><?php echo strtoupper($idioma("datos_personales")); ?></h1>
 		<a bg-show="!editando" class="btn btn-tipo" target="_blank" href="/api/Alumnos/Curriculum"><?php echo ucfirst($idioma("imprimir_curriculum")) ?></a>
 		<span class="btn btn-tipo" ng-click="editar()" ng-show="!editando"><?php echo strtoupper($idioma("editar")); ?></span>
+		
 	</div>
 	<div ng-show="!editando">
 		<h1>{{ alumno.nombre }} {{ alumno.apellido1 }} {{ alumno.apellido2 }}</h1>
