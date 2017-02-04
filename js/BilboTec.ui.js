@@ -1683,6 +1683,7 @@ return{
                 scope.cancelar = function(){
                     scope.vista = {};
                     scope.editando = false;
+                    scope.editandoclave = false;
                 };
                 var controles = {
                     nombre:elem.find("#nombre").controller("ngModel"),
@@ -1739,6 +1740,10 @@ return{
                             }
                         );
                     };
+                   	scope.mostrarcambiarclave = function(){
+						scope.editandoclave =2;
+					};
+
             }      
     };
 }])

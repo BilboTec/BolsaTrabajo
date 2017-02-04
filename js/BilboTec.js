@@ -1457,9 +1457,9 @@ angular.module("BilboTec",["BilboTec.ui", "ngRoute"])
 }])
 .controller("controladorClaveAlumno",["$http", "$scope", "$location", function($http, $scope, $location){
 	$scope.usuario = {};
+	
 	$scope.cambiarClave = function(){
-		$scope.formPerfil.$setSubmitted(true);
-		if($scope.formPerfil.$valid){
+		if($scope.usuario.nuevaclave === $scope.usuario.repetirclave &&$scope.usuario.nuevaclave && $scope.usuario.nuevaclave.trim()){
 			$http({url: "/api/Alumnos/CambiarClave", 
 					method: "POST", 
 					data: $.param($scope.usuario),
@@ -1472,7 +1472,8 @@ angular.module("BilboTec",["BilboTec.ui", "ngRoute"])
 						$scope.ventana.establecerBotones([{
 							accion:function(){
 								$scope.ventana.cerrar();
-								$location.path("/");
+								/*$location.path("/");*/
+								$scope.editandoclave = 0;
 							}, 
 							texto: "aceptar"
 							}
@@ -1505,4 +1506,5 @@ angular.module("BilboTec",["BilboTec.ui", "ngRoute"])
 				)
 	}
 	}
+
 }]);
