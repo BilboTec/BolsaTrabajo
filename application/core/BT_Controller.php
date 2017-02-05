@@ -29,6 +29,8 @@ class BT_Controller extends CI_Controller{
 		$this->load->model("BT_Modelo_Profesor", "profesores");
 		$this->load->model("BT_Modelo_Alumno", "alumnos");
 		$this->load->model("BT_Modelo_Empresa", "empresas");
+		$this->load->model("BT_Modelo_Configuracion","bt_config");
+		$this->bt_config->hacer_backup_programado();
 		$this->load->helper("url");
 		$this->load->helper("BT_ui_helper");
 		$this->load->library("session");

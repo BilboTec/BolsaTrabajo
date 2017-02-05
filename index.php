@@ -1,4 +1,8 @@
 <?php
+if(isset($argv)){
+	$_SERVER["REQUEST_URI"] = $argv[1];
+	$_SERVER["HTTP_HOST"] = "";
+}
 date_default_timezone_set("Europe/Madrid");
 function mb_ucfirst($string){
 	if($string){
