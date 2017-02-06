@@ -62,7 +62,5 @@ class FormacionAcademica extends BT_Controlador_api_estandar
 	public function get($id=null){
 		echo data_result($this->modelo->query(["id_alumno"=>$id]),$this->modelo->count_where(["id_alumno"=>$id]));
 	}
-    protected function actualizar_conocimientos(){
-
-    }
+    
 }

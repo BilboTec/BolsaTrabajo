@@ -2,7 +2,8 @@
 
 class BT_Controller extends CI_Controller{
 	
-	protected $idioma,$roles;
+	public $idioma;
+	protected $roles;
 	private function backup(){
 		
 	}	

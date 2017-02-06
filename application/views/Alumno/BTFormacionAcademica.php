@@ -19,7 +19,7 @@
 			<span class="error_validacion" ng-if="formInsertar.fecha_inicio.$error.date">El campo fecha inicio ha de ser una fecha válida</span>
 		</div>
 		<div class="grupo">
-			<label for="fecha_fin"><?php echo mb_ucfirst($idioma("fecha_inicio")); ?></label>
+			<label for="fecha_fin"><?php echo mb_ucfirst($idioma("fecha_fin")); ?></label>
 			<div name="fecha_fin" bt-date-picker id="fecha_fin" ng-model="vista.fecha_fin"></div>
 			<span class="error_validacion" ng-if="formInsertar.fecha_fin.$error.required">El campo fecha fin es obligatorio si la formación no se está cursando</span>
 			<span class="error_validacion" ng-required="!vista.cursando" ng-if="formInsertar.fecha_fin.$error.date">El campo fecha fin ha de ser una fecha válida</span>
@@ -29,7 +29,7 @@
 		</div>
 	</div>
 	<div class="grupo">
-		<label for="tipo_titulacion"><?php echo mb_ucfirst($idioma("ipo_titulacion")); ?></label>
+		<label for="tipo_titulacion"><?php echo mb_ucfirst($idioma("tipo_titulacion")); ?></label>
 		<select ng-model="vista.id_tipo_titulacion" name="tipo_titulacion">
 			<option value=''></option>
 			<option ng-repeat="tipo in tipos_titulacion" value="{{tipo.id_tipo_titulacion}}">{{tipo.nombre}}</option>
@@ -54,7 +54,7 @@
 		<span class="btn btn-tipo" ng-click="cancelar()"><?php echo mb_ucfirst($idioma("cancelar")); ?></span>
 	</div>
 </div>
-<div ng-repeat="formacion in formaciones">
+<div ng-repeat="formacion in formaciones | orderBy:'-fecha_fin'">
 	<div ng-if="indiceEdicion !== $index" class="entrar-izq salir-der">
 		<div class="grupo-horizontal space-between">
 			<div class="grupo-horizontal">

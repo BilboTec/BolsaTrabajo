@@ -47,10 +47,20 @@ class Alumnos extends BT_Controlador_api_estandar
             $edad = $edad->diff(new DateTime($alumno->fecha_nacimiento));
             $imagen = $this->modelo->cargar_imagen($alumno);
             $html = "<style>
-                        .titulo{
+            			.contenedor{
+            				margin: 50px;
+            			}
+                        .titulo, h1{
+                        	color: green;
                         }
+                        img{
+                        	margin-right: 20px;
+                        }
+                      	.linea{
+                      		border-top: solid 1px green;
+                      	}
                     </style>";
-            $html .= "<h1 class='titulo'>" . $alumno->nombre . " " . $alumno->apellido1 . " " . $alumno->apellido2 ."</h1>";
+            $html .= "<div class='contenedor'><h1 class='titulo'>" . $alumno->nombre . " " . $alumno->apellido1 . " " . $alumno->apellido2 ."</h1>";
             $html .= "<table>
                         <tr>
                             <td rowspan='99'>
@@ -120,6 +130,61 @@ class Alumnos extends BT_Controlador_api_estandar
                             <p> " .(isset($formacion_academica->descripcion)?$formacion_academica->descripcion:"") ."</p>
                         </div>";
             }
+			$this->load->model("BT_Modelo_FormacionComplementaria","formacionComplementaria");
+            $formaciones_complementarias = $this->formacionComplementaria->query(["id_alumno"=>$alumno->id_alumno]);
+            if(count($formaciones_complementarias)>0){
+                $html.="<h1>Formacion Complementaria</h1>";
+                $this->load->model("BT_Modelo_OfertaFormativa","oferta_formativa");
+                $this->load->model("BT_Modelo_TipoTitulacion","tipo_titulacion");
+            }
+            foreach($formaciones_complementarias as $formacion_complementaria){
+                $oferta_formativa = $this->oferta_formativa->get_by_id($formacion_complementaria->id_oferta_formativa);
+                $tipo_titulacion = $this->tipo_titulacion->get_by_id($formacion_complementaria->id_tipo_titulacion);
+                $oferta_formativa =($oferta_formativa === null)?"":$oferta_formativa->nombre;
+                $tipo_titulacion =($tipo_titulacion === null)?"": $tipo_titulacion->nombre; 
+                $html.="<div>
+                            <h2>" .(isset($formacion_complementaria->nombre)?$formacion_complementaria->nombre:"") ."</h2>
+                            <p> " .(isset($formacion_complementaria->fecha_inicio)?$formacion_complementaria->fecha_inicio:"") ."-" 
+                            .(isset($formacion_complementaria->cursando)?"Cursando":$formacion_complementaria->fecha_fin) ."</p>
+                            <p> " .(isset($oferta_formativa)?$oferta_formativa:"") ."</p>
+                            <p> " .(isset($tipo_titulacion)?$tipo_titulacion:"") ."</p>
+                            <p> " .(isset($formacion_complementaria->horas)?$formacion_complementaria->horas:"") ."</p>
+                            <p> " .(isset($formacion_complementaria->descripcion)?$formacion_complementaria->descripcion:"") ."</p>
+                        </div>";
+            }
+
+			$this->load->model("BT_Modelo_Idioma","idiomas");
+            $idiomas = $this->idiomas->query(["id_alumno"=>$alumno->id_alumno]);
+            if(count($idiomas)>0){
+                $html.="<h1>Idiomas</h1>";
+            }
+            foreach($idiomas as $idioma){
+                $html.="<div>
+                            <h2>" .(isset($idioma->nombre)?$idioma->nombre:"") ."</h2>
+                            <p> "; if(isset($idioma->nivel)){
+                            			switch ($idioma->nivel) {
+											case '1':
+												$resultado = "Básico";
+												break;
+											
+											case '2':
+												$resultado = "Intermedio";
+												break;
+											case '3':
+												$resultado = "Avanzado";
+												break;
+										}
+									}else{
+                            			$resultado = "";
+                            		}
+                 			$html.= $resultado ."</p>
+                            <p> " .(isset($idioma->oficial)?"Oficial":"") ."</p>
+                        </div>";
+            }            
+			$html.="<h1>Otros Datos</h1><p>"
+            	.(isset($alumno->otros_datos)?$alumno->otros_datos:"") ."</p>
+                </div>";
+            
             $pdf->WriteHtml($html);
             $pdf->output("Curriculum.pdf");
     }
