@@ -248,7 +248,7 @@ input[type='checkbox']{
 .contenedor-perfil div>p:last-of-type{
 	margin-bottom: 1em;
 }
-.contenedor-perfil .btn, .contenedor-ofertas{
+.contenedor-perfil .btn, .contenedor-ofertas .btn{
 	text-decoration: none;
 }
 .sin-margen {
@@ -452,6 +452,8 @@ header{
     right: -1em;
     transform: translate(-3px, -3px) rotate(45deg);
 }
+
+
 /*OFERTAS*/
 
 .contenedor-ofertas{
@@ -466,6 +468,7 @@ header{
 
 .contenedor-ofertas aside{
 	flex: 1;
+	margin-right: 1em;
 }
 
 .contenedor-ofertas section{
@@ -477,10 +480,18 @@ header{
 }
 
 .contenedor-ofertas section article{
-	margin-left: 2em;
-	padding: 1em 0;
+	padding: 1em 0 1em 1em;
 	border-bottom: solid 1px $(--g-claro);
 }
+.contenedor-ofertas section article a{
+	text-decoration: none;
+	color: black;
+}
+
+.contenedor-ofertas section article:hover{
+	background-color:rgba(29,145,67,0.05);
+}
+
 .opciones{
 	display:flex;
 	flex-direction: row;
@@ -496,6 +507,15 @@ header{
 /*DETALLE OFERTAS PROFESOR*/
 .detalle_oferta_profesor{
 	flex-direction: column;
+}
+
+/*BUSCAR OFERTA PROFESOR*/
+.filtro-contenedor .buscar{
+	background-image: url("/imagenes/buscar.png");
+	background-repeat: no-repeat;
+	background-size: 10%;
+	background-position: right;
+	
 }
 
 
@@ -514,6 +534,7 @@ header{
 }
 
 /*EDITAR PERFIL ALUMNO*/
+
 #formDatosPersonales, #formDatosPersonales > div{
 	display:flex;
 	flex-wrap: wrap;
@@ -549,12 +570,11 @@ header{
 	flex-direction: column;
 }
 
-
-.contenedor-experiencia, .contenedor-formacion-academica, .contenedor-idioma, .contenedor-otros-datos, 
-.contenedor-datos-personales{
+.contenedor-datos-personales, .contenedor-experiencia, .contenedor-formacion-academica, 
+.contenedor-formacion-complementaria, .contenedor-idioma, .contenedor-otros-datos{
 	border-bottom: solid 1px $(--g-claro);
 	margin: 2em 0;
-	width: 100%;
+	width: 80%;
 }
 /*FOOTER*/
 footer{
@@ -1158,11 +1178,15 @@ nav ul, .contenedor-admin{
  		flex: 1;
  		text-align: center;
  	}
- 	.form-logn {
+ 	.form-login {
  		align-self: stretch;
  	}
  	.contenido{
  		align-items: stretch;
+ 	}
+ 	
+ 	header{
+ 		height: 3em;
  	}
  	.cabecera_usuario{
  		width: 100%;

@@ -79,16 +79,22 @@
 				<label for="conocimientos"><?php echo ucfirst($idioma("conocimientos")); ?></label>
 				<div bt-auto-complete bt-url="/api/Conocimientos/Like" bt-clave="id_conocimiento" bt-texto="nombre" ng-model="vista.conocimientos"></div>
 			</div>
-			<button ng-click="aplicarEdicion($event,$index)"><?php echo strtoupper($idioma("guardar")); ?></button>
-			<button ng-click="cancelar($event)"><?php echo strtoupper($idioma("cancelar")); ?></button>
+			<span class="btn btn-tipo" ng-click="aplicarEdicion($event,$index)"><?php echo strtoupper($idioma("guardar")); ?></span>
+			<span class="btn btn-tipo" ng-click="cancelar($event)"><?php echo strtoupper($idioma("cancelar")); ?></span>
 		</div>
 		<div class="experiencia" ng-if="indiceEdicion != $index">
-			<p><h1>{{experiencia.empresa}}</h1><span>({{experiencia.fecha_inicio}} - {{experiencia.trabajando_actualmente=="1"?"<?php echo $idioma("actualmente"); ?>":experiencia.fecha_fin}})</span></p>
-			<p>{{experiencia.cargo}}</p>
-			<p bt-contenido-html ng-model="experiencia.funciones"></p>
-			<p ng-repeat="conocimiento in experiencia.conocimientos">{{conocimiento.nombre}}</p>
-			<button ng-click="editar($event,$index)"><?php echo ucfirst($idioma("editar")); ?></button>
-			<button ng-click="borrar($event,$index)"><?php echo ucfirst($idioma("eliminar")); ?></button>
+			<div class="grupo-horizontal space-between">
+				<div class="grupo-horizontal">
+					<p><h1>{{experiencia.empresa}}</h1><span>({{experiencia.fecha_inicio}} - {{experiencia.trabajando_actualmente=="1"?"<?php echo $idioma("actualmente"); ?>":experiencia.fecha_fin}})</span></p>
+					<p>{{experiencia.cargo}}</p>
+					<p bt-contenido-html ng-model="experiencia.funciones"></p>
+					<p ng-repeat="conocimiento in experiencia.conocimientos">{{conocimiento.nombre}}</p>
+				</div>
+				<div class="grupo-horizontal">
+					<span title="<?php echo ucfirst($idioma("editar")); ?>" class="btn btn-tabla btn-editar" ng-click="editar($event,$index)"><img src="/imagenes/editar.png"/></span>
+					<span title="<?php echo ucfirst($idioma("eliminar")); ?>" class="btn btn-tabla btn-eliminar" ng-click="borrar($event,$index)"><img src="/imagenes/eliminar.png"/></span>
+				</div>
+			</div>
 		</div>
 	</div>
 	<div bt-window="ventana"></div>

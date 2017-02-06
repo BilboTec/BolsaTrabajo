@@ -11,9 +11,9 @@
 				<label for="conocimientos"><?php echo ucfirst($idioma('conocimientos')); ?></label>
 				<div id="conocimientos" ng-model="filtros.conocimientos" bt-clave="id_conocimiento" bt-texto="nombre" bt-url="/api/Conocimientos/Like" bt-auto-complete="completeConocimientos"></div>
 				
-				<input type="text" ng-model="filtros.buscador"/>
+				<input class="buscar" type="text" ng-model="filtros.buscador"/>
 				
-				<button ng-click="buscar()" type="button"><?php echo ucfirst($idioma('filtrar')); ?></button>
+				<span class="btn btn-tipo" ng-click="buscar()" type="button"><?php echo ucfirst($idioma('filtrar')); ?></span>
 			</div>
 			
 		</fieldset>
