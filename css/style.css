@@ -426,7 +426,8 @@ header{
 	flex: 1;
 }
 .lista_cambios{
-	padding-right: 20px;
+	
+	padding-right: 40px;
 	list-style: none;
 }
 
@@ -476,7 +477,9 @@ header{
 }
 
 .filtro-contenedor{
-	margin: 0 0 1em 2em;
+	margin:0 2em 1em 2em;
+	display:flex;
+	flex-direction: column;
 }
 
 .contenedor-ofertas section article{
@@ -517,7 +520,14 @@ header{
 	background-position: right;
 	
 }
+.cont-oferta-profe{
+	padding-right: 1.5em;
+}
 
+.buscardor-alumno{
+	border-left: solid 1px $(--g-oscuro);
+	padding-left: 1.5em;
+}
 
 /*ALTA EMPRESA*/
 .contenedor-alta-empresa{

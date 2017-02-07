@@ -2,26 +2,31 @@
 		<fieldset>
 			<legend><?php echo strtoupper($idioma('filtro')); ?></legend>
 			<div class="filtro-contenedor">
+				<div class="grupo">
+					<label for="conocimientos"><?php echo ucfirst($idioma('conocimientos')); ?></label>
+					<div id="conocimientos" ng-model="filtros.conocimientos" bt-clave="id_conocimiento" bt-texto="nombre" bt-url="/api/Conocimientos/Like" bt-auto-complete="completeConocimientos"></div>
+				</div>
 				
-				<label for="conocimientos"><?php echo ucfirst($idioma('conocimientos')); ?></label>
-				<div id="conocimientos" ng-model="filtros.conocimientos" bt-clave="id_conocimiento" bt-texto="nombre" bt-url="/api/Conocimientos/Like" bt-auto-complete="completeConocimientos"></div>
+				<div class="grupo">
+	  				<label><?php echo ucfirst($idioma('oferta_formativa')); ?></label><br>
+					<select ng-model='filtros.id_oferta_formativa'>
+						<option></option>
+					<?php
+					foreach ($ofertas_formativas as $oferta_formativa){
+					  echo "<option value= '" .$oferta_formativa->id_oferta_formativa ."'>" .$oferta_formativa->nombre ."</option>";
+					}
+					?>
+					</select><br><br>
+				</div>
+				<div class="grupo">
+					<label><?php echo ucfirst($idioma('fecha_fin_estudios')); ?></label>
+					<div bt-date-picker ng-model="filtros.fecha_fin"></div>
+				</div>
 				
-  				<label><?php echo ucfirst($idioma('oferta_formativa')); ?></label><br>
-  				
-				<select ng-model='filtros.id_oferta_formativa'>
-					<option></option>
-				<?php
-				foreach ($ofertas_formativas as $oferta_formativa){
-				  echo "<option value= '" .$oferta_formativa->id_oferta_formativa ."'>" .$oferta_formativa->nombre ."</option>";
-				}
-				?>
-				</select><br><br>
-				
-				<label><?php echo ucfirst($idioma('fecha_fin_estudios')); ?></label>
-				<div bt-date-picker ng-model="filtros.fecha_fin"></div>
-				
-				<input type="text" ng-model="filtros.buscador"/>
-
+				<div class="grupo">
+					<label><?php echo ucfirst($idioma('buscar')); ?></label>
+					<input type="text" ng-model="filtros.buscador"/>
+				</div>
 				<span class="btn btn-tipo" ng-click="buscar()" type="button"><?php echo ucfirst($idioma('filtrar')); ?></span>
 			</div>
 			

@@ -15,6 +15,7 @@
 		<p ng-repeat="conocimiento in oferta.conocimientos">{{ conocimiento.nombre }}</p>
 	</div>
 	<p>{{ (oferta.visible!=="0"?'Publica':'Privada') }}</p>
+	<a class="btn-tipo btn" href="#!/"><?php echo ucfirst($idioma("volver")); ?></a>
 </div>
 
 <div ng-if="editando" class="grupo">
@@ -62,11 +63,14 @@
 	</div>
 	
 	<span class="btn-tipo btn" ng-click="guardar()"><?php echo ucfirst($idioma("guardar")); ?></span>
+	<span class="btn-tipo btn" ng-click="cancelar()"><?php echo ucfirst($idioma("cancelar")); ?></span>
 </div>
-	<ul ng-if="!editando"> 
+<div ng-if="!editando" class="buscardor-alumno">
+	<h3>Alumnos apuntados a esta oferta</h3>
+	<ul> 
 		<li ng-if="alumnos.length == 0"><?php echo mb_ucfirst($idioma("no_alumnos_apuntados")); ?></li>
 		<li ng-if="alumnos.length" ng-repeat="alumno in alumnos">
 			<a target="_blank" ng-href="/api/Alumnos/Curriculum/{{alumno.id_alumno}}">{{alumno.nombre}} {{alumno.apellido1}} {{alumno.apellido2}}</a>
 		</li>
 	</ul>
-	<a href="#!/"><?php echo ucfirst($idioma("volver")); ?></a>
+</div>

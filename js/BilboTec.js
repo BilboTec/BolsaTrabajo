@@ -898,7 +898,7 @@ angular.module("BilboTec",["BilboTec.ui", "ngRoute"])
 				})
 				.then(function(respuesta){
 					var errores = respuesta.data.errores;
-					var respuesta = "Se han enviado añadido todos los alumnos";
+					var respuesta = "Se han añadido todos los alumnos";
 					if(typeof errores !== "undefined" && errores.length !== 0){
 						respuesta = "No se ha podido añadir a los siguientes alumnos:";
 						var esPrimero = true;
@@ -911,7 +911,7 @@ angular.module("BilboTec",["BilboTec.ui", "ngRoute"])
 						}
 					}
 					var ventana = $scope.ventana;
-					ventana.establecerTitulo("invitar_titulo");
+					ventana.establecerTitulo("Invitar Alumnos");
 					ventana.establecerContenido(respuesta);
 					ventana.establecerBotones([{
 						texto:"aceptar",

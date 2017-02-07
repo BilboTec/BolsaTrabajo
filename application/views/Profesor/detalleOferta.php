@@ -1,4 +1,4 @@
-<div>
+<div class="cont-oferta-profe">
 <div class="grupo-horizontal">
 		<h1>{{oferta.titulo | uppercase}}</h1>
 		<?php 
