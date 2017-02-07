@@ -31,6 +31,19 @@ class BT_Modelo_Configuracion extends CI_Model
         }
 
     }
+    public function probar_conexion($host,$port,$user,$pass){
+        $sftp = new Net_SFTP($host,$port);
+        try {
+            if ($sftp->login($user, $pass)) {
+                var_dump($sftp);
+                return true;
+            } else {
+                return false;
+            }
+        }catch(Exception $ex){
+            return false;
+        }
+    }
     public function forzar_backup(){
         $ahora = new DateTime();
         $ahora = $ahora->format('Y-m-d H:i:s');
@@ -63,6 +76,10 @@ class BT_Modelo_Configuracion extends CI_Model
                 "error"=>"No se pudo conectar"
             ];
         }
+    }
+    public function todos($excepciones){
+        return $this->db->where_not_in("clave",$excepciones)
+            ->get("config")->result();
     }
     public function crear_backup($controller){
         $path = "data";

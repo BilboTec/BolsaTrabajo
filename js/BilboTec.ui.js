@@ -1932,4 +1932,34 @@ return{
 			};
 		}
 	};
+}])
+.directive("btNotasAlumnos",["$http",function($http){
+    return {
+       restrict:"A",
+        require:"ngModel",
+        scope:{
+            alumno:"=ngModel",
+
+        },
+        templateUrl:"/plantillas/Get/btNotasAlumnos",
+        link:function(s,e,a,m){
+            s.insertando = false;
+            s.notasAlumnos = [];
+            m.$render = function(){
+                if(typeof s.alumno !== "undefined" && s.alumno.id_alumno){
+                    $http({
+                        url:"/api/NotasAlumnos/Get/" + s.alumno.id_alumno
+                    })
+                    .then(function(respuesta){
+                        s.notasAlumnos = respuesta.data;
+                    },function(error){
+                       s.ventana.alerta("error",error.data ||  error.message,function(){s.ventana.close();});
+                    });
+                }
+            };
+            s.mostrarInsertar = function(){
+                
+            }
+        }
+    };
 }]);

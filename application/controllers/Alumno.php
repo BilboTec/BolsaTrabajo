@@ -10,6 +10,10 @@
 				redirect("/Profesor");
 				break;
 		}
+		$alumno = $this->get_usuario_actual();
+		$ahora = new DateTime();
+		$ahora = $ahora->format("YYYY-mm-dd");
+		$this->alumnos->update($alumno,$alumno);
 		$this->load->model("BT_Modelo_Provincia","provincias");
 	}
 	public function index(){

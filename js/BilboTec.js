@@ -151,6 +151,10 @@ angular.module("BilboTec",["BilboTec.ui", "ngRoute"])
 	};
 }])
 .controller("administradorController", function($scope){
+	$scope.seleccionado = 8;
+	$scope.mostrarFormularioConfiguracion = function(){
+		$scope.seleccionado = 8;
+	};
 	$scope.filas= [];
 	$scope.resultadosXpagina = [
 	{
@@ -1507,4 +1511,44 @@ angular.module("BilboTec",["BilboTec.ui", "ngRoute"])
 	}
 	}
 
+}])
+.controller("btControladorConfiguracion",["$http","$scope",function($http,$scope){
+	$http({
+		url:"/api/Configuracion/Get"
+	}).then(function(respuesta){
+		var conf = respuesta.data;
+		$scope.config = {};
+		for(i in conf){
+			$scope.config[conf[i]["clave"]] = conf[i]["valor"];
+		}
+	},function(error){
+
+	});
+	$scope.backup = function(){
+		$http({
+			url:"/Backup"
+		})
+		.then(function(respuesta){
+
+		},function(error){
+
+		});
+	};
+	$scope.guardarFtp = function(){
+		$scope.ftpForm.$setSubmitted(true);
+		if($scope.ftpForm.$valid){
+			$http({
+				url:"/api/Configuracion/Ftp",
+				method:"POST",
+				data:$.param($scope.config),
+				headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+			}).then(function(respuesta){
+				$scope.ventana.alerta("datos_guardados","datos_guardados_cuerpo",function(){$scope.ventana.cerrar();})
+			},function(error){
+				$scope.ventana.alerta("error", error.data || "imposible_conectar", function () {
+					$scope.ventana.cerrar();
+				})
+			});
+		}
+	}
 }]);

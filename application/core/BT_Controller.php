@@ -4,9 +4,20 @@ class BT_Controller extends CI_Controller{
 	
 	public $idioma;
 	protected $roles;
-	private function backup(){
-		
-	}	
+	private function avisar_alumnos_inactivos(){
+		$ahora = new DateTime();
+		$ahora->sub(new DateInterval("P4M"));
+		$ahora = $ahora->format("YYYY-mm-dd");
+		$alumnos = $this->alumnos->query(["ultima_conexion <"=>$ahora, "avisado"=>0]);
+		foreach($alumnos as $alumno){
+			enviar_email($this,$alumno->email,"Bolsa Trabajo: Aviso de inactividad","Hola ".$alumno->nombre.
+				"!<br>"."Hemos detectado que hace tiempo que no te conectas a nuesta bolsa de trabajo, si continuas sin conectarte
+				durante mucho mas tiempo entenederemos que no estás interesado en recibir nuestras ofertas. Por favor, inicia 
+				sesión para solucionar éste problema");
+			$alumno->avisado = true;
+			$this->alumnos->update($alumno,$alumno);
+		}
+	}
 	public function get_rol(){
 		$usuario = $this->get_usuario_actual();
 		if($usuario != null && isset($usuario->id_rol)){
@@ -36,6 +47,8 @@ class BT_Controller extends CI_Controller{
 		$this->load->helper("BT_ui_helper");
 		$this->load->library("session");
 		$this->load->helper("cookie");
+		$this->load->helper("bt_email");
+		$this->avisar_alumnos_inactivos();
 		$this->idioma = get_cookie("idioma");
 		if($this->idioma==null){
 			$this->idioma = "spanish";
