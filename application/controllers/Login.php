@@ -93,14 +93,10 @@ class Login extends BT_Controller{
 			$exito = false;
 			if($this->ids->comprobar($identificador) && $repetir_clave === $nueva_clave && $nueva_clave){
 				$modelos = [$this->empresas, $this->alumnos, $this->profesores];
-					var_dump($modelos);
 				foreach ($modelos as $modelo) {
 					$usuario = $modelo->query(["id_email"=>$identificador["id_email"]]);
-					var_dump($usuario);
 					if(count($usuario) > 0){
-						var_dump($usuario);
 						$usuario[0]->establecer_clave($nueva_clave);
-						var_dump($usuario);
 						$modelo->update($usuario[0], $usuario[0]);
 						$exito = true;
 					} 

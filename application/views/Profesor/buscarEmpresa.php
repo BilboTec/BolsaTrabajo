@@ -28,9 +28,12 @@
 					?>
 					</select>
 				</div>
-				<input type="text" ng-model="filtros.buscador"/>
-
-				<button ng-click="buscar()" type="button"><?php echo ucfirst($idioma('filtrar')); ?></button>
+				
+				<div class="grupo">
+					<label><?php echo ucfirst($idioma('buscar')); ?></label>
+					<input type="text" ng-model="filtros.buscador"/>
+				</div>
+				<span class="btn btn-tipo" ng-click="buscar()" type="button"><?php echo ucfirst($idioma('filtrar')); ?></span>
 			</div>
 			
 		</fieldset>

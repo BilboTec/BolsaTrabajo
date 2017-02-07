@@ -4,7 +4,7 @@
 	 ?>;'>
 	<div class="titulo-con-boton">
 		<h1><?php echo strtoupper($idioma("idiomas")); ?></h1>
-		<button ng-show="!insertando" ng-click="insertar()"><?php echo ucfirst($idioma("anadir_idioma")); ?></button>
+		<span class="btn btn-tipo" ng-show="!insertando" ng-click="insertar()"><?php echo ucfirst($idioma("anadir_idioma")); ?></span>
 	</div>
 		<div ng-show="insertando">
 			<div class="grupo-horizontal">
@@ -40,26 +40,29 @@
 							<option ng-repeat="nivel in niveles" value="{{($index+1).toString()}}">{{nivel}}</option>
 						</select>
 					</div>
-					<button ng-click="aplicarEdicion($index)">V</button>
-					<button ng-click="cancelar()">O</button>
 				</div>
 				<div class="grupo">
 					<label for="vistaOficial"><input type="checkbox" ng-model="vista.oficial"/><?php echo ucfirst($idioma("oficial")); ?></label>
 				</div>
+				<span class="btn btn-tipo" ng-click="aplicarEdicion($index)">Guardar</span>
+				<span class="btn btn-tipo" ng-click="cancelar()">Cancelar</span>
 			</div>
 			<div ng-show="indiceEdicion !== $index">
-				<div class="grupo-horizontal">
-					<p>{{idioma.nombre}} {{$parent.niveles[idioma.nivel - 1]}}
-					 <button ng-click="editar($index)"><?php echo ucfirst($idioma("editar")); ?></button>
-					 <button ng-click="eliminar($index)"><?php echo ucfirst($idioma("eliminar")); ?></button>
-					</p>
+				<div class="grupo-horizontal space-between">
+					<div class="grupo-horizontal">
+						<p>{{idioma.nombre}} {{$parent.niveles[idioma.nivel - 1]}}</p>
+						<p ng-if="idioma.oficial==1"><?php echo ucfirst($idioma("oficial")); ?></p>
+					</div>
+					<div class="grupo-horizontal">
+						 <span class="btn btn-tipo" ng-click="editar($index)"><?php echo ucfirst($idioma("editar")); ?></span>
+						 <span class="btn btn-tipo" ng-click="eliminar($index)"><?php echo ucfirst($idioma("eliminar")); ?></span>
+					</div>
 				</div>
-				<p ng-if="idioma.oficial==1"><?php echo ucfirst($idioma("oficial")); ?></p>
 			</div>
 		</div>
 		<div>
-			<button ng-click="guardar()" ng-show="insertando"><?php echo strtoupper($idioma("guardar")); ?></button>
-			<button ng-click="cancelar()" ng-show="insertando"><?php echo strtoupper($idioma("cancelar")); ?></button>
+			<span class="btn btn-tipo" ng-click="guardar()" ng-show="insertando"><?php echo strtoupper($idioma("guardar")); ?></span>
+			<span class="btn btn-tipo" ng-click="cancelar()" ng-show="insertando"><?php echo strtoupper($idioma("cancelar")); ?></span>
 		</div>
 	</div>
 </div>

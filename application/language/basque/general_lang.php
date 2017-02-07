@@ -152,4 +152,6 @@ $lang["cif"] = "IFK";
 $lang["pais"] = "herrialdea";
 $lang["anadir_empresa"] = "enpresa gehitu";
 $lang["no_alumnos_apuntados"] = "ez dago izena eman duen ikaslerik";
+$lang["copia_seguridad"] = "segurtasun kopia";
+$lang["fecha_fin_estudios"] = "heziketa amaiera data";
 

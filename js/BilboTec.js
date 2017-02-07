@@ -151,10 +151,6 @@ angular.module("BilboTec",["BilboTec.ui", "ngRoute"])
 	};
 }])
 .controller("administradorController", function($scope){
-	$scope.seleccionado = 8;
-	$scope.mostrarFormularioConfiguracion = function(){
-		$scope.seleccionado = 8;
-	};
 	$scope.filas= [];
 	$scope.resultadosXpagina = [
 	{
@@ -902,7 +898,7 @@ angular.module("BilboTec",["BilboTec.ui", "ngRoute"])
 				})
 				.then(function(respuesta){
 					var errores = respuesta.data.errores;
-					var respuesta = "Se han enviado añadido todos los alumnos";
+					var respuesta = "Se han añadido todos los alumnos";
 					if(typeof errores !== "undefined" && errores.length !== 0){
 						respuesta = "No se ha podido añadir a los siguientes alumnos:";
 						var esPrimero = true;
@@ -915,7 +911,7 @@ angular.module("BilboTec",["BilboTec.ui", "ngRoute"])
 						}
 					}
 					var ventana = $scope.ventana;
-					ventana.establecerTitulo("invitar_titulo");
+					ventana.establecerTitulo("Invitar Alumnos");
 					ventana.establecerContenido(respuesta);
 					ventana.establecerBotones([{
 						texto:"aceptar",
@@ -1511,44 +1507,43 @@ angular.module("BilboTec",["BilboTec.ui", "ngRoute"])
 	}
 	}
 
-}])
+}
+])
 .controller("btControladorConfiguracion",["$http","$scope",function($http,$scope){
-	$http({
-		url:"/api/Configuracion/Get"
-	}).then(function(respuesta){
-		var conf = respuesta.data;
-		$scope.config = {};
-		for(i in conf){
-			$scope.config[conf[i]["clave"]] = conf[i]["valor"];
-		}
-	},function(error){
-
-	});
-	$scope.backup = function(){
-		$http({
-			url:"/Backup"
-		})
+	$http({url:"/api/Configuracion/Get"})
 		.then(function(respuesta){
-
+			$scope.config = respuesta.data;
 		},function(error){
-
+			$scope.ventana.alerta("error",error.data || error.message || error);
 		});
-	};
 	$scope.guardarFtp = function(){
 		$scope.ftpForm.$setSubmitted(true);
 		if($scope.ftpForm.$valid){
 			$http({
 				url:"/api/Configuracion/Ftp",
+				data:$.param($scope.configuracion),
 				method:"POST",
-				data:$.param($scope.config),
 				headers: {'Content-Type': 'application/x-www-form-urlencoded'}
 			}).then(function(respuesta){
-				$scope.ventana.alerta("datos_guardados","datos_guardados_cuerpo",function(){$scope.ventana.cerrar();})
+				$scope.ventana.alerta("datos_guardados","datos_guardados_cuerpo",function(){$scope.ventana.cerrar();});
 			},function(error){
-				$scope.ventana.alerta("error", error.data || "imposible_conectar", function () {
-					$scope.ventana.cerrar();
-				})
+				$scope.ventana.alerta("error",error.data || error.message || error,function(){$scope.ventana.cerrar();});
 			});
 		}
+	};
+	$scope.backup = function(){
+		$http({url:"/Backup/"})
+			.then(function(respuesta){
+				$scope.ventana.alerta("backup_realizado","backup_realizado_cuerpo",function(){$scope.ventana.cerrar();});
+			},function(error){
+				$scope.ventana.alerta("error",error.data || error.message || error,function(){$scope.ventana.cerrar();});
+				});
 	}
+
+}])
+.controller("controladorEliminarCuenta", ["$scope", "$http", function($scope, $http) {
+	$scope.eliminar = function () {
+
+	};
+
 }]);

@@ -152,3 +152,6 @@ $lang["cif"] = "CIF";
 $lang["pais"] = "pais";
 $lang["anadir_empresa"] = "añadir empresa";
 $lang["no_alumnos_apuntados"] = "no hay alumnos apuntados a esta oferta";
+$lang["copia_seguridad"] = "copia de seguridad";
+$lang["fecha_fin_estudios"] = "fecha fin de estudios";
+$lang["buscar"] = "buscar";

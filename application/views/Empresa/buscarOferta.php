@@ -8,11 +8,11 @@
   				<input ng-model="filtro.fecha" type="radio" name="fecha" value="Ultimos 7 dias"/> Ultimos 7 dias<br>
   				<input ng-model="filtro.fecha" type="radio" name="fecha" value="Ultimos 15 dias"/> Ultimos 15 dias<br><br>
 
-				<button ng-click="buscar()" type="button"><?php echo ucfirst($idioma('filtrar')); ?></button>
+				<span class="btn btn-tipo" ng-click="buscar()" type="button"><?php echo ucfirst($idioma('filtrar')); ?></span>
 			</div>
 			
 		</fieldset>
-		<a href="#!/0"> <?php echo mb_ucfirst($idioma("anadir_oferta")); ?></a>
+		<a href="#!/0"><?php echo mb_ucfirst($idioma("anadir_oferta")); ?><img src="/imagenes/anadir.png"/><a>
 	</aside>
 	<section>
 		<article ng-repeat="oferta in ofertas">
