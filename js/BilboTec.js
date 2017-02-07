@@ -1507,4 +1507,11 @@ angular.module("BilboTec",["BilboTec.ui", "ngRoute"])
 	}
 	}
 
-}]);
+}
+])
+.controller("controladorEliminarCuenta", ["$scope", "$http", function($scope, $http){
+	$scope.eliminar = function(){
+               
+	}
+
+]);

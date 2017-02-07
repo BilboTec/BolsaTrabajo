@@ -303,4 +303,12 @@ class Alumnos extends BT_Controlador_api_estandar
     	}
     	$this->form_validation->set_message("claves_iguales", "las contraseñas deben ser iguales");
     }
+    
+    public function eliminarCuenta($id = NULL){
+			if($id != NULL){
+				$this->BT_Modelo_Alumno->delete($id);
+				redirect("/Login");
+			}
+	}
+    
 }

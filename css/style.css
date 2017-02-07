@@ -543,6 +543,16 @@ header{
 	
 }
 
+/*CANDIDATURAS */
+
+.contenedor-candidaturas li{
+	list-style: none;
+}
+
+.contenedor-candidaturas li a{
+text-decoration: none;
+}
+
 /*EDITAR PERFIL ALUMNO*/
 
 #formDatosPersonales, #formDatosPersonales > div{

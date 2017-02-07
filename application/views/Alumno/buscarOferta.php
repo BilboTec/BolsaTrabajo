@@ -8,18 +8,17 @@
   				<input ng-model="filtro.fecha" type="radio" name="fecha" value="Ultimos 7 dias"/> Ultimos 7 dias<br>
   				<input ng-model="filtro.fecha" type="radio" name="fecha" value="Ultimos 15 dias"/> Ultimos 15 dias<br><br>
   				
-  				
-  				<label><?php echo ucfirst($idioma('departamento')); ?></label><br>
-  				
-				<select>
-				<?php
-				foreach ($departamentos as $departamento){
-				  echo "<option ng-model='filtro.departamento' value= '" .$departamento["nombre"] ."'>" .$departamento["nombre"] ."</option>";
-				}
-				?>
-				</select><br><br>
-
-				<button ng-click="buscar()" type="button"><?php echo ucfirst($idioma('filtrar')); ?></button>
+  				<div class="grupo">
+	  				<label><?php echo ucfirst($idioma('departamento')); ?></label><br>			
+					<select>
+					<?php
+					foreach ($departamentos as $departamento){
+					  echo "<option ng-model='filtro.departamento' value= '" .$departamento["nombre"] ."'>" .$departamento["nombre"] ."</option>";
+					}
+					?>
+					</select>
+				</div>
+				<span class="btn btn-tipo" ng-click="buscar()"><?php echo ucfirst($idioma('filtrar')); ?></span>
 			</div>
 			
 		</fieldset>
