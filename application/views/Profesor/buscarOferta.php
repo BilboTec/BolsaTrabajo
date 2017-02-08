@@ -24,7 +24,7 @@
 			
 		</fieldset>
 		<?php if($es_administrador){ ?>
-		<a href="#!/Editar/0"><?php echo ucfirst($idioma('anadir_oferta')); ?><img src="/imagenes/anadir.png"/><a>
+		<a class="centrado verde" href="#!/Editar/0"><?php echo ucfirst($idioma('anadir_oferta')); ?><img src="/imagenes/anadir.png"/><a>
 		<?php } ?>
 	</aside>
 	<section>

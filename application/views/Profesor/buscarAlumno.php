@@ -33,7 +33,7 @@
 		</fieldset>
 		<?php
 		if(!$es_user){ ?>
-		<a href="#!/InvitarAlumnos">Invitar Alumnos <img src="/imagenes/invitar_alumno.png"/><a>
+			<a class="centrado verde" href="#!/InvitarAlumnos">Invitar Alumnos <img src="/imagenes/invitar_alumno.png"/><a>
 		<?php } ?>
 	</aside>
 	<section>

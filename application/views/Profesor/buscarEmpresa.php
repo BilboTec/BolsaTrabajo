@@ -38,7 +38,7 @@
 			
 		</fieldset>
 		<?php if($es_administrador){ ?>
-		<a href="#!/AnadirEmpresa"><?php echo mb_ucfirst($idioma("anadir_empresa")); ?><img src="/imagenes/anadir.png"/><a>
+		<a class="centrado verde" href="#!/AnadirEmpresa"><?php echo mb_ucfirst($idioma("anadir_empresa")); ?><img src="/imagenes/anadir.png"/><a>
 		<?php } ?>
 	</aside>
 	<section>
