@@ -10,7 +10,9 @@ html{
 body{
 	min-height: 100%;
 }
-
+.sin-bordes{
+	border:none;
+}
 input[type="radio"]{
 	width: auto !important;
 }

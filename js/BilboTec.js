@@ -27,7 +27,7 @@ angular.module("BilboTec",["BilboTec.ui", "ngRoute"])
         	}
         }
         return tiempo.toFixed(0) + " dias";
-    }
+    };
 })
 .config(function($routeProvider){
 	var diccionarioDirecciones = {
@@ -112,6 +112,7 @@ angular.module("BilboTec",["BilboTec.ui", "ngRoute"])
 	$routeProvider.otherwise({redirectTo:"/"});
 })
 .controller("altaEmpresaController",["$http","$scope",function($http,$scope){
+	$scope.hayProvincias = true;
 	$scope.onPaisCambiado = function(){
 		$scope.hayProvincias = $scope.empresa.id_pais===$scope.id_es;
 	};
@@ -152,6 +153,7 @@ angular.module("BilboTec",["BilboTec.ui", "ngRoute"])
 }])
 .controller("administradorController", function($scope){
 	$scope.filas= [];
+	$scope.seleccionado = 0;
 	$scope.resultadosXpagina = [
 	{
 		texto: "5",
@@ -564,18 +566,6 @@ angular.module("BilboTec",["BilboTec.ui", "ngRoute"])
             eliminar:{
                 url:"/api/Profesores/Delete"
             },
-			leer: {
-				url: "/api/Profesores/Get"
-			},
-			insertar: {
-				url: "/api/Profesores/Insert"
-			},
-			actualizar: {
-				url: "/api/Profesores/Update"
-			},
-			eliminar: {
-				url: "/api/Profesores/Delete"
-			},
 			paginacion: {
 				pageSizes: {
 					valores: $scope.resultadosXpagina,
@@ -583,11 +573,11 @@ angular.module("BilboTec",["BilboTec.ui", "ngRoute"])
 				},
 				pagina: 1
 			}
-		}
-		
-		
-		
-			
+		}		
+	};
+	
+	$scope.mostrarConfiguracion = function(){
+		$scope.seleccionado = 8;
 	};
 
 })
@@ -794,7 +784,7 @@ angular.module("BilboTec",["BilboTec.ui", "ngRoute"])
 				alert(error.data?error.data:error);
 			}
 			)
-	}
+	};
 
 }])
 .controller("controladorClaveProfesor",["$http", "$scope", "$location", function($http, $scope, $location){
@@ -1512,7 +1502,11 @@ angular.module("BilboTec",["BilboTec.ui", "ngRoute"])
 .controller("btControladorConfiguracion",["$http","$scope",function($http,$scope){
 	$http({url:"/api/Configuracion/Get"})
 		.then(function(respuesta){
-			$scope.config = respuesta.data;
+			var config = respuesta.data;
+			$scope.config = {};
+			for(var i in config){
+				$scope.config[config[i]["clave"]] = config[i]["valor"];
+			}
 		},function(error){
 			$scope.ventana.alerta("error",error.data || error.message || error);
 		});
@@ -1521,7 +1515,7 @@ angular.module("BilboTec",["BilboTec.ui", "ngRoute"])
 		if($scope.ftpForm.$valid){
 			$http({
 				url:"/api/Configuracion/Ftp",
-				data:$.param($scope.configuracion),
+				data:$.param($scope.config),
 				method:"POST",
 				headers: {'Content-Type': 'application/x-www-form-urlencoded'}
 			}).then(function(respuesta){
@@ -1538,12 +1532,6 @@ angular.module("BilboTec",["BilboTec.ui", "ngRoute"])
 			},function(error){
 				$scope.ventana.alerta("error",error.data || error.message || error,function(){$scope.ventana.cerrar();});
 				});
-	}
-
-}])
-.controller("controladorEliminarCuenta", ["$scope", "$http", function($scope, $http) {
-	$scope.eliminar = function () {
-
 	};
 
 }]);

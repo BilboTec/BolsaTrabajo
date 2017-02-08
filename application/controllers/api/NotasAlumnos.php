@@ -5,7 +5,8 @@ class NotasAlumnos extends BT_Controlador_api_estandar
 {
     public function __construct()
     {
-        parent::__construct("BT_Controlador_Nota_Alumno","id_alumno");
+        parent::__construct("BT_Modelo_Nota_Alumno","id_alumno");
+		$this->load->library("form_validation");
     }
     public function Get($id = null)
     {
@@ -20,8 +21,7 @@ class NotasAlumnos extends BT_Controlador_api_estandar
             $this->json("acceso denegado",403);
         }
     }
-    public function Insert()
-    {
+    public function Insert() {
         $usuario = $this->get_usuario_actual();
         if(isset($usuario->id_profesor)){
             $this->form_validation->set_rules([
@@ -31,20 +31,18 @@ class NotasAlumnos extends BT_Controlador_api_estandar
                     "rules"=>"required"
                 ],
                 [
-                    "field"=>"id_profesor",
-                    "caption"=>"Profesor",
-                    "rules"=>"required"
-                ],
-                [
                     "field"=>"nota",
                     "caption"=>"Observaciones",
                     "rules"=>"required"
                 ]
             ]);
-            if($this->form_validation()->run()){
+            if($this->form_validation->run()){
+            	$profesor = $this->get_usuario_actual();
                 $nota = new NotaAlumno();
                 $nota->fromPost($this);
+				$nota->id_profesor = $profesor->id_profesor;
                 $this->modelo->insert($nota);
+				$this->json($nota);
             }else{
                 $this->json("bad request",400);
             }

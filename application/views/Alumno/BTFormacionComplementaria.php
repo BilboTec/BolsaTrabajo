@@ -52,7 +52,7 @@
 				<span class="btn btn-tipo" ng-click="cancelar()">Cancelar</span>
 			</div>
 		</div>
-		<div ng-repeat="formacion_complementaria in formaciones">
+		<div ng-repeat="formacion_complementaria in formaciones | orderBy: '-fecha_fin'"">
 			<div ng-if="indiceEdicion != $index">
 				<div class="grupo-horizontal space-between">
 					<div class="grupo-horizontal">

@@ -1,12 +1,12 @@
-<form name="form" ng-controller="loginCambiarClaveController" ng-init='identificador=<?php echo json_encode($identificador); ?>'>
+<form name="formPerfil" ng-controller="loginCambiarClaveController" ng-init='identificador=<?php echo json_encode($identificador); ?>'>
 <fieldset>
-<div class="error-validacion" bt-input-label bt-id="nuevaclave" ng-required="true" name="nuevaclave" bt-label="'<?php echo ucfirst($idioma("clave_nueva")); ?>'" bt-model="nuevaclave" type="password"></div>
+	<div bt-input-label bt-id="nuevaclave" ng-required="true" name="nuevaclave" bt-label="'<?php echo ucfirst($idioma("clave_nueva")); ?>'" bt-model="nuevaclave" type="password"></div>
 	
-	<div  class="error-validacion" ng-show="(formPerfil.$submitted || formPerfil.nuevaclave.$touched) && formPerfil.nuevaclave.$invalid"><?php printf($idioma("required"),$idioma("clave_nueva")); ?></div>
-	<?php echo form_error("email",'<div class="error-validacion" ng-hide="formPerfil.nuevaclave.$touched">',"</div>"); ?>
+	<div  class="error_validacion" ng-show="(formPerfil.$submitted || formPerfil.nuevaclave.$touched) && formPerfil.nuevaclave.$invalid"><?php printf($idioma("required"),$idioma("clave_nueva")); ?></div>
+
 	<div bt-input-label bt-id="repetirclave" ng-required="true" name="repetirclave" bt-label="'<?php echo ucfirst($idioma("repetir_clave")); ?>'" bt-model="repetirclave" type="password"></div>
 
-	<div class="error-validacion" ng-show="(formPerfil.$submitted || formPerfil.repetirclave.$touched) && formPerfil.repetirclave.$invalid"><?php printf($idioma("required"),$idioma("repetir_clave")); ?></div>
+	<div class="error_validacion" ng-show="(formPerfil.$submitted || formPerfil.repetirclave.$touched) && formPerfil.repetirclave.$invalid"><?php printf($idioma("required"),$idioma("repetir_clave")); ?></div>
 
 	<span class="btn btn-tipo" ng-click="cambiarClave()"><?php echo ucfirst($idioma("cambiar")); ?></span>
 	<a href="#!/"><?php echo ucfirst($idioma("volver")); ?></a>
@@ -22,7 +22,7 @@
 			controlador.$validators.clave = function(clave2){
 				return clave2 !== $scope.clave;
 			};
-			if($scope.form.$valid){
+			if($scope.formPerfil.$valid){
 				$http({
 					url:"/Login/CambiarClave",
 					method: "POST",

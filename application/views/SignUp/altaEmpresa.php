@@ -61,7 +61,7 @@
 					<option ng-repeat="localidad in localidades" value="{{localidad.id_localidad}}">{{localidad.nombre}}</option>
 				</select>
 			</div>
-			<input type="submit" value="REGISTRARSE"/>
+			<input class="btn btn-tipo sin-bordes" type="submit" value="REGISTRARSE"/>
 		</div>
 	</fieldset>
 </form>

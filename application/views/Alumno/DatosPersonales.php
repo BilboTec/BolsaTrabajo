@@ -1,13 +1,39 @@
 <!--<div ng-controller="perfilAlumnoDatosPersonalesController">-->
 
 <div class="contenedor-datos-personales">
-	<div ng-controller="controladorEliminarCuenta" class="contenido_linea titulo-con-boton">
+	<div class="contenido_linea titulo-con-boton">
 		<h1><?php echo strtoupper($idioma("datos_personales")); ?></h1>
 		<span class="btn btn-tipo" ng-click="editar()" ng-show="!editando"><?php echo strtoupper($idioma("editar")); ?></span>
 		<a bg-show="!editando" class="btn btn-tipo" target="_blank" href="/api/Alumnos/Curriculum"><?php echo ucfirst($idioma("imprimir_curriculum")) ?></a>
 		<span class="btn btn-tipo" ng-click="mostrarcambiarclave()" ng-show="editandoclave!=2"><?php echo mb_ucfirst($idioma('cambiar_clave')); ?></span>
 		<span class="btn btn-tipo" ng-click="eliminarcuenta()" ng-show="!editando"><?php echo mb_ucfirst($idioma('eliminar_cuenta')); ?></span>
 	</div>
+	
+	<div ng-show="editandoclave === 2">
+		<fieldset ng-controller="controladorClaveAlumno"  ng-form="formPerfil">
+			<legend><?php echo strtoupper($idioma("cambiar_clave")); ?></legend>
+			<div class="grupo">
+				<div bt-input-label bt-id="clave" ng-required="true" name="clave" bt-label="'<?php echo ucfirst($idioma("clave_actual")); ?>'" bt-model="usuario.clave" type="password"></div>
+				<div class="error_validacion" ng-show="(formPerfil.$submitted || formPerfil.clave.$touched) && formPerfil.clave.$invalid"><?php printf($idioma("required"),$idioma("clave_actual")); ?></div>
+			</div>
+			
+			<div class="grupo">
+				<div bt-input-label bt-id="nuevaclave" ng-required="true" name="nuevaclave" bt-label="'<?php echo ucfirst($idioma("clave_nueva")); ?>'" bt-model="usuario.nuevaclave" type="password"></div>
+				<div class="error_validacion" ng-show="(formPerfil.$submitted || formPerfil.nuevaclave.$touched) && formPerfil.nuevaclave.$invalid"><?php printf($idioma("required"),$idioma("clave_nueva")); ?></div>
+			</div>
+			
+			<div class="grupo">
+				<div bt-input-label bt-id="repetirclave" ng-required="true" name="repetirclave" bt-label="'<?php echo ucfirst($idioma("repetir_clave")); ?>'" bt-model="usuario.repetirclave" type="password"></div>
+				<div class="error_validacion" ng-show="(formPerfil.$submitted || formPerfil.repetirclave.$touched) && formPerfil.repetirclave.$invalid"><?php printf($idioma("required"),$idioma("repetir_clave")); ?></div>
+			</div>
+			
+			<span class="btn btn-tipo" ng-click="cambiarClave()"><?php echo ucfirst($idioma("cambiar")); ?></span>
+			<span class="btn btn-tipo" ng-click="cancelar()" ng-show="editandoclave"><?php echo strtoupper($idioma("cancelar")); ?></span>
+		
+			<div bt-window="ventana"></div>
+		</fieldset>
+	</div>
+	
 	<div ng-show="!editando">
 		<h1>{{ alumno.nombre }} {{ alumno.apellido1 }} {{ alumno.apellido2 }}</h1>
 		<img src="{{imagen}}" ng-show="imagen"/>
@@ -21,26 +47,6 @@
 		</p>
 	</div>
 	
-	<div ng-show="editandoclave === 2">
-		<fieldset ng-controller="controladorClaveAlumno">
-			<legend><?php echo strtoupper($idioma("cambiar_clave")); ?></legend>
-			<div bt-input-label bt-id="clave" ng-required="true" name="clave" bt-label="'<?php echo ucfirst($idioma("clave_actual")); ?>'" bt-model="usuario.clave" type="password"></div>
-			<div  ng-show="(formPerfil.$submitted || formPerfil.clave.$touched) && formPerfil.clave.$invalid"><?php printf($idioma("required"),$idioma("clave_actual")); ?></div>
-		
-			<div bt-input-label bt-id="nuevaclave" ng-required="true" name="nuevaclave" bt-label="'<?php echo ucfirst($idioma("clave_nueva")); ?>'" bt-model="usuario.nuevaclave" type="password"></div>
-		
-			<div  ng-show="(formPerfil.$submitted || formPerfil.nuevaclave.$touched) && formPerfil.nuevaclave.$invalid"><?php printf($idioma("required"),$idioma("clave_nueva")); ?></div>
-		
-			<div bt-input-label bt-id="repetirclave" ng-required="true" name="repetirclave" bt-label="'<?php echo ucfirst($idioma("repetir_clave")); ?>'" bt-model="usuario.repetirclave" type="password"></div>
-		
-			<div  ng-show="(formPerfil.$submitted || formPerfil.repetirclave.$touched) && formPerfil.repetirclave.$invalid"><?php printf($idioma("required"),$idioma("repetir_clave")); ?></div>
-		
-			<span class="btn btn-tipo" ng-click="cambiarClave()"><?php echo ucfirst($idioma("cambiar")); ?></span>
-			<span class="btn btn-tipo" ng-click="cancelar()" ng-show="editandoclave"><?php echo strtoupper($idioma("cancelar")); ?></span>
-		
-			<div bt-window="ventana"></div>
-		</fieldset>
-	</div>
 	
 	<form id="formDatosPersonales" name="formDatosPersonales" ng-show="editando">
 	<div>

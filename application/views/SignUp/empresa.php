@@ -1,6 +1,6 @@
 <form method="POST" ng-controller="solicitudController" name="solicitud" class="form-solicitud-empresa" novalidate>
 	<fieldset>
-			<legend><?php echo strtoupper($idioma('iniciar_sesion')); ?></legend>
+			<legend><?php echo strtoupper($idioma('alta_empresa')); ?></legend>
 			<div class="login-contenedor">
 				<div class="grupo-form">
 					<div bt-input-label bt-id="nombre" ng-required="true" name="nombre" type="text" bt-label="'nombre' | btLocale | capitalize" bt-model="nombre"></div>

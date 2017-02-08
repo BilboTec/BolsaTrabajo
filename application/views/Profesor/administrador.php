@@ -13,7 +13,7 @@
 </ul>
 
 	<div class="contenedor-tabla" >
-		<div bt-tabla ng-model="filas" bt-config="configuracion" bt-set-config="establecerConfiguracion" ng-show="seleccionado != 8"></div>
+		<div bt-tabla ng-model="filas" bt-config="configuracion.conocimientos" bt-set-config="establecerConfiguracion" ng-show="seleccionado != 8"></div>
 		<fieldset ng-form="ftpForm" ng-show="seleccionado == 8" ng-controller="btControladorConfiguracion">
 			<div bt-window="ventana"></div>
 			<legend>Copias de seguridad</legend>
@@ -26,28 +26,28 @@
 				</span>
 			</div>
 			<div class="grupo">
-				<label for="port">Puerto</label>
+				<label for="port"><?php echo mb_ucfirst($idioma("puerto")); ?></label>
 				<input type="text" ng-required="true" ng-model="config.sftp_port" id="port" name="port"/>
 				<span class="error_validacion" ng-if="(ftpForm.$submitted  || ftpForm.port.$touched) && ftpForm.port.$invalid">
 					El campo puerto es obligatorio
 				</span>
 			</div>
 			<div class="grupo">
-				<label for="user">Usuario</label>
+				<label for="user"><?php echo mb_ucfirst($idioma("usuario")); ?></label>
 				<input type="text" ng-required="true" ng-model="config.sftp_user" id="user" name="user"/>
 				<span class="error_validacion" ng-if="(ftpForm.$submitted  || ftpForm.user.$touched) && ftpForm.user.$invalid">
 					El campo usuario es obligatorio
 				</span>
 			</div>
 			<div class="grupo">
-				<label for="pass">Contraseña</label>
+				<label for="pass"><?php echo mb_ucfirst($idioma("clave")); ?></label>
 				<input type="password" ng-required="true" ng-model="config.sftp_pass" id="pass" name="pass"/>
 				<span class="error_validacion" ng-if="(ftpForm.$submitted  || ftpForm.pass.$touched) && ftpForm.pass.$invalid">
 					El campo contraseña es obligatorio
 				</span>
 			</div>
 			<div class="grupo">
-				<label for="freq">Freqeuencia (Días)</label>
+				<label for="freq"><?php echo mb_ucfirst($idioma("frecuencia")); ?></label>
 				<input type="text" id="freq" ng-required="true" ng-model="config.backup_frequencia" name="freq"/>
 				<span class="error_validacion" ng-if="(ftpForm.$submitted  || ftpForm.freq.$touched) && ftpForm.freq.$invalid">
 					El campo host es obligatorio
