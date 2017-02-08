@@ -90,4 +90,16 @@ class Empresas extends BT_Controlador_api_estandar {
 			$this->json("ooohhh", 400);
 		}
 	}
+	public function Delete(){
+		if($this->es_admin()){
+			$id_empresa = $this->input->post("id_empresa");
+			try {
+				$this->modelo->delete($id_empresa);
+			}catch(Exception $ex){
+				$this->json("no_se_puede_eliminar_empresa");
+			}
+		}else{
+			$this->json("acceso denegado");
+		}
+	}
 }

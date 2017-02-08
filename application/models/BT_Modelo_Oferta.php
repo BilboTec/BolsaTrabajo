@@ -15,6 +15,13 @@ class BT_Modelo_Oferta extends BT_ModeloEstandar
         parent::__construct("oferta", "_Oferta", "id_oferta");
     }
 	public function actualizar_candidaturas($id_oferta,$alumnos){
+		if(count($alumnos)===0){
+			$this->db->where("id_oferta",$id_oferta)->delete("candidatura");
+			return [
+				"eliminados"=>$alumnos,
+				"nuevos"=>[]
+			];
+		}
 		$eliminados = $this->db->select("id_alumno")->where(["id_oferta"=>$id_oferta])
 		->where_not_in("id_alumno",$alumnos)->from("candidatura")->get()->result();
 		$eliminados = array_values($eliminados);
@@ -24,7 +31,6 @@ class BT_Modelo_Oferta extends BT_ModeloEstandar
 		->result();
 		$candidaturas = array_values($candidaturas);
 		$nuevos = [];
-		var_dump($alumnos);
 		foreach($alumnos as $alumno){
 			if(!in_array($alumno, $candidaturas)){
 				array_push($nuevos,$alumno);
@@ -53,7 +59,7 @@ class BT_Modelo_Oferta extends BT_ModeloEstandar
     }
 	public function apuntar_alumno($id_oferta,$id_alumno){
 		$this->db->set("fecha", "NOW()", false);
-		$this->db->insert("candidatura",[
+		$this->db->replace("candidatura",[
 			"id_oferta"=>$id_oferta,
 			"id_alumno"=>$id_alumno	
 		]);

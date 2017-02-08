@@ -52,6 +52,7 @@
 		$data['idioma'] = function($clave){
 			return $this->lang->line($clave);
 		};
+		$data["es_user"] = $this->es_user();
 		$usuarioActual = $this->get_usuario_actual();
 		if(isset($usuarioActual->id_rol)){
 			$data["puedeEditar"] = $usuarioActual->id_rol > 1;

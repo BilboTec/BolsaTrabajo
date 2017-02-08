@@ -153,7 +153,7 @@ angular.module("BilboTec",["BilboTec.ui", "ngRoute"])
 }])
 .controller("administradorController", function($scope){
 	$scope.filas= [];
-	$scope.seleccionado = 0;
+	$scope.seleccionado = -1;
 	$scope.resultadosXpagina = [
 	{
 		texto: "5",
@@ -638,7 +638,25 @@ angular.module("BilboTec",["BilboTec.ui", "ngRoute"])
 				}
 				)
 		}
-
+		$scope.eliminar = function(){
+			scope.ventana.preguntar("confirmar_eliminar_titulo","confirmar_eliminar",
+			function(){
+				scope.ventana.cerrar();
+				$http({
+					url: "/api/Oferta/Delete",
+					method: "POST",
+					data: $.param({
+						id_oferta: scope.oferta.id_oferta
+					})
+				})
+				.then(function(){
+					window.location="#!/";
+				},
+				function(error){
+					scope.ventana.alerta("error",error);
+				})
+				});
+		};
 		$scope.guardar = function(){
 			$http({url: "/api/Ofertas/Guardar", 
 				method: "POST", 
@@ -852,7 +870,7 @@ angular.module("BilboTec",["BilboTec.ui", "ngRoute"])
 		.then(function(respuesta){
 			$scope.alumnos = respuesta.data;
 		},function(error){
-			debugger;
+
 		});
 	};
 	$scope.buscar();
@@ -860,7 +878,7 @@ angular.module("BilboTec",["BilboTec.ui", "ngRoute"])
 .controller("controladorInvitarAlumnos",["$http", "$scope",function($http, $scope){
 	$scope.cargarEmails = function(){
 		enviar($scope.emails);
-	}
+	};
 	function mostrarError(error){
 		var mensaje = error;
 		while(angular.isObject(error)){
@@ -1146,6 +1164,27 @@ angular.module("BilboTec",["BilboTec.ui", "ngRoute"])
 		function(error){
 		}
 	);
+	$scope.eliminar = function(){
+		$scope.ventana.preguntar("confirmar_eliminar_titulo","confirmar_eliminar",
+		function(){
+			$http({
+				url:"/api/Empresas/Delete",
+				method:"POST",
+				data:$.param({id_empresa:$scope.empresa.id_empresa}),
+				headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+			})
+				.then(function(respuesta){
+					window.location = "/Profesor/Empresas"
+				},function(error){
+					scope.ventana.alerta("error","no_se_puede_eliminar_empresa",function(){
+						scope.ventana.cerrar();
+					});
+				});
+			$scope.ventana.cerrar();
+		},function(){
+				$scope.ventana.cerrar();
+			})
+	};
 	$scope.editando = false;
 	$scope.editar = function(){
 		$scope.vista = angular.copy($scope.empresa);

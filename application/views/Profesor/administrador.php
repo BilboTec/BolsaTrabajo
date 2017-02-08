@@ -11,9 +11,9 @@
 	<li class="btn-cambio" ng-class="seleccionado==8?'activo':''" ng-click="mostrarConfiguracion()"><?php echo mb_ucfirst($idioma("configuracion")); ?></li>
 	
 </ul>
-
+	<p ng-show="seleccionado == -1">Seleccione la opción que deséa modificar</p>
 	<div class="contenedor-tabla" >
-		<div bt-tabla ng-model="filas" bt-config="configuracion.conocimientos" bt-set-config="establecerConfiguracion" ng-show="seleccionado != 8"></div>
+		<div bt-tabla ng-model="filas" bt-config="configuracion.conocimientos" bt-set-config="establecerConfiguracion" ng-show="seleccionado >= 0"></div>
 		<fieldset ng-form="ftpForm" ng-show="seleccionado == 8" ng-controller="btControladorConfiguracion">
 			<div bt-window="ventana"></div>
 			<legend>Copias de seguridad</legend>

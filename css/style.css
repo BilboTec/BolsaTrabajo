@@ -247,7 +247,7 @@ input[type='checkbox']{
 	 text-align: center;
 }
 
-.contenedor-perfil a:not(.btn){
+.contenedor-perfil a:not(.btn), .verde{
 	color: $(--v-oscuro);
 }
 .contenedor-perfil div>p:last-of-type{
@@ -758,6 +758,8 @@ footer{
 
 [bt-tabla] thead th:not(:last-child){
 	background-color: $(--v-oscuro);
+	padding: .5em;
+	color: white;
 }
 
 [bt-tabla] tr:any(.ng-hide-remove, .ng-enter){
@@ -1143,6 +1145,19 @@ footer{
 	border: 1px dashed $(--v-claro);
 	cursor: copy;
 }
+
+/*************************************
+********BT-BUSCADOR-ALUMNOS***********
+**************************************/
+[bt-buscador-alumnos] ul{
+	list-style: none;
+}
+[bt-buscador-alumnos] li {
+	margin: .5em;
+}
+[bt-buscador-alumnos]{
+	margin-left: 1.5em;
+}
 /*************************************
 ********PROFESOR****************
 **************************************/
@@ -1201,6 +1216,7 @@ nav ul, .contenedor-admin{
  		width:auto;
  		right:0;
  		left:auto;
+		z-index: 99999;
  	}
  	header ul ul{
  		font-size: 16px;
@@ -1225,6 +1241,7 @@ nav ul, .contenedor-admin{
  	.form-login>ul{
  		align-self: stretch;
  	}
+
  	.form-login>ul .btn-tipo {
  		padding-left: 0;
  		padding-right: 0;

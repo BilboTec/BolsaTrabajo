@@ -1,9 +1,11 @@
 <div class="contenedor-vertical" ng-init='espana=<?php echo json_encode($espana); ?>;init()'>
+	<div bt-window="ventana"></div>
 	<div ng-if="!editando">
 	<div class="grupo-horizontal"><p>{{empresa.nombre}}</p>
 		<?php if($es_administrador){ ?>
 		<span class="btn btn-tipo" ng-click="editar()"><?php echo mb_ucfirst($idioma('editar')); ?> </span>
 		<a ng-href="#!/CambiarClave/{{empresa.id_empresa}}" class="btn btn-tipo" ng-click="editar()"><?php echo mb_ucfirst($idioma('cambiar_clave')); ?> </a>
+		<span class="btn btn-tipo" ng-click="eliminar()"><?php echo mb_ucfirst($idioma("eliminar")); ?></span>
 		<?php } ?>
 	</div>
 	<p>{{empresa.email}}</p>

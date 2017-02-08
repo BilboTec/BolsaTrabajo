@@ -14,7 +14,33 @@ class Ofertas extends BT_Controlador_api_estandar
 		if($metodo === "POST"){
 			$id_oferta = $this->input->post("id_oferta");
 			$alumnos = $this->input->post("alumnos");
-			$this->modelo->actualizar_candidaturas($id_oferta,$alumnos);
+			if($alumnos===null){
+				$alumnos = [];
+			}
+			$resultado = $this->modelo->actualizar_candidaturas($id_oferta,$alumnos);
+			$oferta = $this->modelo->get_by_id($id_oferta);
+			if(is_array($oferta) ){
+				$oferta = $oferta[0];
+			}
+			$mensaje = function($alumno,$oferta){
+				return "Buenos días " . $alumno->nombre."<br>Desafortunadamente su candidatura para la oferta
+				 " . $oferta->titulo . " ha expirado.<br>Egun on " . $alumno->nombre."<br>
+				 Sentitzen dugu, baina " . $oferta->titulo." eskaintzarako zure kandidatura iraungi da.";
+			};
+			foreach ($resultado["eliminados"] as $id_alumno){
+				$alumno = $this->alumnos->get_by_id($id_alumno);
+				enviar_email($this,$this->lang->line("asunto_candidatura") 
+					, $mensaje($oferta,$alumno),$alumno->email);
+			}
+			$mensaje = function($alumno,$oferta){
+				return "Buenos días " .$alumno->nombre . "<br>Se le ha apuntado a la oferta" . $oferta->titulo .
+				"<br>Egun on " . $alumno->nombre . "<br>" . $oferta->titulo . " eskaintzarako apuntuatua izan zara";
+			};
+			foreach($resultado["nuevos"] as $id_alumno){
+				$alumno = $this->alumnos->get_by_id($id_alumno);
+				enviar_email($this,$this->lang->line("asunto_candidatura")
+					, $mensaje($alumno,$oferta),$alumno->email);
+			}
 		}
     }
     public function Get($id=null){

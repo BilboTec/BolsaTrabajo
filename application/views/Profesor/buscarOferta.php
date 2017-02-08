@@ -4,10 +4,10 @@
 			<div class="filtro-contenedor">
 				<div class="grupo oferta-option">
 					<label><?php echo ucfirst($idioma('fecha')); ?></label><br>
-					<input ng-model="filtros.fecha_oferta" type="radio" name="fecha" value="0"/> Cualquier fecha<br>
-	  				<input ng-model="filtros.fecha_oferta" type="radio" name="fecha" value="1"/> Ultimas 24 Horas<br>
-	  				<input ng-model="filtros.fecha_oferta" type="radio" name="fecha" value="2"/> Ultimos 7 dias<br>
-	  				<input ng-model="filtros.fecha_oferta" type="radio" name="fecha" value="3"/> Ultimos 15 dias<br><br>
+					<p><input ng-model="filtros.fecha_oferta" type="radio" name="fecha" value="0"/> Cualquier fecha</p>
+	  				<p><input ng-model="filtros.fecha_oferta" type="radio" name="fecha" value="1"/> Ultimas 24 Horas</p>
+					<p><input ng-model="filtros.fecha_oferta" type="radio" name="fecha" value="2"/> Ultimos 7 dias</p>
+					<p><input ng-model="filtros.fecha_oferta" type="radio" name="fecha" value="3"/> Ultimos 15 dias</p><br>
   				</div>
   				
   				<div class="grupo">
