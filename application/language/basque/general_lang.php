@@ -167,3 +167,5 @@ $lang["alta_empresa"] = "enpresa alta";
 $lang["observaciones"] = "oharrak";
 $lang["actualmente"] = "gaur egun";
 $lang["claves_iguales"] = "pasahitzak berdinak izan behar dira";
+$lang["backup_realizado"] = "Zuirtasun kopia";
+$lang["backup_realizado_cuerpo"] = "Ziurtasun kopia berri bat egin da";

@@ -167,4 +167,5 @@ $lang["alta_empresa"] = "alta empresa";
 $lang["observaciones"] = "observaciones";
 $lang["actualmente"] = "actualmente";
 $lang["claves_iguales"] = "las contraseñas deben ser iguales";
-
+$lang["backup_realizado"] = "Copia de seguridad";
+$lang["backup_realizado_cuerpo"] = "se ha realizado una copia de seguridad";
