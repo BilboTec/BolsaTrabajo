@@ -597,6 +597,7 @@ angular.module("BilboTec.ui")
                         var top = evt.clientY - raton.Y;
                         elemento.css("left",left+"px");
                         elemento.css("top",top+"px");
+                        elemento.css("right", "auto");
                     };
                     var wnd = angular.element($window);
                     wnd.on("mousemove",mover);
@@ -627,8 +628,10 @@ angular.module("BilboTec.ui")
             };
             scope.centrar = function(){
                 elemento.css({
-                    "left":$window.innerWidth/2-elemento.width()/2,
-                    "top":$window.innerHeight/2-elemento.height()/2
+                    "left": "auto",
+                    "right":0,
+                    "top":0
+
                 });
             };
             scope.establecerTitulo = function(titulo){
