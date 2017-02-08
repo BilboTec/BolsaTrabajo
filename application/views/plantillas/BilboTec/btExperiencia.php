@@ -42,7 +42,7 @@
 		<span class="btn btn-tipo" ng-click="aplicarInsertar()"><?php echo ucfirst($idioma("guardar")); ?></span>
 		<span class="btn btn-tipo" ng-click="cancelar()"><?php echo ucfirst($idioma("cancelar")); ?></span>
 	</div>
-	<div ng-repeat="experiencia in experiencias">
+	<div ng-repeat="experiencia in experiencias | orderBy: '-fecha_fin'">
 		<div ng-if="indiceEdicion == $index">
 			<div class="grupo">
 				<label for="empresa"><?php echo ucfirst($idioma("empresa")); ?></label>

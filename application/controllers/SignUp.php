@@ -1,6 +1,6 @@
 <?php 
 class SignUp extends BT_Controller{
-	protected $idioma;
+	public $idioma;
 	public function __construct(){
 		parent::__construct();
 		$this->load->library('form_validation');
@@ -8,6 +8,7 @@ class SignUp extends BT_Controller{
 		$this->load->model("BT_Modelo_IdentificadorAlta","identificadores");
 		$this->load->model("BT_Modelo_Empresa","empresas");
 		$this->load->model("BT_Modelo_Pais","paises");
+		$this->load->model("BT_Modelo_Provincia","provincias");
 		$this->lang->load("BT_email");
 		$this->idioma =function ($clave){
 				return $this->lang->line($clave);
@@ -33,7 +34,7 @@ class SignUp extends BT_Controller{
 				$identificador = new _IdentificadorAlta();
 				$identificador->email = $this->input->post("email");
 				$identificador = $this->identificadores->insert($identificador)[0];
-				$link = $_SERVER["HTTP_ORIGIN"]."/SignUp/AltaEmpresa/?I=" . base64_encode($identificador->id_identificador . "#" . $identificador->identificador);
+				$link = $_SERVER["HTTP_ORIGIN"]."/SignUp/Empresa/?I=" . base64_encode($identificador->id_identificador . "#" . $identificador->identificador);
 				$link = "<a href='.$link'>$link</a>";
 				$config = Array(
  				    'protocol' => 'smtp',
@@ -193,7 +194,7 @@ class SignUp extends BT_Controller{
 				$this->muestraFormularioAltaEmpresa($data);
 			}
 		}else{
-			$this->muestraSolicitudAltaEmpresa();
+			$this->muestraSolicitudAltaEmpresa($data);
 		}
 	}
 	public function identificador_valido($identificador){
@@ -227,6 +228,8 @@ class SignUp extends BT_Controller{
 		return $identificador_alta;
 	}
 	protected function muestraFormularioAltaEmpresa($data=[]){
+		$data["paises"] = $this->paises->get();
+		$data["provincias"] = $this->provincias->get();
 		$this->load->view("/plantillas/header", $data);
 		$this->load->view("/SignUp/altaEmpresa", $data);
 		$this->load->view("/plantillas/footer", $data);

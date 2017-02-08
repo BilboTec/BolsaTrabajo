@@ -163,5 +163,12 @@
 		$data["candidaturas"] = $this->ofertas->get_candidaturas($id_alumno);
 		$this->load->view("/Alumno/listaCandidaturas",$data);
 	}
+	
+	public function confirmarEliminarCuenta(){
+		$data['idioma'] = function($clave){
+			return $this->lang->line($clave);
+		};
+		$this->load->view("/Alumno/confirmarEliminar",$data);
+	}
 
 }

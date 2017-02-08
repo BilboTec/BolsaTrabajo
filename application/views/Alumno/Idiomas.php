@@ -11,8 +11,6 @@
 				<div class="grupo">
 					<label for="vistaNombre"><?php echo ucfirst($idioma("idioma")) ?></label>
 					<input type="text" ng-model="vista.nombre"/>
-					<button ng-click="aplicarInsertar()">V</button>
-					<button ng-click="cancelar()">O</button>
 				</div>
 				<div class="grupo">
 					<label for="vistaNivel"><?php echo ucfirst($idioma("nivel")); ?></label>
@@ -24,7 +22,7 @@
 				</div>
 			</div>
 			<div class="grupo">
-				<label for="vistaOficial"><input type="checkbox" ng-model="vista.oficial"/><?php echo ucfirst($idioma("oficial")); ?></label>
+				<label for="vistaOficial"><input type="checkbox" ng-true-value="'1'" ng-false-value="'0'" ng-model="vista.oficial"/><?php echo ucfirst($idioma("oficial")); ?></label>
 			</div>
 		</div>
 		<div ng-repeat="idioma in idiomas track by $index">
@@ -42,7 +40,7 @@
 					</div>
 				</div>
 				<div class="grupo">
-					<label for="vistaOficial"><input type="checkbox" ng-model="vista.oficial"/><?php echo ucfirst($idioma("oficial")); ?></label>
+					<label for="vistaOficial"><input type="checkbox" ng-true-value="'1'" ng-false-value="'0'" ng-model="vista.oficial"/><?php echo ucfirst($idioma("oficial")); ?></label>
 				</div>
 				<span class="btn btn-tipo" ng-click="aplicarEdicion($index)">Guardar</span>
 				<span class="btn btn-tipo" ng-click="cancelar()">Cancelar</span>
@@ -61,7 +59,7 @@
 			</div>
 		</div>
 		<div>
-			<span class="btn btn-tipo" ng-click="guardar()" ng-show="insertando"><?php echo strtoupper($idioma("guardar")); ?></span>
+			<span class="btn btn-tipo" ng-click="aplicarInsertar()" ng-show="insertando"><?php echo strtoupper($idioma("guardar")); ?></span>
 			<span class="btn btn-tipo" ng-click="cancelar()" ng-show="insertando"><?php echo strtoupper($idioma("cancelar")); ?></span>
 		</div>
 	</div>

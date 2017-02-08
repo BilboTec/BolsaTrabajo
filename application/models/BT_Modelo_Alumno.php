@@ -168,9 +168,10 @@ class BT_Modelo_Alumno extends BT_ModeloVista {
 		if($ids_alumno_busqueda !== null){
 			$this->db->where_in("id_alumno",$ids_alumno_busqueda);
 		}
-		if(isset($fecha) && $fecha !== null){
-			
-		}
+		$limite = new DateTime();
+		$limite->sub(new DateInterval("P6M"));
+		$limite = $limite->format("Y-m-d");
+		$this->db->where(["ultima_conexion >"=>$limite]);
 		return $this->db->get($this->vista)->custom_result_object($this->clase);
 	}
 	public function guardar_imagen($imagen, $alumno){
@@ -228,6 +229,18 @@ class BT_Modelo_Alumno extends BT_ModeloVista {
     public function getByOferta($id_oferta){
     	return $this->db->from("vw_alumno")->join("candidatura", "vw_alumno.id_alumno = candidatura.id_alumno")
     	->where(["id_oferta"=>$id_oferta])->get()->custom_result_object($this->clase);
-    }	
+    }
+	
+	public function baja($alumno){
+		$db = $this->db;
+		$db->trans_start();
+		$tablas = ["idioma", "experiencia", "formacion_academica", "formacion_complementaria", "candidatura", "alumno"];
+		foreach ($tablas as $tabla) {
+			$db->delete($tabla,["id_alumno"=>$alumno->id_alumno]);
+		}
+		$db->delete("email", ["id_email"=>$alumno->id_email]);
+		$db->trans_complete();
+		return true;
+	}	
 	
 }

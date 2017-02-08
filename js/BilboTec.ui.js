@@ -1617,6 +1617,47 @@ return{
             },
             templateUrl:"/Alumno/DatosPersonales",
             link:function(scope,elem,attr,ngModel){
+            	
+	
+			scope.eliminarcuenta = function(){
+				scope.ventana.establecerUrl("/Alumno/confirmarEliminarCuenta");
+				scope.ventana.establecerTitulo("eliminar_cuenta_titulo");
+				scope.ventana.establecerBotones([
+					{
+						texto:"aceptar",
+						accion:function(){
+							var clave = angular.element("#confirmar_clave").val();
+							$http({
+								url:"/api/Alumnos/Baja",
+								method:"POST",
+								data:$.param({
+									clave:clave
+								}),
+								headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+							})
+							.then(
+								function(respuesta){
+									window.location = "/Login";
+								},
+								function(error){
+									alert(error.data || error.message || error);
+									scope.ventana.cerrar();
+									angular.element("#confirmar_clave").val("");
+								}
+							);
+						}
+					},
+					{
+						texto:"cancelar",
+						accion:function(){
+							scope.ventana.cerrar();
+							angular.element("#confirmar_clave").val("");
+						}
+					}
+				]);
+				scope.ventana.centrar();
+				scope.ventana.abrir();
+			};
                 function mostrarMensajeError(error){
                     var mensaje = error;
                     while(angular.isObjet(error)){
@@ -1942,24 +1983,49 @@ return{
 
         },
         templateUrl:"/plantillas/Get/btNotasAlumnos",
-        link:function(s,e,a,m){
-            s.insertando = false;
-            s.notasAlumnos = [];
-            m.$render = function(){
-                if(typeof s.alumno !== "undefined" && s.alumno.id_alumno){
+        link:function(scope,elemento,atributo,ngModel){
+            scope.insertando = false;
+            scope.notas = [];
+            ngModel.$render = function(){
+                if(typeof scope.alumno !== "undefined" && scope.alumno.id_alumno){
                     $http({
-                        url:"/api/NotasAlumnos/Get/" + s.alumno.id_alumno
+                        url:"/api/NotasAlumnos/Get/" + scope.alumno.id_alumno
                     })
                     .then(function(respuesta){
-                        s.notasAlumnos = respuesta.data;
+                        scope.notas = respuesta.data;
                     },function(error){
-                       s.ventana.alerta("error",error.data ||  error.message,function(){s.ventana.close();});
+                       scope.ventana.alerta("error",error.data ||  error.message,function(){scope.ventana.close();});
                     });
                 }
             };
-            s.mostrarInsertar = function(){
-                
+            scope.insertar = function(){
+                scope.insertando = true;
+            };
+            
+            scope.cancelar = function(){
+            	scope.insertando = false;
             }
+            
+            scope.guardar = function(){
+            	$http({
+            		url: "/api/NotasAlumnos/Insert",
+            		method: "POST",
+            		data:$.param({
+            			id_alumno: scope.alumno.id_alumno,
+            			nota: scope.nueva_nota
+            		}),
+            		headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+            	})
+            	.then(
+            		function(respuesta){
+            			scope.notas.unshift(respuesta.data);
+            		},
+            		function(error){
+            			scope.ventana.alerta("error",error.data ||  error.message,function(){scope.ventana.close();});
+
+            		}
+            	);
+            };
         }
     };
 }]);

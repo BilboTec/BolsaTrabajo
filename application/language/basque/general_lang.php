@@ -154,4 +154,15 @@ $lang["anadir_empresa"] = "enpresa gehitu";
 $lang["no_alumnos_apuntados"] = "ez dago izena eman duen ikaslerik";
 $lang["copia_seguridad"] = "segurtasun kopia";
 $lang["fecha_fin_estudios"] = "heziketa amaiera data";
-
+$lang["buscar"] = "bilatu";
+$lang["configuracion"] = "konfigurazioa";
+$lang["eliminar_cuenta"] = "kontua ezabatu";
+$lang["confirmar_eliminar_cuenta"] = "Zure kontua ezabatzear zaude, operazio hau ezin da desegin. Sartu zure pasahitza jarraitzeko";
+$lang["eliminar_cuenta_titulo"] = "kontu ezabaketa";
+$lang["puerto"] ="portua";
+$lang["frecuencia"] = "maiztasuna(egunetan)";
+$lang["datos_guardados"] = "Ziurtasun kopien datuak";
+$lang["datos_guardados_cuerpo"] = "ziurtasun kopien datuak gordeak izan dira";
+$lang["alta_empresa"] = "enpresa alta";
+$lang["observaciones"] = "oharrak";
+$lang["actualmente"] = "gaur egun";

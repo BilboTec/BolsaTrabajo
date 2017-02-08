@@ -142,7 +142,7 @@ $lang["fecha_fin"] = "fecha fin";
 $lang["fecha_inicio"] = "fecha inicio";
 $lang["enviar"] = "enviar";
 $lang["exito"] = "éxito";
-$lang["alerta_recuperar_clave"] = "se ha enviado un correo electrónico a su dirección, en el cual se incluye un vínculo mediante el cual recuperar su contraseña. <br>
+$lang["alerta_recuperar_clave"] = "se ha enviado un correo electrónico a su dirección, en el cual se incluye un vínculo mediante el cual recuperar su contraseña.
 Acepte este cuadro de dialogo para volver.";
 $lang["arrastre_archivo"] = "Arrastre un archivo aquí";
 $lang["cerrar_sesion"] = "salir";
@@ -155,3 +155,15 @@ $lang["no_alumnos_apuntados"] = "no hay alumnos apuntados a esta oferta";
 $lang["copia_seguridad"] = "copia de seguridad";
 $lang["fecha_fin_estudios"] = "fecha fin de estudios";
 $lang["buscar"] = "buscar";
+$lang["configuracion"] = "configuración";
+$lang["eliminar_cuenta"] = "eliminar cuenta";
+$lang["confirmar_eliminar_cuenta"] = "Está a punto de eliminar su cuenta. Esta accion no se puede deshacer, introduzca su contraseña para continuar";
+$lang["eliminar_cuenta_titulo"] = "Eliminación de cuenta";
+$lang["puerto"] ="puerto";
+$lang["frecuencia"] = "frecuencia(días)";
+$lang["datos_guardados"] = "Datos Copia de Seguridad";
+$lang["datos_guardados_cuerpo"] = "los datos de la configuración de las copias de seguridad han sido guardados";
+$lang["alta_empresa"] = "alta empresa";
+$lang["observaciones"] = "observaciones";
+$lang["actualmente"] = "actualmente";
+

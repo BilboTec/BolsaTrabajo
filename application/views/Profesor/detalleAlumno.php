@@ -40,5 +40,13 @@
 					</div>
 					<p ng-if="idioma.oficial==1"><?php echo ucfirst($idioma("oficial")); ?></p>
 	</div>
+	
+	<h1><?php echo mb_strtoupper($idioma("otros_datos")); ?></h1>
+	<div bt-contenido-html ng-model="alumno.otros_datos">
+	</div>
+	
+	<div bt-notas-alumnos ng-model="alumno">
+	</div>
+	
 	<a href="#/!" class="btn btn-tipo"><?php echo ucfirst($idioma("volver")); ?></a>
 </div>

@@ -304,10 +304,16 @@ class Alumnos extends BT_Controlador_api_estandar
     	$this->form_validation->set_message("claves_iguales", "las contraseñas deben ser iguales");
     }
     
-    public function eliminarCuenta($id = NULL){
-			if($id != NULL){
-				$this->BT_Modelo_Alumno->delete($id);
-				redirect("/Login");
+    public function Baja(){
+    	$usuario = $this->get_usuario_actual();
+			if(isset($usuario->id_alumno)){
+				$clave = $this->input->post("clave");
+				if(password_verify($clave, $usuario->clave)){
+					$this->modelo->baja($usuario);
+				}
+				else{
+					$this->json("La contraseña no coincide", 400);
+				}
 			}
 	}
     

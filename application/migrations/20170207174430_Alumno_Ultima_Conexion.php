@@ -2,8 +2,6 @@
 class Migration_Alumno_Ultima_Conexion extends CI_Migration{
     public function up(){
         $this->load->database();
-        $this->db->query("ALTER TABLE alumno DROP COLUMN ultima_conexion");
-        $this->db->query("ALTER TABLE alumno DROP COLUMN avisado");
         $this->db->query("ALTER TABLE alumno ADD COLUMN ultima_conexion TIMESTAMP DEFAULT CURRENT_TIMESTAMP");
         $this->db->query("ALTER TABLE alumno ADD COLUMN avisado TINYINT DEFAULT 0");
         $this->db->query("CREATE OR REPLACE VIEW `vw_alumno` AS SELECT id_alumno, nombre, apellido1, apellido2, fecha_nacimiento, calle, cp, id_localidad, nacionalidad,    
