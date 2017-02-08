@@ -25,14 +25,6 @@
 				<h5 ng-show="oferta.horario">Horario {{oferta.horario}}</h5>
 			</div>
 		</a>
-		</article>
-			<select ng-model="filtro.resultadosPorPagina">
-					<option value="10">10</option>
-					<option value="25">25</option>
-					<option value="50">50</option>
-					
-			</select>
-			<input ng-model="filtro.pagina" ng-change="buscar()"/>	
-		
+		</article>	
 	</section>
 	

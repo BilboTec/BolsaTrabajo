@@ -9,7 +9,7 @@
 		<div>
 			<div class="grupo">
 				<label for="buscador"><?php echo ucfirst($idioma('buscar')); ?></label>
-				<input type="text" id="buscador" name="buscador" ng-model="filtros.buscador"/>
+				<input class="buscar" type="text" id="buscador" name="buscador" ng-model="filtros.buscador"/>
 			</div>
 			<span class="btn btn-tipo" ng-click="buscar()">Buscar</span>
 			<span class="btn btn-tipo" ng-click="guardar()">Guardar</span>

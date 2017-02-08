@@ -166,4 +166,5 @@ $lang["datos_guardados_cuerpo"] = "los datos de la configuración de las copias 
 $lang["alta_empresa"] = "alta empresa";
 $lang["observaciones"] = "observaciones";
 $lang["actualmente"] = "actualmente";
+$lang["claves_iguales"] = "las contraseñas deben ser iguales";
 

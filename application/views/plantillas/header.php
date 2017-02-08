@@ -16,7 +16,7 @@
 <header>
 	<ul class="cabecera" >
 		<?php if(isset($user)){
-		echo "<li class='usuario'>".strtoupper($user->nombre)."<ul> <li><form action='" .base_url("Login/cerrarSesion") 
+		echo "<li class='usuario'>".strtoupper($user->nombre)."<ul class='lleno'> <li><form action='" .base_url("Login/cerrarSesion") 
 		."'><input type='submit' value='" .ucfirst($idioma('cerrar_sesion')) ."'/></form></li></ul></li>"; 
 		;	
 	}else{

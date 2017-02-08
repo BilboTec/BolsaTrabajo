@@ -166,3 +166,4 @@ $lang["datos_guardados_cuerpo"] = "ziurtasun kopien datuak gordeak izan dira";
 $lang["alta_empresa"] = "enpresa alta";
 $lang["observaciones"] = "oharrak";
 $lang["actualmente"] = "gaur egun";
+$lang["claves_iguales"] = "pasahitzak berdinak izan behar dira";

@@ -55,6 +55,7 @@ body, .contenido{
 /* FORMULARIO LOGIN*/
 
 .btn-tipo{
+	align-self: flex-start;
 	margin: 0.1em 0.1em;
 	padding: 0.3em 1.9em;
 	background-color: $(--v-oscuro);
@@ -197,7 +198,7 @@ input[type='checkbox']{
 .contenedor-ofertas .grupo{
 	display: flex;
 	flex-direction: column;
-	margin: 1em;
+	margin-bottom: 1em;
 }
 
 .contenedor-ofertas .grupo :any(input,select) {
@@ -306,12 +307,20 @@ input[type='checkbox']{
 	border-style: none;
     color: white;
     background-color: transparent;
+    text-align: left;
+    padding-left:1.5em !important;
 }
 
 .usuario input[type="submit"]:hover{
 	border-style: none;
     color: white;
     background-color: transparent;
+}
+
+.lleno * {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+    width: 100%;
 }
 
 :any(.cabecera >li:last-child, .usuario )::after{
@@ -502,7 +511,8 @@ header{
 }
 
 .contenedor-ofertas section article:hover{
-	background-color:rgba(29,145,67,0.05);
+	background-color: hsla-adjust($(--v-oscuro) 0 0 0 -95);
+	/*background-color:rgba(29,145,67,0.05);*/
 }
 
 .opciones{
@@ -523,7 +533,7 @@ header{
 }
 
 /*BUSCAR OFERTA PROFESOR*/
-.filtro-contenedor .buscar{
+.buscar{
 	background-image: url("/imagenes/buscar.png");
 	background-repeat: no-repeat;
 	background-size: 10%;
@@ -553,6 +563,12 @@ header{
 	
 }
 
+/*EMPRESA*/
+.decorado{
+	text-decoration: underline;
+	color: $(-v--oscuro);
+}
+
 /*CANDIDATURAS */
 
 .contenedor-candidaturas li{
@@ -564,6 +580,13 @@ text-decoration: none;
 }
 
 /*EDITAR PERFIL ALUMNO*/
+
+.grupo-botones .btn-vertical{
+	display:flex;
+	flex-direction:column;
+	align-items: left;
+	margin:0 0 .5em 0 !important;	
+}
 
 #formDatosPersonales, #formDatosPersonales > div{
 	display:flex;

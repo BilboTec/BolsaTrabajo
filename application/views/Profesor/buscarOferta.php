@@ -42,13 +42,5 @@
 		<article ng-if="ofertas.length === 0">
 			<h1>No se han encontrado resultados</h1>
 		</article>
-			<!--<select ng-model="resultadosPorPagina">
-					<option value="10">10</option>
-					<option value="25">25</option>
-					<option value="50">50</option>
-					
-			</select>
-			<input ng-model="pagina" ng-change="buscar()"/>	
-	-->
 	</section>
 	

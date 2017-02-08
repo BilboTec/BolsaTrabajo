@@ -3,10 +3,10 @@
 			<legend><?php echo strtoupper($idioma('filtro')); ?></legend>
 			<div class="filtro-contenedor">
 				<label><?php echo ucfirst($idioma('fecha')); ?></label><br>
-				<input ng-model="filtro.fecha" type="radio" name="fecha" value="Cualquier fecha"/> Cualquier fecha<br>
-  				<input ng-model="filtro.fecha" type="radio" name="fecha" value="Ultimas 24 Horas"/> Ultimas 24 Horas<br>
-  				<input ng-model="filtro.fecha" type="radio" name="fecha" value="Ultimos 7 dias"/> Ultimos 7 dias<br>
-  				<input ng-model="filtro.fecha" type="radio" name="fecha" value="Ultimos 15 dias"/> Ultimos 15 dias<br><br>
+				<p><input ng-model="filtro.fecha" type="radio" name="fecha" value="Cualquier fecha"/> Cualquier fecha</p>
+  				<p><input ng-model="filtro.fecha" type="radio" name="fecha" value="Ultimas 24 Horas"/> Ultimas 24 Horas</p>
+  				<p><input ng-model="filtro.fecha" type="radio" name="fecha" value="Ultimos 7 dias"/> Ultimos 7 dias</p>
+  				<p><input ng-model="filtro.fecha" type="radio" name="fecha" value="Ultimos 15 dias"/> Ultimos 15 dias</p><br>
   				
   				<div class="grupo">
 	  				<label><?php echo ucfirst($idioma('departamento')); ?></label><br>			
@@ -35,13 +35,6 @@
 			</div>
 		</a>
 		</article>
-			<select ng-model="filtro.resultadosPorPagina">
-					<option value="10">10</option>
-					<option value="25">25</option>
-					<option value="50">50</option>
-					
-			</select>
-			<input ng-model="filtro.pagina" ng-change="buscar()"/>	
-		
+
 	</section>
 	

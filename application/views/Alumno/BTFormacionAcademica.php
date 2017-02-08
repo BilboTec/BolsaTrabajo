@@ -62,8 +62,8 @@
 					<span ng-if="formacion.cursando == '1'"><?php echo mb_ucfirst($idioma("cursando")); ?></span></p>
 				</div>
 				<div class="grupo-horizontal">
-					<span ng-click="editar($index)" ng-if="indiceEdicion !== $index" class="btn btn-tipo"><?php echo mb_ucfirst($idioma("editar")); ?></span>
-					<span ng-click="eliminar($index)" class="btn btn-tipo" ng-if="indiceEdicion !== $index"><?php echo mb_ucfirst($idioma("eliminar")); ?></span>
+					<span title="<?php echo ucfirst($idioma("editar")); ?> ng-click="editar($index)" class="btn btn-tabla btn-editar" ng-if="indiceEdicion !== $index" ><img src="/imagenes/editar.png"/></span>
+					<span title="<?php echo ucfirst($idioma("eliminar")); ?> ng-click="eliminar($index)" class="btn btn-tabla btn-eliminar" ng-if="indiceEdicion !== $index"><img src="/imagenes/eliminar.png"/></span>
 				</div>
 			</div>
 			<p>{{nombre_tipo_titulacion}}</p>

@@ -63,8 +63,8 @@
 						<p ng-if="formacion_complementaria.cursando != '1'">{{formacion_complementaria.fecha_fin | btDate}}</p>
 					</div>
 					<div class="grupo-horizontal">		
-						<span class="btn btn-tipo" ng-click="editar($index)"><?php echo ucfirst($idioma("editar")); ?></span>
-						<span class="btn btn-tipo" ng-click="eliminar($index)"><?php echo ucfirst($idioma("eliminar")); ?></span>
+						<span title="<?php echo ucfirst($idioma("editar")); ?> class="btn btn-tabla btn-editar" ng-click="editar($index)"><img src="/imagenes/editar.png"/></span>
+						<span title="<?php echo ucfirst($idioma("eliminar")); ?> class="btn btn-tabla btn-eliminar" ng-click="eliminar($index)"><img src="/imagenes/eliminar.png"/></span>
 					</div>
 				</div>
 				<p>{{nomrbesTiposTitulacion[oferta.id_tipo_titulacion]}}</p>

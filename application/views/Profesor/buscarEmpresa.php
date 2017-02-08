@@ -31,7 +31,7 @@
 				
 				<div class="grupo">
 					<label><?php echo ucfirst($idioma('buscar')); ?></label>
-					<input type="text" ng-model="filtros.buscador"/>
+					<input class="buscar" type="text" ng-model="filtros.buscador"/>
 				</div>
 				<span class="btn btn-tipo" ng-click="buscar()" type="button"><?php echo ucfirst($idioma('filtrar')); ?></span>
 			</div>
@@ -47,14 +47,7 @@
 			<h1>{{empresa.nombre}}</h1>
 			<p>{{empresa.email}}</p>
 		</a>
-		</article>
-			<select ng-model="filtro.resultadosPorPagina">
-					<option value="10">10</option>
-					<option value="25">25</option>
-					<option value="50">50</option>
-					
-			</select>
-			<input ng-model="filtro.pagina" ng-change="buscar()"/>	
+		</article>	
 		
 	</section>
 	

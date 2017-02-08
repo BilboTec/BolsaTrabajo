@@ -4,9 +4,11 @@
 	<div class="contenido_linea titulo-con-boton">
 		<h1><?php echo strtoupper($idioma("datos_personales")); ?></h1>
 		<span class="btn btn-tipo" ng-click="editar()" ng-show="!editando"><?php echo strtoupper($idioma("editar")); ?></span>
-		<a bg-show="!editando" class="btn btn-tipo" target="_blank" href="/api/Alumnos/Curriculum"><?php echo ucfirst($idioma("imprimir_curriculum")) ?></a>
-		<span class="btn btn-tipo" ng-click="mostrarcambiarclave()" ng-show="editandoclave!=2"><?php echo mb_ucfirst($idioma('cambiar_clave')); ?></span>
-		<span class="btn btn-tipo" ng-click="eliminarcuenta()" ng-show="!editando"><?php echo mb_ucfirst($idioma('eliminar_cuenta')); ?></span>
+		<div class="grupo-botones">
+			<a bg-show="!editando" class="btn btn-tipo btn-vertical" target="_blank" href="/api/Alumnos/Curriculum"><?php echo ucfirst($idioma("imprimir_curriculum")) ?></a>
+			<span class="btn btn-tipo btn-vertical" ng-click="mostrarcambiarclave()" ng-show="editandoclave!=2"><?php echo mb_ucfirst($idioma('cambiar_clave')); ?></span>
+			<span class="btn btn-tipo btn-vertical" ng-click="eliminarcuenta()" ng-show="!editando"><?php echo mb_ucfirst($idioma('eliminar_cuenta')); ?></span>
+		</div>
 	</div>
 	
 	<div ng-show="editandoclave === 2">

@@ -1,4 +1,4 @@
-<div ng-controller="btEditarFormacionComplementaria">
+<!--<div ng-controller="btEditarFormacionComplementaria">
 	<div class="grupo-horizontal">
 		<div class="grupo">
 			<label for="nombre"><?php echo ucfirst($idioma("nombre")); ?></label>
@@ -51,3 +51,4 @@
 	<button ng-click="guardar()"><?php echo ucfirst($idioma("guardar")); ?></button>
 	<button ng-click="cancelar()"><?php echo ucfirst($idioma("cancelar")); ?></button>
 </div>
+-->
