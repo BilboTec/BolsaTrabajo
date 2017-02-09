@@ -46,7 +46,7 @@
 		</div>
 		<div class="grupo">
 			<label for="conocimientos"><?php echo mb_ucfirst($idioma("conocimientos")); ?></label>
-			<div bt-auto-complete bt-url="/api/Conocimientos/Like" bt-clave="id_conocimiento" bt-texto="nombre" ng-model="vista.conocimientos"></div>
+			<div bt-auto-complete="auto1" bt-url="/api/Conocimientos/Like" bt-clave="id_conocimiento" bt-texto="nombre" ng-model="vista.conocimientos"></div>
 		</div>
 		<div class="grupo-horizontal">
 			<span class="btn btn-tipo" ng-click="aplicarInsertar()"><?php echo mb_ucfirst($idioma("guardar")); ?></span>
@@ -62,8 +62,8 @@
 					<span ng-if="formacion.cursando == '1'"><?php echo mb_ucfirst($idioma("cursando")); ?></span></p>
 				</div>
 				<div class="grupo-horizontal">
-					<span title="<?php echo ucfirst($idioma("editar")); ?> ng-click="editar($index)" class="btn btn-tabla btn-editar" ng-if="indiceEdicion !== $index" ><img src="/imagenes/editar.png"/></span>
-					<span title="<?php echo ucfirst($idioma("eliminar")); ?> ng-click="eliminar($index)" class="btn btn-tabla btn-eliminar" ng-if="indiceEdicion !== $index"><img src="/imagenes/eliminar.png"/></span>
+					<span title="<?php echo ucfirst($idioma("editar")); ?>" ng-click="editar($index)" class="btn btn-tabla btn-editar" ng-if="indiceEdicion !== $index" ><img src="/imagenes/editar.png"/></span>
+					<span title="<?php echo ucfirst($idioma("eliminar")); ?>" ng-click="eliminar($index)" class="btn btn-tabla btn-eliminar" ng-if="indiceEdicion !== $index"><img src="/imagenes/eliminar.png"/></span>
 				</div>
 			</div>
 			<p>{{nombre_tipo_titulacion}}</p>
@@ -114,7 +114,7 @@
 			</div>
 			<div class="grupo">
 				<label for="conocimientos"><?php echo mb_ucfirst($idioma("conocimientos")); ?></label>
-				<div bt-auto-complete bt-url="/api/Conocimientos/Like" bt-clave="id_conocimiento" bt-texto="nombre" ng-model="vista.conocimientos"></div>
+				<div bt-auto-complete="auto" bt-url="/api/Conocimientos/Like" bt-clave="id_conocimiento" bt-texto="nombre" ng-model="vista.conocimientos"></div>
 			</div>
 			<div class="grupo-horizontal">
 				<span class="btn btn-tipo" ng-click="aplicarEdicion()"><?php echo mb_ucfirst($idioma("guardar")); ?></span>

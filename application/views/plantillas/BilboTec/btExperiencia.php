@@ -36,7 +36,7 @@
 		
 		<div class="grupo">
 			<label for="conocimientos"><?php echo ucfirst($idioma("conocimientos")); ?></label>
-			<div bt-auto-complete bt-url="/api/Conocimientos/Like" bt-clave="id_conocimiento" bt-texto="nombre" ng-model="vista.conocimientos"></div>
+			<div bt-auto-complete="auto3" bt-url="/api/Conocimientos/Like" bt-clave="id_conocimiento" bt-texto="nombre" ng-model="vista.conocimientos"></div>
 		</div>
 		
 		<span class="btn btn-tipo" ng-click="aplicarInsertar()"><?php echo ucfirst($idioma("guardar")); ?></span>
@@ -77,7 +77,7 @@
 			
 			<div class="grupo">
 				<label for="conocimientos"><?php echo ucfirst($idioma("conocimientos")); ?></label>
-				<div bt-auto-complete bt-url="/api/Conocimientos/Like" bt-clave="id_conocimiento" bt-texto="nombre" ng-model="vista.conocimientos"></div>
+				<div bt-auto-complete="auto5" bt-url="/api/Conocimientos/Like" bt-clave="id_conocimiento" bt-texto="nombre" ng-model="vista.conocimientos"></div>
 			</div>
 			<span class="btn btn-tipo" ng-click="aplicarEdicion($event,$index)"><?php echo strtoupper($idioma("guardar")); ?></span>
 			<span class="btn btn-tipo" ng-click="cancelar($event)"><?php echo strtoupper($idioma("cancelar")); ?></span>
