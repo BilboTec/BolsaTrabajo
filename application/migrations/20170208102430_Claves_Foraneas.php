@@ -15,7 +15,7 @@ class Migration_Claves_Foraneas extends CI_Migration{
 									"apellido"=>"admin",
 									"id_departamento"=>1,
 									"id_rol"=>3]);
-		echo "Migraciones realizadas! Base de datos en la versión mas actual";
+		echo "<br>Migraciones realizadas! Base de datos en la versión mas actual";
 	}
 	
 	public function down(){

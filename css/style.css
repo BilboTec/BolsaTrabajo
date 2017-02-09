@@ -775,8 +775,11 @@ footer{
 [bt-tabla] tr:any(.ng-hide-remove, .ng-enter){
 	animation: btTablaEnter 0.5s;
 }
-[bt-table] tr:any(.ng-hide-add-active,.ng-leave){
+[bt-tabla] tr:any(.ng-hide-add-active,.ng-leave){
 	animation: btTablaEnter 0.5s reverse;
+}
+[bt-tabla] tr.ng-enter:nth-child(2n){
+	animation: btTablaEnterPar 0.5s;
 }
 [bt-tabla] th .orden::before {
     content: " ";
@@ -833,12 +836,48 @@ footer{
 		transform: scaleY(1) ;
 	}
 }
+@keyframes btTablaEnterPar{
+	0%{
+		transform: translateY(-50%);
+		opacity: 0;
+		display:none;
+		position: absolute;
+	}
+	49%{
+		position:absolute;
+	}
+	50%{
+		transform: translateY(-50%);
+		opacity: 0;
+		display:initial;
+		position:initial;
+	}
+	80%{
+		transform: translateY(-30%);
+		opacity: 0.5;
+	}
+	100%{
+		transform: translateY(0);
+	}
+}
 @keyframes btTablaEnter {
 	0%{
 		transform: translateY(-50%);
 		opacity: 0;
+		display: none;
+		position: absolute;
 	}
-	60%{
+
+	49%{
+		position:absolute;
+	}
+	50%{
+		transform: translateY(-50%);
+		opacity: 0;
+		display: none;
+		position: initial;
+	}
+	80%{
 		opacity: 0.5;
 	}
 	100%{
