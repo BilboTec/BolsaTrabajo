@@ -2,15 +2,20 @@
 class Migration_Claves_Foraneas extends CI_Migration{
 	public function up(){
 		$this->load->database();
-		$this->db->query("ALTER TABLE conocimiento_experiencia DROP FOREIGN KEY `fk_conocimiento_experiencia_experiencia`");
-		$this->db->query("ALTER TABLE conocimiento_experiencia ADD CONSTRAINT 
-		fk_conocimiento_experiencia_experiencia FOREIGN KEY(id_experiencia) REFERENCES experiencia(id_experiencia) ON DELETE CASCADE");
-		$this->db->query("ALTER TABLE conocimiento_formacion_academica ADD CONSTRAINT 
-		fk_conocimiento_formacion_academica_conocimiento FOREIGN KEY(id_formacion_academica) REFERENCES formacion_academica(id_formacion_academica) ON DELETE CASCADE");
-		$this->db->query("ALTER TABLE conocimiento_formacion_complementaria ADD CONSTRAINT 
-		fk_conocimiento_formacion_complementaria_conocimiento FOREIGN KEY(id_formacion_complementaria) REFERENCES formacion_complementaria(id_formacion_complementaria) ON DELETE CASCADE");		
-		$this->db->query("ALTER TABLE empresa MODIFY COLUMN cif VARCHAR(9)");
-		$this->db->query("alter table empresa DROP INDEX cif");
+		$this->db->insert("config",["clave"=>"sftp_port","valor"=>"22"]);
+		$this->db->insert("config",["clave"=>"sftp_user","valor"=>"u82799326-prueba"]);
+		$this->db->insert("config",["clave"=>"sftp_host","valor"=>"home598636084.1and1-data.host"]);
+		$this->db->insert("config",["clave"=>"sftp_pass","valor"=>"q1w2e3r4"]);
+		$this->db->insert("config",["clave"=>"backup_frequencia","valor"=>"15"]);
+		$this->db->insert("email",["id_email"=>1,"email"=>"admin@bolsatrabajo.es"]);
+		$clave = password_hash("admin",PASSWORD_DEFAULT);
+		$this->db->insert("profesor",["id_email"=>1,
+									"nombre"=>"admin",
+									"clave"=>$clave,
+									"apellido"=>"admin",
+									"id_departamento"=>1,
+									"id_rol"=>3]);
+		echo "Migraciones realizadas! Base de datos en la versión mas actual";
 	}
 	
 	public function down(){

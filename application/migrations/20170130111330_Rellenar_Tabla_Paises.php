@@ -3,7 +3,6 @@ class Migration_Rellenar_Tabla_Paises extends CI_Migration{
     public function up(){
         $this->load->database();
         $db = $this->db;
-        $db->query("USE bolsa_trabajo");
 		$db->query("DELETE FROM pais");
 		$db->query("ALTER TABLE pais AUTO_INCREMENT=1");
         $db->query("INSERT INTO pais (nombre)
@@ -230,7 +229,6 @@ class Migration_Rellenar_Tabla_Paises extends CI_Migration{
     public function down(){
         $this->load->database();
         $db = $this->db;
-        $db->query("USE bolsa_trabajo");
         $db->query("DELETE FROM pais");
     }
 }

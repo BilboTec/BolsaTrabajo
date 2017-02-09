@@ -1,11 +1,10 @@
  <?php
- 
+ set_time_limit(0);
  class Migration_Primera_Migracion extends CI_Migration {
  	
 	public function up(){
 		$this->load->database();
 		$db = $this->db;
-		$db->query("USE bolsa_trabajo");
 		$db->query("SET FOREIGN_KEY_CHECKS=0");
 		$db->query("DROP TABLE IF EXISTS alumno");
 		$db->query("DROP TABLE IF EXISTS candidatura");
@@ -73,7 +72,7 @@
 		$db->query("CREATE TABLE empresa(
 							id_empresa INT UNSIGNED AUTO_INCREMENT COMMENT 'Identificador de empresa',
 						    id_email INT UNSIGNED NOT NULL COMMENT 'Identificador de email',
-						    cif VARCHAR(9) NOT NULL UNIQUE COMMENT 'Cif/Dni de la empresa',
+						    cif VARCHAR(9) COMMENT 'Cif/Dni de la empresa',
 						    sector VARCHAR(80) NOT NULL COMMENT 'Sector en el que trabaja',
 						    nombre VARCHAR(250) NOT NULL COMMENT 'Nombre de la empresa',
 						    clave VARCHAR(128) NOT NULL COMMENT 'Contraseña de la empresa',
@@ -89,7 +88,7 @@
 						    titulo VARCHAR(200) NOT NULL COMMENT 'Cabecera de la oferta',
 						    id_empresa INT UNSIGNED COMMENT 'Identificador de la empresa a la que pertenece',
 						    nombre_empresa VARCHAR(250) COMMENT 'Nombre de la empresa',
-						    fecha TIMESTAMP DEFAULT CURRENT_TIMESTAMP COMMENT 'Fecha en la cual se creó la oferta',
+						    fecha DATETIME DEFAULT NOW() COMMENT 'Fecha en la cual se creó la oferta',
 						    estudios_min VARCHAR(250) COMMENT 'Descripción de los estudios mínimos para la oferta',
 						    experiencia_min VARCHAR(250) COMMENT 'Descripción de la experiencia mínima requerida para la oferta',
 						    requisitos TEXT COMMENT 'Descripción del resto de requisitos de la oferta',
@@ -131,7 +130,7 @@
 						    nombre VARCHAR(40) NOT NULL COMMENT 'Nombre del alumno',
 						    apellido1 VARCHAR(40) NOT NULL COMMENT 'Primer apellido del alimno',
 						    apellido2 VARCHAR(40) COMMENT 'Segundo apellido del alumno',
-						    fecha_nacimiento TIMESTAMP COMMENT 'Fecha dde naciemnto del alumno',
+						    fecha_nacimiento DATETIME COMMENT 'Fecha dde naciemnto del alumno',
 						    calle VARCHAR(100) COMMENT 'Calle en la que vive el alumno',
 						    cp  VARCHAR(5) COMMENT 'Código postal',
 						    id_localidad INT UNSIGNED COMMENT 'Localidad en la que vive',
@@ -149,8 +148,8 @@
 		$db->query("CREATE TABLE experiencia (
 							id_experiencia INT UNSIGNED AUTO_INCREMENT COMMENT 'Identificador de la experiencia laboral',
 						    id_alumno INT UNSIGNED NOT NULL COMMENT 'Identificador del alumno al que pertenece',
-						    fecha_inicio TIMESTAMP NOT NULL COMMENT 'Fecha en la que comenzó la experiencia',
-						    fecha_fin TIMESTAMP COMMENT 'Fecha en la que terminó la experiencia',
+						    fecha_inicio DATETIME NOT NULL COMMENT 'Fecha en la que comenzó la experiencia',
+						    fecha_fin DATETIME COMMENT 'Fecha en la que terminó la experiencia',
 						    trabajando_actualmente BOOL COMMENT 'Si se encuentra trabajando acualmente en el puesto',
 						    empresa VARCHAR(40) COMMENT 'Empresa para la que trabajó',
 						    cargo VARCHAR(40) COMMENT 'Descripción breve del cargo',
@@ -178,7 +177,7 @@
 		$db->query("CREATE TABLE candidatura (
 							id_alumno INT UNSIGNED COMMENT 'Alumno propietario de la candidatura',
 						    id_oferta INT UNSIGNED COMMENT 'Oferta a la que se dirije la candidatura',
-						    fecha TIMESTAMP COMMENT 'Fecha en la que se realizó la candidatura',
+						    fecha DATETIME COMMENT 'Fecha en la que se realizó la candidatura',
 						    estado TINYINT COMMENT 'Estado en el que se encuentra la cnadidatura',
 						    CONSTRAINT pk_candidatura PRIMARY KEY (id_alumno,id_oferta),
 						    CONSTRAINT fk_candidatura_alumno FOREIGN KEY (id_alumno) REFERENCES alumno(id_alumno),
@@ -198,12 +197,11 @@
 							identificador TIMESTAMP DEFAULT CURRENT_TIMESTAMP() PRIMARY KEY COMMENT 'identificador para el alta'
 						) COMMENT 'Tabla de los identificadores de alta válidos'");
 						
-						echo "Base de datos migrada a la versión 20161202083730";
+						echo "Base de datos migrada a la versión 20161202083730<br>";
 				}
 	public function down(){
 							$this->load->database();
 							$db = $this->db;
-							$db->query("USE bolsa_trabajo");
 							$db->query("SET FOREIGN_KEY_CHECKS=0");
 							$db->query("DROP TABLE IF EXISTS alumno");
 							$db->query("DROP TABLE IF EXISTS candidatura");

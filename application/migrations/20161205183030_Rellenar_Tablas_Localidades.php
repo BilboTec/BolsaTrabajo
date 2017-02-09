@@ -3,7 +3,6 @@ class Migration_Rellenar_Tablas_Localidades extends CI_Migration{
     public function up(){
         $this->load->database();
         $db = $this->db;
-        $db->query("USE bolsa_trabajo");
         $db->query("INSERT INTO provincia (id_provincia, nombre)
                         VALUES
                             (2,'Albacete'),
@@ -8175,12 +8174,11 @@ class Migration_Rellenar_Tablas_Localidades extends CI_Migration{
 (48,'Zierbena'),
 (48,'Arratzu'),
 (48,'Ziortza-Bolibar')");
-
+    echo "Base de dato migrada a la version 20161205183030<br>";
     }
     public function down(){
         $this->load->database();
         $db = $this->db;
-        $db->query("USE bolsa_trabajo");
         $db->query("DELETE FROM localidad");
         $db->query("DELETE FROM provincia");
     }

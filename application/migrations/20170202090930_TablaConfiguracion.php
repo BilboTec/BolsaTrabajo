@@ -16,6 +16,6 @@ class Migration_TablaConfiguracion extends CI_Migration {
 	public function down(){
 		$this->load->database();
 		$this->db->query("DROP TABLE IF EXISTS rutas_backup");
-		$this->db->query("DROPT TABLE IF EXITS config");
+		$this->db->query("DROP TABLE IF EXITS config");
 	}
 }
