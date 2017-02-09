@@ -646,17 +646,17 @@ angular.module("BilboTec",["BilboTec.ui", "ngRoute"])
 			function(){
 				$scope.ventana.cerrar();
 				$http({
-					url: "/api/Oferta/Delete",
+					url: "/api/Ofertas/Delete",
 					method: "POST",
 					data: $.param({
-						id_oferta: $scope.oferta.id_oferta
+						elem:$scope.oferta
 					})
 				})
 				.then(function(){
 					window.location="#!/";
 				},
 				function(error){
-					$scope.ventana.alerta("error",error);
+					$scope.ventana.alerta("error",error,function(){$scope.ventana.cerrar()});;
 				})
 				});
 		};
