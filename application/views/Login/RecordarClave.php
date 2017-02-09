@@ -1,7 +1,14 @@
-<div ng-controller="recordarClaveController">
-	<label for="email"><?php echo ucfirst($idioma("email")); ?></label>
-	<input type="email" id="email" ng-model="email" ng-required="true"/>
-	<button ng-click="enviar()"><?php echo ucfirst($idioma("enviar")); ?></button>
+<div class="contenedor-perfil" ng-controller="recordarClaveController">
+	<fieldset>
+		<legend> <?php echo mb_strtoupper($idioma("cambiar_clave")); ?></legend>
+	<div class="grupo">
+		<div class="grupo sin-margen">
+			<label for="email"><?php echo ucfirst($idioma("email")); ?></label>
+			<input type="email" id="email" ng-model="email" ng-required="true"/>
+		</div>
+		<span class="btn btn-tipo" ng-click="enviar()"><?php echo ucfirst($idioma("enviar")); ?></span>
+	</div>
+	</fieldset>
 	<div bt-window="ventana"></div>
 </div>
 

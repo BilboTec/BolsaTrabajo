@@ -29,7 +29,7 @@
 				<a href="/Login/RecordarClave"><?php echo ucfirst($idioma('recordar_clave')); ?></a>
 			</div>
 		</fieldset>
-		<a ng-href="/SignUp/{{tipo==1?'Empresa':'Alumno'}}" class="registrarse" ng-show="tipo!==2" href="#"><?php echo strtoupper($idioma('registrarse')); ?></a>
+		<a ng-href="/SignUp/{{tipo==1?'Empresa':'Alumno'}}" class="registrarse" ng-show="tipo==1" href="#"><?php echo strtoupper($idioma('registrarse')); ?></a>
 
 	</form>
 	

@@ -247,7 +247,7 @@ input[type='checkbox']{
 	 text-align: center;
 }
 
-.contenedor-perfil a:not(.btn), .verde{
+.contenedor-perfil a:not(.btn), .verde, .verde:visited{
 	color: $(--v-oscuro);
 }
 .contenedor-perfil div>p:last-of-type{
@@ -1168,11 +1168,12 @@ nav ul, .contenedor-admin{
 	
 }
 .contenedor-invitar>div:not([bt-window]){
-		border-bottom: 2px solid $(--g-oscuro);
+		border-bottom: 1px solid $(--g-oscuro);
 		padding: 2em 1em;
 		display: flex;
 		flex-direction: column;
 		align-items:  center;
+		margin-bottom: 1em;
 }
 .contenedor-invitar :any([bt-file-input],.grupo-horizontal){
 	align-self: stretch;
