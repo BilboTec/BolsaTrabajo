@@ -649,8 +649,9 @@ angular.module("BilboTec",["BilboTec.ui", "ngRoute"])
 					url: "/api/Ofertas/Delete",
 					method: "POST",
 					data: $.param({
-						elem:$scope.oferta
-					})
+						id_oferta:$scope.oferta.id_oferta
+					}),
+					headers: {'Content-Type': 'application/x-www-form-urlencoded'}
 				})
 				.then(function(){
 					window.location="#!/";

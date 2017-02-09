@@ -98,7 +98,12 @@ class Ofertas extends BT_Controlador_api_estandar
         $this->modelo->actualizar_conocimientos($oferta,$conocimientos);
         $this->json($oferta);
     }
-	
+	public function delete(){
+		$id_oferta = $this->input->post("id_oferta");
+		if($id_oferta !== null){
+			$this->modelo->delete($id_oferta);
+		}
+	}
 	public function Candidatura(){
 		$metodo = $this->input->method(true);
 		if($metodo === "GET"){

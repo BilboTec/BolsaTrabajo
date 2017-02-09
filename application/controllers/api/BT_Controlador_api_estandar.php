@@ -48,6 +48,7 @@ class BT_Controlador_api_estandar extends BT_Controller
         try{
                 $elem = $this->input->post("elem");
     			$respuesta = new stdClass();
+                var_dump($elem);
                 $respuesta->mensaje=$this->modelo->delete($elem[$this->id]);
                 $this->json($respuesta);
         		
