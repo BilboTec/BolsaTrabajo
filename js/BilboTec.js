@@ -665,7 +665,7 @@ angular.module("BilboTec",["BilboTec.ui", "ngRoute"])
 			})
 			.then(
 				function(respuesta){
-					window.location = "#!/" + $scope.idOferta;
+					window.location = "#!/" + ($scope.idOferta!=0?$scope.idOferta:respuesta.data.id_oferta);
 				},
 				function(error){
 					alert(error.data?error.data:error);
