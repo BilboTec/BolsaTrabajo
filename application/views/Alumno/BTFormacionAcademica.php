@@ -69,7 +69,7 @@
 			<p>{{nombre_tipo_titulacion}}</p>
 			<p>{{nombre_oferta_formativa}}</p>
 			<div ng-model="formacion.descripcion" bt-contenido-html></div>
-			<p>Conocimientos:</p>
+			<p ng-show="formacion.conocimientos.length != 0">Conocimientos:</p>
 			<p ng-repeat="conocimiento in formacion.conocimientos">{{conocimiento.nombre}}</p>
 		</div>
 		<div ng-if="$parent.indiceEdicion === $index" ng-form="ins" class="entrar-izq salir-der">
