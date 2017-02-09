@@ -38,15 +38,19 @@
 	
 	<div ng-show="!editando">
 		<h1>{{ alumno.nombre }} {{ alumno.apellido1 }} {{ alumno.apellido2 }}</h1>
-		<img src="{{imagen}}" ng-show="imagen"/>
-		<p ng-show="alumno.fecha_nacimiento"><?php echo ucfirst($idioma("fecha_nacimiento")); ?>: {{ alumno.fecha_nacimiento }}</p>
-		<p ng-show="alumno.dni"><?php echo ucfirst($idioma("dni")); ?>: {{ alumno.dni }}</p>
-		<p ng-show="alumno.nacionalidad"><?php echo ucfirst($idioma("nacionalidad")); ?>: {{ alumno.nacionalidad }}</p>
-		<p ng-show="alumno.tlf"><?php echo ucfirst($idioma("tlf")); ?>: {{ alumno.tlf }}</p>
-		<p ng-show="alumno.calle"><?php echo ucfirst($idioma("calle"));?>: {{alumno.calle}} 
-			<span ng-show="nombre_localidad">, {{nombre_localidad}}</span>
-			<span ng-show="nombre_provincia">, {{nombre_provincia}}</span>
-		</p>
+		<div class="grupo-horizontal">
+			<img src="{{imagen}}" ng-show="imagen"/>
+			<div class="grupo-vertical">
+				<p ng-show="alumno.fecha_nacimiento"><?php echo ucfirst($idioma("fecha_nacimiento")); ?>: {{ alumno.fecha_nacimiento }}</p>
+				<p ng-show="alumno.dni"><?php echo ucfirst($idioma("dni")); ?>: {{ alumno.dni }}</p>
+				<p ng-show="alumno.nacionalidad"><?php echo ucfirst($idioma("nacionalidad")); ?>: {{ alumno.nacionalidad }}</p>
+				<p ng-show="alumno.tlf"><?php echo ucfirst($idioma("tlf")); ?>: {{ alumno.tlf }}</p>
+				<p ng-show="alumno.calle"><?php echo ucfirst($idioma("calle"));?>: {{alumno.calle}} 
+					<span ng-show="nombre_localidad">, {{nombre_localidad}}</span>
+					<span ng-show="nombre_provincia">, {{nombre_provincia}}</span>
+				</p>
+			</div>
+		</div>
 	</div>
 	
 	

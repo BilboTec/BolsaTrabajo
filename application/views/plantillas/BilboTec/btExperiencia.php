@@ -84,8 +84,8 @@
 		</div>
 		<div class="experiencia" ng-if="indiceEdicion != $index">
 			<div class="grupo-horizontal space-between">
-				<div class="grupo-horizontal">
-					<p><h1>{{experiencia.empresa}}</h1><span>({{experiencia.fecha_inicio}} - {{experiencia.trabajando_actualmente=="1"?"<?php echo $idioma("actualmente"); ?>":experiencia.fecha_fin}})</span></p>
+				<div class="grupo-vertical">
+					<div class="grupo-horizontal"><h1>{{experiencia.empresa}}</h1><span>({{experiencia.fecha_inicio}} - {{experiencia.trabajando_actualmente=="1"?"<?php echo $idioma("actualmente"); ?>":experiencia.fecha_fin}})</span></div>
 					<p>{{experiencia.cargo}}</p>
 					<p bt-contenido-html ng-model="experiencia.funciones"></p>
 					<p ng-repeat="conocimiento in experiencia.conocimientos">{{conocimiento.nombre}}</p>

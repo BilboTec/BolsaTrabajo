@@ -70,7 +70,7 @@
 				<p>{{nomrbesTiposTitulacion[oferta.id_tipo_titulacion]}}</p>
 				<P>{{formacion.complementaria.horas}}
 				<div bt-contenido-html ng-model="formacion_complementaria.descripcion"></div>
-				<h3>Conocimientos</h3>
+				<p ng-show="formacion_complementaria.conocimientos.length != 0">Conocimientos:</p>
 				<p ng-repeat="conocimiento in formacion_complementaria.conocimientos">{{conocimiento.nombre}}</p>
 			</div>
 			<div class="entrar-izq salir-der" ng-if="indiceEdicion == $index">
