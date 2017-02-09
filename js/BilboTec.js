@@ -14,16 +14,19 @@ angular.module("BilboTec",["BilboTec.ui", "ngRoute"])
     	var desde = new Date(fecha);
         var tiempo = ahora.getTime() - desde.getTime();
         var tiempos = {
-        	"segundos":1000,
-        	"minutos":60,
-        	"horas":60,
-        	"días":24
+        	"días":24* 60 * 60 * 1000,
+        	"horas":60 * 60 * 1000,
+        	"minutos":60 * 1000,
+        	"segundos":1000
         };
+        var n = 0;
         for(var ext in tiempos){
-        	if(tiempo>tiempos[ext]){
-        		tiempo= tiempo/tiempos[ext];
-        	}else{
-        		return tiempo.toFixed(0) + " "+ext;
+        	while(tiempo > tiempos[ext]){
+        		tiempo-=tiempos[ext];
+        		n++;
+        	}
+        	if(tiempo<tiempos[ext] && n != 0){
+        		return n + " "+ext;
         	}
         }
         return tiempo.toFixed(0) + " dias";
