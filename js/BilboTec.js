@@ -644,19 +644,19 @@ angular.module("BilboTec",["BilboTec.ui", "ngRoute"])
 		$scope.eliminar = function(){
 			scope.ventana.preguntar("confirmar_eliminar_titulo","confirmar_eliminar",
 			function(){
-				scope.ventana.cerrar();
+				$scope.ventana.cerrar();
 				$http({
 					url: "/api/Oferta/Delete",
 					method: "POST",
 					data: $.param({
-						id_oferta: scope.oferta.id_oferta
+						id_oferta: $scope.oferta.id_oferta
 					})
 				})
 				.then(function(){
 					window.location="#!/";
 				},
 				function(error){
-					scope.ventana.alerta("error",error);
+					$scope.ventana.alerta("error",error);
 				})
 				});
 		};
