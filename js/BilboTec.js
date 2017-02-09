@@ -642,7 +642,7 @@ angular.module("BilboTec",["BilboTec.ui", "ngRoute"])
 				)
 		}
 		$scope.eliminar = function(){
-			scope.ventana.preguntar("confirmar_eliminar_titulo","confirmar_eliminar",
+			$scope.ventana.preguntar("confirmar_eliminar_titulo","confirmar_eliminar",
 			function(){
 				$scope.ventana.cerrar();
 				$http({
