@@ -1,7 +1,7 @@
 <?php
 
 class BT_Controller extends CI_Controller{
-	
+	public $email_conf; 
 	public $idioma;
 	protected $roles;
 	private function avisar_alumnos_inactivos(){
@@ -37,11 +37,16 @@ class BT_Controller extends CI_Controller{
 		return isset($this->roles[$rol_id])?$this->roles[$rol_id]:null;
 	}
 	public function __construct(){
+		$this->email_conf = new stdClass();
 		parent::__construct();
 		$this->load->model("BT_Modelo_Profesor", "profesores");
 		$this->load->model("BT_Modelo_Alumno", "alumnos");
 		$this->load->model("BT_Modelo_Empresa", "empresas");
 		$this->load->model("BT_Modelo_Configuracion","bt_config");
+		$this->email_conf->user = $this->bt_config->get("email_user");
+		$this->email_conf->host = $this->bt_config->get("email_host");
+		$this->email_conf->port = $this->bt_config->get("email_port");
+		$this->email_conf->pass = $this->bt_config->get("email_pass");
 		$this->bt_config->hacer_backup_programado();
 		$this->load->helper("url");
 		$this->load->helper("BT_ui_helper");

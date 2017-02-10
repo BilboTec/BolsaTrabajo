@@ -1,0 +1,102 @@
+*{
+	font-family: 'exo-regular';
+}
+html{
+	min-height: 100%;
+    display: flex;
+    align-items:stretch;
+}
+
+body{
+	flex: 1;
+	min-height: 100%;
+	display: flex;
+	align-items: center;
+	flex-direction: column;
+	justify-content: center;
+
+}
+
+body{
+	background-color: $(--g-claro);
+}
+
+body>div, body>form{
+	background-color: white;
+	width: 70%;
+	padding: 2em;
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+}
+.codigo {
+	background-color: hsla-adjust(lightblue 0 0 0 -50);
+	align-self: stretch;
+	padding: 0 1em;
+}
+.logo{
+	flex: 0 0;
+	align-self: center;
+	width: 180px;
+	height: 180px;
+}
+
+.btn-centro{
+	@extend .centrado;
+}
+.centrado{
+	align-self: center;
+}
+.grupo{
+	display:flex;
+	align-self: stretch;
+	margin-bottom: 1.5em;
+	
+}
+
+.grupo :any(label, p, input){
+	align-self: flex-start;
+	margin: 0;
+	flex: 1;
+}
+
+.grupo label{
+	flex: 0.5;
+}
+
+.grupo input{
+	margin: 0 1em;
+}
+
+/*************************************
+********FUENTES****************
+**************************************/
+@font-face {
+    font-family: "exo-semibold";
+    src: url("/fuentes/Exo2-SemiBold.otf");
+}
+
+@font-face {
+    font-family: "exo-medium";
+    src: url("/fuentes/Exo2-Medium.otf");
+}
+
+@font-face {
+    font-family: "exo-regular";
+    src: url("/fuentes/Exo2-Regular.otf");
+}
+@font-face {
+    font-family: "exo-light";
+    src: url("/fuentes/Exo2-Light.otf");
+}
+
+
+/*************************************
+********COLORES****************
+**************************************/
+@set {
+	--g-oscuro: #727176;
+	--g-claro: #edeef0;
+	--v-oscuro: #1d9143;
+	--v-claro: #c1ce40;
+}
