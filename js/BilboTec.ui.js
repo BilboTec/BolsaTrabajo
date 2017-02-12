@@ -2031,4 +2031,23 @@ return{
             };
         }
     };
-}]);
+}])
+.directive("btBtnCarga",function(){
+    return{
+        restrict:"A",
+        scope:{
+            cargando:"=btCargando"
+        },
+        template:function(e,a){
+            var nCuadros = a.btNCuadros || 8;
+            var cuadros = "<div class='contenedor-texto'>"+e.html()+"</div><div class='contenedor-cuadros'>";
+            for(var i = 0; i < nCuadros ; i++){
+                cuadros += "<div style='animation-delay:"+(0.2+(0.2*i))+"s'>&nbsp;</div>";
+            }
+            return cuadros + "</div>";
+        },
+        link:function(scope,elem,attr){
+            
+        }
+    }
+});

@@ -1577,4 +1577,31 @@ angular.module("BilboTec",["BilboTec.ui", "ngRoute"])
 				});
 	};
 
+}]).controller("btEmailConfigController",["$http","$scope",function($http,$scope){
+	$scope.guardarEmailConfig = function(){
+		$http({
+			url:"/api/Configuracion/Email",
+			data:$.param($scope.email),
+			method:"POST",
+			headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+		}).then(function(respuesta){
+			$scope.ventana.alerta("datos_email_titulo",
+			"datos_email_guardados",function(){
+					$scope.ventana.cerrar();
+				});
+		},function(error){
+			$scope.ventana.alerta(error.data,function(){
+				$scope.ventana.cerrar();
+			});
+		});
+	};
+	$http({
+		url:"/api/Configuracion/Email"
+	}).then(function(respuesta){
+		$scope.email = respuesta.data;
+	},function(error){
+		$scope.ventana.alerta("Error",error.data,function(){
+			$scope.ventana.cerrar();
+		});
+	});
 }]);

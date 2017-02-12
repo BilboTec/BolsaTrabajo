@@ -13,50 +13,74 @@
 </ul>
 	<p ng-show="seleccionado == -1">Seleccione la opción que deséa modificar</p>
 	<div class="contenedor-tabla" >
-		<div bt-tabla ng-model="filas" bt-config="configuracion.conocimientos" bt-set-config="establecerConfiguracion" ng-show="seleccionado >= 0"></div>
-		<fieldset ng-form="ftpForm" ng-show="seleccionado == 8" ng-controller="btControladorConfiguracion">
-			<div bt-window="ventana"></div>
-			<legend>Copias de seguridad</legend>
-			<div class="contenedor-config">
-			<div class="grupo">
-				<label for="host">Host</label>
-				<input type="text" ng-required="true" ng-model="config.sftp_host" id="host" name="host"/>
-				<span class="error_validacion" ng-if="(ftpForm.$submitted  || ftpForm.host.$touched) && ftpForm.host.$invalid">
-					El campo host es obligatorio
-				</span>
-			</div>
-			<div class="grupo">
-				<label for="port"><?php echo mb_ucfirst($idioma("puerto")); ?></label>
-				<input type="text" ng-required="true" ng-model="config.sftp_port" id="port" name="port"/>
-				<span class="error_validacion" ng-if="(ftpForm.$submitted  || ftpForm.port.$touched) && ftpForm.port.$invalid">
-					El campo puerto es obligatorio
-				</span>
-			</div>
-			<div class="grupo">
-				<label for="user"><?php echo mb_ucfirst($idioma("usuario")); ?></label>
-				<input type="text" ng-required="true" ng-model="config.sftp_user" id="user" name="user"/>
-				<span class="error_validacion" ng-if="(ftpForm.$submitted  || ftpForm.user.$touched) && ftpForm.user.$invalid">
-					El campo usuario es obligatorio
-				</span>
-			</div>
-			<div class="grupo">
-				<label for="pass"><?php echo mb_ucfirst($idioma("clave")); ?></label>
-				<input type="password" ng-required="true" ng-model="config.sftp_pass" id="pass" name="pass"/>
-				<span class="error_validacion" ng-if="(ftpForm.$submitted  || ftpForm.pass.$touched) && ftpForm.pass.$invalid">
-					El campo contraseña es obligatorio
-				</span>
-			</div>
-			<div class="grupo">
-				<label for="freq"><?php echo mb_ucfirst($idioma("frecuencia")); ?></label>
-				<input type="text" id="freq" ng-required="true" ng-model="config.backup_frequencia" name="freq"/>
-				<span class="error_validacion" ng-if="(ftpForm.$submitted  || ftpForm.freq.$touched) && ftpForm.freq.$invalid">
-					El campo host es obligatorio
-				</span>
-			</div>
-				<span class="btn btn-tipo" ng-click="guardarFtp()">Guardar</span>
-				<span class="btn btn-tipo" ng-click="backup()">Hacer copia de seguridad ahora</span>
-			</div>
-		</fieldset>
+		<div bt-tabla ng-model="filas" bt-config="configuracion.conocimientos" bt-set-config="establecerConfiguracion" ng-show="seleccionado >= 0 && seleccionado != 8"></div>
+		<div class="config-wrapper">
+			<fieldset ng-form="ftpForm" ng-show="seleccionado == 8" ng-controller="btControladorConfiguracion">
+				<div bt-window="ventana"></div>
+				<legend>Copias de seguridad</legend>
+				<div class="contenedor-config">
+				<div class="grupo">
+					<label for="host">Host</label>
+					<input type="text" ng-required="true" ng-model="config.sftp_host" id="host" name="host"/>
+					<span class="error_validacion" ng-if="(ftpForm.$submitted  || ftpForm.host.$touched) && ftpForm.host.$invalid">
+						El campo host es obligatorio
+					</span>
+				</div>
+				<div class="grupo">
+					<label for="port"><?php echo mb_ucfirst($idioma("puerto")); ?></label>
+					<input type="text" ng-required="true" ng-model="config.sftp_port" id="port" name="port"/>
+					<span class="error_validacion" ng-if="(ftpForm.$submitted  || ftpForm.port.$touched) && ftpForm.port.$invalid">
+						El campo puerto es obligatorio
+					</span>
+				</div>
+				<div class="grupo">
+					<label for="user"><?php echo mb_ucfirst($idioma("usuario")); ?></label>
+					<input type="text" ng-required="true" ng-model="config.sftp_user" id="user" name="user"/>
+					<span class="error_validacion" ng-if="(ftpForm.$submitted  || ftpForm.user.$touched) && ftpForm.user.$invalid">
+						El campo usuario es obligatorio
+					</span>
+				</div>
+				<div class="grupo">
+					<label for="pass"><?php echo mb_ucfirst($idioma("clave")); ?></label>
+					<input type="password" ng-required="true" ng-model="config.sftp_pass" id="pass" name="pass"/>
+					<span class="error_validacion" ng-if="(ftpForm.$submitted  || ftpForm.pass.$touched) && ftpForm.pass.$invalid">
+						El campo contraseña es obligatorio
+					</span>
+				</div>
+				<div class="grupo">
+					<label for="freq"><?php echo mb_ucfirst($idioma("frecuencia")); ?></label>
+					<input type="text" id="freq" ng-required="true" ng-model="config.backup_frequencia" name="freq"/>
+					<span class="error_validacion" ng-if="(ftpForm.$submitted  || ftpForm.freq.$touched) && ftpForm.freq.$invalid">
+						El campo host es obligatorio
+					</span>
+				</div>
+					<span class="btn btn-tipo centro" ng-click="guardarFtp()">Guardar</span>
+					<span class="btn btn-tipo centro" ng-click="backup()">Hacer copia de seguridad ahora</span>
+				</div>
+			</fieldset>
+			<fieldset ng-form="emailForm" ng-controller="btEmailConfigController" ng-show="seleccionado == 8">
+				<legend><?php echo mb_ucfirst($idioma("config_email")); ?></legend>
+				<div bt-window="ventana"></div>
+				<div class="contenedor-config">
+				<?php
+					$campos_email = ["email_user","email_host","email_port","email_pass"];
+					foreach($campos_email as $campo){ ?>
+						<div class="grupo">
+							<label for="<?php echo $campo; ?>"><?php echo mb_ucfirst($idioma($campo)); ?></label>
+							<input ng-required="true" type="text" ng-required="true" name="email_host" id="email_host" ng-model="email.<?php echo $campo; ?>"/>
+							<span class="error_validacion"
+								ng-if="(emailForm.$submitted || emailForm.<?php echo $campo; ?>.$touched) && emailForm.<?php echo $campo; ?>.$invalid">
+								<?php
+								printf(mb_ucfirst($idioma("required")),mb_ucfirst($idioma($campo)));
+								?>
+							</span>
+						</div>
+				<?php	} ?>
+				<button bt-btn-carga="cargando"><?php echo mb_ucfirst($idioma("guardar")); ?></button>
+				<span class="btn btn-tipo centro" ng-click="guardarEmailConfig()"><?php echo mb_ucfirst($idioma("guardar")); ?></span>
+				</div>
+			</fieldset>
+		</div>
 	</div>
 
 </div>

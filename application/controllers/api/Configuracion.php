@@ -14,6 +14,57 @@ class Configuracion extends BT_Controlador_api_estandar
             $this->output->set_output(json_encode($this->bt_config->todos($prohibidos)));
         }
     }
+    public function Email(){
+        if($this->es_admin()) {
+            $metodo = $this->input->method(true);
+            if($metodo === "GET"){
+                $conf = [
+                    "email_user" => $this->bt_config->get("email_user"),
+                    "email_host" => $this->bt_config->get("email_host"),
+                    "email_port" => $this->bt_config->get("email_port"),
+                    "email_pass" => $this->bt_config->get("email_pass")
+                ];
+                $this->json($conf);
+            }else {
+                $this->form_validation->set_rules([
+                    [
+                        "field" => "email_user",
+                        "caption" => $this->lang->line("user"),
+                        "rules" => "required"
+                    ], [
+                        "field" => "email_host",
+                        "caption" => $this->lang->line("host"),
+                        "rules" => "required"
+                    ],
+                    [
+                        "field" => "email_port",
+                        "caption" => $this->lang->line("puerto"),
+                        "rules" => "required"
+                    ],
+                    [
+                        "field" => "email_pass",
+                        "caption" => "contraseña",
+                        "rules" => "required"
+                    ]
+                ]);
+                if ($this->form_validation->run()) {
+                    $conf = [
+                        "email_user" => $this->input->post("email_user"),
+                        "email_host" => $this->input->post("email_host"),
+                        "email_port" => $this->input->post("email_port"),
+                        "email_pass" => $this->input->post("email_pass")
+                    ];
+                    foreach ($conf as $clave => $valor) {
+                        $this->bt_config->set($clave, $valor);
+                    }
+                } else {
+                    $this->json(strip_tags(validation_errors()), 400);
+                }
+            }
+        }else{
+            $this->json("acceso denegado",403);
+        }
+    }
     public function Ftp(){
         $this->form_validation->set_rules([
            [
@@ -48,7 +99,6 @@ class Configuracion extends BT_Controlador_api_estandar
                 "sftp_pass" => $this->input->post("sftp_pass"),
                 "backup_frequencia" => $this->input->post("backup_frequencia"),
             ];
-            var_dump($conf);
             if($this->bt_config->probar_conexion($conf["sftp_host"],$conf["sftp_port"],$conf["sftp_user"],$conf["sftp_pass"]))
             {
                 foreach ($conf as $clave => $valor){
