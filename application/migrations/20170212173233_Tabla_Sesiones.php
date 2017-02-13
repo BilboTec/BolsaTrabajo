@@ -9,6 +9,9 @@ class Migration_Tabla_Sesiones extends CI_Migration{
                             `data` blob NOT NULL,
                             PRIMARY KEY (id),
                             KEY `ci_sessions_timestamp` (`timestamp`)
-                        ");
+                        )");
     }
+	public function down(){
+		
+	}
 }
