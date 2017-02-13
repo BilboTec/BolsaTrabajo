@@ -52,6 +52,12 @@ body, .contenido{
 	flex-direction: row;
 	justify-content: space-between;
 }
+[bt-notas-alumnos]{
+    margin-bottom: 1em;
+}
+[bt-notas-alumnos] h1{
+	margin-right:2em;
+}
 .centro{
 	align-self: center !important;
 }
@@ -67,7 +73,9 @@ body, .contenido{
 	@extend .idioma > li;
 	
 }
-
+.btn-con-margen {
+	margin-top: .5em
+}
 .btn-tipo:not(:first-child):not(:last-child){
 	margin: 0 1em;
 	
@@ -324,6 +332,9 @@ input[type='checkbox']{
     padding-left: 0 !important;
     padding-right: 0 !important;
     width: 100%;
+}
+.todo{
+	flex: 1
 }
 
 :any(.cabecera >li:last-child, .usuario )::after{
@@ -1267,6 +1278,10 @@ footer{
 }
 [bt-buscador-alumnos] li {
 	margin: .5em;
+	display: flex;
+}
+[bt-buscador-alumnos] li span:first-of-type{
+	flex: 1;
 }
 [bt-buscador-alumnos]{
 	margin-left: 1.5em;

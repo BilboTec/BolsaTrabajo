@@ -7,7 +7,7 @@
 					<p><input ng-model="filtros.fecha_oferta" type="radio" name="fecha" value="0"/> Cualquier fecha</p>
 	  				<p><input ng-model="filtros.fecha_oferta" type="radio" name="fecha" value="1"/> Ultimas 24 Horas</p>
 					<p><input ng-model="filtros.fecha_oferta" type="radio" name="fecha" value="2"/> Ultimos 7 dias</p>
-					<p><input ng-model="filtros.fecha_oferta" type="radio" name="fecha" value="3"/> Ultimos 15 dias</p><br>
+					<p><input ng-model="filtros.fecha_oferta" type="radio" name="fecha" value="3"/> Ultimos 15 dias</p>
   				</div>
   				
   				<div class="grupo">

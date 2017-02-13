@@ -156,17 +156,27 @@ class BT_Modelo_Alumno extends BT_ModeloVista {
 				break;
 			}
 		}
+		if(isset($filtros["alguno"]) && $filtros["alguno"] == 1){
+			$where = function($columna, $array){
+				$this->db->or_where_in($columna, $array);
+			};
+		}
+		else{
+			$where = function($columna, $array){
+				$this->db->where_in($columna, $array);
+			};
+		}
 		if(isset($ids_fechas)){
-			$this->db->where_in("id_alumno",$ids_fechas);
+			$where("id_alumno",$ids_fechas);
 		}
 		if(isset($ids_oferta)){
-			$this->db->where_in("id_alumno",$ids_oferta);
+			$where("id_alumno",$ids_oferta);
 		}
 		if($ids_alumno_conocimientos!== null){
-			$this->db->where_in("id_alumno",$ids_alumno_conocimientos);
+			$where("id_alumno",$ids_alumno_conocimientos);
 		}
 		if($ids_alumno_busqueda !== null){
-			$this->db->where_in("id_alumno",$ids_alumno_busqueda);
+			$where("id_alumno",$ids_alumno_busqueda);
 		}
 		$limite = new DateTime();
 		$limite->sub(new DateInterval("P6M"));
@@ -174,6 +184,8 @@ class BT_Modelo_Alumno extends BT_ModeloVista {
 		$this->db->where(["ultima_conexion >"=>$limite]);
 		return $this->db->get($this->vista)->custom_result_object($this->clase);
 	}
+	
+	
 	public function guardar_imagen($imagen, $alumno){
 		if($imagen != null){
 			$imagen = base64_decode(str_replace("data:image/png;base64,", "", $imagen));

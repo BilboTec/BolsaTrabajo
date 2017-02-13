@@ -1,7 +1,7 @@
 {
     "style.crush.css": {
         "imports": [],
-        "datem_sum": 1486920298,
+        "datem_sum": 1486992248,
         "options": {
             "minify": true,
             "formatter": null,
@@ -25,7 +25,7 @@
     },
     "style_instal.crush.css": {
         "imports": [],
-        "datem_sum": 1486905963,
+        "datem_sum": 1486977208,
         "options": {
             "minify": true,
             "formatter": null,

@@ -1901,27 +1901,26 @@ return{
 		scope:{
 			oferta:"=ngModel"
 		},
-		templateUrl:"/plantillas/Get/BTBuscadorAlumno",
+		templateUrl:"/plantillas/Get/BTBuscadorAlumno?coleccion=oferta_formativa",
 		link:function(scope,el,at,ngModel){
-			scope.filtros = {};
-			scope.filtros.buscador = sessionStorage.getItem("filtro_busqueda_alumno_oferta");
+			scope.filtros = JSON.parse(sessionStorage.getItem("filtros_alumnos") || "{}");
 			scope.seleccionados = [];
 			scope.vista = [];
 			scope.buscar = function(){
-				if(scope.filtros.buscador){
-					$http({
-						url:"/api/Alumnos/Buscar",
-						method:"POST",
-						data:$.param({filtros:scope.filtros}),
-						headers: {'Content-Type': 'application/x-www-form-urlencoded'}
-					})
-					.then(function(respuesta){
-						scope.alumnos = respuesta.data;
-						filtrar();
-					},function(error){
-						
-					});
-				}
+				sessionStorage.setItem("filtros_alumnos",JSON.stringify(scope.filtros));
+				$http({
+					url:"/api/Alumnos/Buscar",
+					method:"POST",
+					data:$.param({filtros:scope.filtros}),
+					headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+				})
+				.then(function(respuesta){
+					scope.alumnos = respuesta.data;
+					filtrar();
+				},function(error){
+					
+				});
+				
 			};
 			function filtrar(){
 				scope.vista = [];
@@ -2021,7 +2020,8 @@ return{
             	})
             	.then(
             		function(respuesta){
-            			scope.notas.unshift(respuesta.data);
+            			ngModel.$render();
+            			scope.cancelar();
             		},
             		function(error){
             			scope.ventana.alerta("error",error.data ||  error.message,function(){scope.ventana.close();});

@@ -2,6 +2,9 @@ angular.module("BilboTec.ui",["ngAnimate"]);
 angular.module("BilboTec",["BilboTec.ui", "ngRoute"])
 .filter("btDate",function(){
 	return function(date){
+		if(typeof date === "undefined" || !date){
+			return;
+		}
 		return date.split(" ")[0];
 	};
 })
@@ -587,9 +590,7 @@ angular.module("BilboTec",["BilboTec.ui", "ngRoute"])
 
 .controller("busquedaOfertas",["$http","$scope",function($http,$scope){
 
-		$scope.filtros ={
-			
-		};
+		$scope.filtros ={};
 		var filtrosAnteriores = sessionStorage.getItem("filtrosOfertas");
 		if(filtrosAnteriores !== null){
 			$scope.filtros = JSON.parse(filtrosAnteriores);
@@ -863,8 +864,15 @@ angular.module("BilboTec",["BilboTec.ui", "ngRoute"])
 
 .controller("controladorProfesorBuscarAlumno",["$http", "$scope", "$location", function($http, $scope, $location){
 	$scope.alumnos = [];
-	$scope.filtros = {};
+	$scope.filtros = {
+		alguno: "1"
+	};
+	var filtrosAnteriores = sessionStorage.getItem("filtros_alumnos");
+	if(filtrosAnteriores != null){
+		$scope.filtros = JSON.parse(filtrosAnteriores);
+	}
 	$scope.buscar = function(){
+		sessionStorage.setItem("filtros_alumnos",JSON.stringify($scope.filtros));
 		$http({
 			url:"/api/Alumnos/Buscar",
 			method: "POST",

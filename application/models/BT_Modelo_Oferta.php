@@ -88,6 +88,7 @@ class BT_Modelo_Oferta extends BT_ModeloEstandar
 					case 'buscador':
 						$buscador = $value;
 						break;
+						
 					case "fecha_oferta":
 						$fecha = $value;
 						break;

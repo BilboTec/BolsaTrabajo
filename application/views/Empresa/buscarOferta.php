@@ -1,18 +1,17 @@
 <aside>
 		<fieldset>
 			<legend><?php echo strtoupper($idioma('filtro')); ?></legend>
-			<div class="filtro-contenedor">
-				<label><?php echo ucfirst($idioma('fecha')); ?></label><br>
-				<input ng-model="filtro.fecha" type="radio" name="fecha" value="Cualquier fecha"/> Cualquier fecha<br>
-  				<input ng-model="filtro.fecha" type="radio" name="fecha" value="Ultimas 24 Horas"/> Ultimas 24 Horas<br>
-  				<input ng-model="filtro.fecha" type="radio" name="fecha" value="Ultimos 7 dias"/> Ultimos 7 dias<br>
-  				<input ng-model="filtro.fecha" type="radio" name="fecha" value="Ultimos 15 dias"/> Ultimos 15 dias<br><br>
+			<div class="grupo oferta-option filtro-contenedor">
+					<label><?php echo ucfirst($idioma('fecha')); ?></label><br>
+					<p><input ng-model="filtros.fecha_oferta" type="radio" name="fecha" value="0"/> <?php echo mb_ucfirst($idioma("cualquier_fecha")); ?></p>
+	  				<p><input ng-model="filtros.fecha_oferta" type="radio" name="fecha" value="1"/> <?php echo mb_ucfirst($idioma("24_horas")); ?></p>
+					<p><input ng-model="filtros.fecha_oferta" type="radio" name="fecha" value="2"/> <?php echo mb_ucfirst($idioma("7_dias")); ?></p>
+					<p><input ng-model="filtros.fecha_oferta" type="radio" name="fecha" value="3"/> <?php echo mb_ucfirst($idioma("15_dias")); ?></p><br>
+  		<span class="btn btn-tipo" ng-click="buscar()" type="button"><?php echo ucfirst($idioma('filtrar')); ?></span>
+  		</div>
 
-				<span class="btn btn-tipo" ng-click="buscar()" type="button"><?php echo ucfirst($idioma('filtrar')); ?></span>
-			</div>
-			
 		</fieldset>
-		<a href="#!/0"><?php echo mb_ucfirst($idioma("anadir_oferta")); ?><img src="/imagenes/anadir.png"/><a>
+		<a class="centrado verde"href="#!/0"><?php echo mb_ucfirst($idioma("anadir_oferta")); ?><img src="/imagenes/anadir.png"/><a>
 	</aside>
 	<section>
 		<article ng-repeat="oferta in ofertas">

@@ -189,5 +189,11 @@ class Instalador extends CI_Controller{
 					$this->db->replace("config",["clave"=>$clave_db,"valor"=>$this->input->post($clave_input)]);
 				}
 		}
+		
+	}
+	
+	public function Instalado(){
+		$this->load->model("BT_Modelo_Configuracion", "configuracion");
+		$this->configuracion->set("instalado", "true");
 	}
 }

@@ -25,7 +25,7 @@
 				<button class= "btn-centro" ng-click="empezar()">Empezar</button>
 			</div>
 			
-			<form name="dbconfig" ng-show="paso == 2">
+			<form novalidate name="dbconfig" ng-show="paso == 2">
 				<img class="logo" src="/imagenes/BilboTec.jpg"/>
 				<p>A continuación deberás introducir los detalles de conexión a tu base de datos. 
 					Si no estás seguro de esta información contacta con tu proveedor de alojamiento web.</p>
@@ -61,6 +61,7 @@
 					class="error-validacion">El campo nombre del host es obligatorio</span>
 				</div>
 				<button class= "btn-centro" ng-click="comprobarDB()">Continuar</button>
+				<div class="error_estatico" ng-show="error_conexion">No se ha podido conectar. Compruebe que los datos sean correctos</div>
 			</form>
 			<div ng-show="paso == 3">
 				<img class="logo" src="/imagenes/BilboTec.jpg"/>
@@ -78,7 +79,7 @@
 				<img class="logo" src="/imagenes/BilboTec.jpg"/>
 				<p>Para configurar el remitente de los correos de notificación de la aplicación
 					rellene el siguiente formulario</p>
-					<form name="emailForm" class="centrado">
+					<form novalidate name="emailForm" class="centrado">
 						<div class="grupo">
 							<label>Smtp Host</label>
 							<input ng-required="true" name="host" ng-model="config.email.host"/>
@@ -117,9 +118,11 @@
 					<li>Usuario: admin@bolsatrabajo.es</li>
 					<li>Contraseña: admin</li>
 				</ul>
-				<p>Pulse el siguiente botón para completar la instalación</p>
+				<p>Para poder empezar a utilizar la aplicación pulse el siguiente boton.</p>
+				<button class="btn-centro" ng-click="Instalado()">Continuar</button>
 				
 			</div>
+			<div bt-window="ventana"></div>
 		</body>
 	</html>
 	
@@ -134,12 +137,23 @@
 					host:"localhost"
 				},
 				email:{
+					host:"smtp.gmail.com",
+					port:465,
+					user:"usuario@gmail.com",
+					pass:"contraseña"
 					
 				}
 			};
 			$scope.empezar = function(){
 				$scope.paso = 2;
+			};
+			
+			function alerta(titulo, contenido){
+				$scope.ventana.alerta(titulo, contenido, function(){
+					$scope.ventana.cerrar();
+				})
 			}
+			
 			$scope.comprobarDB = function(){
 				$scope.dbconfig.$setSubmitted(true);
 				if($scope.dbconfig.$valid){
@@ -152,7 +166,7 @@
 					.then(function(respuesta){
 						EscribirConfDB();
 					},function(error){
-						
+						$scope.error_conexion = true;
 					})
 				}
 			};
@@ -205,6 +219,20 @@
 						$scope.texto = error.data;
 						$scope.paso = 3;
 					})
+			}
+			
+			$scope.Instalado = function(){
+				$http({
+					url:"/Instalador/Instalado",	
+				})
+				.then(
+					function(respuesta){
+					window.location = "/Login";
+					},
+					function(error){
+						
+					}
+				)
 			}
 		}])
 	</script>

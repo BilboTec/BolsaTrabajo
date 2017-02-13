@@ -1,14 +1,13 @@
 
-<div class="cont-oferta-profe">
-	<div class="grupo-vertical">
+<div class="cont-oferta-profe todo">
 		<div class="grupo-horizontal">
-			<div class="grupo-vertical">
+			<div class="grupo-vertical todo">
 				<div class="grupo-horizontal">
 				<h1>{{oferta.titulo | uppercase}}</h1>
 				<?php
 				if(isset($puedeEditar) && $puedeEditar){
 					echo '<a class="btn btn-tipo" ng-href="#!/Editar/{{oferta.id_oferta}}">Editar</a>';
-					echo "'<span class='btn btn-tipo' ng-click='eliminar()'>Eliminar</span>";
+					echo "<span class='btn btn-tipo' ng-click='eliminar()'>Eliminar</span>";
 				}
 				?>
 				</div>
@@ -29,7 +28,6 @@
 			<div bt-buscador-alumnos ng-model="oferta"></div>
 			<?php } ?>
 		</div>
-	</div>
 
 <a class="verde" href="#!/"><?php echo ucfirst($idioma("volver")); ?> </a>
 </div>
