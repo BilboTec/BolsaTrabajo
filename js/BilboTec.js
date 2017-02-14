@@ -1586,6 +1586,7 @@ angular.module("BilboTec",["BilboTec.ui", "ngRoute"])
 	};
 
 }]).controller("btEmailConfigController",["$http","$scope",function($http,$scope){
+	
 	$scope.guardarEmailConfig = function(){
 		$http({
 			url:"/api/Configuracion/Email",

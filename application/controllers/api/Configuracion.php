@@ -113,4 +113,5 @@ class Configuracion extends BT_Controlador_api_estandar
             $this->json(strip_tags(validation_errors()),400);
         }
     }
+    
 }

@@ -5,9 +5,10 @@
 			<script src="/js/jquery-3.1.1.min.js"></script>
 			<script src="/js/angular.min.js"></script>
 			<script src="/js/angular-animate.js"></script>
-			<script src="/js/angular-route.js"></script>
+			<script src="/js/angular-route.js"></script>	
 			<script src="/js/BilboTec.js"></script>
 			<script src="/js/BilboTec.ui.js"></script>
+			<script src="/api/Localize"></script>
 			<?php echo csscrush_tag("/css/style_instal.css"); ?>
 		</head>
 		<body>
@@ -22,6 +23,7 @@
 					<li>Servidor de la base de datos</li>
 				</ol>
 				<p>Vamos a utilizar esta información para crear el archivo de configuración <b>database.php</b></p>
+				
 				<button class= "btn-centro" ng-click="empezar()">Empezar</button>
 			</div>
 			
@@ -60,6 +62,7 @@
 					<span ng-show="(dbconfig.$submitted || dbconfig.host.$touched) && dbconfig.host.$invalid" 
 					class="error-validacion">El campo nombre del host es obligatorio</span>
 				</div>
+				<button class= "btn-centro" ng-click="atras()">Atras</button>
 				<button class= "btn-centro" ng-click="comprobarDB()">Continuar</button>
 				<div class="error_estatico" ng-show="error_conexion">No se ha podido conectar. Compruebe que los datos sean correctos</div>
 			</form>
@@ -68,11 +71,15 @@
 				<p class="titulo">No se ha podido generar automáticamente la configuración de la base de datos.
 					Sustuya el contenido de "application/config/database.php" por el siguiente</p>
 				<div class="codigo" bt-contenido-html ng-model="texto"></div>
+				
+				<button class= "btn-centro" ng-click="atras()">Atras</button>
 				<button class= "btn-centro" ng-click="comprobarDBExistente()">Continuar</button>
 			</div>
 			<div ng-show="paso == 4">
 				<img class="logo" src="/imagenes/BilboTec.jpg"/>
 				<p>La configuración ha sido realizada con éxito, para crear la base de datos pulse el botón crear.</p>	
+				
+				<button class= "btn-centro" ng-click="atras()">Atras</button>
 				<button class="btn-centro" ng-click="crearDB()">Crear</button>
 			</div>
 			<div ng-show="paso == 5">
@@ -109,6 +116,20 @@
 					class="error-validacion">El campo contraseña es obligatorio</span>
 						</div>
 					</form>
+					<p>Para comprobar la dirección de correo. Introduzca una dirección de correo electrónico para enviar un correo de prueba</p>
+					<form name="enviarEmail" novalidate class="centrado">
+						<div class="grupo">
+							<label>Direccion de Correo</label>
+							<input type="email" ng-model="config.email.prueba" name="email"/>
+							<p>La dirección de correo con la que probar la configuración</p>
+							<span ng-show="(enviarEmail.$submitted || enviarEmail.email.$touched) && enviarEmail.email.$error.required" 
+					class="error-validacion">Introduzca la dirección de correo de prueba</span>
+							<span ng-show="(enviarEmail.$submitted || enviarEmail.email.$touched) && enviarEmail.pass.$error.email" 
+							class="error-validacion">La dirección de correo de prueba tiene que ser una dirección válida</span>
+						</div>
+						<button type="button" class="btn-centro" ng-click="probarDatosEmail()">Comprobar</button>
+					</form>
+					<button class= "btn-centro" ng-click="atras()">Atras</button>
 					<button class="btn-centro" ng-click="guardarDatosEmail()">Continuar</button>
 			</div>
 			<div ng-show="paso == 6">
@@ -119,6 +140,7 @@
 					<li>Contraseña: admin</li>
 				</ul>
 				<p>Para poder empezar a utilizar la aplicación pulse el siguiente boton.</p>
+				<button class= "btn-centro" ng-click="atras()">Atras</button>
 				<button class="btn-centro" ng-click="Instalado()">Continuar</button>
 				
 			</div>
@@ -127,7 +149,7 @@
 	</html>
 	
 	<script>
-		angular.module("BilboTec").controller("instalador_controller", ["$scope", "$http", function($scope, $http){
+		angular.module("BilboTec",[]).controller("instalador_controller", ["$scope", "$http", function($scope, $http){
 			$scope.paso = 1;
 			$scope.config = {
 				db:{
@@ -153,7 +175,9 @@
 					$scope.ventana.cerrar();
 				})
 			}
-			
+			$scope.atras = function(){
+				$scope.paso = $scope.paso == 4?2:$scope.paso==1?1:$scope.paso-1;
+			};
 			$scope.comprobarDB = function(){
 				$scope.dbconfig.$setSubmitted(true);
 				if($scope.dbconfig.$valid){
@@ -169,6 +193,22 @@
 						$scope.error_conexion = true;
 					})
 				}
+			};
+			$scope.probarDatosEmail = function(){
+				$scope.enviarEmail.$setSubmitted(true);
+						if($scope.enviarEmail.$valid){
+							$http({
+								url:"/Instalador/ProbarDatosEmail",
+								method:"POST",
+								data:$.param($scope.config.email),
+								headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+							}).then(function(respuesta){
+								
+							},
+							function(error){
+								
+							});
+						}
 			};
 			$scope.guardarDatosEmail = function(){
 				$scope.emailForm.$setSubmitted(true);
@@ -235,4 +275,22 @@
 				)
 			}
 		}])
+		.directive("btContenidoHtml",function(){
+			return{
+			       restrict: "A",     //Solo en atributos
+			       require:"ngModel",   //Requerir que el elemento tenga ngModel, de esta forma estara disponible en la funcion link
+			       scope:{//Las variables que estaran disponibles en scope
+			            modelo:"=ngModel"
+			       },
+			       /*Esta funcion seria el controlador del elemento, en este caso no tiene que hacer nada mas que mostrar el contenido de ngModel en formato html*/
+			       link:function(scope,elemento,attributos,ngModel){
+			               /*Esta funcion sera llamada  cada vez que ngModel cambie, *
+			                * la funcion tiene que aplicar los cambios al html de forma   *
+			               * rapida                                                                                              */
+			              ngModel.$render = function(){ 
+			                   elemento[0].innerHTML = scope.modelo;
+			               };
+			      }
+			    };
+		})
 	</script>

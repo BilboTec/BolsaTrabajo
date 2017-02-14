@@ -661,12 +661,21 @@ text-decoration: none;
 	margin-right: 1em;
 }
 
-.contenedor-datos-personales, .contenedor-experiencia, .contenedor-formacion-academica, 
+[bt-perfil-alumnos-datos-personales], .contenedor-experiencia, .contenedor-formacion-academica, 
 .contenedor-formacion-complementaria, .contenedor-idioma, .contenedor-otros-datos{
 	border-bottom: solid 1px $(--g-claro);
 	margin: 2em 0;
 	width: 80%;
 	margin: 0 10%;
+}
+
+[bt-perfil-alumnos-datos-personales]{
+	display: flex;
+}
+
+.contenedor-datos-personales{
+	flex: 1;
+	margin-right: .2em;
 }
 
 

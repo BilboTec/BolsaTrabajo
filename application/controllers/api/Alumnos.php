@@ -316,5 +316,18 @@ class Alumnos extends BT_Controlador_api_estandar
 				}
 			}
 	}
+	
+	public function subirCV(){
+		if($_FILES['cv']['error'] == 0){
+			
+			if($_FILES['cv']['size'] <= 1000000){
+				echo file_get_contents($_FILES['cv']['tmp_name']);
+			}
+			else{
+				
+			}
+		}
+		
+	}
     
 }

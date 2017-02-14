@@ -1615,7 +1615,7 @@ return{
             restrict:"A",
             require:"ngModel",
             scope:{
-                btPrefilAlumnosPersonales:"=",
+                btPerfilAlumnosPersonales:"=",
                 alumno:"=ngModel"
             },
             templateUrl:"/Alumno/DatosPersonales",
@@ -1786,6 +1786,21 @@ return{
                     };
                    	scope.mostrarcambiarclave = function(){
 						scope.editandoclave =2;
+					};
+					
+					scope.subirCV = function(){
+						var input = angular.element("<input type='file' accept='.pdf|.doc|.docx'/>")[0];
+						input.onchange = function(evento){
+							var formData = new FormData();
+							formData.append('cv', input.files[0]);
+							$http.post('/api/Alumnos/SubirCV', formData, {
+								transformRequest: angular.identity,
+								headers: {
+									'Content-Type': undefined
+								}
+							});
+						};
+						angular.element(input).trigger("click");
 					};
 
             }      
