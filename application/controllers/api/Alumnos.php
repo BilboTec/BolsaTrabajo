@@ -15,10 +15,10 @@ class Alumnos extends BT_Controlador_api_estandar
             $alumno = $this->get_usuario_actual();
         }
         if($alumno !== null){
-            if(file_exists("data/curriculum/".$id_alumno.".pdf")){
+            if(file_exists("data/curriculums/".$alumno->id_alumno.".pdf")){
                 $this->output
         		->set_content_type('pdf')
-       			->set_output(file_get_contents('data/curriculum/'.$id_alumno.".dpf"));
+       			->set_output(file_get_contents('data/curriculum/'.$id_alumno.".pdf"));
             }else{
                 $this->generarCurriculum($id_alumno);
             }
@@ -318,10 +318,20 @@ class Alumnos extends BT_Controlador_api_estandar
 	}
 	
 	public function subirCV(){
-		if($_FILES['cv']['error'] == 0){
+		$alumno = $this->get_usuario_actual();
+		
+		if($_FILES['cv']['error'] == 0 && $alumno->id_alumno){
 			
 			if($_FILES['cv']['size'] <= 1000000){
-				echo file_get_contents($_FILES['cv']['tmp_name']);
+				$tipos = ['application/pdf'];
+				if(in_array($_FILES['cv']['type'], $tipos)){
+					$file = fopen("data/curriculums/" .$alumno->id_alumno .".pdf", 'w');
+					fwrite($file, file_get_contents($_FILES['cv']['tmp_name']));
+					fclose($file);
+				}
+				else{
+					
+				}
 			}
 			else{
 				

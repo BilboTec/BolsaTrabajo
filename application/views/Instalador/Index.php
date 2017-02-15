@@ -14,15 +14,15 @@
 		<body>
 			<div ng-show="paso == 1">
 				<div>
-					<a href="#" ng-click="cambiarIdioma('basque')">EU</a>
-					<a href="#" ng-click="cambiarIdioma('spanish')">ES</a>
+					<a class="btn-idioma" ng-class="idioma == 'basque'?'active':''" href="#" ng-click="cambiarIdioma('basque')">EU</a>
+					<a class="btn-idioma" ng-class="idioma == 'spanish'?'active':''" href="#" ng-click="cambiarIdioma('spanish')">ES</a>
 				</div>
 				<img class="logo" src="/imagenes/BilboTec.jpg"/>
 				<p>{{lang[idioma]["bienvenida"]}}</p>
 				<ol>
 					<li>{{lang[idioma]["nombre_base_datos"] | capitalize}}</li>
-					<li>{{lang[idioma]["usuario_de_la_bd"] | capitalize}}s</li>
-					<li>{{lang[idioma]["clave_de_la_bd"] | capitalize}}s</li>
+					<li>{{lang[idioma]["usuario_de_la_bd"] | capitalize}}</li>
+					<li>{{lang[idioma]["clave_de_la_bd"] | capitalize}}</li>
 					<li>{{lang[idioma]["servidor_de_la_bd"] | capitalize}}</li>
 				</ol>
 				<p>{{lang[idioma]["mensaje_pag1"] | capitalize}}<b>database.php</b></p>
@@ -31,6 +31,10 @@
 			</div>
 			
 			<form novalidate name="dbconfig" ng-show="paso == 2">
+				<div>
+					<a class="btn-idioma" ng-class="idioma == 'basque'?'active':''" href="#" ng-click="cambiarIdioma('basque')">EU</a>
+					<a class="btn-idioma" ng-class="idioma == 'spanish'?'active':''" href="#" ng-click="cambiarIdioma('spanish')">ES</a>
+				</div>
 				<img class="logo" src="/imagenes/BilboTec.jpg"/>
 				<p>{{lang[idioma]["mensaje_pag2"] | capitalize}}</p>
 				<div class="grupo">
@@ -64,26 +68,50 @@
 					<span ng-show="(dbconfig.$submitted || dbconfig.host.$touched) && dbconfig.host.$invalid" 
 					class="error-validacion">{{lang[idioma]["error_servidor"] | capitalize}}</span>
 				</div>
-				<button class= "btn-centro" ng-click="atras()">{{lang[idioma]["atras"] | capitalize}}</button>
-				<button class= "btn-centro" ng-click="comprobarDB()">{{lang[idioma]["continuar"] | capitalize}}</button>
+				<div class="btn-contenedor btn-centro">
+					<button  ng-click="atras()">{{lang[idioma]["atras"] | capitalize}}</button>
+					<button  ng-click="comprobarDB()">{{lang[idioma]["continuar"] | capitalize}}</button>
+				</div>
 				<div class="error_estatico" ng-show="error_conexion">{{lang[idioma]["error_conectar"] | capitalize}}</div>
 			</form>
 			<div ng-show="paso == 3">
+				<div>
+					<a class="btn-idioma" ng-class="idioma == 'basque'?'active':''" href="#" ng-click="cambiarIdioma('basque')">EU</a>
+					<a class="btn-idioma" ng-class="idioma == 'spanish'?'active':''" href="#" ng-click="cambiarIdioma('spanish')">ES</a>
+				</div>
 				<img class="logo" src="/imagenes/BilboTec.jpg"/>
 				<p class="titulo">{{lang[idioma]["mensaje_pag3"] | capitalize}}</p>
 				<div class="codigo" bt-contenido-html ng-model="texto"></div>
-				
-				<button class= "btn-centro" ng-click="atras()">{{lang[idioma]["atras"] | capitalize}}</button>
-				<button class= "btn-centro" ng-click="comprobarDBExistente()">{{lang[idioma]["continuar"] | capitalize}}</button>
+				<div class="btn-contenedor btn-centro">
+					<button ng-click="atras()">{{lang[idioma]["atras"] | capitalize}}</button>
+					<button ng-click="comprobarDBExistente()">{{lang[idioma]["continuar"] | capitalize}}</button>
+				</div>
 			</div>
 			<div ng-show="paso == 4">
+				<div>
+					<a class="btn-idioma" ng-class="idioma == 'basque'?'active':''" href="#" ng-click="cambiarIdioma('basque')">EU</a>
+					<a class="btn-idioma" ng-class="idioma == 'spanish'?'active':''" href="#" ng-click="cambiarIdioma('spanish')">ES</a>
+				</div>
 				<img class="logo" src="/imagenes/BilboTec.jpg"/>
-				<p>{{lang[idioma]["mensaje_pag4"] | capitalize}}</p>	
+				<p ng-hide="creado">{{lang[idioma]["mensaje_pag4"] | capitalize}}</p>	
+				<div ng-hide="creado" class="btn-contenedor btn-centro">
+					<button ng-click="atras()">{{lang[idioma]["atras"] | capitalize}}</button>
+					<button ng-click="crearDB()">{{lang[idioma]["crear"] | capitalize}}</button>
+				</div>
 				
-				<button class= "btn-centro" ng-click="atras()">{{lang[idioma]["atras"] | capitalize}}</button>
-				<button class="btn-centro" ng-click="crearDB()">{{lang[idioma]["crear"] | capitalize}}</button>
+				<p ng-show="creado">{{lang[idioma]["mensaje_pag4_2"] | capitalize}}</p>	
+				<div ng-show="creado" class="btn-contenedor btn-centro">
+					<button ng-click="atras()">{{lang[idioma]["atras"] | capitalize}}</button>
+					<button ng-click="insertarDB()" ng-disabled="insertado">{{lang[idioma]["rellenar"] | capitalize}}</button>
+					<button  ng-click="continuar()">{{lang[idioma]["continuar"] | capitalize}}</button>
+				</div>
+
 			</div>
 			<div ng-show="paso == 5">
+				<div>
+					<a class="btn-idioma" ng-class="idioma == 'basque'?'active':''" href="#" ng-click="cambiarIdioma('basque')">EU</a>
+					<a class="btn-idioma" ng-class="idioma == 'spanish'?'active':''" href="#" ng-click="cambiarIdioma('spanish')">ES</a>
+				</div>
 				<img class="logo" src="/imagenes/BilboTec.jpg"/>
 				<p>{{lang[idioma]["mensaje_pag5"] | capitalize}}</p>
 					<form novalidate name="emailForm" class="centrado">
@@ -120,19 +148,25 @@
 					<form name="enviarEmail" novalidate class="centrado">
 						<div class="grupo">
 							<label>{{lang[idioma]["direccion_correo"] | capitalize}}</label>
-							<input type="email" ng-model="config.email.prueba" name="email"/>
+							<input type="email" ng-required="true" ng-model="config.email.prueba" name="email"/>
 							<p>{{lang[idioma]["explicacion_direccion_correo"] | capitalize}}</p>
 							<span ng-show="(enviarEmail.$submitted || enviarEmail.email.$touched) && enviarEmail.email.$error.required" 
 					class="error-validacion">{{lang[idioma]["error_direccion_correo"] | capitalize}}</span>
-							<span ng-show="(enviarEmail.$submitted || enviarEmail.email.$touched) && enviarEmail.pass.$error.email" 
+							<span ng-show="(enviarEmail.$submitted || enviarEmail.email.$touched) && enviarEmail.email.$error.email" 
 							class="error-validacion">{{lang[idioma]["error2_direccion_correo"] | capitalize}}</span>
 						</div>
-						<button type="button" class="btn-centro" ng-click="probarDatosEmail()">{{lang[idioma]["comprobar"] | capitalize}}</button>
+						<button type="button" class="btn-probar" ng-click="probarDatosEmail()">{{lang[idioma]["comprobar"] | capitalize}}</button>
 					</form>
-					<button class= "btn-centro" ng-click="atras()">{{lang[idioma]["atras"] | capitalize}}</button>
-					<button class="btn-centro" ng-click="guardarDatosEmail()">{{lang[idioma]["continuar"] | capitalize}}</button>
+					<div class="btn-contenedor btn-centro">
+						<button  ng-click="atras()">{{lang[idioma]["atras"] | capitalize}}</button>
+						<button  ng-click="guardarDatosEmail()">{{lang[idioma]["continuar"] | capitalize}}</button>
+					</div>
 			</div>
 			<div ng-show="paso == 6">
+				<div>
+					<a class="btn-idioma" ng-class="idioma == 'basque'?'active':''" href="#" ng-click="cambiarIdioma('basque')">EU</a>
+					<a class="btn-idioma" ng-class="idioma == 'spanish'?'active':''" href="#" ng-click="cambiarIdioma('spanish')">ES</a>
+				</div>
 				<img class="logo" src="/imagenes/BilboTec.jpg"/>
 				<p>{{lang[idioma]["mensaje_pag6"] | capitalize}}</p>
 				<ul>
@@ -140,8 +174,10 @@
 					<li>{{lang[idioma]["clave_usuario_app"] | capitalize}}</li>
 				</ul>
 				<p>{{lang[idioma]["mensaje_pag6_2"] | capitalize}}</p>
-				<button class= "btn-centro" ng-click="atras()">{{lang[idioma]["atras"] | capitalize}}</button>
-				<button class="btn-centro" ng-click="Instalado()">{{lang[idioma]["finalizar"] | capitalize}}</button>
+				<div class="btn-contenedor btn-centro">
+					<button  ng-click="atras()">{{lang[idioma]["atras"] | capitalize}}</button>
+					<button  ng-click="Instalado()">{{lang[idioma]["finalizar"] | capitalize}}</button>
+				</div>
 				
 			</div>
 			<div bt-window="ventana"></div>
@@ -167,7 +203,7 @@
 					host:"localhost"
 				},
 				email:{
-					host:"smtp.gmail.com",
+					host:"ssl://smtp.googlemail.com",
 					port:465,
 					user:"usuario@gmail.com",
 					pass:"contraseña"
@@ -186,6 +222,10 @@
 			$scope.atras = function(){
 				$scope.paso = $scope.paso == 4?2:$scope.paso==1?1:$scope.paso-1;
 			};
+			
+			$scope.continuar = function(){
+				$scope.paso++;
+			}
 			$scope.comprobarDB = function(){
 				$scope.dbconfig.$setSubmitted(true);
 				if($scope.dbconfig.$valid){
@@ -239,11 +279,17 @@
 						url:"/Migraciones"
 					})
 					.then(function(respuesta){
-						$scope.paso = 5;
+						$scope.creado = true;
 					},function(error){
 						
 					})
 			}
+			
+			$scope.insertarDB = function(){
+				$scope.paso = 5;
+				$scope.insertado = true;
+			}
+			
 			$scope.comprobarDBExistente = function(){
 				$http({
 						url:"/Instalador/ComprobarDBExistente"

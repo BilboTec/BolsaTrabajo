@@ -115,7 +115,7 @@ class Instalador extends CI_Controller{
 				$dbd[$value] = $this->input->post($value);
 			}
 			try{
-			$file = fopen("tr&/)24:application/config/database.php","w");
+			$file = fopen("application/config/database.php","w");
 			
 			$contenido = 
 "<?php

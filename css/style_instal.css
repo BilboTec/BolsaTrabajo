@@ -82,6 +82,41 @@ body>div, body>form{
 	margin: 0 1em;
 }
 
+.btn-contenedor{
+	display: flex;
+}
+
+button{
+	background-color: $(--a-oscuro);
+	border: none;
+	color: white;
+	padding: .5em 1em;
+	margin-left: 2em;
+}
+.btn-probar{
+	margin-left:0;
+	margin-bottom: 2em;
+}
+
+button[disabled]{
+	background-color: hsla-adjust($(--a-oscuro) 0 0 0 -70);
+}
+
+.btn-idioma{
+	text-decoration: none;
+	color: $(--a-claro);
+}
+
+.btn-idioma.active{
+	text-decoration: none;
+	color: $(--a-oscuro);
+}
+
+.btn-idioma:first-child{
+	padding-right: .4em;
+	border-right: solid 1px $(--a-claro);
+}
+
 /*************************************
 ********BT-WINDOW*********************
 **************************************/

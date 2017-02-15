@@ -25,7 +25,7 @@
     },
     "style_instal.crush.css": {
         "imports": [],
-        "datem_sum": 1486977208,
+        "datem_sum": 1487153166,
         "options": {
             "minify": true,
             "formatter": null,
