@@ -3,6 +3,7 @@
 
 class Instalador extends CI_Controller{
 	protected $conectado = false;
+	protected $idioma = [];
 	public function __construct(){
 		error_reporting(0);
 		include_once ('application/config/database.php');
@@ -27,14 +28,14 @@ class Instalador extends CI_Controller{
 		catch(Exception $e){
 			
 		}
-		$this->load->helper("cookie");
-		$this->idioma = get_cookie("idioma");
-		if($this->idioma==null){
-			$this->idioma = "spanish";
+		$archivos_idioma = ["general","form_validation","instalador"];
+		$idiomas = ["basque","spanish"];
+		foreach($idiomas as $idioma){
+			foreach($archivos_idioma as $archivo){
+				$this->lang->load($archivo,$idioma);
+			}
+			$this->idioma[$idioma] = $this->lang->language;
 		}
-		$this->lang->load('form_validation', $this->idioma);
-		$this->lang->load('general', $this->idioma);
-		$this->config->set_item('language', $this->idioma);
 	}
 	public function ComprobarDB(){
 		$this->load->library("form_validation");
@@ -158,9 +159,7 @@ class Instalador extends CI_Controller{
 		}
 	}
 	public function index(){
-		$data["idioma"] = function($clave){
-			return $this->lang->line($clave);
-		};
+		$data["idioma"] = $this->idioma;
 		$this->load->view("Instalador/Index",$data);
 	}
 	public function GuardarDatosEmail(){

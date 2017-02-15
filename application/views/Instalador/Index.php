@@ -13,11 +13,14 @@
 		</head>
 		<body>
 			<div ng-show="paso == 1">
+				<div>
+					<a href="#" ng-click="cambiarIdioma('basque')">EU</a>
+					<a href="#" ng-click="cambiarIdioma('spanish')">ES</a>
+				</div>
 				<img class="logo" src="/imagenes/BilboTec.jpg"/>
-				<p>Bienvenido a la Bolsa de Trabajo de BilboTec&copy;. Antes de empezar necesitamos alguna información de la base de datos.
-				Necesitarás saber lo siguiente antes de continuar.</p>
+				<p>{{lang[idioma]["bienvenida"]}}</p>
 				<ol>
-					<li>Nombre de la base de datos</li>
+					<li>{{lang[idioma]["nombre_base_datos"] | capitalize}}</li>
 					<li>Usuario de la base de datos</li>
 					<li>Contraseña de la base de datos</li>
 					<li>Servidor de la base de datos</li>
@@ -150,6 +153,14 @@
 	
 	<script>
 		angular.module("BilboTec",[]).controller("instalador_controller", ["$scope", "$http", function($scope, $http){
+			$scope.idioma = sessionStorage.getItem("idioma");
+			if(!$scope.idioma){
+				$scope.idioma = "spanish";
+			}
+			$scope.cambiarIdioma = function(idioma){
+				$scope.idioma = idioma;
+				sessionStorage.setItem("idioma",idioma);
+			};
 			$scope.paso = 1;
 			$scope.config = {
 				db:{
@@ -169,7 +180,7 @@
 			$scope.empezar = function(){
 				$scope.paso = 2;
 			};
-			
+			$scope.lang = <?php echo json_encode($idioma); ?>;
 			function alerta(titulo, contenido){
 				$scope.ventana.alerta(titulo, contenido, function(){
 					$scope.ventana.cerrar();
@@ -292,5 +303,12 @@
 			               };
 			      }
 			    };
-		})
+		}).filter("capitalize",function(){
+		    return function(string){
+		        if(typeof string === "undefined"){
+		            return;
+		        }
+	        return string.substr(0,1).toUpperCase() + string.substr(1);
+    };
+})
 	</script>
