@@ -4,6 +4,7 @@
 class Instalador extends CI_Controller{
 	protected $conectado = false;
 	protected $idioma = [];
+	protected $db_config_actual;
 	public function __construct(){
 		error_reporting(0);
 		include_once ('application/config/database.php');
@@ -12,6 +13,7 @@ class Instalador extends CI_Controller{
 		$this->load->helper("url");
 		try{
 			$dbd = $db['default'];
+			$this->db_config_actual = $dbd;
 			$conexion = new mysqli($dbd['hostname'], $dbd['username'], $dbd['password'], $dbd['database']);
 			if(!$conexion->connect_errno){
 				$this->conectado = true;
@@ -160,6 +162,7 @@ class Instalador extends CI_Controller{
 	}
 	public function index(){
 		$data["idioma"] = $this->idioma;
+		$data["db"] = $this->db_config_actual;
 		$this->load->view("Instalador/Index",$data);
 	}
 	public function GuardarDatosEmail(){

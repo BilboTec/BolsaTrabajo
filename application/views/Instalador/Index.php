@@ -197,10 +197,10 @@
 			$scope.paso = 1;
 			$scope.config = {
 				db:{
-					dbname:"bolsa_trabajo",
-					user:"bolsa_trabajo",
-					pass:"BolsaTrabajo78",
-					host:"localhost"
+					dbname:"<?php echo $db["database"]; ?>",
+					user:"<?php echo $db["username"]; ?>",
+					pass:"<?php echo $db["password"] ?>",
+					host:"<?php echo $db["hostname"]; ?>"
 				},
 				email:{
 					host:"ssl://smtp.googlemail.com",
@@ -273,7 +273,7 @@
 						
 					});
 				}
-			}
+			};
 			$scope.crearDB = function(){
 				$http({
 						url:"/Migraciones"
@@ -283,7 +283,7 @@
 					},function(error){
 						
 					})
-			}
+			};
 			
 			$scope.insertarDB = function(){
 				$http({

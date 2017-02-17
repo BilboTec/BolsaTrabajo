@@ -2021,7 +2021,7 @@ return{
             
             scope.cancelar = function(){
             	scope.insertando = false;
-            }
+            };
             
             scope.guardar = function(){
             	$http({
