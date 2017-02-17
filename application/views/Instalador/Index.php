@@ -286,8 +286,15 @@
 			}
 			
 			$scope.insertarDB = function(){
-				$scope.paso = 5;
-				$scope.insertado = true;
+				$http({
+					url:"/Instalador/GenerarDatosPrueba"
+				})
+				.then(function(respuesta){	
+					$scope.paso = 5;
+					$scope.insertado = true;
+				},function(error){
+
+				})
 			}
 			
 			$scope.comprobarDBExistente = function(){
