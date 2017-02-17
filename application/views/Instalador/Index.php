@@ -12,6 +12,12 @@
 			<?php echo csscrush_tag("/css/style_instal.css"); ?>
 		</head>
 		<body>
+			<section class="cargando-mascara" ng-show="cargando">
+					<img src="/imagenes/BilboTec.jpg"/>
+					<div class="barra">
+						<div class="progreso"></div>
+					</div>
+			</section>
 			<div ng-show="paso == 1">
 				<div>
 					<a class="btn-idioma" ng-class="idioma == 'basque'?'active':''" href="#" ng-click="cambiarIdioma('basque')">EU</a>
@@ -116,6 +122,15 @@
 				<p>{{lang[idioma]["mensaje_pag5"] | capitalize}}</p>
 					<form novalidate name="emailForm" class="centrado">
 						<div class="grupo">
+							<label>{{lang[idioma]["Smtp_Protocol"]}}</label>
+							<select ng-model="config.email.protocol">
+								<option value="smtp">Smtp</option>
+								<option value="mail">Mail</option>
+								<option value="sendmail">SendMail</option>
+							</select>
+							<p>{{lang[idioma]["explicacion_Smtp_Protocol"]}}</p>
+						</div>
+						<div class="grupo">
 							<label>{{lang[idioma]["Smtp_Host"] | capitalize}}</label>
 							<input ng-required="true" name="host" ng-model="config.email.host"/>
 							<p>{{lang[idioma]["explicacion_Smtp_Host"] | capitalize}}</p>
@@ -142,6 +157,14 @@
 							<p>{{lang[idioma]["explicacion_clave2"] | capitalize}}</p>
 							<span ng-show="(emailForm.$submitted || emailForm.pass.$touched) && emailForm.pass.$invalid" 
 					class="error-validacion">{{lang[idioma]["error_clave2"] | capitalize}}</span>
+						</div>
+						<div class="grupo">
+							<label>{{lang[idioma]["email_encriptacion"] | capitalize}}</label>
+							<select ng-model="config.email.crypto">
+								<option value="ssl">SSL</option>
+								<option value="tsl">TSL</option>
+							</select>
+							<p>{{lang[idioma]["explicacion_email_encriptacion"] | capitalize}}</p>
 						</div>
 					</form>
 					<p>{{lang[idioma]["mensaje_pag5_2"] | capitalize}}</p>
@@ -206,7 +229,9 @@
 					host:"ssl://smtp.googlemail.com",
 					port:465,
 					user:"usuario@gmail.com",
-					pass:"contraseña"
+					pass:"contraseña",
+					crypto:"ssl",
+					protocol:"smtp"
 					
 				}
 			};
@@ -225,10 +250,11 @@
 			
 			$scope.continuar = function(){
 				$scope.paso++;
-			}
+			};
 			$scope.comprobarDB = function(){
 				$scope.dbconfig.$setSubmitted(true);
 				if($scope.dbconfig.$valid){
+					$scope.cargando = true;
 					$http({
 						url:"/Instalador/ComprobarDB",
 						data:$.param($scope.config.db),
@@ -236,8 +262,10 @@
 						headers: {'Content-Type': 'application/x-www-form-urlencoded'}
 					})
 					.then(function(respuesta){
+						$scope.cargando = false;
 						EscribirConfDB();
 					},function(error){
+						$scope.cargando = false;
 						$scope.error_conexion = true;
 					})
 				}
@@ -245,69 +273,80 @@
 			$scope.probarDatosEmail = function(){
 				$scope.enviarEmail.$setSubmitted(true);
 						if($scope.enviarEmail.$valid){
+							$scope.cargando = true;
 							$http({
 								url:"/Instalador/ProbarDatosEmail",
 								method:"POST",
 								data:$.param($scope.config.email),
 								headers: {'Content-Type': 'application/x-www-form-urlencoded'}
 							}).then(function(respuesta){
-								
+									$scope.cargando = false;
 							},
 							function(error){
-								
+								$scope.cargando = false;
 							});
 						}
 			};
 			$scope.guardarDatosEmail = function(){
 				$scope.emailForm.$setSubmitted(true);
 				if($scope.emailForm.$valid){
+					$scope.cargando = true;
 					$http({
 						url:"/Instalador/GuardarDatosEmail",
 						method:"POST",
 						data:$.param($scope.config.email),
 						headers: {'Content-Type': 'application/x-www-form-urlencoded'}
 					}).then(function(respuesta){
+						$scope.cargando = false;
 						$scope.paso = 6;
 					},
 					function(error){
+						$scope.cargando = false;
 						
 					});
 				}
 			};
 			$scope.crearDB = function(){
+				$scope.cargando = true;
 				$http({
 						url:"/Migraciones"
 					})
 					.then(function(respuesta){
+						$scope.cargando = false;
 						$scope.creado = true;
 					},function(error){
-						
+						$scope.cargando = false;
 					})
 			};
 			
 			$scope.insertarDB = function(){
+				$scope.cargando = true;
 				$http({
 					url:"/Instalador/GenerarDatosPrueba"
 				})
-				.then(function(respuesta){	
+				.then(function(respuesta){
+					$scope.cargando = false;
 					$scope.paso = 5;
 					$scope.insertado = true;
 				},function(error){
-
-				})
-			}
+					$scope.cargando = false;
+				});
+			};
 			
 			$scope.comprobarDBExistente = function(){
+				$scope.cargando = true;
 				$http({
 						url:"/Instalador/ComprobarDBExistente"
 					})
 					.then(function(respuesta){
+						$scope.cargando = false;
 						$scope.paso = 4;
 					},function(error){
-						
+						$scope.cargando = false;
 					})
 			};
 			function EscribirConfDB(){
+				$scope.cargando = true;
 				$http({
 						url:"/Instalador/EscribirConfDB",
 						data:$.param($scope.config.db),
@@ -315,14 +354,17 @@
 						headers: {'Content-Type': 'application/x-www-form-urlencoded'}
 					})
 					.then(function(respuesta){
+						$scope.cargando = false;
 						$scope.paso = 4;
 					},function(error){
+						$scope.cargando = false;
 						$scope.texto = error.data;
 						$scope.paso = 3;
 					})
 			}
 			
 			$scope.Instalado = function(){
+				$scope.cargando = true;
 				$http({
 					url:"/Instalador/Instalado",	
 				})
@@ -331,7 +373,7 @@
 					window.location = "/Login";
 					},
 					function(error){
-						
+						$scope.cargando = false;
 					}
 				)
 			}

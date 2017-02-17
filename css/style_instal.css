@@ -64,7 +64,7 @@ body>div, body>form{
     color: white;
 }
 
-.grupo :any(label, p, input){
+.grupo :any(label, p, input,select){
 	align-self: flex-start;
 	margin: 0;
 	flex: 1;
@@ -78,7 +78,7 @@ body>div, body>form{
 	flex: 0.5;
 }
 
-.grupo input{
+.grupo :any(input, select){
 	margin: 0 1em;
 }
 
@@ -115,6 +115,51 @@ button[disabled]{
 .btn-idioma:first-child{
 	padding-right: .4em;
 	border-right: solid 1px $(--a-claro);
+}
+section.cargando-mascara {
+	position: fixed;
+	z-index: 9999999999;
+	top: 0;
+	right: 0;
+	background-color: rgba(255,255,255,0.6);
+	bottom: 0;
+	left: 0;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-direction: column;
+}
+.cargando-mascara img{
+	width: 20%;
+	height: auto;
+}
+.cargando-mascara .barra{
+	width: 20%;
+	height: 10px;
+	background-color: white;
+	margin-top:.4em;
+	position:relative;
+	border: 1px solid $(--a-oscuro);
+	overflow: hidden;
+}
+.cargando-mascara .progreso{
+	height:10px;
+	background: $(--a-claro);
+	position: absolute;
+	animation: animacion-cargando infinite 3s;
+	width: 100%;
+	margin-left: -120%;
+}
+@keyframes animacion-cargando {
+	0%{
+		margin-left: -120%;
+	}
+	50%{
+		margin-left: 120%;
+	}
+	100%{
+		margin-left:-120%;
+	}
 }
 
 /*************************************

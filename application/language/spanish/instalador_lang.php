@@ -51,3 +51,7 @@ $lang["mensaje_pag6_2"] = "Para poder empezar a utilizar la aplicación pulse Fi
 $lang["empezar"] = "empezar";
 $lang["rellenar"] = "rellenar";
 $lang["mensaje_pag4_2"] = "para rellenar la base de datos con datos de prueba pulse el boton Rellenar, en caso contrario pulse Continuar.";
+$lang["explicacion_email_encriptacion"] = "Tipo de encriptación a utilizar";
+$lang["email_encriptacion"] = "Encriptación";
+$lang["Smtp_Protocol"] = "Protocolo";
+$lang["explicacion_Smtp_Protocol"]  = "tipo de protocolo a utilizar";

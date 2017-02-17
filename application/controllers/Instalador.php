@@ -196,7 +196,9 @@ class Instalador extends CI_Controller{
 				"host"=>"email_host",
 				"port"=>"email_port",
 				"user"=>"email_user",
-				"pass"=>"email_pass"
+				"pass"=>"email_pass",
+				"protocol"=>"email_protocol",
+				"crypto"=>"email_crypto"
 				];
 				foreach($input_array as $clave_input => $clave_db){
 					$this->db->replace("config",["clave"=>$clave_db,"valor"=>$this->input->post($clave_input)]);
@@ -541,11 +543,12 @@ class Instalador extends CI_Controller{
 		]);
 		if($this->form_validation->run()){
 			$config = Array(
- 				    'protocol' => 'smtp',
+ 				    'protocol' =>  $this->input->post("protocol"),
  				    'smtp_host' => $this->input->post('host'),
  				    'smtp_port' => $this->input->post('port'),
  				    'smtp_user' => $this->input->post('user'),
  				    'smtp_pass' => $this->input->post('pass'),
+					'smtp_crypto' =>$this->input->post("crypt"),
  				    'mailtype'  => 'html',
  				    'charset'   => 'utf-8'
  				);
