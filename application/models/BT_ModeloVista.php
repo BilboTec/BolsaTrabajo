@@ -63,11 +63,16 @@ abstract class BT_ModeloVista extends BT_ModeloEstandar{
     }
 
     public function insert($elemento){
-        $email = ((array)$elemento)["email"];
+    	if(is_array($elemento)){
+    		$email = $elemento["email"];
+    	}else{
+    		$email = $elemento->email;
+    	}
+      
 		if(is_array($elemento)){
-			$elemento["clave"] = password_hash(((array)$elemento)["nombre"],PASSWORD_DEFAULT);
+			$elemento["clave"] = password_hash($elemento["nombre"],PASSWORD_DEFAULT);
 		}else{
-			$elemento->clave =password_hash(((array)$elemento)["nombre"],PASSWORD_DEFAULT);
+			$elemento->clave =password_hash($elemento->nombre,PASSWORD_DEFAULT);
 		}
         if($this->db->where(["email"=>$email])->from("email")->count_all_results() != 0){
             throw new Exception("email_duplicado");

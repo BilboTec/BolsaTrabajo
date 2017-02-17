@@ -24,7 +24,7 @@ class BT_Modelo_FormacionComplementaria extends BT_ModeloEstandar
     public function actualizar_conocimentos($id_formacion_complementaria,$conocimientos){
         $this->db->delete("conocimiento_formacion_complementaria",["id_formacion_complementaria"=>$id_formacion_complementaria]);
         foreach($conocimientos as $conocimiento){
-            $this->db->insert("conocimiento_formacion_complementaria",[
+            $this->db->replace("conocimiento_formacion_complementaria",[
                     "id_formacion_complementaria"=>$id_formacion_complementaria,
                     "id_conocimiento"=>$conocimiento["id_conocimiento"]
                 ]);

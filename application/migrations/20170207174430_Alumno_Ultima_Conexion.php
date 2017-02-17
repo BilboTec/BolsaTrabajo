@@ -1,3 +1,4 @@
+
 <?php
 class Migration_Alumno_Ultima_Conexion extends CI_Migration{
     public function up(){

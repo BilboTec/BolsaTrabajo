@@ -190,4 +190,302 @@ class Instalador extends CI_Controller{
 				}
 		}
 	}
+	
+	public function GenerarDatosPrueba(){
+		
+		
+		$this->load->model("BT_Modelo_Alumno", "alumnos");		
+		$this->load->model("BT_Modelo_Profesor", "profesores");			
+		$this->load->model("BT_Modelo_Empresa", "empresas");		
+		$this->load->model("BT_Modelo_Oferta", "ofertas");			
+		$this->load->model("BT_Modelo_Experiencia", "experiencias");	 	
+		$this->load->model("BT_Modelo_FormacionAcademica", "formAcademicas");	 	
+		$this->load->model("BT_Modelo_FormacionComplementaria", "formComplementarias");	 	
+		$this->load->model("BT_Modelo_OfertaFormativa", "ofertaFormativa");
+		
+		
+		$ofertas = $this->ofertaFormativa->get();
+	
+		
+		
+		$calles = ["Gran Via" , "Franciso" , "Gloriera de Bilbao" , "Urquijo" , "Sabino Arana" , "Ibaizabal" , "Ercilla", "Elcano" , "Hurtado de mezaga" , "Simón Bolivar"];
+		$letras = ['T', 'R', 'W', 'A', 'G', 'M', 'Y', 'F', 'P', 'D', 'X', 'B', 'N', 'J', 'Z', 'S', 'Q', 'V', 'H',  'L', 'C', 'K', 'E'];
+		$sector = ["Informático", "Químico" ,"Agrario" , "Tecnológico"];
+		$conocimientos = ["uno" , "dos" ,"tres" , "cuatro" , "cinco" , "seis" , "siete", "ocho" , "nueve" , "diez"];
+		$funciones = ["Administración", "Comercial/Marketing", "Compras/Logística/Almacén", "Dirección/Gerencia", "Dpto. financiero", "Estudios, Proyectos , I+D", "Informático", "Mantenimiento", "Oficios Profesional", "Producción / Calidad", "Recursos humanos"];
+		$cargos = ["Becario/a Prácticas", "Empleado/a", "Especialista", "Mando Intermedio", "Dirección / Gerencia", "Consejo directivo","Socio/asociado"];
+		$nombres = ["Andrés" , "Juan" , "Pedro" , "Jóse" , "Ana" , "Guillermo" , "Gorka" , "Josu" , "Yanire", "Román", "Luis" , "Ander" , "Iñigo" , "Maite", "Laura", "Jorge" , "Alex" , "Aitor" , "Sofia" , "Carmen" , "Marije" , "Inés" , "Irene" , "Itziar"];
+		$apellidos = ["López", "Pérez", "García" , "Rodriguez" , "Zabala" , "Gonzales" , "Barrena" , "Muñoz" , "Bilbao" , "Rodas" , "Ramos" , "Insausti" , "Espinosa" ,"Domingo" , "Escobar" , "Salazar" , "Aranburu" ,"Ochoa"];
+		$empresas = ["klico" , "bilbotec", "arrobajgg", "cooldevelopers", "youtube", "google", "facebook", "cocacola" , "apple", "seat"];
+		$titulos = ["Programador web senior en .NET" , "Programador PL-SQL" , "Administrativo/a contable", "Secretaría de dirección", "Gestor/a comercial" , "Tecnico de control de calidad", "Auxiliar de Laboratorio" , "Electricista" , "Programador JAVA"];
+		
+		$this->load->model("BT_Modelo_Conocimiento", "conocimientos");	 	
+		$conocimiento = new _Conocimiento();	
+		
+		
+		
+	
+		foreach ($conocimientos as $key => $value) {
+			$conocimiento->nombre =  $value;			
+			$this->conocimientos->insert($conocimiento);			
+		}
+		
+		$listaConocimientos = $this->conocimientos->get();
+	
+		
+			
+		
+		for($x = 0; $x < 10; $x++){
+				
+			$alumno = new _Alumno();					
+			//ALumnos
+			
+			$alumno->nombre = $nombres[rand(0, count($nombres)-1)];
+			$alumno->apellido1 = $apellidos[rand(0, count($apellidos)-1)];
+			$alumno->apellido2 = $apellidos[rand(0, count($apellidos)-1)];		
+			$alumno->calle =  $calles[rand(0, count($calles)-1)];
+			$alumno->cp = rand(10000, 99999);
+			$alumno->disponibilidad = rand(0, 1);
+			$alumno->dni = rand(10000000, 99999999) . $letras[rand(0, 22)];
+			$alumno->fecha_nacimiento = rand(1970, 2000) . "-" . rand(1,12) . "-" .rand(1,28);
+			$alumno->id_localidad = rand(0,8116);
+			$alumno->nacionalidad = "española";
+			$alumno->otros_datos = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed eiusmod 
+			tempor incidunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, 	quis nostrud
+		    exercitation ullamco laboris nisi ut aliquid ex ea commodi consequat. Quis aute iure 
+			reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur 
+			sint obcaecat cupiditat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum";
+			$alumno->sexo = rand(0,1);
+			$alumno->tlf = "0034" . rand(600000000, 999999999);
+			$alumno->email = $alumno->nombre . "." .$alumno->apellido1 . $x . "@alumno.com";
+			$alumno->establecer_clave("alumno");
+			
+			$fecha = new DateTime('2017-02-13');		
+	   		$fecha->sub( new DateInterval('P' . rand(1, 8) . 'M'));	    
+			$alumno->ultima_conexion =  $fecha->format('Y-m-d');
+			
+			$alumno->avisado =	1;		
+			$alumno = $this->alumnos->insert($alumno);
+			
+			
+			
+			$vez = 1;
+			while($vez <= 2){
+				
+				//Experiencias
+				
+				
+				$experiencia= new _Experiencia();
+		
+				$experiencia->id_alumno = $alumno->id_alumno;			 
+				$fecha = new DateTime('2017-02-13');		
+		   		$fecha->sub( new DateInterval('P' . rand(1, 8) . 'M'));	    
+				
+				
+				$experiencia->empresa = $empresas[rand(0, count($empresas)-1)];
+				$experiencia->trabajando_actualmente = 1;
+				
+				if($vez == 2){				
+					$experiencia->trabajando_actualmente = 0;
+					$experiencia->fecha_fin =  $fecha->format('Y-m-d');			
+					$fecha->sub( new DateInterval('P' . rand(6, 12) . 'M'));	
+				}
+				
+				
+				$experiencia->fecha_inicio = $fecha->format('Y-m-d');
+				$experiencia->cargo = $cargos[rand(0, 6)];
+				$experiencia->funciones = $funciones[rand(0,9)];
+				
+				$experiencia = $this->experiencias->insert($experiencia)[0];
+				
+				$conocimientos = [];
+				
+				for($i = 0; $i < 3 ; $i++){
+					$conocimiento = [];
+					$conocimiento["id_conocimiento"] = $listaConocimientos[rand(0 , count($listaConocimientos)-1)]->id_conocimiento;
+					$conocimientos[$i] = $conocimiento;
+				};
+			
+				$this->experiencias->actualizar_conocimientos($experiencia->id_experiencia, $conocimientos);
+				
+			
+				
+				//Formación Académica			
+				
+				$formAcademica = new _FormacionAcademica();
+				
+				$formAcademica->id_alumno = $alumno->id_alumno;			
+				$formAcademica->descripcion = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed eiusmod 
+				tempor incidunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, 	quis nostrud
+			    exercitation ullamco laboris nisi ut aliquid ex ea commodi consequat. Quis aute iure 
+				reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur 
+				sint obcaecat cupiditat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum";
+				
+				$random = rand(0 , count($ofertas)-1);
+				$formAcademica->id_oferta_formativa =  $ofertas[$random] -> id_oferta_formativa;				
+				$formAcademica->id_tipo_titulacion = $ofertas[$random] ->  id_tipo_titulacion;
+				$formAcademica->nombre = $ofertas[$random] -> nombre;
+					
+    		
+    			$formAcademica->cursando = 1;
+    					
+				
+				$fecha = new DateTime('2017-02-13');		
+		   		$fecha->sub( new DateInterval('P' . rand(1, 8) . 'M'));	    
+						
+				
+				if($vez == 2){
+					$formAcademica->cursando = 0;
+					$formAcademica->fecha_fin =  $fecha->format('Y-m-d');			
+					$fecha->sub( new DateInterval('P' . rand(6, 12) . 'M'));	
+				}
+				
+				$formAcademica->fecha_inicio = $fecha->format('Y-m-d');		
+			
+				
+				$formAcademica = $this->formAcademicas->insert($formAcademica)[0];
+				
+				$conocimientos = [];
+				
+				for($i = 0; $i < 3 ; $i++){
+					$conocimiento = [];
+					$conocimiento["id_conocimiento"] = $listaConocimientos[rand(0 , count($listaConocimientos)-1)]->id_conocimiento;
+					$conocimientos[$i] = $conocimiento;
+				};
+			
+				$this->formAcademicas->actualizar_conocimientos($formAcademica->id_formacion_academica, $conocimientos);
+							 
+				 //Formacion complementaria
+				 
+				 
+				$formComplementaria = new _FormacionComplementaria();
+				
+				$formComplementaria->id_alumno = $alumno->id_alumno;			
+				$formComplementaria->descripcion = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed eiusmod 
+				tempor incidunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, 	quis nostrud
+			    exercitation ullamco laboris nisi ut aliquid ex ea commodi consequat. Quis aute iure 
+				reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur 
+				sint obcaecat cupiditat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum";
+				
+				$random = rand(0 , count($ofertas)-1);
+				$formComplementaria->id_oferta_formativa =  $ofertas[$random] -> id_oferta_formativa;				
+				$formComplementaria->id_tipo_titulacion = $ofertas[$random] ->  id_tipo_titulacion;
+				$formComplementaria->nombre = $ofertas[$random] -> nombre;
+				$formComplementaria->horas = rand(4, 10) * 1000;	
+    		
+    			$formComplementaria->cursando = 1;
+    					
+				
+				$fecha = new DateTime('2017-02-13');		
+		   		$fecha->sub( new DateInterval('P' . rand(1, 8) . 'M'));	    
+						
+				
+				if($vez == 2){
+					$formComplementaria->cursando = 0;
+					$formComplementaria->fecha_fin =  $fecha->format('Y-m-d');			
+					$fecha->sub( new DateInterval('P' . rand(6, 12) . 'M'));	
+				}
+				
+				$formComplementaria->fecha_inicio = $fecha->format('Y-m-d');		
+			
+				
+				$formComplementaria = $this->formComplementarias->insert($formComplementaria)[0];
+				
+				$conocimientos = [];
+				
+				for($i = 0; $i < 3 ; $i++){
+					$conocimiento = [];
+					$conocimiento["id_conocimiento"] = $listaConocimientos[rand(0 , count($listaConocimientos)-1)]->id_conocimiento;
+					$conocimientos[$i] = $conocimiento;
+				};
+			
+				$this->formComplementarias->actualizar_conocimentos($formComplementaria->id_formacion_complementaria, $conocimientos);
+				
+				 
+				 
+				 
+				 
+				 
+				$vez ++;
+			
+			}							
+			
+			//Profesores
+			
+			$profesor = new _Profesor();
+			$profesor->nombre = $nombres[rand(0, count($nombres)-1)];
+			$profesor->apellido = $apellidos[rand(0, count($apellidos)-1)];
+			$profesor->apellido2 = $apellidos[rand(0, count($apellidos)-1)];
+			$profesor->establecer_clave("profesor");
+			$profesor->id_departamento = rand(1,4);
+			
+			$p = rand(0, 10);
+			if($p <= 7){
+				$profesor->id_rol = 2;
+			}else{
+				$profesor->id_rol = 1;
+			}	
+			
+			
+			$profesor->email = $profesor->nombre . "." .$profesor->apellido . $x . "@profesor.com";	       
+			
+			$this->profesores->insert($profesor);
+			
+			//empresas 
+			$empresa = new _Empresa();
+			$empresa->cif = rand(10000000, 99999999) . $letras[rand(0, 22)];
+		    $empresa->sector = $sector[rand(0, 3)];
+	        $empresa->nombre = $empresas[rand(0, count($empresas)-1)];
+	        $empresa->establecer_clave("empresa");    
+			$empresa->email = $empresa->nombre . $x . "@empresa.com";	       
+			$this->empresas->insert($empresa);
+			
+			
+			//Ofertas
+			$oferta = new _Oferta();
+			$oferta->titulo = $titulos [rand(0, count($titulos)-1)];
+			
+			$oferta->nombre_empresa = $empresas[rand(0, count($empresas)-1)];
+			
+			$fecha = new DateTime('2017-02-13');		
+	   		$fecha->sub( new DateInterval('P' . rand(1, 8) . 'D'));	    
+			$oferta->fecha =  $fecha->format('Y-m-d');		
+			
+			$oferta->descripcion = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed eiusmod 
+			tempor incidunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, 	quis nostrud
+		    exercitation ullamco laboris nisi ut aliquid ex ea commodi consequat. Quis aute iure 
+			reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur 
+			sint obcaecat cupiditat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum";
+			
+			$oferta->visible = rand(0,1);
+			
+			$oferta = $this->ofertas->insert($oferta)[0];
+			
+		}				
+		
+		$alumnos = $this->alumnos->get();
+		$ofertas = $this->ofertas->get();
+	
+		for($x = 0; $x < 4; $x++){				
+			
+			
+			//Candidaturas
+			
+			
+			$random = rand(0, 2);
+			
+			
+			$idAlumnos = [];
+			for($j = 0; $j <=$random ; $j++){
+				array_push($idAlumnos, $alumnos[rand (0, count($alumnos) -1)]->id_alumno);
+			}
+						
+			$random = rand(0, 2);
+			
+			$this->ofertas->actualizar_candidaturas($ofertas[rand(0, count($ofertas)-1)]->id_oferta , $idAlumnos);
+			
+		}	
+		
+	}
+	
 }

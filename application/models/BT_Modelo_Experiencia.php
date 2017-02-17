@@ -23,7 +23,7 @@ class BT_Modelo_Experiencia extends BT_ModeloEstandar
 	public function actualizar_conocimientos($id_experiencia,$conocimientos){
 		$this->db->delete("conocimiento_experiencia",["id_experiencia"=>$id_experiencia]);
 		foreach ($conocimientos as $conocimiento) {
-			$this->db->insert("conocimiento_experiencia",
+			$this->db->replace("conocimiento_experiencia",
 			["id_experiencia"=>$id_experiencia,"id_conocimiento"=>$conocimiento["id_conocimiento"]]);
 		}
 	}
