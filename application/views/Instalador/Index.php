@@ -13,10 +13,6 @@
 		</head>
 		<body>
 			<section class="cargando-mascara" ng-show="cargando">
-					<img src="/imagenes/BilboTec.jpg"/>
-					<div class="barra">
-						<div class="progreso"></div>
-					</div>
 			</section>
 			<div ng-show="paso == 1">
 				<div>
@@ -33,7 +29,7 @@
 				</ol>
 				<p>{{lang[idioma]["mensaje_pag1"] | capitalize}}<b>database.php</b></p>
 
-				<button class= "btn-centro" ng-click="empezar()">{{lang[idioma]["empezar"] | capitalize}}</button>
+				<button bt-btn-carga ng-model="cargando" class= "btn-centro" ng-click="empezar()">{{$parent.lang[$parent.idioma]["empezar"] | capitalize}}</button>
 			</div>
 			
 			<form novalidate name="dbconfig" ng-show="paso == 2">
@@ -76,7 +72,7 @@
 				</div>
 				<div class="btn-contenedor btn-centro">
 					<button  ng-click="atras()">{{lang[idioma]["atras"] | capitalize}}</button>
-					<button  ng-click="comprobarDB()">{{lang[idioma]["continuar"] | capitalize}}</button>
+					<button bt-btn-carga ng-model="cargando" ng-click="comprobarDB()">{{$parent.lang[$parent.idioma]["continuar"] | capitalize}}</button>
 				</div>
 				<div class="error_estatico" ng-show="error_conexion">{{lang[idioma]["error_conectar"] | capitalize}}</div>
 			</form>
@@ -90,7 +86,7 @@
 				<div class="codigo" bt-contenido-html ng-model="texto"></div>
 				<div class="btn-contenedor btn-centro">
 					<button ng-click="atras()">{{lang[idioma]["atras"] | capitalize}}</button>
-					<button ng-click="comprobarDBExistente()">{{lang[idioma]["continuar"] | capitalize}}</button>
+					<button bt-btn-carga ng-model="cargando" ng-click="comprobarDBExistente()">{{$parent.lang[$parent.idioma]["continuar"] | capitalize}}</button>
 				</div>
 			</div>
 			<div ng-show="paso == 4">
@@ -102,14 +98,14 @@
 				<p ng-hide="creado">{{lang[idioma]["mensaje_pag4"] | capitalize}}</p>	
 				<div ng-hide="creado" class="btn-contenedor btn-centro">
 					<button ng-click="atras()">{{lang[idioma]["atras"] | capitalize}}</button>
-					<button ng-click="crearDB()">{{lang[idioma]["crear"] | capitalize}}</button>
+					<button bt-btn-carga ng-model="cargando" ng-click="crearDB()">{{$parent.lang[$parent.idioma]["crear"] | capitalize}}</button>
 				</div>
 				
 				<p ng-show="creado">{{lang[idioma]["mensaje_pag4_2"] | capitalize}}</p>	
 				<div ng-show="creado" class="btn-contenedor btn-centro">
 					<button ng-click="atras()">{{lang[idioma]["atras"] | capitalize}}</button>
-					<button ng-click="insertarDB()" ng-disabled="insertado">{{lang[idioma]["rellenar"] | capitalize}}</button>
-					<button  ng-click="continuar()">{{lang[idioma]["continuar"] | capitalize}}</button>
+					<button bt-btn-carga ng-model="cargando" ng-click="insertarDB()" ng-disabled="insertado">{{$parent.lang[$parent.idioma]["rellenar"] | capitalize}}</button>
+					<button bt-btn-carga ng-model="cargando" ng-click="continuar()">{{$parent.lang[$parent.idioma]["continuar"] | capitalize}}</button>
 				</div>
 
 			</div>
@@ -178,11 +174,11 @@
 							<span ng-show="(enviarEmail.$submitted || enviarEmail.email.$touched) && enviarEmail.email.$error.email" 
 							class="error-validacion">{{lang[idioma]["error2_direccion_correo"] | capitalize}}</span>
 						</div>
-						<button type="button" class="btn-probar" ng-click="probarDatosEmail()">{{lang[idioma]["comprobar"] | capitalize}}</button>
+						<button bt-btn-carga ng-model="cargando" type="button" class="btn-probar" ng-click="probarDatosEmail()">{{$parent.lang[$parent.idioma]["comprobar"] | capitalize}}</button>
 					</form>
 					<div class="btn-contenedor btn-centro">
 						<button  ng-click="atras()">{{lang[idioma]["atras"] | capitalize}}</button>
-						<button  ng-click="guardarDatosEmail()">{{lang[idioma]["continuar"] | capitalize}}</button>
+						<button bt-btn-carga ng-model="cargando"  ng-click="guardarDatosEmail()">{{$parent.lang[$parent.idioma]["continuar"] | capitalize}}</button>
 					</div>
 			</div>
 			<div ng-show="paso == 6">
@@ -199,7 +195,7 @@
 				<p>{{lang[idioma]["mensaje_pag6_2"] | capitalize}}</p>
 				<div class="btn-contenedor btn-centro">
 					<button  ng-click="atras()">{{lang[idioma]["atras"] | capitalize}}</button>
-					<button  ng-click="Instalado()">{{lang[idioma]["finalizar"] | capitalize}}</button>
+					<button bt-btn-carga ng-model="cargando"  ng-click="Instalado()">{{$parent.lang[$parent.idioma]["finalizar"] | capitalize}}</button>
 				</div>
 				
 			</div>
@@ -402,5 +398,32 @@
 		        }
 	        return string.substr(0,1).toUpperCase() + string.substr(1);
     };
-})
+}).directive("btBtnCarga",function(){
+	return{
+		restrict:"A",
+		require:"ngModel",
+		scope:{
+			cargando:"=ngModel"
+		},
+		template:function(e,a){
+			var nCuadros = a.btNCuadros || 8;
+			var cuadros = "<div class='contenedor-texto'>"+e.html()+"</div><div class='contenedor-cuadros'>";
+			for(var i = 0; i < nCuadros ; i++){
+				cuadros += "<div style='animation-delay:"+(0.2+(0.2*i))+"s'>&nbsp;</div>";
+			}
+			return cuadros + "</div>";
+		},
+		link:function(s,e,a,m){
+			console.log("Ejecutando");
+			m.$render = function(){
+				console.log("Modelo cambiado");
+				if(s.cargando){
+					e.addClass("cargando");
+				}else{
+					e.removeClass("cargando");
+				}
+			};
+		}
+	}
+});
 	</script>
