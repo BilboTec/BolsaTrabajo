@@ -51,7 +51,17 @@ body>div, body>form{
 	display:flex;
 	align-self: stretch;
 	margin-bottom: 1.5em;
-	
+	position: relative;	
+}
+
+.error-validacion{
+	background-color: $(--a-oscuro);
+    padding: .2em;
+    border-radius: 8px;
+    position: absolute;
+    top: 100%;
+    z-index: 99;
+    color: white;
 }
 
 .grupo :any(label, p, input){
@@ -60,12 +70,110 @@ body>div, body>form{
 	flex: 1;
 }
 
+.error_estatico{
+	color:red;
+}
+
 .grupo label{
 	flex: 0.5;
 }
 
 .grupo input{
 	margin: 0 1em;
+}
+
+.btn-contenedor{
+	display: flex;
+}
+
+button{
+	background-color: $(--a-oscuro);
+	border: none;
+	color: white;
+	padding: .5em 1em;
+	margin-left: 2em;
+}
+.btn-probar{
+	margin-left:0;
+	margin-bottom: 2em;
+}
+
+button[disabled]{
+	background-color: hsla-adjust($(--a-oscuro) 0 0 0 -70);
+}
+
+.btn-idioma{
+	text-decoration: none;
+	color: $(--a-claro);
+}
+
+.btn-idioma.active{
+	text-decoration: none;
+	color: $(--a-oscuro);
+}
+
+.btn-idioma:first-child{
+	padding-right: .4em;
+	border-right: solid 1px $(--a-claro);
+}
+
+/*************************************
+********BT-WINDOW*********************
+**************************************/
+.bt-window {
+    position: absolute;
+    background: white;
+    border: $(--g-oscuro) 1px solid;
+}
+.bt-window-wrapper{
+	position:fixed;
+	top:0;
+	left:0;
+	width: 100%;
+	height: 100%;
+	background-color:rgba(0,0,0,.7);
+    z-index: 100000000;
+}
+.bt-window-titulo{
+	background-color: $(--v-oscuro);
+	color: white;
+	font-weight: bold;
+	user-select:none;
+	padding: .2em;
+	z-index: 100000100;
+}
+.bt-window-titulo:hover{
+	cursor:default;
+}
+.bt-window-btn-container{
+	display: flex;
+	justify-content: space-around;
+	padding: .5em;
+	z-index: 100000100;
+}
+.bt-window-texto, .bt-window-url{
+	padding: 1em;
+	z-index: 100000100;
+}
+.bt-window-wrapper.ng-hide-add{
+	animation: dummy 0.5s;
+}
+.bt-window-wrapper.ng-hide-remove{
+	animation: dummy 0.5s reverse;
+}
+.bt-window.ng-hide-remove{
+	animation: aparecer 0.5s;
+}
+.bt-window.ng-hide-add{
+	animation: aparecer 0.5s reverse;
+}
+@keyframes fadeIn {
+	0%{
+		opacity: initial;
+	}
+	100%{
+		opacity: initial;
+	}
 }
 
 /*************************************
@@ -99,4 +207,6 @@ body>div, body>form{
 	--g-claro: #edeef0;
 	--v-oscuro: #1d9143;
 	--v-claro: #c1ce40;
+	--a-oscuro: #006895;
+	--a-claro: #0098c1;
 }

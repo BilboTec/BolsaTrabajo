@@ -5,126 +5,195 @@
 			<script src="/js/jquery-3.1.1.min.js"></script>
 			<script src="/js/angular.min.js"></script>
 			<script src="/js/angular-animate.js"></script>
-			<script src="/js/angular-route.js"></script>
+			<script src="/js/angular-route.js"></script>	
 			<script src="/js/BilboTec.js"></script>
 			<script src="/js/BilboTec.ui.js"></script>
+			<script src="/api/Localize"></script>
 			<?php echo csscrush_tag("/css/style_instal.css"); ?>
 		</head>
 		<body>
 			<div ng-show="paso == 1">
+				<div>
+					<a class="btn-idioma" ng-class="idioma == 'basque'?'active':''" href="#" ng-click="cambiarIdioma('basque')">EU</a>
+					<a class="btn-idioma" ng-class="idioma == 'spanish'?'active':''" href="#" ng-click="cambiarIdioma('spanish')">ES</a>
+				</div>
 				<img class="logo" src="/imagenes/BilboTec.jpg"/>
-				<p>Bienvenido a la Bolsa de Trabajo de BilboTec&copy;. Antes de empezar necesitamos alguna información de la base de datos.
-				Necesitarás saber lo siguiente antes de continuar.</p>
+				<p>{{lang[idioma]["bienvenida"]}}</p>
 				<ol>
-					<li>Nombre de la base de datos</li>
-					<li>Usuario de la base de datos</li>
-					<li>Contraseña de la base de datos</li>
-					<li>Servidor de la base de datos</li>
+					<li>{{lang[idioma]["nombre_base_datos"] | capitalize}}</li>
+					<li>{{lang[idioma]["usuario_de_la_bd"] | capitalize}}</li>
+					<li>{{lang[idioma]["clave_de_la_bd"] | capitalize}}</li>
+					<li>{{lang[idioma]["servidor_de_la_bd"] | capitalize}}</li>
 				</ol>
-				<p>Vamos a utilizar esta información para crear el archivo de configuración <b>database.php</b></p>
-				<button class= "btn-centro" ng-click="empezar()">Empezar</button>
+				<p>{{lang[idioma]["mensaje_pag1"] | capitalize}}<b>database.php</b></p>
+
+				<button class= "btn-centro" ng-click="empezar()">{{lang[idioma]["empezar"] | capitalize}}</button>
 			</div>
 			
-			<form name="dbconfig" ng-show="paso == 2">
+			<form novalidate name="dbconfig" ng-show="paso == 2">
+				<div>
+					<a class="btn-idioma" ng-class="idioma == 'basque'?'active':''" href="#" ng-click="cambiarIdioma('basque')">EU</a>
+					<a class="btn-idioma" ng-class="idioma == 'spanish'?'active':''" href="#" ng-click="cambiarIdioma('spanish')">ES</a>
+				</div>
 				<img class="logo" src="/imagenes/BilboTec.jpg"/>
-				<p>A continuación deberás introducir los detalles de conexión a tu base de datos. 
-					Si no estás seguro de esta información contacta con tu proveedor de alojamiento web.</p>
+				<p>{{lang[idioma]["mensaje_pag2"] | capitalize}}</p>
 				<div class="grupo">
-					<label>Nombre de la base de datos</label>
+					<label>{{lang[idioma]["nombre_base_datos"] | capitalize}}</label>
 					<input name="dbname" ng-required="true" ng-model="config.db.dbname"/>
-					<p>El nombre de la base de datos que quieres usar para la Bolsa de Trabajo.</p>
+					<p>{{lang[idioma]["explicacion_nombre"] | capitalize}}</p>
 					<span ng-show="(dbconfig.$submitted || dbconfig.dbname.$touched) && dbconfig.dbname.$invalid" 
-					class="error-validacion">El campo nombre de la base de datos es obligatorio</span>
+					class="error-validacion">{{lang[idioma]["error_nombre"] | capitalize}}</span>
 				</div>
 				
 				<div class="grupo">
-					<label>Nombre de usuario</label>
+					<label>{{lang[idioma]["nombre_usuario"] | capitalize}}</label>
 					<input name="user" ng-required="true"  ng-model="config.db.user"/>
-					<p>El nombre de usuario de tu base de datos.</p>
+					<p>{{lang[idioma]["explicacion_nombre_usuario"] | capitalize}}</p>
 					<span ng-show="(dbconfig.$submitted || dbconfig.user.$touched) && dbconfig.user.$invalid" 
-					class="error-validacion">El campo nombre de usuario de la base de datos es obligatorio</span>
+					class="error-validacion">{{lang[idioma]["error_nombre_usuario"] | capitalize}}</span>
 				</div>
 				
 				<div class="grupo">
-					<label>Contraseña</label>
+					<label>{{lang[idioma]["clave"] | capitalize}}</label>
 					<input name="pass" ng-required="true"  ng-model="config.db.pass"/>
-					<p>La contraseña de tu base de datos.</p>
+					<p>{{lang[idioma]["explicacion_clave"] | capitalize}}</p>
 					<span ng-show="(dbconfig.$submitted || dbconfig.pass.$touched) && dbconfig.pass.$invalid" 
-					class="error-validacion">El campo contraseña de la base de datos es obligatorio</span>
+					class="error-validacion">{{lang[idioma]["error_clave"] | capitalize}}</span>
 				</div>
 				
 				<div class="grupo">
-					<label>Servidor de la base de datos</label>
+					<label>{{lang[idioma]["servidor_bd"] | capitalize}}</label>
 					<input name="host" ng-required="true"  ng-model="config.db.host"/>
-					<p>Deberías recibir esta información de tu proveedor de alojamiento web, si localhost no funciona.</p>
+					<p>{{lang[idioma]["explicacion_servidor"] | capitalize}}</p>
 					<span ng-show="(dbconfig.$submitted || dbconfig.host.$touched) && dbconfig.host.$invalid" 
-					class="error-validacion">El campo nombre del host es obligatorio</span>
+					class="error-validacion">{{lang[idioma]["error_servidor"] | capitalize}}</span>
 				</div>
-				<button class= "btn-centro" ng-click="comprobarDB()">Continuar</button>
+				<div class="btn-contenedor btn-centro">
+					<button  ng-click="atras()">{{lang[idioma]["atras"] | capitalize}}</button>
+					<button  ng-click="comprobarDB()">{{lang[idioma]["continuar"] | capitalize}}</button>
+				</div>
+				<div class="error_estatico" ng-show="error_conexion">{{lang[idioma]["error_conectar"] | capitalize}}</div>
 			</form>
 			<div ng-show="paso == 3">
+				<div>
+					<a class="btn-idioma" ng-class="idioma == 'basque'?'active':''" href="#" ng-click="cambiarIdioma('basque')">EU</a>
+					<a class="btn-idioma" ng-class="idioma == 'spanish'?'active':''" href="#" ng-click="cambiarIdioma('spanish')">ES</a>
+				</div>
 				<img class="logo" src="/imagenes/BilboTec.jpg"/>
-				<p class="titulo">No se ha podido generar automáticamente la configuración de la base de datos.
-					Sustuya el contenido de "application/config/database.php" por el siguiente</p>
+				<p class="titulo">{{lang[idioma]["mensaje_pag3"] | capitalize}}</p>
 				<div class="codigo" bt-contenido-html ng-model="texto"></div>
-				<button class= "btn-centro" ng-click="comprobarDBExistente()">Continuar</button>
+				<div class="btn-contenedor btn-centro">
+					<button ng-click="atras()">{{lang[idioma]["atras"] | capitalize}}</button>
+					<button ng-click="comprobarDBExistente()">{{lang[idioma]["continuar"] | capitalize}}</button>
+				</div>
 			</div>
 			<div ng-show="paso == 4">
+				<div>
+					<a class="btn-idioma" ng-class="idioma == 'basque'?'active':''" href="#" ng-click="cambiarIdioma('basque')">EU</a>
+					<a class="btn-idioma" ng-class="idioma == 'spanish'?'active':''" href="#" ng-click="cambiarIdioma('spanish')">ES</a>
+				</div>
 				<img class="logo" src="/imagenes/BilboTec.jpg"/>
-				<p>La configuración ha sido realizada con éxito, para crear la base de datos pulse el botón crear.</p>	
-				<button class="btn-centro" ng-click="crearDB()">Crear</button>
+				<p ng-hide="creado">{{lang[idioma]["mensaje_pag4"] | capitalize}}</p>	
+				<div ng-hide="creado" class="btn-contenedor btn-centro">
+					<button ng-click="atras()">{{lang[idioma]["atras"] | capitalize}}</button>
+					<button ng-click="crearDB()">{{lang[idioma]["crear"] | capitalize}}</button>
+				</div>
+				
+				<p ng-show="creado">{{lang[idioma]["mensaje_pag4_2"] | capitalize}}</p>	
+				<div ng-show="creado" class="btn-contenedor btn-centro">
+					<button ng-click="atras()">{{lang[idioma]["atras"] | capitalize}}</button>
+					<button ng-click="insertarDB()" ng-disabled="insertado">{{lang[idioma]["rellenar"] | capitalize}}</button>
+					<button  ng-click="continuar()">{{lang[idioma]["continuar"] | capitalize}}</button>
+				</div>
+
 			</div>
 			<div ng-show="paso == 5">
+				<div>
+					<a class="btn-idioma" ng-class="idioma == 'basque'?'active':''" href="#" ng-click="cambiarIdioma('basque')">EU</a>
+					<a class="btn-idioma" ng-class="idioma == 'spanish'?'active':''" href="#" ng-click="cambiarIdioma('spanish')">ES</a>
+				</div>
 				<img class="logo" src="/imagenes/BilboTec.jpg"/>
-				<p>Para configurar el remitente de los correos de notificación de la aplicación
-					rellene el siguiente formulario</p>
-					<form name="emailForm" class="centrado">
+				<p>{{lang[idioma]["mensaje_pag5"] | capitalize}}</p>
+					<form novalidate name="emailForm" class="centrado">
 						<div class="grupo">
-							<label>Smtp Host</label>
+							<label>{{lang[idioma]["Smtp_Host"] | capitalize}}</label>
 							<input ng-required="true" name="host" ng-model="config.email.host"/>
-							<p>La dirección del servidor que enviará el email</p>
+							<p>{{lang[idioma]["explicacion_Smtp_Host"] | capitalize}}</p>
 							<span ng-show="(emailForm.$submitted || emailForm.host.$touched) && emailForm.host.$invalid" 
-					class="error-validacion">El campo host es obligatorio</span>
+					class="error-validacion">{{lang[idioma]["error_Smtp_Host"] | capitalize}}</span>
 						</div>
 						<div class="grupo">
-							<label>Puerto</label>
+							<label>{{lang[idioma]["puerto"] | capitalize}}</label>
 							<input ng-required="true"  type="number" name="port" ng-model="config.email.port"/>
-							<p>El puerto utilizado por el servidor</p>
+							<p>{{lang[idioma]["explicacion_puerto"] | capitalize}}</p>
 							<span ng-show="(emailForm.$submitted || emailForm.port.$touched) && emailForm.port.$invalid" 
-					class="error-validacion">El campo puerto es obligatorio</span>
+					class="error-validacion">{{lang[idioma]["error_puerto"] | capitalize}}</span>
 						</div>
 						<div class="grupo">
-							<label>Usuario</label>
+							<label>{{lang[idioma]["usuario"] | capitalize}}</label>
 							<input  ng-required="true" name="user" ng-model="config.email.user"/>
-							<p>El nombre de usuario de la cuenta de correo</p>
+							<p>{{lang[idioma]["explicacion_usuario"] | capitalize}}</p>
 							<span ng-show="(emailForm.$submitted || emailForm.user.$touched) && emailForm.user.$invalid" 
-					class="error-validacion">El campo usuario es obligatorio</span>
+					class="error-validacion">{{lang[idioma]["error_usuario"] | capitalize}}</span>
 						</div>
 						<div class="grupo">
-							<label>Contraseña</label>
+							<label>{{lang[idioma]["clave"] | capitalize}}</label>
 							<input  ng-required="true" name="pass" ng-model="config.email.pass"/>
-							<p>La contraseña del correo electrónico</p>
+							<p>{{lang[idioma]["explicacion_clave2"] | capitalize}}</p>
 							<span ng-show="(emailForm.$submitted || emailForm.pass.$touched) && emailForm.pass.$invalid" 
-					class="error-validacion">El campo contraseña es obligatorio</span>
+					class="error-validacion">{{lang[idioma]["error_clave2"] | capitalize}}</span>
 						</div>
 					</form>
-					<button class="btn-centro" ng-click="guardarDatosEmail()">Continuar</button>
+					<p>{{lang[idioma]["mensaje_pag5_2"] | capitalize}}</p>
+					<form name="enviarEmail" novalidate class="centrado">
+						<div class="grupo">
+							<label>{{lang[idioma]["direccion_correo"] | capitalize}}</label>
+							<input type="email" ng-required="true" ng-model="config.email.prueba" name="email"/>
+							<p>{{lang[idioma]["explicacion_direccion_correo"] | capitalize}}</p>
+							<span ng-show="(enviarEmail.$submitted || enviarEmail.email.$touched) && enviarEmail.email.$error.required" 
+					class="error-validacion">{{lang[idioma]["error_direccion_correo"] | capitalize}}</span>
+							<span ng-show="(enviarEmail.$submitted || enviarEmail.email.$touched) && enviarEmail.email.$error.email" 
+							class="error-validacion">{{lang[idioma]["error2_direccion_correo"] | capitalize}}</span>
+						</div>
+						<button type="button" class="btn-probar" ng-click="probarDatosEmail()">{{lang[idioma]["comprobar"] | capitalize}}</button>
+					</form>
+					<div class="btn-contenedor btn-centro">
+						<button  ng-click="atras()">{{lang[idioma]["atras"] | capitalize}}</button>
+						<button  ng-click="guardarDatosEmail()">{{lang[idioma]["continuar"] | capitalize}}</button>
+					</div>
 			</div>
 			<div ng-show="paso == 6">
+				<div>
+					<a class="btn-idioma" ng-class="idioma == 'basque'?'active':''" href="#" ng-click="cambiarIdioma('basque')">EU</a>
+					<a class="btn-idioma" ng-class="idioma == 'spanish'?'active':''" href="#" ng-click="cambiarIdioma('spanish')">ES</a>
+				</div>
 				<img class="logo" src="/imagenes/BilboTec.jpg"/>
-				<p>La aplicación se ha instalado correctamente. Se ha creado un administrador con los siguientes datos:</p>
+				<p>{{lang[idioma]["mensaje_pag6"] | capitalize}}</p>
 				<ul>
-					<li>Usuario: admin@bolsatrabajo.es</li>
-					<li>Contraseña: admin</li>
+					<li>{{lang[idioma]["usuario_app"] | capitalize}}</li>
+					<li>{{lang[idioma]["clave_usuario_app"] | capitalize}}</li>
 				</ul>
-				<p>Pulse el siguiente botón para completar la instalación</p>
+				<p>{{lang[idioma]["mensaje_pag6_2"] | capitalize}}</p>
+				<div class="btn-contenedor btn-centro">
+					<button  ng-click="atras()">{{lang[idioma]["atras"] | capitalize}}</button>
+					<button  ng-click="Instalado()">{{lang[idioma]["finalizar"] | capitalize}}</button>
+				</div>
 				
 			</div>
+			<div bt-window="ventana"></div>
 		</body>
 	</html>
 	
 	<script>
-		angular.module("BilboTec").controller("instalador_controller", ["$scope", "$http", function($scope, $http){
+		angular.module("BilboTec",[]).controller("instalador_controller", ["$scope", "$http", function($scope, $http){
+			$scope.idioma = sessionStorage.getItem("idioma");
+			if(!$scope.idioma){
+				$scope.idioma = "spanish";
+			}
+			$scope.cambiarIdioma = function(idioma){
+				$scope.idioma = idioma;
+				sessionStorage.setItem("idioma",idioma);
+			};
 			$scope.paso = 1;
 			$scope.config = {
 				db:{
@@ -134,11 +203,28 @@
 					host:"localhost"
 				},
 				email:{
+					host:"ssl://smtp.googlemail.com",
+					port:465,
+					user:"usuario@gmail.com",
+					pass:"contraseña"
 					
 				}
 			};
 			$scope.empezar = function(){
 				$scope.paso = 2;
+			};
+			$scope.lang = <?php echo json_encode($idioma); ?>;
+			function alerta(titulo, contenido){
+				$scope.ventana.alerta(titulo, contenido, function(){
+					$scope.ventana.cerrar();
+				})
+			}
+			$scope.atras = function(){
+				$scope.paso = $scope.paso == 4?2:$scope.paso==1?1:$scope.paso-1;
+			};
+			
+			$scope.continuar = function(){
+				$scope.paso++;
 			}
 			$scope.comprobarDB = function(){
 				$scope.dbconfig.$setSubmitted(true);
@@ -152,9 +238,25 @@
 					.then(function(respuesta){
 						EscribirConfDB();
 					},function(error){
-						
+						$scope.error_conexion = true;
 					})
 				}
+			};
+			$scope.probarDatosEmail = function(){
+				$scope.enviarEmail.$setSubmitted(true);
+						if($scope.enviarEmail.$valid){
+							$http({
+								url:"/Instalador/ProbarDatosEmail",
+								method:"POST",
+								data:$.param($scope.config.email),
+								headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+							}).then(function(respuesta){
+								
+							},
+							function(error){
+								
+							});
+						}
 			};
 			$scope.guardarDatosEmail = function(){
 				$scope.emailForm.$setSubmitted(true);
@@ -177,11 +279,17 @@
 						url:"/Migraciones"
 					})
 					.then(function(respuesta){
-						$scope.paso = 5;
+						$scope.creado = true;
 					},function(error){
 						
 					})
 			}
+			
+			$scope.insertarDB = function(){
+				$scope.paso = 5;
+				$scope.insertado = true;
+			}
+			
 			$scope.comprobarDBExistente = function(){
 				$http({
 						url:"/Instalador/ComprobarDBExistente"
@@ -206,5 +314,44 @@
 						$scope.paso = 3;
 					})
 			}
+			
+			$scope.Instalado = function(){
+				$http({
+					url:"/Instalador/Instalado",	
+				})
+				.then(
+					function(respuesta){
+					window.location = "/Login";
+					},
+					function(error){
+						
+					}
+				)
+			}
 		}])
+		.directive("btContenidoHtml",function(){
+			return{
+			       restrict: "A",     //Solo en atributos
+			       require:"ngModel",   //Requerir que el elemento tenga ngModel, de esta forma estara disponible en la funcion link
+			       scope:{//Las variables que estaran disponibles en scope
+			            modelo:"=ngModel"
+			       },
+			       /*Esta funcion seria el controlador del elemento, en este caso no tiene que hacer nada mas que mostrar el contenido de ngModel en formato html*/
+			       link:function(scope,elemento,attributos,ngModel){
+			               /*Esta funcion sera llamada  cada vez que ngModel cambie, *
+			                * la funcion tiene que aplicar los cambios al html de forma   *
+			               * rapida                                                                                              */
+			              ngModel.$render = function(){ 
+			                   elemento[0].innerHTML = scope.modelo;
+			               };
+			      }
+			    };
+		}).filter("capitalize",function(){
+		    return function(string){
+		        if(typeof string === "undefined"){
+		            return;
+		        }
+	        return string.substr(0,1).toUpperCase() + string.substr(1);
+    };
+})
 	</script>

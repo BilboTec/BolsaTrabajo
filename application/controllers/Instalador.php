@@ -3,6 +3,7 @@
 
 class Instalador extends CI_Controller{
 	protected $conectado = false;
+	protected $idioma = [];
 	public function __construct(){
 		error_reporting(0);
 		include_once ('application/config/database.php');
@@ -26,6 +27,14 @@ class Instalador extends CI_Controller{
 		}
 		catch(Exception $e){
 			
+		}
+		$archivos_idioma = ["general","form_validation","instalador"];
+		$idiomas = ["basque","spanish"];
+		foreach($idiomas as $idioma){
+			foreach($archivos_idioma as $archivo){
+				$this->lang->load($archivo,$idioma);
+			}
+			$this->idioma[$idioma] = $this->lang->language;
 		}
 	}
 	public function ComprobarDB(){
@@ -150,7 +159,8 @@ class Instalador extends CI_Controller{
 		}
 	}
 	public function index(){
-		$this->load->view("Instalador/Index");
+		$data["idioma"] = $this->idioma;
+		$this->load->view("Instalador/Index",$data);
 	}
 	public function GuardarDatosEmail(){
 		$this->load->library("form_validation");
@@ -189,8 +199,15 @@ class Instalador extends CI_Controller{
 					$this->db->replace("config",["clave"=>$clave_db,"valor"=>$this->input->post($clave_input)]);
 				}
 		}
+		
 	}
 	
+	public function Instalado(){
+		$this->load->model("BT_Modelo_Configuracion", "configuracion");
+		$this->configuracion->set("instalado", "true");
+	}
+	
+
 	public function GenerarDatosPrueba(){
 		
 		
@@ -488,4 +505,59 @@ class Instalador extends CI_Controller{
 		
 	}
 	
+
+	public function ProbarDatosEmail(){
+    	$this->load->library("form_validation");
+		$this->form_validation->set_rules([
+			[
+				"field"=>"host",
+				"caption"=>"smtp host",
+				"rules"=>"required"
+			],
+			[
+				"field"=>"user",
+				"caption"=>"nombre de usuario",
+				"rules"=>"required"
+			],
+			[
+				"field"=>"pass",
+				"caption"=>"contraseña",
+				"rules"=>"required"
+			],
+			[
+				"field"=>"port",
+				"caption"=>"puerto",
+				"rules"=>"required"
+			],
+			[
+				"field"=>"prueba",
+				"caption"=>"direccion de prueba",
+				"rules"=>"required|valid_email"
+			]
+			
+		]);
+		if($this->form_validation->run()){
+			$config = Array(
+ 				    'protocol' => 'smtp',
+ 				    'smtp_host' => $this->input->post('host'),
+ 				    'smtp_port' => $this->input->post('port'),
+ 				    'smtp_user' => $this->input->post('user'),
+ 				    'smtp_pass' => $this->input->post('pass'),
+ 				    'mailtype'  => 'html',
+ 				    'charset'   => 'utf-8'
+ 				);
+			$controlador = $this;
+			$controlador->load->library('email', $config);
+			$controlador->email->set_newline("\r\n");
+			$controlador->email->initialize($config);
+			$controlador->email->from($this->input->post('user'), 'BilboTec');
+			$controlador->email->to($this->input->post('prueba'));
+		
+			$controlador->email->subject('email de prueba');
+			$controlador->email->message('si te ha llegado, es que está bien');
+		
+			$controlador->email->send();
+		}
+    }
+
 }

@@ -1615,7 +1615,7 @@ return{
             restrict:"A",
             require:"ngModel",
             scope:{
-                btPrefilAlumnosPersonales:"=",
+                btPerfilAlumnosPersonales:"=",
                 alumno:"=ngModel"
             },
             templateUrl:"/Alumno/DatosPersonales",
@@ -1787,6 +1787,21 @@ return{
                    	scope.mostrarcambiarclave = function(){
 						scope.editandoclave =2;
 					};
+					
+					scope.subirCV = function(){
+						var input = angular.element("<input type='file' accept='.pdf|.doc|.docx'/>")[0];
+						input.onchange = function(evento){
+							var formData = new FormData();
+							formData.append('cv', input.files[0]);
+							$http.post('/api/Alumnos/SubirCV', formData, {
+								transformRequest: angular.identity,
+								headers: {
+									'Content-Type': undefined
+								}
+							});
+						};
+						angular.element(input).trigger("click");
+					};
 
             }      
     };
@@ -1901,27 +1916,26 @@ return{
 		scope:{
 			oferta:"=ngModel"
 		},
-		templateUrl:"/plantillas/Get/BTBuscadorAlumno",
+		templateUrl:"/plantillas/Get/BTBuscadorAlumno?coleccion=oferta_formativa",
 		link:function(scope,el,at,ngModel){
-			scope.filtros = {};
-			scope.filtros.buscador = sessionStorage.getItem("filtro_busqueda_alumno_oferta");
+			scope.filtros = JSON.parse(sessionStorage.getItem("filtros_alumnos") || "{}");
 			scope.seleccionados = [];
 			scope.vista = [];
 			scope.buscar = function(){
-				if(scope.filtros.buscador){
-					$http({
-						url:"/api/Alumnos/Buscar",
-						method:"POST",
-						data:$.param({filtros:scope.filtros}),
-						headers: {'Content-Type': 'application/x-www-form-urlencoded'}
-					})
-					.then(function(respuesta){
-						scope.alumnos = respuesta.data;
-						filtrar();
-					},function(error){
-						
-					});
-				}
+				sessionStorage.setItem("filtros_alumnos",JSON.stringify(scope.filtros));
+				$http({
+					url:"/api/Alumnos/Buscar",
+					method:"POST",
+					data:$.param({filtros:scope.filtros}),
+					headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+				})
+				.then(function(respuesta){
+					scope.alumnos = respuesta.data;
+					filtrar();
+				},function(error){
+					
+				});
+				
 			};
 			function filtrar(){
 				scope.vista = [];
@@ -2021,7 +2035,8 @@ return{
             	})
             	.then(
             		function(respuesta){
-            			scope.notas.unshift(respuesta.data);
+            			ngModel.$render();
+            			scope.cancelar();
             		},
             		function(error){
             			scope.ventana.alerta("error",error.data ||  error.message,function(){scope.ventana.close();});

@@ -1,4 +1,4 @@
-<div class="contenedor-vertical">
+<div class="contenedor-vertical todo contenedor-datos-personales">
 	<h1><?php echo mb_strtoupper($idioma("datos_personales")); ?></h1>
 	<h1>{{ alumno.nombre }} {{ alumno.apellido1 }} {{ alumno.apellido2 }}</h1>
 			<img src="{{imagen}}" ng-show="imagen"/>
@@ -48,5 +48,5 @@
 	<div bt-notas-alumnos ng-model="alumno">
 	</div>
 	
-	<a href="#/!" class="btn btn-tipo"><?php echo ucfirst($idioma("volver")); ?></a>
+	<a href="#/!" class="btn btn-tipo btn-con-margen"><?php echo ucfirst($idioma("volver")); ?></a>
 </div>

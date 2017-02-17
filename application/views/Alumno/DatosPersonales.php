@@ -3,12 +3,7 @@
 <div class="contenedor-datos-personales">
 	<div class="contenido_linea titulo-con-boton">
 		<h1><?php echo strtoupper($idioma("datos_personales")); ?></h1>
-		<span class="btn btn-tipo" ng-click="editar()" ng-show="!editando"><?php echo strtoupper($idioma("editar")); ?></span>
-		<div class="grupo-botones">
-			<a bg-show="!editando" class="btn btn-tipo btn-vertical" target="_blank" href="/api/Alumnos/Curriculum"><?php echo ucfirst($idioma("imprimir_curriculum")) ?></a>
-			<span class="btn btn-tipo btn-vertical" ng-click="mostrarcambiarclave()" ng-show="editandoclave!=2"><?php echo mb_ucfirst($idioma('cambiar_clave')); ?></span>
-			<span class="btn btn-tipo btn-vertical" ng-click="eliminarcuenta()" ng-show="!editando"><?php echo mb_ucfirst($idioma('eliminar_cuenta')); ?></span>
-		</div>
+		<span class="btn btn-tipo sin-margen" ng-click="editar()" ng-show="!editando"><?php echo strtoupper($idioma("editar")); ?></span>		
 	</div>
 	
 	<div ng-show="editandoclave === 2">
@@ -130,5 +125,12 @@
 		<span class="btn btn-tipo" ng-click="cancelar()" ng-show="editando"><?php echo strtoupper($idioma("cancelar")); ?></span>
 	</div>
 	<div bt-window="ventana"></div>
+</div>
+
+<div class="grupo-botones">
+	<a ng-show="!editando" class="btn btn-tipo btn-vertical" target="_blank" href="/api/Alumnos/Curriculum"><?php echo ucfirst($idioma("imprimir_curriculum")) ?></a>
+	<span class="btn btn-tipo btn-vertical" ng-click="subirCV()" ng-show="!editando"><?php echo ucfirst($idioma("subir_curriculum")) ?></span>
+	<span class="btn btn-tipo btn-vertical" ng-click="mostrarcambiarclave()" ng-show="editandoclave!=2"><?php echo mb_ucfirst($idioma('cambiar_clave')); ?></span>
+	<span class="btn btn-tipo btn-vertical" ng-click="eliminarcuenta()" ng-show="!editando"><?php echo mb_ucfirst($idioma('eliminar_cuenta')); ?></span>
 </div>
 <!--</div>-->

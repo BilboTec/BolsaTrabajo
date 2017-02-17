@@ -17,7 +17,7 @@
 		<div class="config-wrapper">
 			<fieldset ng-form="ftpForm" ng-show="seleccionado == 8" ng-controller="btControladorConfiguracion">
 				<div bt-window="ventana"></div>
-				<legend>Copias de seguridad</legend>
+				<legend><?php echo mb_strtoupper($idioma("copia_seguridad")); ?></legend>
 				<div class="contenedor-config">
 				<div class="grupo">
 					<label for="host">Host</label>
@@ -54,8 +54,8 @@
 						El campo host es obligatorio
 					</span>
 				</div>
-					<span class="btn btn-tipo centro" ng-click="guardarFtp()">Guardar</span>
-					<span class="btn btn-tipo centro" ng-click="backup()">Hacer copia de seguridad ahora</span>
+					<span class="btn btn-tipo centro" ng-click="guardarFtp()"><?php echo mb_ucfirst($idioma("guardar")); ?></span>
+					<span class="btn btn-tipo centro" ng-click="backup()"><?php echo mb_ucfirst($idioma("hacer_copia")); ?></span>
 				</div>
 			</fieldset>
 			<fieldset ng-form="emailForm" ng-controller="btEmailConfigController" ng-show="seleccionado == 8">
@@ -76,7 +76,6 @@
 							</span>
 						</div>
 				<?php	} ?>
-				<button bt-btn-carga="cargando"><?php echo mb_ucfirst($idioma("guardar")); ?></button>
 				<span class="btn btn-tipo centro" ng-click="guardarEmailConfig()"><?php echo mb_ucfirst($idioma("guardar")); ?></span>
 				</div>
 			</fieldset>
