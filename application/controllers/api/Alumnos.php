@@ -18,7 +18,7 @@ class Alumnos extends BT_Controlador_api_estandar
             if(file_exists("data/curriculums/".$alumno->id_alumno.".pdf")){
                 $this->output
         		->set_content_type('pdf')
-       			->set_output(file_get_contents('data/curriculum/'.$id_alumno.".pdf"));
+       			->set_output(file_get_contents("data/curriculums/".$alumno->id_alumno.".pdf"));
             }else{
                 $this->generarCurriculum($id_alumno);
             }
@@ -339,5 +339,27 @@ class Alumnos extends BT_Controlador_api_estandar
 		}
 		
 	}
+    public function TieneCurriculum(){
+        $alumno = $this->get_usuario_actual();
+        if(isset($alumno->id_alumno)){
+            if(file_exists("data/curriculums/".$alumno->id_alumno.".pdf")){
+                echo "true";
+            }else{
+                echo "false";
+            }
+        }else{
+            $this->json("Acceso denegado",403);
+        }
+    }
+
+    public function EliminarCurriculum(){
+        $alumno = $this->get_usuario_actual();
+        if(isset($alumno->id_alumno) && file_exists("data/curriculums/".$alumno->id_alumno.".pdf")){
+            unlink("data/curriculums/".$alumno->id_alumno.".pdf");
+            echo "true";
+        }else{
+            echo "false";
+        }
+    }
     
 }

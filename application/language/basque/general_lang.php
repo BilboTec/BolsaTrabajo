@@ -181,3 +181,6 @@ $lang["cualquier_fecha"] = "edozein data";
 $lang["24_horas"] = "azken 24 orduetan";
 $lang["7_dias"] = "azken 7 egunetan";
 $lang["15_dias"] = "azken 15 egunetan";
+$lang["subir_curriculum"] = "Kurrikulum-a igo";
+$lang["eliminar_curriculum"] = "Kurrikulum-a ezabatu";
+$lang["curriculum_eliminado"] ="Zure kurrikulum pertsonalizatua ezabatu da, oraindik kurrikulum estandarra imprima dezakezu";
