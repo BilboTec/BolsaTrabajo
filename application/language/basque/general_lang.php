@@ -184,3 +184,5 @@ $lang["15_dias"] = "azken 15 egunetan";
 $lang["subir_curriculum"] = "Kurrikulum-a igo";
 $lang["eliminar_curriculum"] = "Kurrikulum-a ezabatu";
 $lang["curriculum_eliminado"] ="Zure kurrikulum pertsonalizatua ezabatu da, oraindik kurrikulum estandarra imprima dezakezu";
+$lang["protocol"] = "Protokoloa";
+$lang["crypto"] ="enkriptazioa";

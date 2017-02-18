@@ -184,3 +184,5 @@ $lang["15_dias"] = "ultimos 15 dias";
 $lang["subir_curriculum"] = "Subir CV";
 $lang["eliminar_curriculum"] = "Eliminar CV";
 $lang["curriculum_eliminado"] ="Su curriculum personalizado ha sido eliminado, aún puede imprimir el estándar";
+$lang["protocol"] = "protocolo";
+$lang["crypto"] ="encriptación";

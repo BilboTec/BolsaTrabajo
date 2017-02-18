@@ -210,6 +210,7 @@
 				$scope.idioma = "spanish";
 			}
 			$scope.cambiarIdioma = function(idioma){
+				document.cookie = "language="+idioma;
 				$scope.idioma = idioma;
 				sessionStorage.setItem("idioma",idioma);
 			};

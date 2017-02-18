@@ -4,7 +4,7 @@
 class Instalador extends CI_Controller{
 	protected $conectado = false;
 	protected $idioma = [];
-	protected $db_config_actual;
+	protected $db_config_actual,$idioma_actual;
 	public function __construct(){
 		error_reporting(0);
 		include_once ('application/config/database.php');
@@ -37,6 +37,15 @@ class Instalador extends CI_Controller{
 				$this->lang->load($archivo,$idioma);
 			}
 			$this->idioma[$idioma] = $this->lang->language;
+		}
+		$this->load->helper("cookie");
+		$this->idioma_actual = get_cookie("language");
+		if($this->idioma_actual === null){
+			$this->idioma_actual = "spanish";
+		}
+		$this->config->set_item('language', $this->idioma_actual);
+		foreach($archivos_idioma as $archivo){
+			$this->lang->load($archivo,$this->idioma_actual);
 		}
 	}
 	public function ComprobarDB(){
@@ -548,7 +557,7 @@ class Instalador extends CI_Controller{
  				    'smtp_port' => $this->input->post('port'),
  				    'smtp_user' => $this->input->post('user'),
  				    'smtp_pass' => $this->input->post('pass'),
-					'smtp_crypto' =>$this->input->post("crypt"),
+					'smtp_crypto' =>$this->input->post("crypto"),
  				    'mailtype'  => 'html',
  				    'charset'   => 'utf-8'
  				);
@@ -559,8 +568,10 @@ class Instalador extends CI_Controller{
 			$controlador->email->from($this->input->post('user'), 'BilboTec');
 			$controlador->email->to($this->input->post('prueba'));
 		
-			$controlador->email->subject('email de prueba');
-			$controlador->email->message('si te ha llegado, es que está bien');
+			$controlador->email->subject($this->lang->line("email_prueba_asunto"));
+			$controlador->email->message(sprintf($this->lang->line("email_prueba_cuerpo"),
+				$this->input->post("protocol"),$this->input->post('host'),$this->input->post('port'),
+				$this->input->post('user'),$this->input->post("crypto")));
 		
 			$controlador->email->send();
 		}
