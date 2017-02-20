@@ -266,7 +266,13 @@ class Instalador extends CI_Controller{
 	
 		
 			
-		
+		$zip = new ZipArchive();
+		$zip->open("data/archivos_prueba/fotos.zip");
+		$fotos = [];
+		for($i = 1; $i <= $zip->numFiles; $i++){
+			array_push($fotos,$zip->getFromIndex($i));
+		}
+		$zip->close();
 		for($x = 0; $x < 10; $x++){
 				
 			$alumno = new _Alumno();					
@@ -297,7 +303,11 @@ class Instalador extends CI_Controller{
 			
 			$alumno->avisado =	1;		
 			$alumno = $this->alumnos->insert($alumno);
-			
+			$indice_foto = rand(0,count($fotos));
+			$foto = $fotos[$indice_foto];
+			unset($fotos[$indice_foto]);
+			$fotos = array_values($fotos);
+			file_put_contents("data/fotos/".$alumno->id_alumno.".png",$foto);
 			//Idiomas
 			$idioma = new _Idioma();
 			
@@ -504,8 +514,8 @@ class Instalador extends CI_Controller{
 			
 			$oferta = $this->ofertas->insert($oferta)[0];
 			
-		}				
-		
+		}
+
 		$alumnos = $this->alumnos->get();
 		$ofertas = $this->ofertas->get();
 	
