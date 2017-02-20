@@ -223,7 +223,7 @@
 					host:"<?php echo $db["hostname"]; ?>"
 				},
 				email:{
-					host:"ssl://smtp.googlemail.com",
+					host:"smtp.googlemail.com",
 					port:465,
 					user:"usuario@gmail.com",
 					pass:"contraseña",

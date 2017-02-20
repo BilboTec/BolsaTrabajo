@@ -159,7 +159,6 @@ class Instalador extends CI_Controller{
 					
 				}
 				fwrite($file, $contenido);
-				var_dump($file);
 				fclose($file);
 				echo "Ok";
 			}catch(Exception $ex){	

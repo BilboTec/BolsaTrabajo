@@ -16,7 +16,7 @@
 				<p>Publicada hace {{ oferta.fecha | diferencia_fecha}}</p>
 				<div ng-model="oferta.descripcion" bt-contenido-html></div>
 				<div ng-model="oferta.requisitos" bt-contenido-html></div>
-				<p>{{ oferta.estusion_min}}</p>
+				<p>{{ oferta.estudios_min}}</p>
 				<p>{{ oferta.experencia_min}}</p>
 				<p>{{ oferta.horario}}</p>
 				<p>{{ oferta.salario}}</p>

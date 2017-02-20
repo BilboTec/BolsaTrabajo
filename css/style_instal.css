@@ -179,6 +179,7 @@ section.cargando-mascara {
 }
 [bt-btn-carga]:active{
 	 outline: none;
+	border:none;
 }
 .contenedor-cuadros{
 	top:0;
