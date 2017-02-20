@@ -207,6 +207,8 @@ class Instalador extends CI_Controller{
 		$this->configuracion->set("instalado", "true");
 	}
 	
+	
+	
 
 	public function GenerarDatosPrueba(){
 		
@@ -219,7 +221,7 @@ class Instalador extends CI_Controller{
 		$this->load->model("BT_Modelo_FormacionAcademica", "formAcademicas");	 	
 		$this->load->model("BT_Modelo_FormacionComplementaria", "formComplementarias");	 	
 		$this->load->model("BT_Modelo_OfertaFormativa", "ofertaFormativa");
-		
+		$this->load->model("BT_Modelo_Idioma", "idiomas");
 		
 		$ofertas = $this->ofertaFormativa->get();
 	
@@ -228,17 +230,17 @@ class Instalador extends CI_Controller{
 		$calles = ["Gran Via" , "Franciso" , "Gloriera de Bilbao" , "Urquijo" , "Sabino Arana" , "Ibaizabal" , "Ercilla", "Elcano" , "Hurtado de mezaga" , "Simón Bolivar"];
 		$letras = ['T', 'R', 'W', 'A', 'G', 'M', 'Y', 'F', 'P', 'D', 'X', 'B', 'N', 'J', 'Z', 'S', 'Q', 'V', 'H',  'L', 'C', 'K', 'E'];
 		$sector = ["Informático", "Químico" ,"Agrario" , "Tecnológico"];
-		$conocimientos = ["uno" , "dos" ,"tres" , "cuatro" , "cinco" , "seis" , "siete", "ocho" , "nueve" , "diez"];
+		$conocimientos = ["JavaScript" , "Java" ,"Analisis de laboratorio" , "PHP" , "Excel" , "Word" , "Bases de datos", "TeleMarketing" , "Capacidad de negociación" , "Soldadura", ""];
 		$funciones = ["Administración", "Comercial/Marketing", "Compras/Logística/Almacén", "Dirección/Gerencia", "Dpto. financiero", "Estudios, Proyectos , I+D", "Informático", "Mantenimiento", "Oficios Profesional", "Producción / Calidad", "Recursos humanos"];
 		$cargos = ["Becario/a Prácticas", "Empleado/a", "Especialista", "Mando Intermedio", "Dirección / Gerencia", "Consejo directivo","Socio/asociado"];
 		$nombres = ["Andrés" , "Juan" , "Pedro" , "Jóse" , "Ana" , "Guillermo" , "Gorka" , "Josu" , "Yanire", "Román", "Luis" , "Ander" , "Iñigo" , "Maite", "Laura", "Jorge" , "Alex" , "Aitor" , "Sofia" , "Carmen" , "Marije" , "Inés" , "Irene" , "Itziar"];
 		$apellidos = ["López", "Pérez", "García" , "Rodriguez" , "Zabala" , "Gonzales" , "Barrena" , "Muñoz" , "Bilbao" , "Rodas" , "Ramos" , "Insausti" , "Espinosa" ,"Domingo" , "Escobar" , "Salazar" , "Aranburu" ,"Ochoa"];
 		$empresas = ["klico" , "bilbotec", "arrobajgg", "cooldevelopers", "youtube", "google", "facebook", "cocacola" , "apple", "seat"];
 		$titulos = ["Programador web senior en .NET" , "Programador PL-SQL" , "Administrativo/a contable", "Secretaría de dirección", "Gestor/a comercial" , "Tecnico de control de calidad", "Auxiliar de Laboratorio" , "Electricista" , "Programador JAVA"];
-		
+		$horarios = ["De 8:00 a 14:00", "De 9:00 a 15:00", "De 10:00 a 14:00 y de 16:00 a 20:00", "De 8:15 a 14:15", "De 8:30 a 15:30"];
 		$this->load->model("BT_Modelo_Conocimiento", "conocimientos");	 	
 		$conocimiento = new _Conocimiento();	
-		
+		$idiomas = ["Inglés" , "frances" , "Alemán", "Euskera" , "Chino", "Italiano" , "Portugues" , "Ruso"];
 		
 		
 	
@@ -274,8 +276,7 @@ class Instalador extends CI_Controller{
 			sint obcaecat cupiditat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum";
 			$alumno->sexo = rand(0,1);
 			$alumno->tlf = "0034" . rand(600000000, 999999999);
-			$alumno->email = $alumno->nombre . "." .$alumno->apellido1 . $x . "@alumno.com";
-			$alumno->establecer_clave("alumno");
+			$alumno->email = $alumno->nombre . "." .$alumno->apellido1 . $x . "@alumno.com";			
 			
 			$fecha = new DateTime('2017-02-13');		
 	   		$fecha->sub( new DateInterval('P' . rand(1, 8) . 'M'));	    
@@ -284,9 +285,19 @@ class Instalador extends CI_Controller{
 			$alumno->avisado =	1;		
 			$alumno = $this->alumnos->insert($alumno);
 			
+			//Idiomas
+			$idioma = new _Idioma();
 			
+			$idioma->id_alumno = $alumno->id_alumno;
+			$idioma->nombre = $idiomas[rand(0, count($idiomas)-1)];
+			$idioma->nivel = rand(1, 3);
+			$idioma->oficial = rand(0,1);
+			
+			
+			$this->idiomas->insert($idioma);
 			
 			$vez = 1;
+			
 			while($vez <= 2){
 				
 				//Experiencias
@@ -432,8 +443,7 @@ class Instalador extends CI_Controller{
 			$profesor = new _Profesor();
 			$profesor->nombre = $nombres[rand(0, count($nombres)-1)];
 			$profesor->apellido = $apellidos[rand(0, count($apellidos)-1)];
-			$profesor->apellido2 = $apellidos[rand(0, count($apellidos)-1)];
-			$profesor->establecer_clave("profesor");
+			$profesor->apellido2 = $apellidos[rand(0, count($apellidos)-1)];	
 			$profesor->id_departamento = rand(1,4);
 			
 			$p = rand(0, 10);
@@ -452,18 +462,21 @@ class Instalador extends CI_Controller{
 			$empresa = new _Empresa();
 			$empresa->cif = rand(10000000, 99999999) . $letras[rand(0, 22)];
 		    $empresa->sector = $sector[rand(0, 3)];
-	        $empresa->nombre = $empresas[rand(0, count($empresas)-1)];
-	        $empresa->establecer_clave("empresa");    
+	        $empresa->nombre = $empresas[rand(0, count($empresas)-1)];	         
 			$empresa->email = $empresa->nombre . $x . "@empresa.com";	       
-			$this->empresas->insert($empresa);
+			$empresa = $this->empresas->insert($empresa);
 			
 			
 			//Ofertas
 			$oferta = new _Oferta();
 			$oferta->titulo = $titulos [rand(0, count($titulos)-1)];
 			
-			$oferta->nombre_empresa = $empresas[rand(0, count($empresas)-1)];
+			$oferta->nombre_empresa = $empresa->nombre;
+			$oferta->id_empresa = $empresa->id_empresa;
+			$oferta->horario = $horarios[rand (0, count($horarios) - 1)];
+			$oferta->salario = rand(8, 23) * 100;
 			
+						
 			$fecha = new DateTime('2017-02-13');		
 	   		$fecha->sub( new DateInterval('P' . rand(1, 8) . 'D'));	    
 			$oferta->fecha =  $fecha->format('Y-m-d');		
