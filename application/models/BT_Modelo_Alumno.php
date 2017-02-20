@@ -5,8 +5,7 @@ class _Alumno extends  Entidad implements iEntidadConId{
 	public $id_alumno, $nombre, $apellido1, $apellido2, $id_email, $calle, $cp, $disponibilidad, $dni, $fecha_nacimiento,
 	$id_localidad, $nacionalidad, $otros_datos, $sexo, $tlf, $email, $clave, $ultima_conexion,$avisado;
 	
-	public function establecer_clave($clave){
-		echo $clave;
+	public function establecer_clave($clave){	
 		$this->clave = password_hash($clave,PASSWORD_DEFAULT);
 	}
 	

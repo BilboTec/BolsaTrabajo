@@ -247,8 +247,8 @@ class Instalador extends CI_Controller{
 		$conocimientos = ["JavaScript" , "Java" ,"Analisis de laboratorio" , "PHP" , "Excel" , "Word" , "Bases de datos", "TeleMarketing" , "Capacidad de negociación" , "Soldadura", ""];
 		$funciones = ["Administración", "Comercial/Marketing", "Compras/Logística/Almacén", "Dirección/Gerencia", "Dpto. financiero", "Estudios, Proyectos , I+D", "Informático", "Mantenimiento", "Oficios Profesional", "Producción / Calidad", "Recursos humanos"];
 		$cargos = ["Becario/a Prácticas", "Empleado/a", "Especialista", "Mando Intermedio", "Dirección / Gerencia", "Consejo directivo","Socio/asociado"];
-		$nombres = ["Andrés" , "Juan" , "Pedro" , "Jóse" , "Ana" , "Guillermo" , "Gorka" , "Josu" , "Yanire", "Román", "Luis" , "Ander" , "Iñigo" , "Maite", "Laura", "Jorge" , "Alex" , "Aitor" , "Sofia" , "Carmen" , "Marije" , "Inés" , "Irene" , "Itziar"];
-		$apellidos = ["López", "Pérez", "García" , "Rodriguez" , "Zabala" , "Gonzales" , "Barrena" , "Muñoz" , "Bilbao" , "Rodas" , "Ramos" , "Insausti" , "Espinosa" ,"Domingo" , "Escobar" , "Salazar" , "Aranburu" ,"Ochoa"];
+		$nombres = ["Andres" , "Juan" , "Pedro" , "Jose" , "Ana" , "Guillermo" , "Gorka" , "Josu" , "Yanire", "Roman", "Luis" , "Ander" , "Ignacio" , "Maite", "Laura", "Jorge" , "Alex" , "Aitor" , "Sofia" , "Carmen" , "Marije" , "Ines" , "Irene" , "Itziar"];
+		$apellidos = ["Lopez", "Perez", "Garcia" , "Rodriguez" , "Zabala" , "Gonzales" , "Barrena" , "Gomez" , "Bilbao" , "Rodas" , "Ramos" , "Insausti" , "Espinosa" ,"Domingo" , "Escobar" , "Salazar" , "Aranburu" ,"Ochoa" , "Pascual"];
 		$empresas = ["klico" , "bilbotec", "arrobajgg", "cooldevelopers", "youtube", "google", "facebook", "cocacola" , "apple", "seat"];
 		$titulos = ["Programador web senior en .NET" , "Programador PL-SQL" , "Administrativo/a contable", "Secretaría de dirección", "Gestor/a comercial" , "Tecnico de control de calidad", "Auxiliar de Laboratorio" , "Electricista" , "Programador JAVA"];
 		$horarios = ["De 8:00 a 14:00", "De 9:00 a 15:00", "De 10:00 a 14:00 y de 16:00 a 20:00", "De 8:15 a 14:15", "De 8:30 a 15:30"];
