@@ -62,6 +62,14 @@
 				<legend><?php echo mb_ucfirst($idioma("config_email")); ?></legend>
 				<div bt-window="ventana"></div>
 				<div class="contenedor-config">
+					<div class="grupo">
+						<label for="protocol"><?php echo mb_ucfirst($idioma("protocol")); ?></label>
+						<select id="protocol" ng-model="email.email_protocol">
+							<option value="smtp">Smtp</option>
+							<option value="mail">Mail</option>
+							<option value="sendmail">SendMail</option>
+						</select>
+					</div>
 				<?php
 					$campos_email = ["email_user","email_host","email_port","email_pass"];
 					foreach($campos_email as $campo){ ?>
@@ -76,6 +84,13 @@
 							</span>
 						</div>
 				<?php	} ?>
+					<div class="grupo">
+						<label for="crypto"><?php echo mb_ucfirst($idioma("crypto")); ?></label>
+						<select id="crypto" ng-model="email.email_crypto">
+							<option value="ssl">SSL</option>
+							<option value="tsl">TSL</option>
+						</select>
+					</div>
 				<span class="btn btn-tipo centro" ng-click="guardarEmailConfig()"><?php echo mb_ucfirst($idioma("guardar")); ?></span>
 				</div>
 			</fieldset>

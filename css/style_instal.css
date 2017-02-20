@@ -64,7 +64,7 @@ body>div, body>form{
     color: white;
 }
 
-.grupo :any(label, p, input){
+.grupo :any(label, p, input,select){
 	align-self: flex-start;
 	margin: 0;
 	flex: 1;
@@ -78,7 +78,7 @@ body>div, body>form{
 	flex: 0.5;
 }
 
-.grupo input{
+.grupo :any(input, select){
 	margin: 0 1em;
 }
 
@@ -116,7 +116,101 @@ button[disabled]{
 	padding-right: .4em;
 	border-right: solid 1px $(--a-claro);
 }
-
+section.cargando-mascara {
+	position: fixed;
+	z-index: 9999999999;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-direction: column;
+}
+.cargando-mascara img{
+	width: 20%;
+	height: auto;
+}
+.cargando-mascara .barra{
+	width: 20%;
+	height: 10px;
+	background-color: white;
+	margin-top:.4em;
+	position:relative;
+	border: 1px solid $(--a-oscuro);
+	overflow: hidden;
+}
+.cargando-mascara .progreso{
+	height:10px;
+	background: $(--a-claro);
+	position: absolute;
+	animation: animacion-cargando infinite 3s;
+	width: 100%;
+	margin-left: -120%;
+}
+@keyframes animacion-cargando {
+	0%{
+		margin-left: -120%;
+	}
+	50%{
+		margin-left: 120%;
+	}
+	100%{
+		margin-left:-120%;
+	}
+}
+[bt-btn-carga] .contenedor-texto{
+	position: absolute;
+	top: 0;
+	left: 0;
+	bottom: 0;
+	right: 0;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	z-index: 10100;
+}
+[bt-btn-carga]{
+	position:relative;
+	background: none;
+	border: 0;
+	padding: 1em 3em;
+}
+[bt-btn-carga]:active{
+	 outline: none;
+}
+.contenedor-cuadros{
+	top:0;
+	left: 0;
+	position:absolute;
+	width: 100%;
+	height: 100%;
+	display:flex;
+}
+.contenedor-cuadros div{
+	flex: 1;
+	background: $(--a-oscuro);
+	transform: scaleY(1);
+	transition: margin .2s;
+	z-index: 1000;
+}
+[bt-btn-carga].cargando  .contenedor-cuadros div{
+	margin: 0 .2em;
+	animation: btn-carga .5s infinite;
+}
+@keyframes btn-carga{
+	0%{transform: scaleY(1);}
+	50%{transform: scaleY(.5);}
+	100%{transform: scaleY(1);}
+}
+.contenedor-texto{
+	color:white;
+}
+[bt-btn-carga].cargando
+.contenedor-texto{
+	visibility:hidden;
+}
 /*************************************
 ********BT-WINDOW*********************
 **************************************/

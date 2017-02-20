@@ -128,7 +128,8 @@
 </div>
 
 <div class="grupo-botones">
-	<a ng-show="!editando" class="btn btn-tipo btn-vertical" target="_blank" href="/api/Alumnos/Curriculum"><?php echo ucfirst($idioma("imprimir_curriculum")) ?></a>
+	<a ng-show="!editando" class="btn btn-tipo btn-vertical" target="_blank"  href="/api/Alumnos/Curriculum"><?php echo ucfirst($idioma("imprimir_curriculum")) ?></a>
+	<span ng-show="tieneCurriculum" class="btn btn-tipo btn-vertical" ng-click="eliminarCurriculum()"><?php echo mb_ucfirst($idioma("eliminar_curriculum")); ?></span>
 	<span class="btn btn-tipo btn-vertical" ng-click="subirCV()" ng-show="!editando"><?php echo ucfirst($idioma("subir_curriculum")) ?></span>
 	<span class="btn btn-tipo btn-vertical" ng-click="mostrarcambiarclave()" ng-show="editandoclave!=2"><?php echo mb_ucfirst($idioma('cambiar_clave')); ?></span>
 	<span class="btn btn-tipo btn-vertical" ng-click="eliminarcuenta()" ng-show="!editando"><?php echo mb_ucfirst($idioma('eliminar_cuenta')); ?></span>

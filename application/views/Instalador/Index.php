@@ -12,6 +12,8 @@
 			<?php echo csscrush_tag("/css/style_instal.css"); ?>
 		</head>
 		<body>
+			<section class="cargando-mascara" ng-show="cargando">
+			</section>
 			<div ng-show="paso == 1">
 				<div>
 					<a class="btn-idioma" ng-class="idioma == 'basque'?'active':''" href="#" ng-click="cambiarIdioma('basque')">EU</a>
@@ -27,7 +29,7 @@
 				</ol>
 				<p>{{lang[idioma]["mensaje_pag1"] | capitalize}}<b>database.php</b></p>
 
-				<button class= "btn-centro" ng-click="empezar()">{{lang[idioma]["empezar"] | capitalize}}</button>
+				<button bt-btn-carga ng-model="cargando" class= "btn-centro" ng-click="empezar()">{{$parent.lang[$parent.idioma]["empezar"] | capitalize}}</button>
 			</div>
 			
 			<form novalidate name="dbconfig" ng-show="paso == 2">
@@ -70,7 +72,7 @@
 				</div>
 				<div class="btn-contenedor btn-centro">
 					<button  ng-click="atras()">{{lang[idioma]["atras"] | capitalize}}</button>
-					<button  ng-click="comprobarDB()">{{lang[idioma]["continuar"] | capitalize}}</button>
+					<button bt-btn-carga ng-model="cargando" ng-click="comprobarDB()">{{$parent.lang[$parent.idioma]["continuar"] | capitalize}}</button>
 				</div>
 				<div class="error_estatico" ng-show="error_conexion">{{lang[idioma]["error_conectar"] | capitalize}}</div>
 			</form>
@@ -84,7 +86,7 @@
 				<div class="codigo" bt-contenido-html ng-model="texto"></div>
 				<div class="btn-contenedor btn-centro">
 					<button ng-click="atras()">{{lang[idioma]["atras"] | capitalize}}</button>
-					<button ng-click="comprobarDBExistente()">{{lang[idioma]["continuar"] | capitalize}}</button>
+					<button bt-btn-carga ng-model="cargando" ng-click="comprobarDBExistente()">{{$parent.lang[$parent.idioma]["continuar"] | capitalize}}</button>
 				</div>
 			</div>
 			<div ng-show="paso == 4">
@@ -96,14 +98,14 @@
 				<p ng-hide="creado">{{lang[idioma]["mensaje_pag4"] | capitalize}}</p>	
 				<div ng-hide="creado" class="btn-contenedor btn-centro">
 					<button ng-click="atras()">{{lang[idioma]["atras"] | capitalize}}</button>
-					<button ng-click="crearDB()">{{lang[idioma]["crear"] | capitalize}}</button>
+					<button bt-btn-carga ng-model="cargando" ng-click="crearDB()">{{$parent.lang[$parent.idioma]["crear"] | capitalize}}</button>
 				</div>
 				
 				<p ng-show="creado">{{lang[idioma]["mensaje_pag4_2"] | capitalize}}</p>	
 				<div ng-show="creado" class="btn-contenedor btn-centro">
 					<button ng-click="atras()">{{lang[idioma]["atras"] | capitalize}}</button>
-					<button ng-click="insertarDB()" ng-disabled="insertado">{{lang[idioma]["rellenar"] | capitalize}}</button>
-					<button  ng-click="continuar()">{{lang[idioma]["continuar"] | capitalize}}</button>
+					<button bt-btn-carga ng-model="cargando" ng-click="insertarDB()" ng-disabled="insertado">{{$parent.lang[$parent.idioma]["rellenar"] | capitalize}}</button>
+					<button bt-btn-carga ng-model="cargando" ng-click="continuar()">{{$parent.lang[$parent.idioma]["continuar"] | capitalize}}</button>
 				</div>
 
 			</div>
@@ -115,6 +117,15 @@
 				<img class="logo" src="/imagenes/BilboTec.jpg"/>
 				<p>{{lang[idioma]["mensaje_pag5"] | capitalize}}</p>
 					<form novalidate name="emailForm" class="centrado">
+						<div class="grupo">
+							<label>{{lang[idioma]["Smtp_Protocol"]}}</label>
+							<select ng-model="config.email.protocol">
+								<option value="smtp">Smtp</option>
+								<option value="mail">Mail</option>
+								<option value="sendmail">SendMail</option>
+							</select>
+							<p>{{lang[idioma]["explicacion_Smtp_Protocol"]}}</p>
+						</div>
 						<div class="grupo">
 							<label>{{lang[idioma]["Smtp_Host"] | capitalize}}</label>
 							<input ng-required="true" name="host" ng-model="config.email.host"/>
@@ -143,6 +154,14 @@
 							<span ng-show="(emailForm.$submitted || emailForm.pass.$touched) && emailForm.pass.$invalid" 
 					class="error-validacion">{{lang[idioma]["error_clave2"] | capitalize}}</span>
 						</div>
+						<div class="grupo">
+							<label>{{lang[idioma]["email_encriptacion"] | capitalize}}</label>
+							<select ng-model="config.email.crypto">
+								<option value="ssl">SSL</option>
+								<option value="tsl">TSL</option>
+							</select>
+							<p>{{lang[idioma]["explicacion_email_encriptacion"] | capitalize}}</p>
+						</div>
 					</form>
 					<p>{{lang[idioma]["mensaje_pag5_2"] | capitalize}}</p>
 					<form name="enviarEmail" novalidate class="centrado">
@@ -155,11 +174,11 @@
 							<span ng-show="(enviarEmail.$submitted || enviarEmail.email.$touched) && enviarEmail.email.$error.email" 
 							class="error-validacion">{{lang[idioma]["error2_direccion_correo"] | capitalize}}</span>
 						</div>
-						<button type="button" class="btn-probar" ng-click="probarDatosEmail()">{{lang[idioma]["comprobar"] | capitalize}}</button>
+						<button bt-btn-carga ng-model="cargando" type="button" class="btn-probar" ng-click="probarDatosEmail()">{{$parent.lang[$parent.idioma]["comprobar"] | capitalize}}</button>
 					</form>
 					<div class="btn-contenedor btn-centro">
 						<button  ng-click="atras()">{{lang[idioma]["atras"] | capitalize}}</button>
-						<button  ng-click="guardarDatosEmail()">{{lang[idioma]["continuar"] | capitalize}}</button>
+						<button bt-btn-carga ng-model="cargando"  ng-click="guardarDatosEmail()">{{$parent.lang[$parent.idioma]["continuar"] | capitalize}}</button>
 					</div>
 			</div>
 			<div ng-show="paso == 6">
@@ -176,7 +195,7 @@
 				<p>{{lang[idioma]["mensaje_pag6_2"] | capitalize}}</p>
 				<div class="btn-contenedor btn-centro">
 					<button  ng-click="atras()">{{lang[idioma]["atras"] | capitalize}}</button>
-					<button  ng-click="Instalado()">{{lang[idioma]["finalizar"] | capitalize}}</button>
+					<button bt-btn-carga ng-model="cargando"  ng-click="Instalado()">{{$parent.lang[$parent.idioma]["finalizar"] | capitalize}}</button>
 				</div>
 				
 			</div>
@@ -191,22 +210,25 @@
 				$scope.idioma = "spanish";
 			}
 			$scope.cambiarIdioma = function(idioma){
+				document.cookie = "language="+idioma;
 				$scope.idioma = idioma;
 				sessionStorage.setItem("idioma",idioma);
 			};
 			$scope.paso = 1;
 			$scope.config = {
 				db:{
-					dbname:"bolsa_trabajo",
-					user:"bolsa_trabajo",
-					pass:"BolsaTrabajo78",
-					host:"localhost"
+					dbname:"<?php echo $db["database"]; ?>",
+					user:"<?php echo $db["username"]; ?>",
+					pass:"<?php echo $db["password"] ?>",
+					host:"<?php echo $db["hostname"]; ?>"
 				},
 				email:{
 					host:"ssl://smtp.googlemail.com",
 					port:465,
 					user:"usuario@gmail.com",
-					pass:"contraseña"
+					pass:"contraseña",
+					crypto:"ssl",
+					protocol:"smtp"
 					
 				}
 			};
@@ -225,10 +247,11 @@
 			
 			$scope.continuar = function(){
 				$scope.paso++;
-			}
+			};
 			$scope.comprobarDB = function(){
 				$scope.dbconfig.$setSubmitted(true);
 				if($scope.dbconfig.$valid){
+					$scope.cargando = true;
 					$http({
 						url:"/Instalador/ComprobarDB",
 						data:$.param($scope.config.db),
@@ -236,8 +259,10 @@
 						headers: {'Content-Type': 'application/x-www-form-urlencoded'}
 					})
 					.then(function(respuesta){
+						$scope.cargando = false;
 						EscribirConfDB();
 					},function(error){
+						$scope.cargando = false;
 						$scope.error_conexion = true;
 					})
 				}
@@ -245,62 +270,80 @@
 			$scope.probarDatosEmail = function(){
 				$scope.enviarEmail.$setSubmitted(true);
 						if($scope.enviarEmail.$valid){
+							$scope.cargando = true;
 							$http({
 								url:"/Instalador/ProbarDatosEmail",
 								method:"POST",
 								data:$.param($scope.config.email),
 								headers: {'Content-Type': 'application/x-www-form-urlencoded'}
 							}).then(function(respuesta){
-								
+									$scope.cargando = false;
 							},
 							function(error){
-								
+								$scope.cargando = false;
 							});
 						}
 			};
 			$scope.guardarDatosEmail = function(){
 				$scope.emailForm.$setSubmitted(true);
 				if($scope.emailForm.$valid){
+					$scope.cargando = true;
 					$http({
 						url:"/Instalador/GuardarDatosEmail",
 						method:"POST",
 						data:$.param($scope.config.email),
 						headers: {'Content-Type': 'application/x-www-form-urlencoded'}
 					}).then(function(respuesta){
+						$scope.cargando = false;
 						$scope.paso = 6;
 					},
 					function(error){
+						$scope.cargando = false;
 						
 					});
 				}
-			}
+			};
 			$scope.crearDB = function(){
+				$scope.cargando = true;
 				$http({
 						url:"/Migraciones"
 					})
 					.then(function(respuesta){
+						$scope.cargando = false;
 						$scope.creado = true;
 					},function(error){
-						
+						$scope.cargando = false;
 					})
-			}
+			};
 			
 			$scope.insertarDB = function(){
-				$scope.paso = 5;
-				$scope.insertado = true;
-			}
+				$scope.cargando = true;
+				$http({
+					url:"/Instalador/GenerarDatosPrueba"
+				})
+				.then(function(respuesta){
+					$scope.cargando = false;
+					$scope.paso = 5;
+					$scope.insertado = true;
+				},function(error){
+					$scope.cargando = false;
+				});
+			};
 			
 			$scope.comprobarDBExistente = function(){
+				$scope.cargando = true;
 				$http({
 						url:"/Instalador/ComprobarDBExistente"
 					})
 					.then(function(respuesta){
+						$scope.cargando = false;
 						$scope.paso = 4;
 					},function(error){
-						
+						$scope.cargando = false;
 					})
 			};
 			function EscribirConfDB(){
+				$scope.cargando = true;
 				$http({
 						url:"/Instalador/EscribirConfDB",
 						data:$.param($scope.config.db),
@@ -308,14 +351,17 @@
 						headers: {'Content-Type': 'application/x-www-form-urlencoded'}
 					})
 					.then(function(respuesta){
+						$scope.cargando = false;
 						$scope.paso = 4;
 					},function(error){
+						$scope.cargando = false;
 						$scope.texto = error.data;
 						$scope.paso = 3;
 					})
 			}
 			
 			$scope.Instalado = function(){
+				$scope.cargando = true;
 				$http({
 					url:"/Instalador/Instalado",	
 				})
@@ -324,7 +370,7 @@
 					window.location = "/Login";
 					},
 					function(error){
-						
+						$scope.cargando = false;
 					}
 				)
 			}
@@ -353,5 +399,32 @@
 		        }
 	        return string.substr(0,1).toUpperCase() + string.substr(1);
     };
-})
+}).directive("btBtnCarga",function(){
+	return{
+		restrict:"A",
+		require:"ngModel",
+		scope:{
+			cargando:"=ngModel"
+		},
+		template:function(e,a){
+			var nCuadros = a.btNCuadros || 8;
+			var cuadros = "<div class='contenedor-texto'>"+e.html()+"</div><div class='contenedor-cuadros'>";
+			for(var i = 0; i < nCuadros ; i++){
+				cuadros += "<div style='animation-delay:"+(0.2+(0.2*i))+"s'>&nbsp;</div>";
+			}
+			return cuadros + "</div>";
+		},
+		link:function(s,e,a,m){
+			console.log("Ejecutando");
+			m.$render = function(){
+				console.log("Modelo cambiado");
+				if(s.cargando){
+					e.addClass("cargando");
+				}else{
+					e.removeClass("cargando");
+				}
+			};
+		}
+	}
+});
 	</script>

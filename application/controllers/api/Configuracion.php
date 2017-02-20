@@ -22,7 +22,9 @@ class Configuracion extends BT_Controlador_api_estandar
                     "email_user" => $this->bt_config->get("email_user"),
                     "email_host" => $this->bt_config->get("email_host"),
                     "email_port" => $this->bt_config->get("email_port"),
-                    "email_pass" => $this->bt_config->get("email_pass")
+                    "email_pass" => $this->bt_config->get("email_pass"),
+                    "email_protocol" => $this->bt_config->get("email_protocol"),
+                    "email_crypto" => $this->bt_config->get("email_crypto")
                 ];
                 $this->json($conf);
             }else {
@@ -52,7 +54,9 @@ class Configuracion extends BT_Controlador_api_estandar
                         "email_user" => $this->input->post("email_user"),
                         "email_host" => $this->input->post("email_host"),
                         "email_port" => $this->input->post("email_port"),
-                        "email_pass" => $this->input->post("email_pass")
+                        "email_pass" => $this->input->post("email_pass"),
+                        "email_protocol" => $this->bt_config->get("email_protocol"),
+                        "email_crypto" => $this->bt_config->get("email_crypto")
                     ];
                     foreach ($conf as $clave => $valor) {
                         $this->bt_config->set($clave, $valor);

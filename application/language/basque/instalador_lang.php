@@ -49,4 +49,10 @@ $lang["empezar"] = "hasi";
 $lang["error_clave2"] = "pasahitz eremua derrigorrezkoa da";
 $lang["rellenar"] = "bete";
 $lang["mensaje_pag4_2"] = "databasea frogazko datuez betetzeko Bete botoia sakatu, bestela Jarraitu botoia sakatu.";
-
+$lang["explicacion_email_encriptacion"] = "erabili behar den enkriptazioa";
+$lang["email_encriptacion"] = "enkriptazioa";
+$lang["Smtp_Protocol"] = "protokoloa";
+$lang["explicacion_Smtp_Protocol"]  = "erabili behar den protokoloa";
+$lang["email_prueba_asunto"] = "BilboTec->Lan Poltsa: Email Froga";
+$lang["email_prueba_cuerpo"] ="Zorionak!<br>Hurrengo konfigurazioak baliozkoa dirudi!<br>Protokoloa:%s<br>Zerbitzaria:%s\n\rPuertua:%s<br>Erabiltzailea:%s<br>Enkriptazioa:%s\n\r
+\n\rPasahitza ez da bidali zure ziurtasunerako<br>BilboTec ®";

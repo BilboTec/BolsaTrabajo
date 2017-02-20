@@ -462,6 +462,9 @@ header{
 	padding: 2em;
 	flex-wrap: wrap;
 }
+.contenedor-config select{
+	width: 160px;
+}
 .config-wrapper{
 	flex-direction: row;
 	align-items: stretch;

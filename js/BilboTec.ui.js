@@ -1621,7 +1621,23 @@ return{
             templateUrl:"/Alumno/DatosPersonales",
             link:function(scope,elem,attr,ngModel){
             	
-	
+	        scope.eliminarCurriculum = function(){
+                scope.ventana.preguntar("confirmar_eliminar_titulo","confirmar_eliminar",function(){
+                    scope.ventana.cerrar();
+                    $http({
+                        url:"/api/Alumnos/EliminarCurriculum"
+                    }).then(function(respuesta){
+                        scope.ventana.alerta("eliminado","curriculum_eliminado",function(){
+                           scope.ventana.cerrar();
+                            scope.tieneCurriculum = false;
+                        });
+                    },function(error){
+                        scope.ventana("error",error.data||error.message||error,function(){
+                            scope.venana.cerrar();
+                        })
+                    });
+                });
+            };
 			scope.eliminarcuenta = function(){
 				scope.ventana.establecerUrl("/Alumno/confirmarEliminarCuenta");
 				scope.ventana.establecerTitulo("eliminar_cuenta_titulo");
@@ -1682,6 +1698,11 @@ return{
                 }
                 ngModel.$render = function(){
                     if(typeof scope.alumno !== "undefined"  && scope.alumno.id_localidad){
+                        $http({
+                            url:"/api/Alumnos/TieneCurriculum"
+                        }).then(function(respuesta){
+                               scope.tieneCurriculum = respuesta.data;
+                            });
                         $http({
                             url:"/api/Provincias/GetByLocalidad/"+scope.alumno.id_localidad
                         }).then(
@@ -1798,7 +1819,13 @@ return{
 								headers: {
 									'Content-Type': undefined
 								}
-							});
+							}).then(function(respuesta){
+                              scope.tieneCurriculum = true;
+                            },function(error){
+                                scope.ventana.alerta("error",error.data||error.message||error,function(){
+                                   scope.ventana.cerrar();
+                                });
+                            });
 						};
 						angular.element(input).trigger("click");
 					};
@@ -2021,7 +2048,7 @@ return{
             
             scope.cancelar = function(){
             	scope.insertando = false;
-            }
+            };
             
             scope.guardar = function(){
             	$http({
